@@ -1,0 +1,26 @@
+.c-receipt {
+    display: flex; 
+    justify-content: center;
+    text-align: left;
+}
+.c-receipt__contents {
+    padding: 30px 35px;
+    border-radius: 20px;
+    min-width: 400px;
+    max-width: 700px;
+    background: #89CD5A;
+}
+.c-receipt__label {
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1.5;
+    margin-top: 15px;
+    font-size: 12px;
+}
+.c-receipt__label:first-child {
+    margin-top: 0;
+}
+.c-receipt__value {
+    color: white;
+    font-size: 22px;
+}

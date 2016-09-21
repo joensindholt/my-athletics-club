@@ -1,0 +1,32 @@
+{
+    "name": "api",
+    "version": "1.0.0",
+    "description": "api for the Minklub project",
+    "main": "index.js",
+    "scripts": {
+        "build": "tsc",
+        "start": "node dist/server.js",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "credentials": "node credgen.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/joensindholt/minklub"
+    },
+    "author": "Joen Sindholt",
+    "license": "ISC",
+    "dependencies": {
+        "aws-sdk": "^2.4.7",
+        "body-parser": "^1.14.2",
+        "colors": "^1.1.2",
+        "cors": "^2.7.1",
+        "express": "^4.13.4",
+        "express-jwt": "^5.0.0",
+        "kerberos": "0.0.18",
+        "mongodb": "^2.2.2",
+        "mongoose": "^4.5.5",
+        "node-uuid": "^1.4.7",
+        "request": "^2.74.0",
+        "request-debug": "^0.2.0"
+    }
+}

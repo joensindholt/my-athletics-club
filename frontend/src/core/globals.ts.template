@@ -1,0 +1,9 @@
+/// <reference path="../../typings/tsd.d.ts"/>
+
+module globals {
+
+    export var apiUrl = '<%= apiUrl %>';
+    export var apiDomain = '<%= apiDomain %>';
+    export var sentryErrors = <%= sentryErrors %>;
+    
+}

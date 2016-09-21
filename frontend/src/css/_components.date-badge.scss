@@ -1,0 +1,59 @@
+$width: 100px;
+$border-radius: $width / 4;
+
+.c-date-badge {
+    width: $width;
+    margin: 30px auto;
+    position: relative;
+}
+
+.c-date-badge__header {
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+    background: #CF5F57;
+    height: $width * 0.4;
+    line-height: $width * 0.4;
+    color: white;
+    text-align: center;
+}
+
+.c-date-badge__body {
+    border-bottom-left-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+    background: white;
+    height: $width * 0.6;
+    line-height: $width * 0.6;
+    font-size: 30px;
+    font-weight: 300;
+    text-align: center;
+}
+
+.c-date-badge__more-days {
+    margin: 6px 0 0 0;
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #c1c1c1;
+    cursor: pointer;
+}
+
+.c-date-badge--small {
+    $width: 60px;
+    $border-radius: $width / 4;
+    width: $width;
+    margin: 0 auto;
+    .c-date-badge__header {
+        border-top-left-radius: $border-radius;
+        border-top-right-radius: $border-radius;
+        height: $width * 0.4;
+        line-height: $width * 0.4;
+        font-size: 12px;
+    }
+
+    .c-date-badge__body {
+        border-bottom-left-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
+        height: $width * 0.6;
+        line-height: $width * 0.6;
+        font-size: 15px;
+    }
+}

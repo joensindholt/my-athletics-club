@@ -1,0 +1,66 @@
+@import 'https://fonts.googleapis.com/css?family=Work+Sans:300:400';
+
+body {
+    font-family: 'Work Sans', sans-serif;
+    margin: 15px 0;
+    background: #f1f5f6;
+    letter-spacing: 0.5px;
+    color: #616976;
+    padding: 0 15px;
+
+    @media (min-width: $screen-sm-min) { 
+        max-width: 950px;
+        margin: 50px auto;
+     }
+
+}
+
+h1, h2, h3, h4 {
+    font-weight: 300;
+    letter-spacing: 3px;
+    margin: 20px 0;
+}
+
+h1 { line-height: 55px; }
+h3 { letter-spacing: 2px; }
+h4 { letter-spacing: 1px; }
+
+.left {
+    text-align: left;
+}
+
+.center {
+    text-align: center;
+}
+
+.right {
+    text-align: right;
+}
+
+.standout {
+    margin-top: 50px;
+}
+
+.spacy {
+    padding: 10px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+[ng-click] {
+    cursor: pointer;
+}
+
+input {
+    outline: none;
+}
+
+input[disabled] {
+    opacity: 0.3;
+}
+
+th {
+    color: #cf5f57;
+}

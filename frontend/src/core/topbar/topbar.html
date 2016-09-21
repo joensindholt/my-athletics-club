@@ -1,0 +1,13 @@
+<div class="c-topbar" ng-show="vm.isAuthenticated">
+    <div class="c-topbar__left">
+        <a class="c-topbar__element" ui-sref="events">Stævner</a>
+        <a ng-if="vm.isMembersEnabled" class="c-topbar__element" ui-sref="members">Medlemmer</a>
+    </div>
+
+    <div class="c-topbar__right">
+        <a class="c-topbar__element" ng-click="vm.logout()">Log ud</a>
+    </div>
+
+    <div class="c-topbar__clear"></div>
+
+</div>

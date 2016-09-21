@@ -1,0 +1,44 @@
+{
+  "name": "dolife",
+  "version": "1.0.0",
+  "description": "Frontend for the Do Life project",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm install && bower install && tsd reinstall -so",
+    "start": "gulp serve",
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joensindholt/dolife"
+  },
+  "author": "Joen Sindholt",
+  "license": "ISC",
+  "devDependencies": {
+    "cli-table": "^0.3.1",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-connect": "^4.0.0",
+    "gulp-expect-file": "0.0.7",
+    "gulp-help": "^1.6.1",
+    "gulp-if": "^2.0.0",
+    "gulp-sass": "^2.1.1",
+    "gulp-sequence": "^0.4.5",
+    "gulp-template": "^4.0.0",
+    "gulp-typescript": "^2.10.0",
+    "gulp-uglify": "^1.5.1",
+    "jasmine": "^2.4.1",
+    "karma": "^0.13.19",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-jasmine": "^1.0.2",
+    "lodash": "^4.0.0",
+    "path": "^0.12.7",
+    "yargs": "^4.7.1"
+  },
+  "dependencies": {
+    "browser-sync": "^2.12.12",
+    "gulp-cssmin": "^0.1.7",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.6.0"
+  }
+}

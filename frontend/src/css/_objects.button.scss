@@ -1,0 +1,49 @@
+.o-button {
+    border: 1px solid #eee;
+    padding: 10px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.o-button:focus,
+.o-button:hover {
+    outline: none;
+}
+
+.o-button[disabled] {
+    opacity: 0.3;
+}
+
+.o-button--default,
+.o-button--default:hover,
+.o-button--default:active,
+.o-button--default:focus {
+    background: white;
+}
+
+.o-button--primary,
+.o-button--primary:hover,
+.o-button--primary:active,
+.o-button--primary:focus {
+    background: #568ACF;
+    color: white;
+}
+
+.o-button--success,
+.o-button--success:hover,
+.o-button--success:active,
+.o-button--success:focus {
+    background: #89CD5A;
+    color: white;
+}
+
+.o-button--flow-list {
+    margin-bottom: 10px;    
+}
+
+.o-button--large {
+    font-size: 20px;
+    font-weight: 300;
+    width: 100%;
+    padding: 15px;
+}

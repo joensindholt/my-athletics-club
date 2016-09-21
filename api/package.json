@@ -1,8 +1,8 @@
 {
     "name": "api",
     "version": "1.0.0",
-    "description": "api for the Minklub project",
-    "main": "index.js",
+    "description": "Api for the 'My Athletics Club' project",
+    "main": "dist/server.js",
     "scripts": {
         "build": "tsc",
         "start": "node dist/server.js",
@@ -11,7 +11,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/joensindholt/minklub"
+        "url": "https://github.com/joensindholt/my-athletics-club"
     },
     "author": "Joen Sindholt",
     "license": "ISC",

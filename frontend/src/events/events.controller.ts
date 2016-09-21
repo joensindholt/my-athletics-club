@@ -32,7 +32,7 @@ module events {
             private SysEventsService: core.SysEventsService
         ) {
             this.SysEventsService.post('Event list shown');
-            
+
             this.updateEventLists();
             this.listenForChildEvents();
         }
@@ -49,7 +49,12 @@ module events {
             } else {
                 this.EventsService.getEventsOpenForRegistration()
                     .then(events => {
-                        this.events = _.orderBy(events, ['date'], ['asc']);
+                        if (events.length === 1) {
+                            this.$state.go('events_register', { id: events[0]._id });
+                        }
+                        else {
+                            this.events = _.orderBy(events, ['date'], ['asc']);
+                        }
                     })
                     .catch(err => {
                         throw err;

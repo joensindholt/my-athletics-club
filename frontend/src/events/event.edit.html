@@ -21,9 +21,16 @@
         </div>
     </div>
 
-    <input type="text" class="o-editable-field" ng-model="vm.event.address" ng-change="vm.update(vm.event)" />
+    <input type="text" class="o-editable-field larger-text" ng-model="vm.event.address" ng-change="vm.update(vm.event)" />
     <iframe ng-show="vm.event.address" width="100%" height="150" frameborder="0" style="border:0" ng-src="{{vm.trustedMapUrl}}"
         allowfullscreen></iframe>
+</div>
+
+<h2>Link til stævneside</h2>
+<div class="row">
+    <div class="col-sm-12">
+        <input type="text" ng-model="vm.event.link" class="c-formular-input c-formular-input--large center" ng-change="vm.update(vm.event)" />
+    </div>
 </div>
 
 <h2>Tilmeldingsperiode</h2>
@@ -92,8 +99,9 @@
                 <h3 class="panel-title">{{ registration.name }}</h3>
             </div>
             <div class="panel-body">
-                <p ng-show="registration.email">Email: {{ registration.email }}<p>
+                <p ng-show="registration.gender">Køn: {{ registration.gender === 'male' ? 'Dreng' : 'Pige' }}<p>
                 <p ng-show="registration.birthYear">Fødselsår: {{ registration.birthYear }}<p>
+                <p ng-show="registration.email">Email: {{ registration.email }}<p>
             </div>
             <table class="table">
                 <thead>

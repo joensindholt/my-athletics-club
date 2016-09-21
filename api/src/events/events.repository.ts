@@ -5,6 +5,7 @@ var eventSchema = new mongoose.Schema({
     title: { type: String, required: true },
     date: { type: Date },
     address: { type: String },
+    link: { type: String },
     disciplines: { type: {} },
     registrationPeriodStartDate: { type: Date },
     registrationPeriodEndDate: { type: Date }

@@ -12,31 +12,46 @@
         </div>
     </div>
 
-    <p>{{vm.event.address}}</p>
+    <p class="larger-text">{{vm.event.address}}</p>
     <iframe ng-show="vm.event.address" width="100%" height="150" frameborder="0" style="border:0" src="{{vm.trustedMapUrl}}" allowfullscreen></iframe>
+
+    <h3 ng-show="vm.event.link" class="spacy">
+        <a ng-href="{{ vm.event.link }}" target="_blank">Se stævneinfo her</a>
+    </h3>
+
 </div>
 
 <div ng-if="!vm.registrationComplete">
-    <h2 class="center standout">Hvad er dit navn?</h2>
+    <h2 class="center standout">Hvem vil du gerne tilmelde?</h2>
     <div class="row">
         <div class="col-sm-8 col-sm-offset-2">
             <input type="text" ng-model="vm.registration.name" ng-change="vm.validate(vm.registration)" class="c-formular-input c-formular-input--large" autofocus />
         </div>
     </div>
 
-    <h4 class="center standout">...og din email-adresse?</h4>
+    <h4 class="center standout">Pige eller dreng?</h4>
     <div class="row">
         <div class="col-sm-8 col-sm-offset-2">
-            <input type="text" ng-model="vm.registration.email" ng-change="vm.validate(vm.registration)" class="c-formular-input c-formular-input--large" />
+            <select ng-model="vm.registration.gender" ng-change="vm.validate(vm.registration)" class="c-formular-input c-formular-input--large c-formular-input--select">
+                <option value="female">Pige</option>
+                <option value="male">Dreng</option>
+            </select>
         </div>
     </div>
 
-    <h4 class="center standout">...og dit fødselsår?</h4>
+    <h4 class="center standout">...og hvad er {{ vm.registration.gender === 'female' ? "hendes" : vm.registration.gender === 'male' ? "hans" : "hans/hendes"  }} fødselsår?</h4>
     <div class="row">
         <div class="col-sm-8 col-sm-offset-2">
             <select ng-model="vm.registration.birthYear" ng-change="vm.validate(vm.registration)" class="c-formular-input c-formular-input--large c-formular-input--select">
                 <option ng-repeat="year in vm.birthYears" value="{{year}}">{{year}}</option>
             </select>
+        </div>
+    </div>
+
+    <h4 class="center standout">Til sidst har vi brug for din email-adresse?</h4>
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            <input type="text" ng-model="vm.registration.email" ng-change="vm.validate(vm.registration)" class="c-formular-input c-formular-input--large" />
         </div>
     </div>
 

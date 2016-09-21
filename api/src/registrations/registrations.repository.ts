@@ -4,6 +4,7 @@ import { IRegistrationData } from './registrations.registration.interface';
 
 var registrationSchema = new mongoose.Schema({
     name: String,
+    gender: String,
     eventId: String,
     email: String,
     birthYear: Number,

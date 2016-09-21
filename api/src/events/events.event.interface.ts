@@ -3,6 +3,7 @@ export interface IEventData {
     title: string,
     date: Date,
     address: string,
+    link: string,
     disciplines: {},
     registrationPeriodStartDate: Date,
     registrationPeriodEndDate: Date

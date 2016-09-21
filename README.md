@@ -44,4 +44,4 @@ gulp watch
 
 Then open a browser at `http://localhost:8000`
 
-If all is well you should see the app running and a couple of tasks already added.
+If all is well you should see the app running.

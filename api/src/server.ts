@@ -7,7 +7,7 @@ import { Routes } from './routes';
 import { Auth0Configuration } from './auth0.config';
 
 // Initialize mongoose
-mongoose.connect('mongodb://localhost/minklub');
+mongoose.connect('mongodb://localhost/myathleticsclub');
 
 // Initialize express
 let app: express.Application = express();

@@ -1,4 +1,4 @@
-# Minklub
+# My Athletics Club
 
 ### Requirements
 
@@ -7,36 +7,30 @@
 
 ### Get it
 
-Clone the repo by running the following in a terminal
-
 ```
-git clone https://github.com/joensindholt/minklub.git
-cd minklub
+git clone https://github.com/joensindholt/my-athletics-club.git
+cd my-athletics-club
 ```
 
 ### Backend
 
-Before running the backend you must add AWS credentials (supplied via different channel) by running the following commands:
+Before running the backend you must add Auth0 credentials. 
 
-```
-cd api
-node credgen {accessKeyId} {secretAccessKey}
-```
+[HOWTO TO COME]
 
 Then start the server:
 
 ```
-npm install
-npm start
+cd api
+tsc
+node dist/server.js
 ```
 
-A succesful start should show
+A succesful start should result in:
 
 ```
-Server listening at: http://localhost:8888
+Server listening at: http://localhost:8889
 ```
-
-...in the terminal.
 
 ### Frontend
 
@@ -45,7 +39,7 @@ Build and run the frontend by running:
 ```
 cd frontend
 npm install -g bower && npm install -g tsd && npm run build
-npm start
+gulp watch
 ```
 
 Then open a browser at `http://localhost:8000`

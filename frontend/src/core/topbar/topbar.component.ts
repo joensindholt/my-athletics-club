@@ -19,16 +19,23 @@ module core {
         isMembersEnabled: boolean;
 
         static $inject = [
+            '$state',
             'AuthService',
-            'FeatureTogglesService'
+            'FeatureTogglesService',
         ];
 
         constructor(
+            private $state: ng.ui.IStateService,
             private AuthService: users.AuthService,
             private FeatureTogglesService: featuretoggles.FeatureTogglesService
         ) {
             this.isAuthenticated = this.AuthService.isAuthenticated;
             this.isMembersEnabled = this.FeatureTogglesService.isMembersEnabled();
+        }
+
+        logout() {
+            this.AuthService.logout();
+            this.$state.go('home');
         }
     }
 }

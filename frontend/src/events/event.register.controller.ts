@@ -68,6 +68,16 @@ module events {
                 return;
             }
 
+            if (!registration.gender || registration.gender.trim() === '') {
+                this.registrationIsValid = false;
+                return;
+            }
+
+            if (!registration.birthYear) {
+                this.registrationIsValid = false;
+                return;
+            }
+            
             if (!registration.email || registration.email.trim() === '') {
                 this.registrationIsValid = false;
                 return;
@@ -77,11 +87,6 @@ module events {
                 this.registrationIsValid = false;
                 return;
             }     
-            
-            if (!registration.birthYear) {
-                this.registrationIsValid = false;
-                return;
-            }
             
             if (!registration.recaptcha) {
                 this.registrationIsValid = false;

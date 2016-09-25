@@ -32,7 +32,7 @@
     <h4 class="center standout">Pige eller dreng?</h4>
     <div class="row">
         <div class="col-sm-2 col-sm-offset-4">
-            <button class="o-button o-button--large o-button--large-icon" ng-class="vm.registration.gender === 'female' ? 'o-button--success ' : 'o-button--default '" ng-click="vm.registration.gender = 'female'">
+            <button class="o-button o-button--large o-button--large-icon" ng-class="vm.registration.gender === 'female' ? 'o-button--success ' : 'o-button--default '" ng-click="vm.registration.gender = 'female'; vm.validate(vm.registration)">
                 <i class="fa fa-female"></i>
                 <div>Pige</div>
             </button>

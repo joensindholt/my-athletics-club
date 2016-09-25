@@ -12,6 +12,7 @@
     "mime": "registry:dt/mime#0.0.0+20160316155526",
     "mongodb": "registry:dt/mongodb#2.1.0+20160602142941",
     "mongoose": "registry:dt/mongoose#4.5.9+20160920215419",
+    "node": "registry:dt/node#6.0.0+20160921192128",
     "request": "registry:dt/request#0.0.0+20160726020908",
     "serve-static": "registry:dt/serve-static#0.0.0+20160606155157"
   }

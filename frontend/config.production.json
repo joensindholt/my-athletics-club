@@ -4,7 +4,7 @@
     "minifyCss": true,
     "uglifyJs": true,
     "sourcemaps": true,
-    "apiUrl": "http://0189403549.0.fullrate.ninja/api",
-    "apiDomain": "0189403549.0.fullrate.ninja",
+    "apiUrl": "https://gik.majig.dk/api",
+    "apiDomain": "gik.majig.dk",
     "sentryErrors": true
 }

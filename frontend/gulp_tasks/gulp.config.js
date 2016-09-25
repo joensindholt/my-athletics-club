@@ -8,7 +8,8 @@ module.exports = {
     app: {
         base: globalPath.app,
         html: [
-            globalPath.app + "**/*.html"
+            globalPath.app + "**/*.html",
+            globalPath.app + "favicon/*.*"
         ],
         sass: [
             globalPath.app + '**/*.scss'
@@ -16,14 +17,8 @@ module.exports = {
         img: [
             globalPath.app + "img/**/*",
         ],
-        fonts: [
-            globalPath.app + 'fonts/**/*'
-        ],
-        sprite: [
-            globalPath.app + "/sprite/**/*"
-        ],
         tests: [
-            globalPath.app + "/**/*_test.js"
+            globalPath.app + "**/*_test.js"
         ]
     },
     libs: {

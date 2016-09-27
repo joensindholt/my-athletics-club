@@ -1,6 +1,9 @@
 import * as mongoose from 'mongoose';
 import * as request from 'request';
 import { IRegistrationData } from './registrations.registration.interface';
+import { EventExcelGenerator } from './../events/event_excel_generator';
+import { EventExcelGeneratorJson2Xls } from './../events/event_excel_generator_json2xls';
+
 
 var registrationSchema = new mongoose.Schema({
     name: String,
@@ -14,7 +17,11 @@ var registrationSchema = new mongoose.Schema({
 var Registration = mongoose.model('Registration', registrationSchema);
 
 export class RegistrationRepository {
+
+    eventExcelGenerator: EventExcelGeneratorJson2Xls;
+
     constructor() {
+        this.eventExcelGenerator = new EventExcelGeneratorJson2Xls();
     }
 
     getAll() {
@@ -86,6 +93,19 @@ export class RegistrationRepository {
                 }
 
                 resolve(registrations);
+            });
+        });
+
+        return promise;
+    }
+    
+    getEventRegistrationsAsExcel(eventId: string) {
+        let promise = new Promise((resolve, reject) => {
+
+            console.log('generating event registrations excel file');
+
+            this.eventExcelGenerator.generateEventExcelFile(eventId).then(filepath => {
+                resolve(filepath);
             });
         });
 

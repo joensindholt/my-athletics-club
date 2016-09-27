@@ -74,5 +74,16 @@ export class EventRoutes {
                 res.status(500).send(err.toString());
             });
         });
+
+        // Get event registration excel sheet
+        app.get('/events/:id/registrations.xlsx', (req, res) => {
+            console.log('getting event registrations as excel');
+            this.registrationRepository.getEventRegistrationsAsExcel(req.params.id).then((filepath: string) => { 
+                res.status(200).download(filepath);
+            }).catch(err => {
+                console.error('ERROR', err);
+                res.status(500).send(err.toString());
+            })
+        });
     }
 }

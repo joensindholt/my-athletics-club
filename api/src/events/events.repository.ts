@@ -14,6 +14,7 @@ var eventSchema = new mongoose.Schema({
 var Event = mongoose.model('Event', eventSchema);
 
 export class EventRepository {
+
     constructor() {
     }
 
@@ -61,7 +62,7 @@ export class EventRepository {
         return promise;
     }
 
-    update(id: number, event: IEventData) {
+    update(id: string, event: IEventData) {
         let promise = new Promise((resolve, reject) => {
             // validate title existing
             if (!event.title) {
@@ -88,7 +89,7 @@ export class EventRepository {
         return promise;
     }
 
-    delete(id: number) {
+    delete(id: string) {
         let promise = new Promise((resolve, reject) => {
             console.log('deleting event from db', id);
             Event.remove({ _id: id }, (err) => {

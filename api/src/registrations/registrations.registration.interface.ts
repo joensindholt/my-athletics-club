@@ -7,4 +7,5 @@ export interface IRegistrationData {
     email: string,
     birthYear: number,
     recaptcha: any;
+    disciplines: Array<any>;
 }

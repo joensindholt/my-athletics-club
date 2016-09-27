@@ -3,6 +3,7 @@ import * as request from 'request';
 import { IRegistrationData } from './registrations.registration.interface';
 import { EventExcelGenerator } from './../events/event_excel_generator';
 import { EventExcelGeneratorJson2Xls } from './../events/event_excel_generator_json2xls';
+import { EventRepository } from './../events/events.repository';
 
 
 var registrationSchema = new mongoose.Schema({
@@ -19,9 +20,11 @@ var Registration = mongoose.model('Registration', registrationSchema);
 export class RegistrationRepository {
 
     eventExcelGenerator: EventExcelGeneratorJson2Xls;
+    eventRepository: EventRepository;
 
     constructor() {
         this.eventExcelGenerator = new EventExcelGeneratorJson2Xls();
+        this.eventRepository = new EventRepository();
     }
 
     getAll() {
@@ -81,7 +84,7 @@ export class RegistrationRepository {
         return promise;
     }
 
-    getEventRegistrations(eventId: string) {
+    getEventRegistrations(eventId: string): Promise<Array<IRegistrationData>> {
         let promise = new Promise((resolve, reject) => {
 
             console.log('querying event registrations from db');
@@ -104,9 +107,16 @@ export class RegistrationRepository {
 
             console.log('generating event registrations excel file');
 
-            this.eventExcelGenerator.generateEventExcelFile(eventId).then(filepath => {
-                resolve(filepath);
-            });
+            var eventPromise = this.eventRepository.get(eventId);
+            var registrationsPromise = this.getEventRegistrations(eventId);
+
+            Promise.all([eventPromise, registrationsPromise]).then(values => {
+                var event = values[0];
+                var registrations = values[1];
+                this.eventExcelGenerator.generateEventExcelFile(event, registrations).then(filepath => {
+                    resolve(filepath);
+                });
+            })
         });
 
         return promise;

@@ -18,6 +18,22 @@ export class EventRepository {
     constructor() {
     }
 
+    get(id: string) {
+        let promise = new Promise((resolve, reject) => {
+            console.log('querying event from db');
+            Event.findOne({_id: id}, (err, event) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                resolve(event);
+            });
+        });
+
+        return promise;
+    }
+
     getAll() {
         let promise = new Promise((resolve, reject) => {
             console.log('querying events from db');

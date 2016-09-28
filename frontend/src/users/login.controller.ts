@@ -1,27 +1,27 @@
 /// <reference path="../../typings/tsd.d.ts"/>
 
 module users {
-    'use strict';
+  'use strict';
 
-    export class LoginController {
+  export class LoginController {
 
-        static $inject = [
-            'lock',
-            'AuthService'
-        ];
+    static $inject = [
+      'lock',
+      'AuthService'
+    ];
 
-        constructor(
-            private lock,
-            private AuthService
-        ) {
-            this.lock.show();
-        }
-
-        login() {
-            this.AuthService.login();
-        }
+    constructor(
+      private lock,
+      private AuthService
+    ) {
+      this.lock.show();
     }
+
+    login() {
+      this.AuthService.login();
+    }
+  }
 }
 
 angular.module('users')
-    .controller('LoginController', users.LoginController);
+  .controller('LoginController', users.LoginController);

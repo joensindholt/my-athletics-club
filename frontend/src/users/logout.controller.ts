@@ -1,21 +1,21 @@
 /// <reference path="../../typings/tsd.d.ts"/>
 
 module users {
-    'use strict';
+  'use strict';
 
-    export class LogoutController {
+  export class LogoutController {
 
-        static $inject = [
-            'AuthService'
-        ];
+    static $inject = [
+      'AuthService'
+    ];
 
-        constructor(
-            private AuthService
-        ) {
-            this.AuthService.logout();
-        }
+    constructor(
+      private AuthService
+    ) {
+      this.AuthService.logout();
     }
+  }
 }
 
 angular.module('users')
-    .controller('LogoutController', users.LogoutController);
+  .controller('LogoutController', users.LogoutController);

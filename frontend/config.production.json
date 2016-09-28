@@ -1,10 +1,10 @@
 {
-    "port": 8000,
-    "browsersync": false,
-    "minifyCss": true,
-    "uglifyJs": true,
-    "sourcemaps": true,
-    "apiUrl": "https://gik.majig.dk/api",
-    "apiDomain": "gik.majig.dk",
-    "sentryErrors": true
+  "port": 8000,
+  "browsersync": false,
+  "minifyCss": true,
+  "uglifyJs": true,
+  "sourcemaps": true,
+  "apiUrl": "https://gik.majig.dk/api",
+  "apiDomain": "gik.majig.dk",
+  "sentryErrors": true
 }

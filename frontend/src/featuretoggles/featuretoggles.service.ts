@@ -1,15 +1,15 @@
 /// <reference path="../../typings/tsd.d.ts"/>
 
 module featuretoggles {
-    'use strict';
+  'use strict';
 
-    export class FeatureTogglesService {
+  export class FeatureTogglesService {
 
-        static $inject = [];
+    static $inject = [];
 
-        isMembersEnabled(): boolean { return false; }
-    }
+    isMembersEnabled(): boolean { return false; }
+  }
 }
 
 angular.module('featuretoggles')
-    .service('FeatureTogglesService', featuretoggles.FeatureTogglesService);
+  .service('FeatureTogglesService', featuretoggles.FeatureTogglesService);

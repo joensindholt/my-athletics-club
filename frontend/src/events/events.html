@@ -1,32 +1,32 @@
 <topbar></topbar>
 
 <div ng-show="isAuthenticated || vm.events.length > 0">
-    <h1 class="center">Stævner</h1>
+  <h1 class="center">Stævner</h1>
 
-    <div class="center" ng-show="isAuthenticated">
-        <button class="o-button o-button--primary" ng-click="vm.addEvent();">Tilføj stævne</button>
-    </div>
+  <div class="center" ng-show="isAuthenticated">
+    <button class="o-button o-button--primary" ng-click="vm.addEvent();">Tilføj stævne</button>
+  </div>
 
-    <ul class="o-detail-list">
-        <li class="o-detail-list__item" ng-repeat="event in vm.events">
-            <div class="o-detail-list__left">
-                <div>
-                    <span class="o-details-list__meta-item">{{ event.date | formatdate }}</span>
-                    <span class="o-details-list__meta-item">{{ event.address }}</span>
-                </div>
-                <a class="o-detail-list__title" ui-sref="events_edit({ id: event._id })">
-                    {{ event.title }}
-                </a>
-            </div>
-            <div class="o-detail-list__right">
-                <a ui-sref="events_register({ id: event._id })" class="o-button o-button--default">Tilmeld</a>
-                <a ui-sref="events_edit({ id: event._id })" class="o-button o-button--default" ng-show="isAuthenticated">Ret stævne</a>
-                <button ng-click="vm.handleEventDeleteClicked(event)" title="Slet stævne" class="o-button o-button--default" ng-show="isAuthenticated"><i class="fa fa-trash-o"></i></button>
-            </div>
-        </li>
-    </ul>
+  <ul class="o-detail-list">
+    <li class="o-detail-list__item" ng-repeat="event in vm.events">
+      <div class="o-detail-list__left">
+        <div>
+          <span class="o-details-list__meta-item">{{ event.date | formatdate }}</span>
+          <span class="o-details-list__meta-item">{{ event.address }}</span>
+        </div>
+        <a class="o-detail-list__title" ui-sref="events_edit({ id: event._id })">{{ event.title }}</a>
+      </div>
+      <div class="o-detail-list__right">
+        <a ui-sref="events_register({ id: event._id })" class="o-button o-button--default">Tilmeld</a>
+        <a ui-sref="events_edit({ id: event._id })" class="o-button o-button--default" ng-show="isAuthenticated">Ret stævne</a>
+        <button ng-click="vm.handleEventDeleteClicked(event)" title="Slet stævne" class="o-button o-button--default" ng-show="isAuthenticated">
+          <i class="fa fa-trash-o"></i>
+        </button>
+      </div>
+    </li>
+  </ul>
 </div>
 
 <div ng-show="!isAuthenticated && vm.events.length === 0">
-    <h3 class="center">Der er pt. ikke nogle stævner du kan tilmelde dig</h3>
+  <h3 class="center">Der er pt. ikke nogle stævner du kan tilmelde dig</h3>
 </div>

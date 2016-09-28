@@ -1,118 +1,113 @@
 <topbar></topbar>
 
 <div class="center">
-    <input type="text" class="o-editable-field o-editable-field--xl" ng-model="vm.event.title" ng-change="vm.update(vm.event)"
-    />
+  <input type="text" class="o-editable-field o-editable-field--xl" ng-model="vm.event.title" ng-change="vm.update(vm.event)" />
 
-    <div class="center">
-        <div class="c-date-badge">
-            <input type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="vm.event.date" ng-change="vm.update(vm.event)" is-open="vm.isOpen" datepicker-options="vm.datePickerOptions"
-                ng-required="true" close-text="Luk" alt-input-formats="{}" style="display: none;" />
-            <input type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="vm.event.endDate" ng-change="vm.update(vm.event)" is-open="vm.isEndDateOpen" datepicker-options="vm.datePickerOptions"
-                ng-required="true" close-text="Luk" alt-input-formats="{}" style="display: none;" />
-            <div class="c-date-badge__header" ng-click="vm.isOpen = true">
-                {{ vm.event.date | formatdate: 'MMM' }}
-            </div>
-            <div class="c-date-badge__body" ng-click="vm.isOpen = true">
-                {{ vm.event.date | formatdate: 'D' }}<span ng-show="vm.event.endDate" ng-click="vm.isEndDateOpen = true">-{{ vm.event.endDate | formatdate: 'D' }}</span>
-            </div>
-            <p class="c-date-badge__more-days" ng-hide="vm.event.endDate" ng-click="vm.isEndDateOpen = true">Stævnet varer flere dage</p>
-            <p class="c-date-badge__more-days" ng-show="vm.event.endDate" ng-click="vm.event.endDate = null">Stævnet er én-dags</p>
-        </div>
+  <div class="center">
+    <div class="c-date-badge">
+      <input type="text" ng-model="vm.event.date" uib-datepicker-popup="dd-MM-yyyy" ng-change="vm.update(vm.event)" is-open="vm.isOpen" datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk" alt-input-formats="{}" class="hide" />
+      <input type="text" ng-model="vm.event.endDate" uib-datepicker-popup="dd-MM-yyyy" ng-change="vm.update(vm.event)" is-open="vm.isEndDateOpen" datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk" alt-input-formats="{}" class="hide" />
+      <div class="c-date-badge__header" ng-click="vm.isOpen = true">
+        {{ vm.event.date | formatdate: 'MMM' }}
+      </div>
+      <div class="c-date-badge__body" ng-click="vm.isOpen = true">
+        {{ vm.event.date | formatdate: 'D' }}<span ng-show="vm.event.endDate" ng-click="vm.isEndDateOpen = true">-{{ vm.event.endDate | formatdate: 'D' }}</span>
+      </div>
+      <p class="c-date-badge__more-days" ng-hide="vm.event.endDate" ng-click="vm.isEndDateOpen = true">Stævnet varer flere dage</p>
+      <p class="c-date-badge__more-days" ng-show="vm.event.endDate" ng-click="vm.event.endDate = null">Stævnet er én-dags</p>
     </div>
+  </div>
 
-    <input type="text" class="o-editable-field larger-text" ng-model="vm.event.address" ng-change="vm.update(vm.event)" />
-    <iframe ng-show="vm.event.address" width="100%" height="150" frameborder="0" style="border:0" ng-src="{{vm.trustedMapUrl}}"
-        allowfullscreen></iframe>
+  <input type="text" class="o-editable-field larger-text" ng-model="vm.event.address" ng-change="vm.update(vm.event)" />
+  <iframe ng-show="vm.event.address" width="100%" height="150" frameborder="0" style="border:0" ng-src="{{vm.trustedMapUrl}}" allowfullscreen></iframe>
 </div>
 
 <h2>Link til stævneside</h2>
 <div class="row">
-    <div class="col-sm-12">
-        <input type="text" ng-model="vm.event.link" class="c-formular-input c-formular-input--large center" ng-change="vm.update(vm.event)" />
-    </div>
+  <div class="col-sm-12">
+    <input type="text" ng-model="vm.event.link" class="c-formular-input c-formular-input--large center" ng-change="vm.update(vm.event)" />
+  </div>
 </div>
 
 <h2>Tilmeldingsperiode</h2>
 <div>
-    <p class="center">
-        <div class="row">
-            <div class="col-md-2 col-md-offset-4 col-xs-4 col-xs-offset-2">
-                <p class="center">FRA</p>
-                <div class="c-date-badge c-date-badge--small">
-                    <input type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="vm.event.registrationPeriodStartDate" ng-change="vm.update(vm.event)" is-open="vm.registrationStartDateIsOpen"
-                        datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk" alt-input-formats="{}"
-                        style="display: none;" />
-                    <div class="c-date-badge__header" ng-click="vm.registrationStartDateIsOpen = true">
-                        {{ vm.event.registrationPeriodStartDate | formatdate: 'MMM' }}
-                    </div>
-                    <div class="c-date-badge__body" ng-click="vm.registrationStartDateIsOpen = true">
-                        {{ vm.event.registrationPeriodStartDate | formatdate: 'DD' }}
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-xs-4">
-                <p class="center">TIL</p>
-                <div class="c-date-badge c-date-badge--small">
-                    <input type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="vm.event.registrationPeriodEndDate" ng-change="vm.update(vm.event)" is-open="vm.registrationEndDateIsOpen"
-                        datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk" alt-input-formats="{}"
-                        style="display: none;" />
-                    <div class="c-date-badge__header" ng-click="vm.registrationEndDateIsOpen = true">
-                        {{ vm.event.registrationPeriodEndDate | formatdate: 'MMM' }}
-                    </div>
-                    <div class="c-date-badge__body" ng-click="vm.registrationEndDateIsOpen = true">
-                        {{ vm.event.registrationPeriodEndDate | formatdate: 'DD' }}
-                    </div>
-                </div>
-            </div>
+  <p class="center">
+    <div class="row">
+      <div class="col-md-2 col-md-offset-4 col-xs-4 col-xs-offset-2">
+        <p class="center">FRA</p>
+        <div class="c-date-badge c-date-badge--small">
+          <input type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="vm.event.registrationPeriodStartDate" ng-change="vm.update(vm.event)" is-open="vm.registrationStartDateIsOpen" datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk" alt-input-formats="{}" style="display: none;" />
+          <div class="c-date-badge__header" ng-click="vm.registrationStartDateIsOpen = true">
+            {{ vm.event.registrationPeriodStartDate | formatdate: 'MMM' }}
+          </div>
+          <div class="c-date-badge__body" ng-click="vm.registrationStartDateIsOpen = true">
+            {{ vm.event.registrationPeriodStartDate | formatdate: 'DD' }}
+          </div>
         </div>
-    </p>
+      </div>
+      <div class="col-md-2 col-xs-4">
+        <p class="center">TIL</p>
+        <div class="c-date-badge c-date-badge--small">
+          <input type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="vm.event.registrationPeriodEndDate" ng-change="vm.update(vm.event)" is-open="vm.registrationEndDateIsOpen" datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk" alt-input-formats="{}" style="display: none;" />
+          <div class="c-date-badge__header" ng-click="vm.registrationEndDateIsOpen = true">
+            {{ vm.event.registrationPeriodEndDate | formatdate: 'MMM' }}
+          </div>
+          <div class="c-date-badge__body" ng-click="vm.registrationEndDateIsOpen = true">
+            {{ vm.event.registrationPeriodEndDate | formatdate: 'DD' }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </p>
 </div>
 
 <h2>Discipliner</h2>
 <div class="row">
-    <div class="col-xs-6 col-sm-3" ng-repeat="discipline in vm.availableDisciplines">
-        <button class="o-button o-button--default o-button--flow-list full-width" ng-class="discipline.selected ? 'o-button--success' : 'o-button--default'"
-            ng-click="discipline.selected = !discipline.selected; vm.update(vm.event);">
-            {{ discipline.name }}
-        </button>
-    </div>
-    <div class="col-xs-6 col-sm-3" ng-repeat="discipline in vm.customDisciplines">
-        <button class="o-button o-button--default o-button--flow-list full-width" ng-class="discipline.selected ? 'o-button--success' : 'o-button--default'"
-            ng-click="discipline.selected = !discipline.selected; vm.update(vm.event);">
-            {{ discipline.name }}
-        </button>
-    </div>
-    <div class="col-xs-6 col-sm-3">
-        <button class="o-button o-button--default o-button--flow-list full-width">
-            <input type="text" style="text-align: center; border: none;" ng-model="vm.customDiscipline" ng-keypress="vm.handleCustomerDisciplineKeyPress(vm.customDiscipline, $event)" ng-blur="vm.addCustomDiscipline(vm.customDiscipline)" />
-        </button>
-    </div>
-
+  <div class="col-xs-6 col-sm-3" ng-repeat="discipline in vm.availableDisciplines">
+    <button class="o-button o-button--default o-button--flow-list full-width" ng-class="discipline.selected ? 'o-button--success' : 'o-button--default'" ng-click="discipline.selected = !discipline.selected; vm.update(vm.event);">
+        {{ discipline.name }}
+    </button>
+  </div>
+  <div class="col-xs-6 col-sm-3" ng-repeat="discipline in vm.customDisciplines">
+    <button class="o-button o-button--default o-button--flow-list full-width" ng-class="discipline.selected ? 'o-button--success' : 'o-button--default'" ng-click="discipline.selected = !discipline.selected; vm.update(vm.event);">
+        {{ discipline.name }}
+    </button>
+  </div>
+  <div class="col-xs-6 col-sm-3">
+    <button class="o-button o-button--default o-button--flow-list full-width">
+        <input type="text" style="text-align: center; border: none;" ng-model="vm.customDiscipline" ng-keypress="vm.handleCustomerDisciplineKeyPress(vm.customDiscipline, $event)" ng-blur="vm.addCustomDiscipline(vm.customDiscipline)" />
+    </button>
+  </div>
 </div>
 
 <h2>Deltagere</h2>
 <p><a class="larger-text" ng-href="{{ vm.excelDownloadUrl }}">Download deltagerliste</a></p>
 <div class="row" ng-show="vm.registrations.length > 0">
-    <div class="col-sm-6" ng-repeat="registration in vm.registrations">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">{{ registration.name }}</h3>
-            </div>
-            <div class="panel-body">
-                <p ng-show="registration.gender">Køn: {{ registration.gender === 'male' ? 'Dreng' : 'Pige' }}<p>
-                <p ng-show="registration.birthYear">Fødselsår: {{ registration.birthYear }}<p>
-                <p ng-show="registration.email">Email: {{ registration.email }}<p>
-            </div>
-            <table class="table">
-                <thead>
-                    <tr><th>Disciplin</th><th>Personlig rekord</th></tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="discipline in registration.disciplines"><td>{{ discipline.name }}</td><td>{{ discipline.personalRecord }}</td></tr>
-                </tbody>
-            </table>
-        </div>
+  <div class="col-sm-6" ng-repeat="registration in vm.registrations">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ registration.name }}</h3>
+      </div>
+      <div class="panel-body">
+        <p ng-show="registration.gender">Køn: {{ registration.gender === 'male' ? 'Dreng' : 'Pige' }}</p>
+        <p ng-show="registration.birthYear">Fødselsår: {{ registration.birthYear }}</p>
+        <p ng-show="registration.email">Email: {{ registration.email }}</p>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Disciplin</th>
+            <th>Personlig rekord</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="discipline in registration.disciplines">
+            <td>{{ discipline.name }}</td>
+            <td>{{ discipline.personalRecord }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+  </div>
 </div>
 <p class="center" ng-show="!vm.registrations || vm.registrations.length === 0">Der er endnu ingen deltagere</p>

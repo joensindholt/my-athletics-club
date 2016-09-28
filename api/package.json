@@ -4,6 +4,9 @@
   "description": "Api for the 'My Athletics Club' project",
   "main": "dist/server.js",
   "scripts": {
+    "dev": "concurrently --kill-others --prefix name --names 'tsc,node' 'npm run tsc-watch' 'npm run nodemon'",
+    "tsc-watch": "tsc -w",
+    "nodemon": "nodemon -d 1 dist/server.js",
     "build": "tsc && npm run copy",
     "start": "node dist/server.js",
     "copy": "cp src/events/event_registrations_template.xlsx dist/events/event_registrations_template.xlsx",
@@ -31,5 +34,8 @@
     "request": "^2.74.0",
     "request-debug": "^0.2.0",
     "xlsx": "^0.8.0"
+  },
+  "devDependencies": {
+    "concurrently": "^3.0.0"
   }
 }

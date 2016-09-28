@@ -1,5 +1,5 @@
-describe('app', function() {
-    it('can start app', function() {
-        
-    })
+describe('app', function () {
+  it('can start app', function () {
+
+  })
 });

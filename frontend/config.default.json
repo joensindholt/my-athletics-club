@@ -1,10 +1,10 @@
 {
-    "port": 8000,
-    "browsersync" : true,
-    "minifyCss": false,
-    "uglifyJs": false,
-    "sourcemaps" : true,
-    "apiUrl": "http://localhost:8889",
-    "apiDomain": "localhost",
-    "sentryErrors": false
+  "port": 8000,
+  "browsersync": true,
+  "minifyCss": false,
+  "uglifyJs": false,
+  "sourcemaps": true,
+  "apiUrl": "http://localhost:8889",
+  "apiDomain": "localhost",
+  "sentryErrors": false
 }

@@ -1,8 +1,8 @@
 {
-    "compilerOptions" : {
-        "module": "commonjs",
-        "outDir": "dist",
-        "target": "ES6",
-        "noImplicitAny": true
-    }
+  "compilerOptions": {
+    "module": "commonjs",
+    "outDir": "dist",
+    "target": "ES6",
+    "noImplicitAny": true
+  }
 }

@@ -15,6 +15,7 @@ module events {
         private customDiscipline: string;
         private trustedMapUrl: any;
         private registrations: Array<Registration>;
+        private excelDownloadUrl: string;
 
         static $inject = [
             '$scope',
@@ -49,7 +50,9 @@ module events {
 
             this.EventsService.getRegistrations($state.params.id).then(registrations => {
                 this.registrations = _.orderBy(registrations, ['name']);
-            })
+            });
+
+            this.updateExcelDownloadUrl();
         }
 
         update(event: Event) {
@@ -120,6 +123,10 @@ module events {
             this.EventsService.update(event);
             this.updateTrustedMapUrl(event);
         }, 1000)
+
+        private updateExcelDownloadUrl() {
+            this.excelDownloadUrl = 'http://localhost:8889/events/57c33f9253ee43b9637cea72/registrations.xlsx';
+        }
     }
 }
 

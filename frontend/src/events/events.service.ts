@@ -5,7 +5,7 @@ module events {
 
     export class EventsService {
 
-        private API_PATH = globals.apiUrl;;
+        private API_PATH = globals.apiUrl;
 
         private events: Array<Event>;
         private getAllPromise: ng.IPromise<{}>;

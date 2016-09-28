@@ -1,32 +1,35 @@
 {
-    "name": "api",
-    "version": "1.0.0",
-    "description": "Api for the 'My Athletics Club' project",
-    "main": "dist/server.js",
-    "scripts": {
-        "build": "tsc",
-        "start": "node dist/server.js",
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "credentials": "node credgen.js"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/joensindholt/my-athletics-club"
-    },
-    "author": "Joen Sindholt",
-    "license": "ISC",
-    "dependencies": {
-        "aws-sdk": "^2.4.7",
-        "body-parser": "^1.14.2",
-        "colors": "^1.1.2",
-        "cors": "^2.7.1",
-        "express": "^4.13.4",
-        "express-jwt": "^5.0.0",
-        "kerberos": "0.0.18",
-        "mongodb": "^2.2.2",
-        "mongoose": "^4.5.5",
-        "node-uuid": "^1.4.7",
-        "request": "^2.74.0",
-        "request-debug": "^0.2.0"
-    }
+  "name": "api",
+  "version": "1.0.0",
+  "description": "Api for the 'My Athletics Club' project",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc && npm run copy",
+    "start": "node dist/server.js",
+    "copy": "cp src/events/event_registrations_template.xlsx dist/events/event_registrations_template.xlsx",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "credentials": "node credgen.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joensindholt/my-athletics-club"
+  },
+  "author": "Joen Sindholt",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.4.7",
+    "body-parser": "^1.14.2",
+    "colors": "^1.1.2",
+    "cors": "^2.7.1",
+    "express": "^4.13.4",
+    "express-jwt": "^5.0.0",
+    "json2xls": "^0.1.2",
+    "kerberos": "0.0.18",
+    "mongodb": "^2.2.2",
+    "mongoose": "^4.5.5",
+    "node-uuid": "^1.4.7",
+    "request": "^2.74.0",
+    "request-debug": "^0.2.0",
+    "xlsx": "^0.8.0"
+  }
 }

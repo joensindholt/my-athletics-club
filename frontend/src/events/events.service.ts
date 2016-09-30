@@ -156,7 +156,7 @@ module events {
     }
 
     getAllDisciplines() {
-      return [
+      var disciplines = [
         { id: '40m', name: '40m', short: '40' },
         { id: '60m', name: '60m', short: '60' },
         { id: '80m', name: '80m', short: '80' },
@@ -190,6 +190,20 @@ module events {
         { id: 'triplejump', name: 'trespring', short: 'TR' },
         { id: 'polevault', name: 'stangspring', short: 'ST' },
       ];
+      
+      _.forEach(disciplines, (discipline: any) => {
+        discipline.classes = this.getClasses();
+      });
+
+      return disciplines;
+    }
+
+    getClasses() {
+      var classes = [{ name: 'P7' }, { name: 'P8' }, { name: 'P9' }, { name: 'P10' }, { name: 'P11' }, { name: 'P12' }, { name: 'P13' },
+          { name: 'P15' }, { name: 'P17' }, { name: 'P19' }, { name: 'K' }, { name: 'D7' }, { name: 'D8' }, { name: 'D9' }, { name: 'D10' }, { name: 'D11' }, { name: 'D12' }, { name: 'D13' },
+          { name: 'D15' }, { name: 'D17' }, { name: 'D19' }, { name: 'M' }]
+ 
+      return classes;      
     }
   }
 }

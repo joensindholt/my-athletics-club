@@ -62,6 +62,22 @@
 </div>
 
 <h2>Discipliner</h2>
+<div ng-repeat="discipline in vm.availableDisciplines">
+  <div class="row"> 
+    <div class="col-sx-12 col-sm-3">
+      <button ng-click="vm.toggleDisciplineSelected(discipline); vm.update(vm.event);" class="o-button o-button--default o-button--flow-list full-width" ng-class="discipline.selected ? 'o-button--success' : 'o-button--default'">
+          {{ discipline.name }}
+      </button>
+    </div>
+    <div class="col-sx-12 col-sm-9">
+      <span ng-repeat="class in discipline.classes">
+        <button ng-click="class.selected = !class.selected; vm.update(vm.event);" ng-disabled="!discipline.selected" class="o-button o-button--default o-button--flow-list" ng-class="class.selected ? 'o-button--success' : 'o-button--default'" style="width: 45px;">
+          {{ class.name }}
+        </button><br ng-if="class.name === 'K'"/>
+      </span>
+    </div>
+  </div>
+</div>
 <div class="row">
   <div class="col-xs-6 col-sm-3" ng-repeat="discipline in vm.availableDisciplines">
     <button class="o-button o-button--default o-button--flow-list full-width" ng-class="discipline.selected ? 'o-button--success' : 'o-button--default'" ng-click="discipline.selected = !discipline.selected; vm.update(vm.event);">

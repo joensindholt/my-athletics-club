@@ -67,7 +67,15 @@ module events {
       var disciplines = _.map(_.filter(this.availableDisciplines, discipline => {
         return discipline.selected;
       }), discipline => {
-        return { id: discipline.id, name: discipline.name }
+        return {
+          id: discipline.id,
+          name: discipline.name,
+          classes: _.map(_.filter(discipline.classes, (classs: any) => {
+            return classs.selected;
+          }), classs => {
+            return classs.name;            
+          })
+        }
       });
 
       var customDisciplines = _.map(_.filter(this.customDisciplines, discipline => {
@@ -88,12 +96,21 @@ module events {
         };
       });
 
+      // look for selected disciplines
       this.availableDisciplines.forEach(discipline => {
-        if (_.some(this.event.disciplines, eventDiscipline => {
-          return eventDiscipline.id === discipline.id;
-        })) {
-          discipline.selected = true;
-        }
+        this.event.disciplines.forEach(apiDiscipline => {
+          if (discipline.id === apiDiscipline.id) {
+            discipline.selected = true;
+            // look for selected classes
+            discipline.classes.forEach(classs => {
+              apiDiscipline.classes.forEach(apiClass => {
+                if (classs.name === apiClass) {
+                  classs.selected = true;
+                }
+              });
+            });
+          }
+        })
       });
     }
 
@@ -122,10 +139,21 @@ module events {
       event.disciplines = this.getSelectedDisciplines();
       this.EventsService.update(event);
       this.updateTrustedMapUrl(event);
-    }, 1000)
+    }, 2000)
 
     private updateExcelDownloadUrl() {
       this.excelDownloadUrl = globals.apiUrl + '/events/' + this.event._id + '/registrations.xlsx';
+    }
+
+    toggleDisciplineSelected(discipline) {
+      if (!discipline.selected) {
+        discipline.selected = true;
+        _.forEach(discipline.classes, classs => { classs.selected = true });
+      }
+      else {
+        discipline.selected = false;
+        _.forEach(discipline.classes, classs => { classs.selected = false; });
+      }
     }
   }
 }

@@ -28,6 +28,8 @@ module app {
     'ui.bootstrap.tpls',
     'ui.bootstrap.datepickerPopup',
     'vcRecaptcha',
+    'angular-autogrow',
+    'multipleSelect',
     // Auth0
     'auth0.lock',
     'angular-jwt'
@@ -35,7 +37,7 @@ module app {
   ]).config(['$stateProvider', 'lockProvider', '$httpProvider', 'jwtOptionsProvider', 'jwtInterceptorProvider', config])
     .run(['AuthService', 'authManager', run])
 
-  angular.module('core', []);
+  angular.module('core', ['ngSanitize']);
   angular.module('events', []);
   angular.module('members', []);
   angular.module('Registrations', []);

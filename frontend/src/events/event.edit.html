@@ -1,12 +1,12 @@
 <topbar></topbar>
 
 <div class="center">
-  <input type="text" class="o-editable-field o-editable-field--xl" ng-model="vm.event.title" ng-change="vm.update(vm.event)" />
+  <input type="text" class="o-editable-field o-editable-field--xl" ng-model="vm.event.title" ng-change="vm.showSave = true" />
 
   <div class="center">
     <div class="c-date-badge">
-      <input type="text" ng-model="vm.event.date" uib-datepicker-popup="dd-MM-yyyy" ng-change="vm.update(vm.event)" is-open="vm.isOpen" datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk" alt-input-formats="{}" class="hide" />
-      <input type="text" ng-model="vm.event.endDate" uib-datepicker-popup="dd-MM-yyyy" ng-change="vm.update(vm.event)" is-open="vm.isEndDateOpen" datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk" alt-input-formats="{}" class="hide" />
+      <input type="text" ng-model="vm.event.date" uib-datepicker-popup="dd-MM-yyyy" ng-change="vm.showSave = true" is-open="vm.isOpen" datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk" alt-input-formats="{}" class="hide" />
+      <input type="text" ng-model="vm.event.endDate" uib-datepicker-popup="dd-MM-yyyy" ng-change="vm.showSave = true" is-open="vm.isEndDateOpen" datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk" alt-input-formats="{}" class="hide" />
       <div class="c-date-badge__header" ng-click="vm.isOpen = true">
         {{ vm.event.date | formatdate: 'MMM' }}
       </div>
@@ -17,26 +17,24 @@
       <p class="c-date-badge__more-days" ng-show="vm.event.endDate" ng-click="vm.event.endDate = null">Stævnet er én-dags</p>
     </div>
   </div>
-
-  <input type="text" class="o-editable-field larger-text" ng-model="vm.event.address" ng-change="vm.update(vm.event)" />
-  <iframe ng-show="vm.event.address" width="100%" height="150" frameborder="0" style="border:0" ng-src="{{vm.trustedMapUrl}}" allowfullscreen></iframe>
+  <event-address address="vm.event.address" editable="true" on-change="vm.event.address = address; vm.showSave = true"></event-address>
 </div>
 
-<h2>Link til stævneside</h2>
+<h4>Link til stævneside</h4>
 <div class="row">
   <div class="col-sm-12">
-    <input type="text" ng-model="vm.event.link" class="c-formular-input c-formular-input--large center" ng-change="vm.update(vm.event)" />
+    <input type="text" ng-model="vm.event.link" ng-change="vm.showSave = true" class="c-formular-input c-formular-input--large center" />
   </div>
 </div>
 
-<h2>Tilmeldingsperiode</h2>
+<h4>Tilmeldingsperiode</h4>
 <div>
   <p class="center">
     <div class="row">
       <div class="col-md-2 col-md-offset-4 col-xs-4 col-xs-offset-2">
         <p class="center">FRA</p>
         <div class="c-date-badge c-date-badge--small">
-          <input type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="vm.event.registrationPeriodStartDate" ng-change="vm.update(vm.event)" is-open="vm.registrationStartDateIsOpen" datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk" alt-input-formats="{}" style="display: none;" />
+          <input type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="vm.event.registrationPeriodStartDate" ng-change="vm.showSave = true" is-open="vm.registrationStartDateIsOpen" datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk" alt-input-formats="{}" style="display: none;" />
           <div class="c-date-badge__header" ng-click="vm.registrationStartDateIsOpen = true">
             {{ vm.event.registrationPeriodStartDate | formatdate: 'MMM' }}
           </div>
@@ -48,7 +46,7 @@
       <div class="col-md-2 col-xs-4">
         <p class="center">TIL</p>
         <div class="c-date-badge c-date-badge--small">
-          <input type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="vm.event.registrationPeriodEndDate" ng-change="vm.update(vm.event)" is-open="vm.registrationEndDateIsOpen" datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk" alt-input-formats="{}" style="display: none;" />
+          <input type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="vm.event.registrationPeriodEndDate" ng-change="vm.showSave = true" is-open="vm.registrationEndDateIsOpen" datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk" alt-input-formats="{}" style="display: none;" />
           <div class="c-date-badge__header" ng-click="vm.registrationEndDateIsOpen = true">
             {{ vm.event.registrationPeriodEndDate | formatdate: 'MMM' }}
           </div>
@@ -61,43 +59,27 @@
   </p>
 </div>
 
-<h2>Discipliner</h2>
-<div ng-repeat="discipline in vm.availableDisciplines">
-  <div class="row"> 
-    <div class="col-sx-12 col-sm-3">
-      <button ng-click="vm.toggleDisciplineSelected(discipline); vm.update(vm.event);" class="o-button o-button--default o-button--flow-list full-width" ng-class="discipline.selected ? 'o-button--success' : 'o-button--default'">
-          {{ discipline.name }}
-      </button>
+<h4>Discipliner</h4>
+<div>
+  <div ng-repeat="ageGroup in vm.ageGroups" class="cozy">
+    <div class="row flex flex--center-vertically">
+      <div class="col-xs-1 text-center larger-text ">
+        {{ ageGroup }}
+      </div>
+      <div class="col-xs-11">
+        <multiple-autocomplete ng-model="vm.event.disciplines[ageGroup]"
+            object-property="name"
+            suggestions-arr="vm.availableDisciplines"
+            after-select-item="vm.showSave = true"
+            after-remove-item="vm.showSave = true">
+        </multiple-autocomplete>
+      </div>
     </div>
-    <div class="col-sx-12 col-sm-9">
-      <span ng-repeat="class in discipline.classes">
-        <button ng-click="class.selected = !class.selected; vm.update(vm.event);" ng-disabled="!discipline.selected" class="o-button o-button--default o-button--flow-list" ng-class="class.selected ? 'o-button--success' : 'o-button--default'" style="width: 45px;">
-          {{ class.name }}
-        </button><br ng-if="class.name === 'K'"/>
-      </span>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-xs-6 col-sm-3" ng-repeat="discipline in vm.availableDisciplines">
-    <button class="o-button o-button--default o-button--flow-list full-width" ng-class="discipline.selected ? 'o-button--success' : 'o-button--default'" ng-click="discipline.selected = !discipline.selected; vm.update(vm.event);">
-        {{ discipline.name }}
-    </button>
-  </div>
-  <div class="col-xs-6 col-sm-3" ng-repeat="discipline in vm.customDisciplines">
-    <button class="o-button o-button--default o-button--flow-list full-width" ng-class="discipline.selected ? 'o-button--success' : 'o-button--default'" ng-click="discipline.selected = !discipline.selected; vm.update(vm.event);">
-        {{ discipline.name }}
-    </button>
-  </div>
-  <div class="col-xs-6 col-sm-3">
-    <button class="o-button o-button--default o-button--flow-list full-width">
-        <input type="text" style="text-align: center; border: none;" ng-model="vm.customDiscipline" ng-keypress="vm.handleCustomerDisciplineKeyPress(vm.customDiscipline, $event)" ng-blur="vm.addCustomDiscipline(vm.customDiscipline)" />
-    </button>
   </div>
 </div>
 
-<h2>Deltagere</h2>
-<p><a class="larger-text" ng-href="{{ vm.excelDownloadUrl }}">Download deltagerliste</a></p>
+<h4>Deltagere</h4>
+<p class="center"><a class="larger-text center" ng-href="{{ vm.excelDownloadUrl }}">Download deltagerliste</a></p>
 <div class="row" ng-show="vm.registrations.length > 0">
   <div class="col-sm-6" ng-repeat="registration in vm.registrations">
     <div class="panel panel-default">
@@ -127,3 +109,8 @@
   </div>
 </div>
 <p class="center" ng-show="!vm.registrations || vm.registrations.length === 0">Der er endnu ingen deltagere</p>
+
+
+<div class="c-bottom-bar" ng-class="{'c-bottom-bar--show': vm.showSave}">
+  <button class="o-button o-button--primary" ng-click="vm.saveNow(vm.event)">Gem ændringer</button>
+</div>

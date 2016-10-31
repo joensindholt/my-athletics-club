@@ -26,6 +26,7 @@ module.exports = {
             globalPath.bower + 'jquery/dist/jquery.min.js',
             globalPath.bower + 'angular/angular.js',
             globalPath.bower + 'angular-route/angular-route.js',
+            globalPath.bower + 'angular-sanitize/angular-sanitize.min.js',
             globalPath.bower + 'angular-ui-router/release/angular-ui-router.js',
             globalPath.bower + 'angular-aria/angular-aria.js',
             globalPath.bower + 'angular-animate/angular-animate.js',
@@ -40,6 +41,7 @@ module.exports = {
             globalPath.bower + 'angular-lock/dist/angular-lock.js',
             globalPath.bower + 'angular-jwt/dist/angular-jwt.js',
             // ---
+            globalPath.bower + 'angular-autogrow/angular-autogrow.min.js',
             globalPath.thirdparty + 'ui.bootstrap/ui-bootstrap-custom-tpls-2.1.3.min.js'
         ],
         css: [

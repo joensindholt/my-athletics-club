@@ -1,0 +1,31 @@
+.c-autocomplete {
+  position: relative;
+}
+
+.c-autocomplete__items {
+  display: none;
+  position: absolute;
+  z-index: 2;
+  background: white;
+  border-radius: $elementRadius;
+  top: 42px;
+  width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #eee;
+}
+
+.c-autocomplete__items--open {
+  display: block;
+}
+
+.c-autocomplete__item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.c-autocomplete__item:hover {
+  background: $green;
+  color: white;
+}

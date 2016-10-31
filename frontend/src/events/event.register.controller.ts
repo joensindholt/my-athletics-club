@@ -7,13 +7,16 @@ module events {
 
     private event: Event;
     private registration: Registration;
+    private registrationData: any;
     private trustedMapUrl: string;
     private registrationIsValid: boolean = false;
     private alerts: Array<any> = [];
     private registering: boolean = false;
     private registrationComplete: boolean = false;
     private birthYears: Array<number>;
-
+    private ageGroups: Array<string>;
+    private validationError: string;
+    
     static $inject = [
       '$scope',
       '$state',
@@ -39,86 +42,229 @@ module events {
     ) {
       this.SysEventsService.post('Registration page shown');
 
-      this.registration = new Registration({});
-
       this.EventsService.get($state.params.id).then(event => {
         this.event = event;
+
         this.trustedMapUrl = this.$sce.trustAsResourceUrl('https://www.google.com/maps/embed/v1/place?key=AIzaSyC-0IZYk7mmRswHapPmWnSpMa6i2kHnP9I&q=' + event.address);
+
+        this.updateExtraDisciplineAgeGroups();
       });
 
       this.birthYears = this.MembersService.getAllowedBirthYears();
     }
 
-    getSelectedDisciplines() {
-      var disciplines = _.map(_.filter(this.event.disciplines, discipline => {
-        return discipline.selected;
-      }), discipline => {
-        return {
-          id: discipline.id,
-          name: discipline.name,
-          personalRecord: discipline.personalRecord
+    updateDisciplines() {
+
+      // Reset already selected disciplines
+      _.each(this.registrationData.disciplines, discipline => {
+        discipline.selected = false;
+      }); 
+
+      if (this.registrationData.birthYear) {
+        var currentYear = new Date().getFullYear();
+        var diff = currentYear - this.registrationData.birthYear;
+
+        if (diff <= 7) {
+          this.registrationData.disciplines = this.event.disciplines['7 år'];
+          this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, '7 år');
         }
-      });
-      return disciplines;
+        else if (diff <= 8) {
+          this.registrationData.disciplines = this.event.disciplines['8 år'];
+          this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, '8 år');
+        }
+        else if (diff <= 9) {
+          this.registrationData.disciplines = this.event.disciplines['9 år'];
+          this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, '9 år');
+        }
+        else if (diff <= 10) {
+          this.registrationData.disciplines = this.event.disciplines['10 år'];
+          this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, '10 år');
+        }
+        else if (diff <= 11) {
+          this.registrationData.disciplines = this.event.disciplines['11 år'];
+          this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, '11 år');
+        }
+        else if (diff <= 12) {
+          this.registrationData.disciplines = this.event.disciplines['12 år'];
+          this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, '12 år');
+        }
+        else if (diff <= 13) {
+          this.registrationData.disciplines = this.event.disciplines['13 år'];
+          this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, '13 år');
+        }
+        else if (diff <= 15) {
+          this.registrationData.disciplines = this.event.disciplines['15 år'];
+          this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, '15 år');
+        }
+        else if (diff <= 17) {
+          this.registrationData.disciplines = this.event.disciplines['17 år'];
+          this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, '17 år');
+        }
+        else if (diff <= 19) {
+          this.registrationData.disciplines = this.event.disciplines['19 år'];
+          this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, '19 år');
+        }
+        else {
+          if (this.registrationData.gender === 'female') {
+            this.registrationData.disciplines = this.event.disciplines['K'];
+            this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, 'K');
+          }
+          if (this.registrationData.gender === 'male') {
+            this.registrationData.disciplines = this.event.disciplines['M'];
+            this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, 'M');
+          }
+        }
+      }
     }
 
-    validate(registration: Registration) {
-      if (!registration.name || registration.name.trim() === '') {
+    getAgeClass(gender: string, ageString: string) {
+      if (!gender) {
+        return null;
+      }
+
+      if (!ageString) {
+        return null;
+      }
+
+      switch (ageString) {
+        case '7 år': return gender === 'male' ? 'D7' : 'P7';
+        case '8 år': return gender === 'male' ? 'D8' : 'P8';
+        case '9 år': return gender === 'male' ? 'D9' : 'P9';
+        case '10 år': return gender === 'male' ? 'D10' : 'P10';
+        case '11 år': return gender === 'male' ? 'D11' : 'P11';
+        case '12 år': return gender === 'male' ? 'D12' : 'P12';
+        case '13 år': return gender === 'male' ? 'D13' : 'P13';
+        case '15 år': return gender === 'male' ? 'D15' : 'P15';
+        case '17 år': return gender === 'male' ? 'D17' : 'P17';
+        case '19 år': return gender === 'male' ? 'D19' : 'P19';
+        case 'K': return 'K';
+        case 'M': return 'M';
+        default: return null;
+      }
+    }
+
+    updateExtraDisciplineAgeGroups() {
+      this.ageGroups = _.filter(this.EventsService.getAgeGroups(), ageGroup => {
+        // Only get age groups where there is disciplines
+        if (this.event.disciplines[ageGroup].length === 0) {
+          return false;
+        }
+
+        return true;
+      });
+    }
+
+    // Age group will be something like "7 år", "8 år" etc.    
+    getAgeGroupDiscipline(ageGroup) {
+      return this.event.disciplines[ageGroup];
+    }
+
+    addExtraDiscipline() {
+      if (!this.registrationData.extraDisciplines) {
+        this.registrationData.extraDisciplines = [];
+      }
+
+      this.registrationData.extraDisciplines.push({});
+    }
+
+    removeExtraDiscipline(index: number) {
+      this.registrationData.extraDisciplines.splice(index, 1);
+    }
+
+    onDataChange(registrationData: any) {
+      this.validate(registrationData);
+    }
+
+    validate(registrationData: any) {
+      if (!registrationData.name || registrationData.name.trim() === '') {
         this.registrationIsValid = false;
+        this.validationError = 'Du har ikke angivet deltagerens navn';
         return;
       }
 
-      if (!registration.gender || registration.gender.trim() === '') {
+      if (!registrationData.gender || registrationData.gender.trim() === '') {
         this.registrationIsValid = false;
+        this.validationError = 'Du har ikke angivet om deltageren er en pige eller en dreng';
         return;
       }
 
-      if (!registration.birthYear) {
+      if (!registrationData.birthYear) {
         this.registrationIsValid = false;
+        this.validationError = 'Du skal angive deltagerens alder';
         return;
       }
 
-      if (!registration.email || registration.email.trim() === '') {
+      if (!registrationData.email || registrationData.email.trim() === '') {
         this.registrationIsValid = false;
+        this.validationError = 'Du har ikke angivet din e-mail adresse';
         return;
       }
 
-      if (this.getSelectedDisciplines().length === 0) {
+      if (!registrationData.recaptcha) {
         this.registrationIsValid = false;
-        return;
-      }
-
-      if (!registration.recaptcha) {
-        this.registrationIsValid = false;
+        this.validationError = 'Du mangler at angive at du ikke er en robot';
         return;
       }
 
       this.registrationIsValid = true;
+      this.validationError = null;      
     }
 
     validateDelayed() {
       this.$timeout(() => {
-        this.validate(this.registration);
+        this.validate(this.registrationData);
       }, 200);
     }
-
-    register(registration: Registration) {
+    
+    register(registrationData: any) {
       this.alerts = [];
       this.registering = true;
 
-      registration.eventId = this.event._id;
-      registration.disciplines = this.getSelectedDisciplines();
+      this.registration = this.buildRegistration(registrationData);
 
-      this.SysEventsService.post('Event registration posting for email: ' + registration.email);
-      this.EventsService.register(registration).then(data => {
-        this.SysEventsService.post('Event registration succeeded for email:' + registration.email);
+      this.SysEventsService.post('Event registration posting for email: ' + registrationData.email);
+      this.EventsService.register(this.registration).then(data => {
+        this.SysEventsService.post('Event registration succeeded for email:' + registrationData.email);
         this.registrationComplete = true;
       }).catch(err => {
-        this.SysEventsService.post('Event registration failed for email ' + registration.email + ' with error: ' + err);
-        this.alerts.push({ type: 'danger', msg: 'Hov, noget gik galt under din registrering. Prøv lige en gang til eller kontakt GIK direkte.' });
+        this.SysEventsService.post('Event registration failed for email ' + registrationData.email + ' with error: ' + err);
+        this.alerts.push({ type: 'danger', msg: 'Hov, noget gik galt under din registrering. Prøv lige en gang til eller kontakt GIK.' });
       }).finally(() => {
         this.registering = false;
       });
+    }
+
+    buildRegistration(registrationData: any): Registration {
+      var registration: Registration = {
+        eventId: this.event._id,
+        name: registrationData.name,
+        email: registrationData.email,
+        ageClass: registrationData.ageGroup,
+        recaptcha: registrationData.recaptcha,
+        disciplines: [],
+        extraDisciplines: []
+      };
+
+      _.each(registrationData.disciplines, discipline => {
+        if (discipline.selected) {
+          registration.disciplines.push({
+            id: discipline.id,
+            name: discipline.name,
+            personalRecord: discipline.personalRecord
+          });
+        }
+      });
+
+      _.each(registrationData.extraDisciplines, discipline => {
+        registration.extraDisciplines.push({
+          ageClass: this.getAgeClass(registrationData.gender, discipline.ageGroup),
+          id: discipline.id,
+          name: discipline.name,
+          personalRecord: discipline.personalRecord
+        });
+      });
+
+      return registration;
     }
   }
 }

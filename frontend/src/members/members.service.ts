@@ -109,12 +109,13 @@ module members {
     getAllowedBirthYears(): Array<number> {
       var currentYear = new Date().getFullYear();
       var maximumYear = currentYear - 4 + 1;
-      var minimumYear = currentYear - 16 - 1;
+      var minimumYear = currentYear - 19 - 1;
 
       var birthYears = [];
-      for (var i = minimumYear; i <= maximumYear; i++) {
+      for (var i = maximumYear; i >= minimumYear; i--) {
         birthYears.push(i);
       }
+      birthYears.push((minimumYear - 1) + ' eller før');
 
       return birthYears;
     }

@@ -1,18 +1,24 @@
 .c-formular-input {
-    border: 1px solid #eee;
-    border-radius: 5px;
-    font-size: 15px;
-    padding: 10px;
-    color: #616976;
-    width: 100%;
-   background: white;
-} 
-.c-formular-input--large {
-    font-size: 20px;
-    padding: 20px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  font-size: 15px;
+  padding: 10px;
+  color: #616976;
+  width: 100%;
+  background: white;
+  text-align: left;
+  font-family: inherit;
+  border: none;
+  margin: 0;
 }
 .c-formular-input--select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+  padding: 11px 10px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.c-formular-input--large,
+.c-formular-input--large.c-formular-input--select {
+  font-size: 20px;
+  padding: 20px;
 }

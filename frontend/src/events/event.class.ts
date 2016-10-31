@@ -6,7 +6,7 @@ module events {
     date: Date;
     address: string;
     link: string;
-    disciplines: Array<any>;
+    disciplines: {};
     registrationPeriodStartDate: Date;
     registrationPeriodEndDate: Date;
 

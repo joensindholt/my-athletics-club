@@ -157,53 +157,53 @@ module events {
 
     getAllDisciplines() {
       var disciplines = [
-        { id: '40m', name: '40m', short: '40' },
-        { id: '60m', name: '60m', short: '60' },
-        { id: '80m', name: '80m', short: '80' },
-        { id: '100m', name: '100m', short: '100' },
-        { id: '200m', name: '200m', short: '200' },
-        { id: '400m', name: '400m', short: '400' },
-        { id: '600m', name: '600m', short: '600' },
-        { id: '800m', name: '800m', short: '800' },
-        { id: '1000m', name: '1000m', short: '1000' },
-        { id: '1500m', name: '1500m', short: '1500' },
-        { id: '3000m', name: '3000m', short: '3000' },
-        { id: '5000m', name: '5000m', short: '5000' },
-        { id: '40mHurdles', name: '40m hæk', short: '40H' },
-        { id: '60mHurdles', name: '60m hæk', short: '60H' },
-        { id: '80mHurdles', name: '80m hæk', short: '80H' },
-        { id: '100mHurdles', name: '100m hæk', short: '100H' },
-        { id: '110mHurdles', name: '110m hæk', short: '110H' },
-        { id: '400mHurdles', name: '400m hæk', short: '400H' },
-        { id: '4x40m', name: '4 x 40m stafet', short: '4x40' },
-        { id: '4x60m', name: '4 x 60m stafet', short: '4x60' },
-        { id: '4x80m', name: '4 x 80m stafet', short: '4x80' },
-        { id: '4x100m', name: '4 x 100m stafet', short: '4x100' },
-        { id: '4x400m', name: '4 x 400m stafet', short: '4x400' },
-        { id: 'longjump', name: 'længdespring', short: 'LÆ' },
-        { id: 'highjump', name: 'højdespring', short: 'HØ' },
-        { id: 'shotput', name: 'kuglestød', short: 'KU' },
-        { id: 'javelin', name: 'spydkast', short: 'SP' },
-        { id: 'discusthrow', name: 'diskoskast', short: 'DI' },
-        { id: 'hammerthrow', name: 'hammerkast', short: 'HA' },
-        { id: 'weightthrow', name: 'vægtkast', short: 'VÆ' },
-        { id: 'triplejump', name: 'trespring', short: 'TR' },
-        { id: 'polevault', name: 'stangspring', short: 'ST' },
+        { name: '40m', id: '40' },
+        { name: '60m', id: '60' },
+        { name: '80m', id: '80' },
+        { name: '100m', id: '100' },
+        { name: '200m', id: '200' },
+        { name: '400m', id: '400' },
+        { name: '600m', id: '600' },
+        { name: '800m', id: '800' },
+        { name: '1000m', id: '1000' },
+        { name: '1500m', id: '1500' },
+        { name: '3000m', id: '3000' },
+        { name: '5000m', id: '5000' },
+        { name: '40m hæk', id: '40H' },
+        { name: '60m hæk', id: '60H' },
+        { name: '80m hæk', id: '80H' },
+        { name: '100m hæk', id: '100H' },
+        { name: '110m hæk', id: '110H' },
+        { name: '400m hæk', id: '400H' },
+        { name: '4 x 40m stafet', id: '4x40' },
+        { name: '4 x 60m stafet', id: '4x60' },
+        { name: '4 x 80m stafet', id: '4x80' },
+        { name: '4 x 100m stafet', id: '4x100' },
+        { name: '4 x 400m stafet', id: '4x400' },
+        { name: 'længdespring', id: 'LÆ' },
+        { name: 'højdespring', id: 'HØ' },
+        { name: 'kuglestød', id: 'KU' },
+        { name: 'spydkast', id: 'SP' },
+        { name: 'diskoskast', id: 'DI' },
+        { name: 'hammerkast', id: 'HA' },
+        { name: 'vægtkast', id: 'VÆ' },
+        { name: 'trespring', id: 'TR' },
+        { name: 'stangspring', id: 'ST' },
       ];
-      
-      _.forEach(disciplines, (discipline: any) => {
-        discipline.classes = this.getClasses();
-      });
 
       return disciplines;
     }
 
-    getClasses() {
+    getAgeClasses() {
       var classes = [{ name: 'P7' }, { name: 'P8' }, { name: 'P9' }, { name: 'P10' }, { name: 'P11' }, { name: 'P12' }, { name: 'P13' },
           { name: 'P15' }, { name: 'P17' }, { name: 'P19' }, { name: 'K' }, { name: 'D7' }, { name: 'D8' }, { name: 'D9' }, { name: 'D10' }, { name: 'D11' }, { name: 'D12' }, { name: 'D13' },
           { name: 'D15' }, { name: 'D17' }, { name: 'D19' }, { name: 'M' }]
  
       return classes;      
+    }
+
+    getAgeGroups() {
+      return ['7 år', '8 år', '9 år', '10 år', '11 år', '12 år', '13 år', '15 år', '17 år', '19 år', 'K', 'M']; 
     }
   }
 }

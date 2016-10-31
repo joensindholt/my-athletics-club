@@ -10,7 +10,7 @@ $border-radius: $width / 4;
 .c-date-badge__header {
     border-top-left-radius: $border-radius;
     border-top-right-radius: $border-radius;
-    background: #CF5F57;
+    background: $red;
     height: $width * 0.4;
     line-height: $width * 0.4;
     color: white;

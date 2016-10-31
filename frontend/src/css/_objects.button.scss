@@ -1,7 +1,7 @@
 .o-button {
     border: 1px solid #eee;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: $elementRadius;
     margin-right: 10px;
 }
 
@@ -33,7 +33,7 @@
 .o-button--success:hover,
 .o-button--success:active,
 .o-button--success:focus {
-    background: #89CD5A;
+    background: $green;
     color: white;
 }
 

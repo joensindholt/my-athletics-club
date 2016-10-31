@@ -7,21 +7,20 @@ module events {
 
     private event: Event;
     private availableDisciplines: Array<any>;
-    private customDisciplines: Array<any>;
+    private ageGroups: Array<any>;
     private datePickerOptions = {
       startingDay: 1
     }
-    private customDisciplineDefault: string = "anden disciplin";
-    private customDiscipline: string;
-    private trustedMapUrl: any;
     private registrations: Array<Registration>;
     private excelDownloadUrl: string;
-
+    private showSave: boolean;
+    
     static $inject = [
       '$scope',
       '$state',
       '$window',
       '$sce',
+      '$timeout',
       'moment',
       'EventsService',
       'SysEventsService'
@@ -32,128 +31,54 @@ module events {
       private $state,
       private $window: ng.IWindowService,
       private $sce: ng.ISCEService,
+      private $timeout: ng.ITimeoutService,
       private moment: moment.MomentStatic,
       private EventsService: EventsService,
       private SysEventsService: core.SysEventsService
     ) {
       this.SysEventsService.post('Event shown. Id: ' + $state.params.id);
 
+      // load default available disciplines      
       this.availableDisciplines = this.EventsService.getAllDisciplines();
-      this.customDisciplines = [];
-      this.customDiscipline = this.customDisciplineDefault;
 
+      // load age groups      
+      this.ageGroups = this.EventsService.getAgeGroups();
+
+      // get event...
       this.EventsService.get($state.params.id).then(event => {
+        // init controller event
         this.event = event;
-        this.updateSelectedAvailableDisciplines();
-        this.updateTrustedMapUrl(this.event);
+        // init event disciplines
+        this.updateDisciplines(this.event);
+        // resolve excel download url
         this.updateExcelDownloadUrl();
       });
 
+      // get event registrations      
       this.EventsService.getRegistrations($state.params.id).then(registrations => {
+        // init controller registrations - ordered by name
         this.registrations = _.orderBy(registrations, ['name']);
       });
-
     }
 
-    update(event: Event) {
-      this.updateDebounced(event);
-    }
-
-    updateTrustedMapUrl(event: Event) {
-      this.trustedMapUrl = this.$sce.trustAsResourceUrl('https://www.google.com/maps/embed/v1/place?key=AIzaSyC-0IZYk7mmRswHapPmWnSpMa6i2kHnP9I&q=' + event.address);
-    }
-
-    getSelectedDisciplines() {
-      var disciplines = _.map(_.filter(this.availableDisciplines, discipline => {
-        return discipline.selected;
-      }), discipline => {
-        return {
-          id: discipline.id,
-          name: discipline.name,
-          classes: _.map(_.filter(discipline.classes, (classs: any) => {
-            return classs.selected;
-          }), classs => {
-            return classs.name;            
-          })
-        }
-      });
-
-      var customDisciplines = _.map(_.filter(this.customDisciplines, discipline => {
-        return discipline.selected;
-      }), discipline => {
-        return { id: discipline.id, name: discipline.name }
-      });
-
-      return _.union(disciplines, customDisciplines);
-    }
-
-    updateSelectedAvailableDisciplines() {
-      this.customDisciplines = _.map(_.filter(this.event.disciplines, d => { return d.id === -1 }) || [], d => {
-        return {
-          id: -1,
-          name: d.name,
-          selected: true
-        };
-      });
-
-      // look for selected disciplines
-      this.availableDisciplines.forEach(discipline => {
-        this.event.disciplines.forEach(apiDiscipline => {
-          if (discipline.id === apiDiscipline.id) {
-            discipline.selected = true;
-            // look for selected classes
-            discipline.classes.forEach(classs => {
-              apiDiscipline.classes.forEach(apiClass => {
-                if (classs.name === apiClass) {
-                  classs.selected = true;
-                }
-              });
-            });
-          }
-        })
+    updateDisciplines(event: Event) {
+      if (!event.disciplines)
+        event.disciplines = {};
+      
+      _.forEach(this.ageGroups, ageGroup => {
+        if (!event.disciplines[ageGroup])
+          event.disciplines[ageGroup] = [];
       });
     }
 
-    addCustomDiscipline(discipline: string) {
-      if (discipline === this.customDisciplineDefault) return;
-      if (discipline === '') return;
-
-      this.customDisciplines.push({
-        id: -1,
-        selected: true,
-        name: discipline
+    saveNow(event: Event) {
+      this.EventsService.update(event).then(() => {
+        this.showSave = false;
       });
-
-      this.customDiscipline = this.customDisciplineDefault;
-
-      this.update(this.event);
     }
-
-    handleCustomerDisciplineKeyPress(discipline: string, event) {
-      if (event.keyCode === 13) {
-        this.addCustomDiscipline(discipline);
-      }
-    }
-
-    updateDebounced = _.debounce(event => {
-      event.disciplines = this.getSelectedDisciplines();
-      this.EventsService.update(event);
-      this.updateTrustedMapUrl(event);
-    }, 2000)
 
     private updateExcelDownloadUrl() {
       this.excelDownloadUrl = globals.apiUrl + '/events/' + this.event._id + '/registrations.xlsx';
-    }
-
-    toggleDisciplineSelected(discipline) {
-      if (!discipline.selected) {
-        discipline.selected = true;
-        _.forEach(discipline.classes, classs => { classs.selected = true });
-      }
-      else {
-        discipline.selected = false;
-        _.forEach(discipline.classes, classs => { classs.selected = false; });
-      }
     }
   }
 }

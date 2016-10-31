@@ -27,7 +27,10 @@
     "angular-lock": "^1.0.1",
     "angular-jwt": "^0.1.3",
     "raven-js": "^3.7.0",
-    "angular-recaptcha": "^3.0.4"
+    "angular-recaptcha": "^3.0.4",
+    "angular-sanitize": "^1.5.8",
+    "angular-autogrow": "^0.1.1",
+    "angularMultipleSelect": "angular-multiple-select#^1.1.2"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.6"

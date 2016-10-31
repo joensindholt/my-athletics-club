@@ -1,0 +1,16 @@
+.c-bottom-bar {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 20px;
+  background: white;
+  box-shadow: 0 -5px 10px rgba(0,0,0,.1);
+  text-align: center;
+  transition: transform 1s;
+  transform: translateY(300px);
+}
+
+.c-bottom-bar--show {
+  transform: translateY(0);  
+}

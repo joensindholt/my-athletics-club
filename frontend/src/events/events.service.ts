@@ -194,6 +194,15 @@ module events {
       return disciplines;
     }
 
+    findDisciplineIdByName(name: string): string {
+      var discipline = _.find(this.getAllDisciplines(), { name: name });
+      if (discipline) {
+        return discipline.id;
+      }
+
+      return null;
+    }
+
     getAgeClasses() {
       var classes = [{ name: 'P7' }, { name: 'P8' }, { name: 'P9' }, { name: 'P10' }, { name: 'P11' }, { name: 'P12' }, { name: 'P13' },
           { name: 'P15' }, { name: 'P17' }, { name: 'P19' }, { name: 'K' }, { name: 'D7' }, { name: 'D8' }, { name: 'D9' }, { name: 'D10' }, { name: 'D11' }, { name: 'D12' }, { name: 'D13' },

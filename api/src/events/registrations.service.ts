@@ -5,12 +5,12 @@ import { RegistrationsExcelJsonGenerator } from './registrations.excel.json.gene
 import { EventsService } from './events.service';
 
 var registrationSchema = new mongoose.Schema({
-  name: String,
-  gender: String,
   eventId: String,
+  name: String,
   email: String,
-  birthYear: Number,
-  disciplines: { type: {} }
+  ageClass: String,
+  disciplines: { type: {} },
+  extraDisciplines: { type: {} }
 });
 
 var Registration = mongoose.model('Registration', registrationSchema);

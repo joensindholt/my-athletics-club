@@ -258,7 +258,7 @@ module events {
       _.each(registrationData.extraDisciplines, discipline => {
         registration.extraDisciplines.push({
           ageClass: this.getAgeClass(registrationData.gender, discipline.ageGroup),
-          id: discipline.id,
+          id: this.EventsService.findDisciplineIdByName(discipline.name),
           name: discipline.name,
           personalRecord: discipline.personalRecord
         });

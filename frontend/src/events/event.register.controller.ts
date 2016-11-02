@@ -236,9 +236,11 @@ module events {
 
     buildRegistration(registrationData: any): Registration {
       var registration: Registration = {
+        _id: null,
         eventId: this.event._id,
         name: registrationData.name,
         email: registrationData.email,
+        birthYear: registrationData.birthYear,
         ageClass: registrationData.ageGroup,
         recaptcha: registrationData.recaptcha,
         disciplines: [],

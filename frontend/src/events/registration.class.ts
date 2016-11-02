@@ -1,9 +1,11 @@
 module events {
 
   export class Registration {
+    _id: string;
     eventId: string;
     name: string;
     email: string;
+    birthYear: string;
     ageClass: string;
     recaptcha: any;
     disciplines: Array<{
@@ -18,16 +20,17 @@ module events {
       personalRecord?: string
     }>;
 
-    // constructor(registrationData: any) {
-    //   this._id = registrationData._id;
-    //   this.eventId = registrationData.eventId;
-    //   this.name = registrationData.name;
-    //   this.gender = registrationData.gender;
-    //   this.email = registrationData.email;
-    //   this.birthYear = registrationData.birthYear;
-    //   this.disciplines = registrationData.disciplines || [];
-    //   this.extraDisciplines = registrationData.extraDisciplines || [];
-    // }
-  }
+    constructor(registrationData: any) {
+      this._id = registrationData._id;
+      this.eventId = registrationData.eventId;
+      this.name = registrationData.name;
+      this.email = registrationData.email;
+      this.birthYear = registrationData.birthYear;
+      this.ageClass = registrationData.ageClass;
+      this.disciplines = registrationData.disciplines || [];
+      this.extraDisciplines = registrationData.extraDisciplines || [];
 
+      console.log(this);
+    }
+  }
 }

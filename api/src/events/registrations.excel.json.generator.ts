@@ -12,30 +12,26 @@ export class RegistrationsExcelJsonGenerator {
       var json: Array<{}> = [];
 
       registrations.forEach((registration, index) => {
+
         var name = registration.name;
-        var year = registration.birthYear.toString();
-        var classAgeGroup = new Date().getFullYear() - registration.birthYear;
-        var classGender = registration.gender === Gender.female ? 'P' : 'D';
-        var _class = classGender + classAgeGroup;
+        var year = registration.birthYear;
+        var ageClass = registration.ageClass
 
-        var isFirstDiscipline = true;
-        registration.disciplines.forEach((discipline, index) => {
+        var disciplines = this.mergeDisciplinesAndExtraDisciplines(registration);
 
-          if (!isFirstDiscipline) {
-            name = '';
-            year = '';
-            _class = '';
-          }
+        var lastDiscipline: any = null;
+
+        disciplines.forEach((discipline, index) => {
 
           json.push({
             'Navn': name,
             'Årgang': year,
-            'Klasse': _class,
-            'Øvelse': discipline.short,
+            'Klasse': ageClass,
+            'Øvelse': discipline.id,
             'Seedning Resultat': discipline.personalRecord
           });
 
-          isFirstDiscipline = false;
+          lastDiscipline = discipline;
         });
       });
 
@@ -44,5 +40,26 @@ export class RegistrationsExcelJsonGenerator {
     });
 
     return promise;
+  }
+
+  mergeDisciplinesAndExtraDisciplines(registration: IRegistration) {
+    var disciplines: Array<any> = [];
+
+    if (registration.disciplines && registration.disciplines.length > 0) {
+      disciplines = disciplines.concat(registration.disciplines.map((discipline: any) => {
+        discipline.ageClass = registration.ageClass;
+        discipline.id = discipline.id || discipline.name;
+        return discipline;
+      }));
+    }
+
+    if (registration.extraDisciplines && registration.extraDisciplines.length > 0) {
+      disciplines = disciplines.concat(registration.extraDisciplines.map((discipline: any) => {
+        discipline.id = discipline.id || discipline.name;
+        return discipline;
+      }));
+    }
+
+    return disciplines;
   }
 }

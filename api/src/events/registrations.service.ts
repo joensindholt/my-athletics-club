@@ -8,6 +8,7 @@ var registrationSchema = new mongoose.Schema({
   eventId: String,
   name: String,
   email: String,
+  birthYear: String,
   ageClass: String,
   disciplines: { type: {} },
   extraDisciplines: { type: {} }

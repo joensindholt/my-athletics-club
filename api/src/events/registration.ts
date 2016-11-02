@@ -4,6 +4,7 @@ export interface IRegistration {
   "eventId": string,
   "name": string,
   "email": string,
+  "birthYear": string,
   "ageClass": string,
   "disciplines": [{
     "id": string,

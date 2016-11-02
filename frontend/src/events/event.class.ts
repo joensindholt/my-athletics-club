@@ -6,7 +6,13 @@ module events {
     date: Date;
     address: string;
     link: string;
-    disciplines: {};
+    disciplines: Array<{
+      ageGroup: string,
+      disciplines: Array<{
+        id: string,
+        name: string
+      }>
+    }>;
     registrationPeriodStartDate: Date;
     registrationPeriodEndDate: Date;
 
@@ -14,7 +20,7 @@ module events {
       this._id = eventData._id || -1;
       this.title = eventData.title || 'Nyt stævne';
       this.date = eventData.date ? new Date(eventData.date) : new Date();
-      this.address = eventData.address || 'Ved Stadion 6, 2820 Gentofte';
+      this.address = eventData.address || 'Ved Stadion 6\n2820 Gentofte';
       this.link = eventData.link;
       this.disciplines = eventData.disciplines || [];
 

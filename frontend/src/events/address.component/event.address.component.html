@@ -3,9 +3,11 @@
     <div class="col-sm-6 col-sm-offset-2 col-xs-12">
       <div class="o-center" style="height: 150px;">
         <i class="fa fa-3x fa-map-marker spacy red"></i>
+        <!-- Show textarea when editable is on -->
         <textarea ng-if="$ctrl.editable"  ng-model="$ctrl.address" ng-change="$ctrl.onChange({address: $ctrl.address})" 
           class="c-formular-input c-formular-input--large left"
           style="border: none; white-space: nowrap; resize: none; box-sizing: content-box" autogrow />
+        <!-- Show pre tag when editable is of -->
         <pre ng-if="!$ctrl.editable" class="c-formular-input c-formular-input--large left">{{$ctrl.address}}</pre>
       </div>
     </div>

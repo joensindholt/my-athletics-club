@@ -45,7 +45,10 @@ module events {
       this.EventsService.get($state.params.id).then(event => {
         this.event = event;
 
-        this.trustedMapUrl = this.$sce.trustAsResourceUrl('https://www.google.com/maps/embed/v1/place?key=AIzaSyC-0IZYk7mmRswHapPmWnSpMa6i2kHnP9I&q=' + event.address);
+        if (event.address) {
+          this.trustedMapUrl =
+            this.$sce.trustAsResourceUrl('https://www.google.com/maps/embed/v1/place?key=AIzaSyC-0IZYk7mmRswHapPmWnSpMa6i2kHnP9I&q=' + event.address);
+        }  
 
         this.updateExtraDisciplineAgeGroups();
       });
@@ -65,52 +68,52 @@ module events {
         var diff = currentYear - this.registrationData.birthYear;
 
         if (diff <= 7) {
-          this.registrationData.disciplines = this.event.disciplines['7 år'];
+          this.registrationData.disciplines = this.getAgeGroupDisciplines('7 år');
           this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, '7 år');
         }
         else if (diff <= 8) {
-          this.registrationData.disciplines = this.event.disciplines['8 år'];
+          this.registrationData.disciplines = this.getAgeGroupDisciplines('8 år');
           this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, '8 år');
         }
         else if (diff <= 9) {
-          this.registrationData.disciplines = this.event.disciplines['9 år'];
+          this.registrationData.disciplines = this.getAgeGroupDisciplines('9 år');
           this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, '9 år');
         }
         else if (diff <= 10) {
-          this.registrationData.disciplines = this.event.disciplines['10 år'];
+          this.registrationData.disciplines = this.getAgeGroupDisciplines('10 år');
           this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, '10 år');
         }
         else if (diff <= 11) {
-          this.registrationData.disciplines = this.event.disciplines['11 år'];
+          this.registrationData.disciplines = this.getAgeGroupDisciplines('11 år');
           this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, '11 år');
         }
         else if (diff <= 12) {
-          this.registrationData.disciplines = this.event.disciplines['12 år'];
+          this.registrationData.disciplines = this.getAgeGroupDisciplines('12 år');
           this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, '12 år');
         }
         else if (diff <= 13) {
-          this.registrationData.disciplines = this.event.disciplines['13 år'];
+          this.registrationData.disciplines = this.getAgeGroupDisciplines('13 år');
           this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, '13 år');
         }
         else if (diff <= 15) {
-          this.registrationData.disciplines = this.event.disciplines['15 år'];
+          this.registrationData.disciplines = this.getAgeGroupDisciplines('15 år');
           this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, '15 år');
         }
         else if (diff <= 17) {
-          this.registrationData.disciplines = this.event.disciplines['17 år'];
+          this.registrationData.disciplines = this.getAgeGroupDisciplines('17 år');
           this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, '17 år');
         }
         else if (diff <= 19) {
-          this.registrationData.disciplines = this.event.disciplines['19 år'];
+          this.registrationData.disciplines = this.getAgeGroupDisciplines('19 år');
           this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, '19 år');
         }
         else {
           if (this.registrationData.gender === 'female') {
-            this.registrationData.disciplines = this.event.disciplines['K'];
+            this.registrationData.disciplines = this.getAgeGroupDisciplines('K');
             this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, 'K');
           }
           if (this.registrationData.gender === 'male') {
-            this.registrationData.disciplines = this.event.disciplines['M'];
+            this.registrationData.disciplines = this.getAgeGroupDisciplines('M');
             this.registrationData.ageGroup = this.getAgeClass(this.registrationData.gender, 'M');
           }
         }
@@ -143,20 +146,22 @@ module events {
       }
     }
 
+    // sets age groups to age groups where there are disciplines    
     updateExtraDisciplineAgeGroups() {
-      this.ageGroups = _.filter(this.EventsService.getAgeGroups(), ageGroup => {
-        // Only get age groups where there is disciplines
-        if (this.event.disciplines[ageGroup].length === 0) {
-          return false;
-        }
-
-        return true;
+      this.ageGroups = _.map(_.filter(this.event.disciplines, discipline => discipline.disciplines.length > 0), discipline => {
+        return discipline.ageGroup;
       });
     }
 
     // Age group will be something like "7 år", "8 år" etc.    
-    getAgeGroupDiscipline(ageGroup) {
-      return this.event.disciplines[ageGroup];
+    getAgeGroupDisciplines(ageGroup) {
+      var ageGroupDiscipline = _.find(this.event.disciplines, discipline => discipline.ageGroup === ageGroup);
+
+      if (!ageGroupDiscipline) {
+        return null;
+      }      
+
+      return ageGroupDiscipline.disciplines;
     }
 
     addExtraDiscipline() {

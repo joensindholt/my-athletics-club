@@ -67,7 +67,7 @@
         {{ ageGroup }}
       </div>
       <div class="col-xs-9 col-sm-10">
-        <multiple-autocomplete ng-model="vm.event.disciplines[ageGroup]"
+        <multiple-autocomplete ng-model="vm.event.disciplines[$index].disciplines"
             object-property="name"
             suggestions-arr="vm.availableDisciplines"
             after-select-item="vm.showSave = true"

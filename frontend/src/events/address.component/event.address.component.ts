@@ -17,7 +17,7 @@ module events {
 
     trustedMapUrl: any;
     address: string;
-    editable: boolean = false;
+    editable: boolean;
 
     static $inject = [
       '$scope',
@@ -28,6 +28,10 @@ module events {
       private $scope: ng.IScope,
       private $sce: ng.ISCEService
     ) {
+      if (this.editable === undefined) {
+        this.editable = false;
+      }      
+
       this.$scope.$watch('$ctrl.address', () => { this.onAddressChanged(); });
     }
 

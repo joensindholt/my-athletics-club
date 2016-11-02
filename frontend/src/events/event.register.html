@@ -132,7 +132,7 @@
         <div class="col-sm-3 cozy">
           <select ng-model="extraDiscipline.name" ng-change="vm.onDataChange(vm.registrationData)" 
             class="c-formular-input c-formular-input--select">
-            <option ng-repeat="discipline in vm.getAgeGroupDiscipline(extraDiscipline.ageGroup)" 
+            <option ng-repeat="discipline in vm.getAgeGroupDisciplines(extraDiscipline.ageGroup)" 
               value="{{discipline.name}}">{{discipline.name}}</option>
           </select>
         </div>
@@ -191,10 +191,12 @@
             {{ discipline.name }}{{ discipline.personalRecord ? ' (' + discipline.personalRecord + ')' : '' }}
           </div>
         </div>
-        <div class="c-receipt__label">Discipliner i andre aldersgrupper</div>
-        <div class="c-receipt__value">
-          <div ng-repeat="discipline in vm.registration.extraDisciplines">
-            {{ discipline.ageClass }}: {{ discipline.name }}{{ discipline.personalRecord ? ' (' + discipline.personalRecord + ')' : '' }}
+        <div ng-show="vm.registration.extraDisciplines && vm.registration.extraDisciplines.length > 0">
+          <div class="c-receipt__label">Discipliner i andre aldersgrupper</div>
+          <div class="c-receipt__value">
+            <div ng-repeat="discipline in vm.registration.extraDisciplines">
+              {{ discipline.ageClass }}: {{ discipline.name }}{{ discipline.personalRecord ? ' (' + discipline.personalRecord + ')' : '' }}
+            </div>
           </div>
         </div>
       </div>

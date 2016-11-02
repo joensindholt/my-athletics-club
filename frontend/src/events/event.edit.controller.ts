@@ -62,13 +62,13 @@ module events {
     }
 
     updateDisciplines(event: Event) {
-      if (!event.disciplines)
-        event.disciplines = {};
-      
-      _.forEach(this.ageGroups, ageGroup => {
-        if (!event.disciplines[ageGroup])
-          event.disciplines[ageGroup] = [];
-      });
+
+      if (!event.disciplines || event.disciplines.length === 0) {
+        event.disciplines = [];
+        for (var i = 0; i < this.ageGroups.length; i++) {
+          event.disciplines.push({ ageGroup: this.ageGroups[i], disciplines: [] });
+        }
+      }
     }
 
     saveNow(event: Event) {

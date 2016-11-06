@@ -34,7 +34,7 @@ export class RegistrationsExcelJsonGenerator {
 
           // show discipline name when id is -1 indicating "custom" discipline
           var disciplineOutput = discipline.id;
-          if (discipline.id === -1) {
+          if (discipline.id === '-1') {
             disciplineOutput = discipline.name;
           }
 

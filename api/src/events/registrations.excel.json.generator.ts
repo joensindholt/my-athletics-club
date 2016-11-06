@@ -26,16 +26,23 @@ export class RegistrationsExcelJsonGenerator {
         
         disciplines.forEach((discipline, index) => {
 
+          // dont write out class name when it's the same as the previous within the current registration          
           var ageClass = discipline.ageClass;
           if (ageClass === lastDisciplineAgeClass) {
             ageClass = '';
+          }
+
+          // show discipline name when id is -1 indicating "custom" discipline
+          var disciplineOutput = discipline.id;
+          if (discipline.id === -1) {
+            disciplineOutput = discipline.name;
           }
 
           json.push({
             'Navn': name,
             'Årgang': year,
             'Klasse': ageClass,
-            'Øvelse': discipline.id,
+            'Øvelse': disciplineOutput,
             'Seedning Resultat': discipline.personalRecord
           });
 

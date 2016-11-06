@@ -11,17 +11,25 @@ export class RegistrationsExcelJsonGenerator {
 
       var json: Array<{}> = [];
 
+      var lastName: string = null;
+      var lastYear: string = null;
+      var lastAgeClass: string = null;
+
       registrations.forEach((registration, index) => {
 
         var name = registration.name;
         var year = registration.birthYear;
-        var ageClass = registration.ageClass
 
         var disciplines = this.mergeDisciplinesAndExtraDisciplines(registration);
 
-        var lastDiscipline: any = null;
-
+        var lastDisciplineAgeClass: string = null;
+        
         disciplines.forEach((discipline, index) => {
+
+          var ageClass = discipline.ageClass;
+          if (ageClass === lastDisciplineAgeClass) {
+            ageClass = '';
+          }
 
           json.push({
             'Navn': name,
@@ -31,7 +39,11 @@ export class RegistrationsExcelJsonGenerator {
             'Seedning Resultat': discipline.personalRecord
           });
 
-          lastDiscipline = discipline;
+          // after writing the first discipline for a registration we clear the name and birth year values
+          name = '';
+          year = '';
+
+          lastDisciplineAgeClass = discipline.ageClass;
         });
       });
 

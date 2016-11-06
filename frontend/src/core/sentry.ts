@@ -8,9 +8,6 @@ class SentryConfig {
         /^chrome:\/\//i
     ];
 
-    constructor() {
-    }
-
     configure = () => {
         var ravenOptions = {
             release: 1,
@@ -24,12 +21,4 @@ class SentryConfig {
             .addPlugin(Raven.Plugins.Angular)
             .install();
     }
-
-    // TODO: NOT IMPLEMENTED YET    
-    // angularConfigure = ($ravenProvider: any) => {
-    //     // If we do not send errors anywhere we tell the angular raven lib to work in dev mode where it
-    //     // just logs to the console and nothing else. This is only for performance and cleanliness
-    //     var sendingErrors: boolean = globals.sentryErrors;
-    //     $ravenProvider.development(!sendingErrors);
-    // }
 }

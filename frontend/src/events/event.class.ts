@@ -36,6 +36,16 @@ module events {
       } else {
         this.registrationPeriodEndDate = new Date(this.date.getTime() - 14 * 86400000);
       }
+
+      // reset time on dates 
+      this.date = this.resetTimePart(this.date);
+      this.registrationPeriodStartDate = this.resetTimePart(this.registrationPeriodStartDate);
+      this.registrationPeriodEndDate = this.resetTimePart(this.registrationPeriodEndDate);
+    }
+
+    resetTimePart(date: Date) {
+      date.setUTCHours(0, 0, 0, 0);
+      return date;
     }
   }
 }

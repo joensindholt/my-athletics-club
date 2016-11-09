@@ -52,19 +52,21 @@ module events {
 
       this.getAll().then(events => {
         var now = new Date();
+        var today = new Date();
+        today.setUTCHours(0, 0, 0, 0);
+
         var eventsOpenForRegistration = _.filter(events, event => {
           // get date one day after enddate
           var registrationPeriodEndDateOffset = event.registrationPeriodEndDate;
           registrationPeriodEndDateOffset.setDate(event.registrationPeriodEndDate.getDate() + 1);
-
-          // check if today is within registration period using offset end date
+ 
           var isOpen = event.registrationPeriodStartDate <= now && now <= registrationPeriodEndDateOffset;
           if (!isOpen) {
             return false;
           }
 
           // check if event is before today
-          var isBeforeToday = event.date <= now;
+          var isBeforeToday = event.date < today;
           if (isBeforeToday) {
             return false;
           }

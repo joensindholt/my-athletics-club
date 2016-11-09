@@ -6,32 +6,13 @@ module core {
     export class HomeController {
 
         static $inject = [
-            '$scope',
-            '$state',
-            'EventsService'
+            '$state'
         ];
 
         constructor(
-            private $scope: any,
-            private $state: ng.ui.IStateService,
-            private EventsService: events.EventsService
+            private $state: ng.ui.IStateService
         ) {
-            if (!this.$scope.isAuthenticated) {
-                this.EventsService.getEventsOpenForRegistration().then(events => {
-                    if (events.length === 1) {
-                        console.log('Found one event. Showing that.');
-                        var eventId = events[0]._id;
-                        this.$state.go('events_register', { id: eventId });
-                    }
-                    else {
-                        console.log('Found more than one event. Showing event list.');
-                        this.$state.go('events');
-                    }
-                })
-            }
-            else {
-                this.$state.go('events');
-            }    
+            this.$state.go('events');
         }
     }
 }

@@ -33,7 +33,7 @@ echo --------------------------------
 echo All done. 
 echo Below is the forever list showing whether the api is up and running or not. 
 echo Please check https://gik.majig.dk too.
-echo Have a nice day :)
+echo Have a nice day
 echo --------------------------------
 sudo forever list
 echo --------------------------------

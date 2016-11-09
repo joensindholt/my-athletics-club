@@ -33,6 +33,7 @@
     "node-uuid": "^1.4.7",
     "request": "^2.74.0",
     "request-debug": "^0.2.0",
+    "typescript": "^2.0.8",
     "xlsx": "^0.8.0"
   },
   "devDependencies": {

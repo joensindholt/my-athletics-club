@@ -24,23 +24,26 @@ module events {
       this.link = eventData.link;
       this.disciplines = eventData.disciplines || [];
 
+      this.registrationPeriodStartDate = null;
       if (eventData.registrationPeriodStartDate) {
         this.registrationPeriodStartDate = new Date(eventData.registrationPeriodStartDate);
       }
-      else {
-        this.registrationPeriodStartDate = new Date(this.date.getTime() - 30 * 86400000);
-      }
 
+      this.registrationPeriodEndDate = null;
       if (eventData.registrationPeriodEndDate) {
         this.registrationPeriodEndDate = new Date(eventData.registrationPeriodEndDate);
-      } else {
-        this.registrationPeriodEndDate = new Date(this.date.getTime() - 14 * 86400000);
       }
 
       // reset time on dates 
-      this.date = this.resetTimePart(this.date);
-      this.registrationPeriodStartDate = this.resetTimePart(this.registrationPeriodStartDate);
-      this.registrationPeriodEndDate = this.resetTimePart(this.registrationPeriodEndDate);
+      if (this.date) {
+        this.date = this.resetTimePart(this.date);
+      }
+      if (this.registrationPeriodStartDate) {
+        this.registrationPeriodStartDate = this.resetTimePart(this.registrationPeriodStartDate);
+      }
+      if (this.registrationPeriodEndDate) {
+        this.registrationPeriodEndDate = this.resetTimePart(this.registrationPeriodEndDate);
+      }  
     }
 
     resetTimePart(date: Date) {

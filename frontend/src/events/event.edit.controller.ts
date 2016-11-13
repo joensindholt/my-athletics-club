@@ -57,6 +57,14 @@ module events {
         this.updateDisciplines(this.event);
         // resolve excel download url
         this.updateExcelDownloadUrl();
+
+        if (!this.event.registrationPeriodStartDate) {
+          this.event.registrationPeriodStartDate = new Date();
+        }
+
+        if (!this.event.registrationPeriodEndDate) {
+          this.event.registrationPeriodEndDate = new Date();
+        }
       });
 
       // get event registrations      
@@ -77,6 +85,9 @@ module events {
     }
 
     saveNow(event: Event) {
+      this.event.registrationPeriodStartDate.setUTCHours(0, 0, 0, 0);
+      this.event.registrationPeriodEndDate.setUTCHours(0, 0, 0, 0);
+
       this.EventsService.update(event).then(() => {
         this.showSave = false;
       });

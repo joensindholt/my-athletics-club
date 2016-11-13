@@ -206,15 +206,30 @@ module events {
     }
 
     getAgeClasses() {
-      var classes = [{ name: 'P7' }, { name: 'P8' }, { name: 'P9' }, { name: 'P10' }, { name: 'P11' }, { name: 'P12' }, { name: 'P13' },
-          { name: 'P15' }, { name: 'P17' }, { name: 'P19' }, { name: 'K' }, { name: 'D7' }, { name: 'D8' }, { name: 'D9' }, { name: 'D10' }, { name: 'D11' }, { name: 'D12' }, { name: 'D13' },
-          { name: 'D15' }, { name: 'D17' }, { name: 'D19' }, { name: 'M' }]
- 
+      var classes = [];
+
+      for (let i = 7; i <= 19; i++) {
+        classes.push('P' + i);
+      }
+      classes.push('K');
+
+      for (let i = 7; i <= 19; i++) {
+        classes.push('D' + i);
+      }
+      classes.push('M');
+
       return classes;      
     }
 
     getAgeGroups() {
-      return ['7 år', '8 år', '9 år', '10 år', '11 år', '12 år', '13 år', '15 år', '17 år', '19 år', 'K', 'M']; 
+      var ageGroups = [];
+      for (let i = 7; i <= 19; i++) {
+        ageGroups.push(i.toString());
+      }
+      ageGroups.push('K');
+      ageGroups.push('M');
+
+      return ageGroups; 
     }
   }
 }

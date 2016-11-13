@@ -64,7 +64,7 @@
   <div ng-repeat="ageGroup in vm.ageGroups" class="cozy">
     <div class="row flex flex--center-vertically">
       <div class="col-xs-3 col-sm-2 text-center larger-text ">
-        {{ ageGroup }}
+        {{ ageGroup }} {{ ageGroup !== 'K' && ageGroup !== 'M' ? 'år' : '' }}
       </div>
       <div class="col-xs-9 col-sm-10">
         <multiple-autocomplete ng-model="vm.event.disciplines[$index].disciplines"

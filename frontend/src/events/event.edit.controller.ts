@@ -36,6 +36,11 @@ module events {
       private EventsService: EventsService,
       private SysEventsService: core.SysEventsService
     ) {
+      if (!$state.params.id) {
+        $state.go('home');
+        return;
+      }
+
       this.SysEventsService.post('Event shown. Id: ' + $state.params.id);
 
       // load default available disciplines      

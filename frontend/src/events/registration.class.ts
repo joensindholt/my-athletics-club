@@ -29,8 +29,6 @@ module events {
       this.ageClass = registrationData.ageClass;
       this.disciplines = registrationData.disciplines || [];
       this.extraDisciplines = registrationData.extraDisciplines || [];
-
-      console.log(this);
     }
   }
 }

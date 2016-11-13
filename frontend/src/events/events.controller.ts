@@ -31,8 +31,6 @@ module events {
       private AuthService: users.AuthService,
       private SysEventsService: core.SysEventsService
     ) {
-      console.log('events controller');
-
       this.SysEventsService.post('Event list shown');
 
       this.updateEventLists();
@@ -41,7 +39,6 @@ module events {
 
     updateEventLists() {
       if (this.$scope.isAuthenticated) {
-        console.log('- user is authenticated');
         this.EventsService.getAll()
           .then(events => {
             this.events = _.orderBy(events, ['date'], ['asc']);
@@ -50,7 +47,6 @@ module events {
             throw err;
           });
       } else {
-        console.log('- user is not authenticated');
         this.EventsService.getEventsOpenForRegistration()
           .then(events => {
             if (events.length === 1) {

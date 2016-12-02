@@ -22,6 +22,7 @@ sudo cp -R dist/* /var/www/my-athletics-club
 # update backend
 sudo forever stopall
 cd $basepath/api
+npm install
 tsc
 sudo forever start 'dist/server.js'
 

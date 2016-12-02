@@ -3,6 +3,7 @@ import * as request from 'request';
 import { IRegistration } from './registration';
 import { RegistrationsExcelJsonGenerator } from './registrations.excel.json.generator';
 import { EventsService } from './events.service';
+import { Auth0Configuration } from './../auth0.config';
 
 var registrationSchema = new mongoose.Schema({
   eventId: String,
@@ -20,10 +21,12 @@ export class RegistrationsService {
 
   private registrationsExcelJsonGenerator: RegistrationsExcelJsonGenerator;
   private eventsService: EventsService;
+  private auth0Config: Auth0Configuration;
 
   constructor() {
     this.registrationsExcelJsonGenerator = new RegistrationsExcelJsonGenerator();
     this.eventsService = new EventsService();
+    this.auth0Config = new Auth0Configuration();
   }
 
   getAll() {
@@ -66,11 +69,13 @@ export class RegistrationsService {
         console.log('adding registration to db', registration);
 
         var registrationObj = new Registration(registration);
-        registrationObj.save(function (err) {
+        registrationObj.save((err) => {
           if (err) {
             reject(err);
             return
           }
+
+          this.sendSlackMessage(registration);
 
           resolve(registrationObj);
         })
@@ -78,6 +83,24 @@ export class RegistrationsService {
         .catch(err => {
           reject(err);
         });
+    });
+
+    return promise;
+  }
+
+  sendSlackMessage(registrationObj: IRegistration): Promise<any> {
+    var Slack = require('slack-node');
+    var slack = new Slack();
+    slack.setWebhook(this.auth0Config.slackWebhook);
+
+    var promise = new Promise((resolve, reject) => {
+      slack.webhook({
+        channel: "#gik",
+        username: "webhookbot",
+        text: "Tilmelding modtaget\n\n" + JSON.stringify(registrationObj, null, 2)
+      }, (err: any, response: any) => {
+        resolve();
+      });
     });
 
     return promise;

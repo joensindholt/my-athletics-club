@@ -73,8 +73,8 @@ module events {
       this.registrationData.ageGroup = null;
 
       if (this.registrationData.birthYear) {
-        var currentYear = new Date().getFullYear();
-        var diff = currentYear - this.registrationData.birthYear;
+        var eventYear = this.event.date.getFullYear();
+        var diff = eventYear - this.registrationData.birthYear;
 
         // run through age groups looking for disciplines
         var foundAgeGroupWithDisciplines = false;

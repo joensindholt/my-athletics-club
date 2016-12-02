@@ -23,7 +23,8 @@ module events {
       '$timeout',
       'moment',
       'EventsService',
-      'SysEventsService'
+      'SysEventsService',
+      'AuthService'
     ];
 
     constructor(
@@ -34,12 +35,19 @@ module events {
       private $timeout: ng.ITimeoutService,
       private moment: moment.MomentStatic,
       private EventsService: EventsService,
-      private SysEventsService: core.SysEventsService
+      private SysEventsService: core.SysEventsService,
+      private AuthService: users.AuthService
     ) {
       if (!$state.params.id) {
         $state.go('home');
         return;
       }
+
+      if (!AuthService.isAuthenticated) {
+        $state.go('events_register', {id: $state.params.id});
+        return;
+     }
+
 
       this.SysEventsService.post('Event shown. Id: ' + $state.params.id);
 

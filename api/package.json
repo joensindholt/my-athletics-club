@@ -4,6 +4,7 @@
   "description": "Api for the 'My Athletics Club' project",
   "main": "dist/server.js",
   "scripts": {
+    "preinstall": "npm i -g npm-run-all",
     "dev": "npm-run-all --parallel tsc-watch nodemon",
     "tsc-watch": "tsc -w",
     "nodemon": "nodemon -d 1 dist/server.js",

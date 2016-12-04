@@ -4,7 +4,7 @@
   "description": "Api for the 'My Athletics Club' project",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "concurrently --kill-others --prefix name --names \"tsc,node\" \"npm run tsc-watch\" \"npm run nodemon\"",
+    "dev": "npm-run-all --parallel tsc-watch nodemon",
     "tsc-watch": "tsc -w",
     "nodemon": "nodemon -d 1 dist/server.js",
     "build": "tsc && npm run copy",
@@ -41,8 +41,8 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "concurrently": "^3.0.0",
     "mocha": "^3.1.2",
+    "npm-run-all": "^3.1.2",
     "ts-node": "^1.7.0"
   }
 }

@@ -15,6 +15,7 @@ module events {
     }>;
     registrationPeriodStartDate: Date;
     registrationPeriodEndDate: Date;
+    info: string;
 
     constructor(eventData: any) {
       this._id = eventData._id || -1;
@@ -23,6 +24,7 @@ module events {
       this.address = eventData.address || 'Ved Stadion 6\n2820 Gentofte';
       this.link = eventData.link;
       this.disciplines = eventData.disciplines || [];
+      this.info = eventData.info;
 
       this.registrationPeriodStartDate = null;
       if (eventData.registrationPeriodStartDate) {

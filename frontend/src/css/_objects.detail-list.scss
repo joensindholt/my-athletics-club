@@ -6,16 +6,20 @@
 
 .o-detail-list__item {
     background: white;
-    border: 1px solid #d3d3d3;
-    border-radius: 5px;
+    box-shadow: 0 0 3px #c3c3c3;
+    margin: 0 0 10px 0;
+    padding: 0;
+}
+.o-detail-list__item-content {
     padding: 15px 20px 20px 20px;
     display: flex;
+    align-items: center;
     flex-direction: row;
-    margin: 0 0 10px 0;
 }
 
 .o-detail-list__left {
     flex-grow: 1;
+    padding-right: 30px;
 }
 
 .o-detail-list__right {
@@ -40,4 +44,26 @@ $line-height: 30px;
 .o-details-list__meta-item-warn {
     color: darkred;
     font-weight: bold;
+}
+
+.o-detail-list__item-footer {
+    border-top: 1px solid #E4E4E4;
+    background: rgba(0, 0, 0, 0.015);
+    padding: 3px;
+}
+
+.o-detail-list__item-footer-more {
+    width: 30px; 
+    height: 30px; 
+    margin: auto; 
+    background: white; 
+    border: 1px solid #E4E4E4; 
+    border-radius: 15px; 
+    text-align: center;
+    margin-top: -18px;
+    padding-top: 4px;
+}
+
+.o-detail-list__item-footer-content {
+    padding: 3px 17px;
 }

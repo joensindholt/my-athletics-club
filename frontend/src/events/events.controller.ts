@@ -89,6 +89,14 @@ module events {
       this.AuthService.logout();
       this.$state.go('login');
     }
+
+    isImminent(date: Date) {
+      var now = new Date();
+      now.setHours(0, 0, 0, 0);
+      var diff = (date.getTime() - now.getTime());
+      var millisecondsOnADay = 1000 * 60 * 60 * 24;
+      return diff < millisecondsOnADay * 5;
+    }
   }
 }
 

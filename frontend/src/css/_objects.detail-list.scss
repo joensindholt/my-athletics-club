@@ -29,9 +29,15 @@ $line-height: 30px;
     color: #444;
     font-size: 1.4em;
     line-height: $line-height;
+    font-weight: bold;
 }
 
 .o-details-list__meta-item {
     color: #afafaf;
     line-height: $line-height;
+}
+
+.o-details-list__meta-item-warn {
+    color: darkred;
+    font-weight: bold;
 }

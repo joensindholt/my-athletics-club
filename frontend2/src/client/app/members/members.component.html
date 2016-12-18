@@ -1,0 +1,10 @@
+<h2>Medlemmer</h2>
+
+<div class="card-list">
+  <div *ngFor="let member of members" class="card">
+    <div class="card__icon">{{member.name | slice:0:1}}</div>
+    <div>
+      <div class="card__title">{{member.name}}</div>
+    </div>
+  </div>
+</div>

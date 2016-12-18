@@ -6,5 +6,6 @@ export interface IEvent {
   link: string,
   disciplines: {},
   registrationPeriodStartDate: Date,
-  registrationPeriodEndDate: Date
+  registrationPeriodEndDate: Date,
+  info: string
 }

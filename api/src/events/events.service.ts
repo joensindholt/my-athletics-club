@@ -8,7 +8,8 @@ var eventSchema = new mongoose.Schema({
   link: { type: String },
   disciplines: { type: {} },
   registrationPeriodStartDate: { type: Date },
-  registrationPeriodEndDate: { type: Date }
+  registrationPeriodEndDate: { type: Date },
+  info: { type: String }
 });
 
 var Event = mongoose.model('Event', eventSchema);

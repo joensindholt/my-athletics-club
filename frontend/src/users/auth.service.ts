@@ -37,6 +37,7 @@ module users {
       localStorage.removeItem('profile');
       this.authManager.unauthenticate();
       this.userProfile = {};
+      this.isAuthenticated = false;
     }
 
     // Set up the logic for when a user authenticates

@@ -29,6 +29,10 @@ module core {
             private AuthService: users.AuthService,
             private FeatureTogglesService: featuretoggles.FeatureTogglesService
         ) {
+            this.init();
+        }
+
+        init() {
             this.isAuthenticated = this.AuthService.isAuthenticated;
             this.isMembersEnabled = this.FeatureTogglesService.isMembersEnabled();
         }

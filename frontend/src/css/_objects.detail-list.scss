@@ -33,7 +33,7 @@ $line-height: 30px;
     color: #444;
     font-size: 1.4em;
     line-height: $line-height;
-    font-weight: bold;
+    font-weight: 400;
 }
 
 .o-details-list__meta-item {
@@ -42,8 +42,8 @@ $line-height: 30px;
 }
 
 .o-details-list__meta-item-warn {
-    color: darkred;
-    font-weight: bold;
+    color: #a94442;
+    font-weight: 400;
 }
 
 .o-detail-list__item-footer {

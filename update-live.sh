@@ -7,15 +7,17 @@ cd $basepath
 # get latest
 git pull
 
-# stop webserver
-sudo apache2ctl stop
-
-# update frontend
+# build frontend
 cd $basepath/frontend
 npm update
 bower update
 tsd reinstall -so
 gulp --settings='production'
+
+# stop webserver
+sudo apache2ctl stop
+
+# copy new frontend files
 sudo rm -R /var/www/my-athletics-club/*
 sudo cp -R dist/* /var/www/my-athletics-club
 

@@ -39,8 +39,8 @@
         <div class="o-detail-list__item-footer-content" ng-show="more">
           <p ng-show="event.info">{{event.info}}</p>
           
-          <p ng-show="event.registrationsStatus == 'pending'">Henter tilmeldinger...et øjeblik</p>
-          <p ng-show="event.registrations && event.registrations.length == 0">Der er ikke nogen der har tilmeldt sig endnu. Du kan blive den første.</p>
+          <div ng-show="event.registrationsStatus == 'pending'">Henter tilmeldinger...et øjeblik</div>
+          <div ng-show="event.registrations && event.registrations.length == 0">Der er ikke nogen der har tilmeldt sig endnu. Du kan blive den første.</div>
           <div ng-show="event.registrations && event.registrations.length > 0">
             <h5>Tilmeldinger:</h5>
             <ul class="o-simple-list">    

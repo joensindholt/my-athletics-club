@@ -81,8 +81,8 @@ export class EventsRoutes {
       });
     });
 
-    // Get event registrations
-    app.get('/events/:id/registrations', this.jwtCheck, (req, res) => {
+    // Get event registrations (public)
+    app.get('/events/:id/registrations', (req, res) => {
       console.log('getting event registrations from repository');
       this.registrationsService.getEventRegistrations(req.params.id).then(registrations => {
         res.status(200).json(registrations);

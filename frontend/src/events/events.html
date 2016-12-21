@@ -31,13 +31,28 @@
           </button>
         </div>
       </div>
-      <div class="o-detail-list__item-footer" ng-show="event.info">
+      <div class="o-detail-list__item-footer">
         <div class="o-detail-list__item-footer-more" ng-click="more = !more">
           <i ng-show="!more" class="fa fa-angle-down" aria-hidden="true"></i>  
           <i ng-show="more" class="fa fa-angle-up" aria-hidden="true"></i>  
         </div>
         <div class="o-detail-list__item-footer-content" ng-show="more">
-          <p>{{event.info}}</p>
+          <p ng-show="event.info">{{event.info}}</p>
+          
+          <p ng-show="event.registrationsStatus == 'pending'">Henter tilmeldinger...et øjeblik</p>
+          <p ng-show="event.registrations && event.registrations.length == 0">Der er ikke nogen der har tilmeldt sig endnu. Du kan blive den første.</p>
+          <div ng-show="event.registrations && event.registrations.length > 0">
+            <h5>Tilmeldinger:</h5>
+            <ul class="o-simple-list">    
+              <li ng-repeat="registration in event.registrations">
+                {{registration.name}} 
+                <span class="dimmed">har tilmeldt sig</span>
+                <span ng-repeat="discipline in registration.disciplines">
+                  {{discipline.name}}{{$index < registration.disciplines.length - 2 ? ', ' : ''}}{{$index == registration.disciplines.length - 2 ? ' og ' : ''}}
+                </span>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </li>

@@ -42,6 +42,11 @@ module events {
         this.EventsService.getAll()
           .then(events => {
             this.events = _.orderBy(events, ['date'], ['asc']);
+
+            _.each(this.events, event => {
+              event.registrationsStatus = 'pending';
+              this.getRegistrations(event);
+            });
           })
           .catch(err => {
             throw err;
@@ -50,6 +55,11 @@ module events {
         this.EventsService.getEventsOpenForRegistration()
           .then(events => {
             this.events = _.orderBy(events, ['date'], ['asc']);
+
+            _.each(this.events, event => {
+              event.registrationsStatus = 'pending';
+              this.getRegistrations(event);
+            });
           })
           .catch(err => {
             throw err;
@@ -96,6 +106,13 @@ module events {
       var diff = (date.getTime() - now.getTime());
       var millisecondsOnADay = 1000 * 60 * 60 * 24;
       return diff < millisecondsOnADay * 5;
+    }
+
+    getRegistrations(event: Event) {
+      this.EventsService.getRegistrations(event._id).then(registrations => {
+        event.registrations = registrations;
+        event.registrationsStatus = 'fetched';
+      });
     }
   }
 }

@@ -8,6 +8,7 @@ module.exports = {
     app: {
         base: globalPath.app,
         html: [
+            globalPath.app + ".htaccess",
             globalPath.app + "**/*.html",
             globalPath.app + "favicon/*.*"
         ],

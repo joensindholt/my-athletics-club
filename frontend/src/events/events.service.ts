@@ -52,13 +52,15 @@ module events {
 
       this.getAll().then(events => {
         var now = new Date();
+
         var today = new Date();
         today.setUTCHours(0, 0, 0, 0);
 
         var eventsOpenForRegistration = _.filter(events, event => {
+        
           // get date one day after enddate
-          var registrationPeriodEndDateOffset = event.registrationPeriodEndDate;
-          registrationPeriodEndDateOffset.setDate(event.registrationPeriodEndDate.getDate() + 1);
+          var registrationPeriodEndDateOffset = new Date(event.registrationPeriodEndDate);
+          registrationPeriodEndDateOffset.setDate(registrationPeriodEndDateOffset.getDate() + 1);
  
           var isOpen = event.registrationPeriodStartDate <= now && now <= registrationPeriodEndDateOffset;
           if (!isOpen) {

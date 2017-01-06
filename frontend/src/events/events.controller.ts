@@ -112,12 +112,19 @@ module events {
       return diff < millisecondsOnADay * 5;
     }
 
-    getFromNow(date: Date) {
+    getDateFromNow(date: Date) {
       if (!date) {
         return '';
+      }
+
+      var today = new Date();
+      today.setUTCHours(0, 0, 0, 0);
+
+      if (this.moment(date).isSame(new Date(), 'day')) {
+        return 'i dag';
       } 
 
-      return this.moment(date).fromNow();
+      return this.moment(date).from(today);
     }
 
     getRegistrations(event: Event) {

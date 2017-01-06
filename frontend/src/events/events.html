@@ -13,7 +13,7 @@
         <div class="o-detail-list__left">
           <div>
             
-            <span class="o-details-list__meta-item"><i class="fa fa-calendar" /> {{ event.date | formatdate }} ({{ vm.getFromNow(event.date) }})</span>
+            <span class="o-details-list__meta-item"><i class="fa fa-calendar" /> {{ event.date | formatdate }} ({{ vm.getDateFromNow(event.date) }})</span>
             &nbsp;&nbsp;
             
             <span class="o-details-list__meta-item"><i class="fa fa-map-marker" /> {{ event.address }}</span>
@@ -22,7 +22,7 @@
           <div>
             <span class="o-details-list__meta-item" ng-class="{ 'o-details-list__meta-item-warn' : vm.isImminent(event.registrationPeriodEndDate) }">
               <i class="fa fa-exclamation" aria-hidden="true" ng-show="vm.isImminent(event.registrationPeriodEndDate)"></i>
-              <span ng-if="event.registrationPeriodEndDate">Sidste tilmelding: {{ event.registrationPeriodEndDate | formatdate }}</span>
+              <span ng-if="event.registrationPeriodEndDate">Sidste tilmelding: {{ event.registrationPeriodEndDate | formatdate }} ({{ vm.getDateFromNow(event.registrationPeriodEndDate) }})</span>
             </span>
           </div>
         </div>

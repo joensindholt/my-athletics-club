@@ -12,6 +12,11 @@ div {
   box-sizing: border-box;
 }
 
+@import '../../../node_modules/bootstrap/scss/variables';
+@import '../../../node_modules/bootstrap/scss/mixins';
+@import '../../../node_modules/bootstrap/scss/mixins/forms';
+@import '../../../node_modules/bootstrap/scss/forms';
+
 /* Set up a default font and some padding to provide breathing room */
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif;

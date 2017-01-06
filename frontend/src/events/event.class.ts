@@ -18,6 +18,7 @@ module events {
     info: string;
     registrationsStatus: string; // Client only property
     registrations: Array<Registration>; // Client only property
+    isOpenForRegistration: boolean;
 
     constructor(eventData: any) {
       this._id = eventData._id || -1;
@@ -47,7 +48,18 @@ module events {
       }
       if (this.registrationPeriodEndDate) {
         this.registrationPeriodEndDate = this.resetTimePart(this.registrationPeriodEndDate);
-      }  
+      }
+
+      // is event open for registration?
+      if (this.registrationPeriodEndDate && this.registrationPeriodStartDate) {
+        var now = new Date();
+        var registrationPeriodEndDateOffset = new Date(this.registrationPeriodEndDate.getTime());
+        registrationPeriodEndDateOffset.setDate(registrationPeriodEndDateOffset.getDate() + 1);
+        this.isOpenForRegistration = this.registrationPeriodStartDate <= now && now <= registrationPeriodEndDateOffset;
+      }
+      else {
+        this.isOpenForRegistration = false;
+      }
     }
 
     resetTimePart(date: Date) {

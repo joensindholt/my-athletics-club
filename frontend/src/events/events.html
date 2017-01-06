@@ -12,19 +12,23 @@
       <div class="o-detail-list__item-content">
         <div class="o-detail-list__left">
           <div>
-            <span class="o-details-list__meta-item">{{ event.date | formatdate }}</span>
-            <span class="o-details-list__meta-item">{{ event.address }}</span>
+            
+            <span class="o-details-list__meta-item"><i class="fa fa-calendar" /> {{ event.date | formatdate }} ({{ vm.getFromNow(event.date) }})</span>
+            &nbsp;&nbsp;
+            
+            <span class="o-details-list__meta-item"><i class="fa fa-map-marker" /> {{ event.address }}</span>
           </div>
-          <a class="o-detail-list__title" ui-sref="events_edit({ id: event._id })">{{ event.title }}</a>
+          <div class="o-detail-list__title">{{ event.title }}</div>
           <div>
             <span class="o-details-list__meta-item" ng-class="{ 'o-details-list__meta-item-warn' : vm.isImminent(event.registrationPeriodEndDate) }">
               <i class="fa fa-exclamation" aria-hidden="true" ng-show="vm.isImminent(event.registrationPeriodEndDate)"></i>
-              Sidste tilmelding: {{ event.registrationPeriodEndDate | formatdate }}
+              <span ng-if="event.registrationPeriodEndDate">Sidste tilmelding: {{ event.registrationPeriodEndDate | formatdate }}</span>
             </span>
           </div>
         </div>
         <div class="o-detail-list__right">
-          <a ui-sref="events_register({ id: event._id })" class="o-button o-button--default">Tilmeld</a>
+          <a ng-show="event.isOpenForRegistration || isAuthenticated" ui-sref="events_register({ id: event._id })" class="o-button o-button--default">Tilmeld</a>
+          <a ng-show="!event.isOpenForRegistration && !isAuthenticated" class="o-button o-button--default o-button--disabled">Tilmelding lukket</a>
           <a ui-sref="events_edit({ id: event._id })" class="o-button o-button--default" ng-show="isAuthenticated">Ret stævne</a>
           <button ng-click="vm.handleEventDeleteClicked(event)" title="Slet stævne" class="o-button o-button--default" ng-show="isAuthenticated">
             <i class="fa fa-trash-o"></i>

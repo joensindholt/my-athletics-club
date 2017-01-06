@@ -52,7 +52,7 @@ module events {
             throw err;
           });
       } else {
-        this.EventsService.getEventsOpenForRegistration()
+        this.EventsService.getPublicEvents()
           .then(events => {
             this.events = _.orderBy(events, ['date'], ['asc']);
 
@@ -101,11 +101,23 @@ module events {
     }
 
     isImminent(date: Date) {
+      if (!date) {
+        return false;
+      }
+
       var now = new Date();
       now.setHours(0, 0, 0, 0);
       var diff = (date.getTime() - now.getTime());
       var millisecondsOnADay = 1000 * 60 * 60 * 24;
       return diff < millisecondsOnADay * 5;
+    }
+
+    getFromNow(date: Date) {
+      if (!date) {
+        return '';
+      } 
+
+      return this.moment(date).fromNow();
     }
 
     getRegistrations(event: Event) {

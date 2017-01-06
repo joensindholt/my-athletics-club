@@ -13,7 +13,8 @@ module.exports = function (gulp, settings, config, browserSync) {
                     port: settings.port + 1
                 },
                 files: ['dist/**/*'],
-                reloadDebounce: 2000
+                reloadDebounce: 2000,
+                ghostMode: false
             });
 
             done();

@@ -11,8 +11,14 @@
     outline: none;
 }
 
-.o-button[disabled] {
+.o-button[disabled],
+.o-button[disabled]:hover,
+.o-button--disabled,
+.o-button--disabled:hover {
     opacity: 0.3;
+    text-decoration: none;
+    user-select: none;
+    cursor: default;
 }
 
 .o-button--default,

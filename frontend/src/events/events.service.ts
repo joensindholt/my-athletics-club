@@ -47,7 +47,7 @@ module events {
       return this.getAllPromise;
     }
 
-    getEventsOpenForRegistration(): ng.IPromise<Array<Event>> {
+    getPublicEvents(): ng.IPromise<Array<Event>> {
       var deferred = this.$q.defer();
 
       this.getAll().then(events => {
@@ -56,26 +56,15 @@ module events {
         var today = new Date();
         today.setUTCHours(0, 0, 0, 0);
 
-        var eventsOpenForRegistration = _.filter(events, event => {
-        
-          // get date one day after enddate
-          var registrationPeriodEndDateOffset = new Date(event.registrationPeriodEndDate.getTime());
-          registrationPeriodEndDateOffset.setDate(registrationPeriodEndDateOffset.getDate() + 1);
- 
-          var isOpen = event.registrationPeriodStartDate <= now && now <= registrationPeriodEndDateOffset;
-          if (!isOpen) {
-            return false;
-          }
-
-          // check if event is before today
-          var isBeforeToday = event.date < today;
-          if (isBeforeToday) {
-            return false;
-          }
-
-          return true;
+        // events are public when the event end date has not yet passed
+        var publicEvents = _.filter(events, event => {
+          var eventEndDateOffset = new Date(event.date.getTime());
+          eventEndDateOffset.setDate(eventEndDateOffset.getDate() + 1);
+          var isActive = today < eventEndDateOffset;
+          return isActive;
         });
-        deferred.resolve(eventsOpenForRegistration);
+
+        deferred.resolve(publicEvents);
       }).catch(err => {
         deferred.reject(err);
       })
@@ -220,7 +209,7 @@ module events {
       }
       classes.push('M');
 
-      return classes;      
+      return classes;
     }
 
     getAgeGroups() {
@@ -231,7 +220,7 @@ module events {
       ageGroups.push('K');
       ageGroups.push('M');
 
-      return ageGroups; 
+      return ageGroups;
     }
   }
 }

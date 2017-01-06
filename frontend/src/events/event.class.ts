@@ -16,6 +16,8 @@ module events {
     registrationPeriodStartDate: Date;
     registrationPeriodEndDate: Date;
     info: string;
+    registrationsStatus: string; // Client only property
+    registrations: Array<Registration>; // Client only property
 
     constructor(eventData: any) {
       this._id = eventData._id || -1;

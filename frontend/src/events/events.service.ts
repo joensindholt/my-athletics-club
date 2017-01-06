@@ -59,7 +59,7 @@ module events {
         var eventsOpenForRegistration = _.filter(events, event => {
         
           // get date one day after enddate
-          var registrationPeriodEndDateOffset = new Date(event.registrationPeriodEndDate);
+          var registrationPeriodEndDateOffset = new Date(event.registrationPeriodEndDate.getTime());
           registrationPeriodEndDateOffset.setDate(registrationPeriodEndDateOffset.getDate() + 1);
  
           var isOpen = event.registrationPeriodStartDate <= now && now <= registrationPeriodEndDateOffset;

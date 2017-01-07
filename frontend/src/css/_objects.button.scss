@@ -4,6 +4,14 @@
     border-radius: $elementRadius;
     margin-right: 10px;
     white-space: nowrap;
+
+    @media only screen and (max-device-width: 480px)
+    {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin: 15px 0;
+    }
 }
 
 .o-button:focus,
@@ -15,7 +23,7 @@
 .o-button[disabled]:hover,
 .o-button--disabled,
 .o-button--disabled:hover {
-    opacity: 0.3;
+    opacity: 0.6;
     text-decoration: none;
     user-select: none;
     cursor: default;

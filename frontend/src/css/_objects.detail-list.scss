@@ -15,6 +15,11 @@
     display: flex;
     align-items: center;
     flex-direction: row;
+
+    @media only screen and (max-device-width: 480px)
+    {
+        display: block;
+    }
 }
 
 .o-detail-list__left {
@@ -25,6 +30,11 @@
 .o-detail-list__right {
     display: flex;
     align-items: center;
+
+    @media only screen and (max-device-width: 480px)
+    {
+        display: block;
+    }
 }
 
 $line-height: 30px;
@@ -34,11 +44,22 @@ $line-height: 30px;
     font-size: 1.4em;
     line-height: $line-height;
     font-weight: 400;
+
+    @media only screen and (max-device-width: 480px)
+    {
+        margin: 15px 0;
+    }
 }
 
 .o-details-list__meta-item {
     color: #afafaf;
     line-height: $line-height;
+    padding-right: 10px;
+
+    @media only screen and (max-device-width: 480px)
+    {
+        display: block;
+    }
 }
 
 .o-details-list__meta-item-warn {

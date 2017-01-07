@@ -70,6 +70,10 @@ h5 { font-weight: 500; color: #337ab7; margin: 15px 0 3px 0; }
     opacity: 0.7;
 }
 
+.no-break {
+    white-space: nowrap;
+}
+
 [ng-click] {
     cursor: pointer;
 }

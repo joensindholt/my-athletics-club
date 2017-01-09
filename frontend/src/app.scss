@@ -6,9 +6,11 @@
 @import './css/_objects.center';
 @import './css/_objects.detail-list';
 @import './css/_objects.editable-field';
+@import './css/_objects.svg-icon';
 @import './css/_objects.link';
 @import './css/_objects.simple-list';
 
+@import './css/_components.card';
 @import './css/_components.alert';
 @import './css/_components.autocomplete';
 @import './css/_components.action-bar';
@@ -19,3 +21,5 @@
 @import './css/_components.receipt';
 @import './css/_components.topbar';
 @import './css/_components.white-box';
+
+@import './core/components/discipline-batch/discipline-batch.scss';

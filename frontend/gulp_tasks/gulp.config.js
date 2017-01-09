@@ -10,7 +10,8 @@ module.exports = {
         html: [
             globalPath.app + ".htaccess",
             globalPath.app + "**/*.html",
-            globalPath.app + "favicon/*.*"
+            globalPath.app + "favicon/*.*",
+            globalPath.app + "**/*.svg"
         ],
         sass: [
             globalPath.app + '**/*.scss'

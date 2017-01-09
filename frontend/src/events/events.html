@@ -47,12 +47,11 @@
           <div ng-show="event.registrations && event.registrations.length == 0">Der er ikke nogen der har tilmeldt sig endnu. Du kan blive den første.</div>
           <div ng-show="event.registrations && event.registrations.length > 0">
             <h5>Tilmeldinger:</h5>
-            <ul class="o-simple-list">    
+            <ul class="o-simple-lists">    
               <li ng-repeat="registration in event.registrations">
-                {{registration.name}} 
-                <span class="dimmed">har tilmeldt sig</span>
+                {{registration.name}}: 
                 <span ng-repeat="discipline in registration.disciplines">
-                  {{discipline.name}}{{$index < registration.disciplines.length - 2 ? ', ' : ''}}{{$index == registration.disciplines.length - 2 ? ' og ' : ''}}
+                  {{discipline.name}} ({{vm.getDisciplineClass(discipline, registration)}}){{$index < registration.disciplines.length - 2 ? ', ' : ''}}{{$index == registration.disciplines.length - 2 ? ' og ' : ''}}
                 </span>
               </li>
             </ul>

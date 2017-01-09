@@ -129,9 +129,22 @@ module events {
 
     getRegistrations(event: Event) {
       this.EventsService.getRegistrations(event._id).then(registrations => {
+
+        _.each(registrations, registration => {
+          registration.disciplines = registration.disciplines.concat(registration.extraDisciplines);
+        })
+
         event.registrations = registrations;
         event.registrationsStatus = 'fetched';
       });
+    }
+
+    getDisciplineClass(discipline, registration) {
+      if (discipline.ageClass) {
+        return discipline.ageClass;
+      }
+
+      return registration.ageClass;
     }
   }
 }

@@ -50,6 +50,10 @@ h5 { font-weight: 500; color: #337ab7; margin: 15px 0 3px 0; }
   padding: 2px;
 }
 
+.cozier {
+    padding: 5px;
+}
+
 .spacy {
     padding: 10px;
 }
@@ -90,6 +94,11 @@ th {
     color: $red;
 }
 
+ul {
+    margin: 0;
+    padding: 0 0 0 16px;
+}
+
 .red {
   color: $red;
 }
@@ -104,4 +113,12 @@ th {
 
 .flex--center-horizontally {
   justify-content: center;
+}
+
+.flex-grow {
+    flex-grow: 1;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
 }

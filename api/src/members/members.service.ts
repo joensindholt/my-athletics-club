@@ -3,8 +3,14 @@ import { IMember } from './member';
 
 var memberSchema = new mongoose.Schema({
   name: { type: String, required: true },
+  address: { type: String },
+  postalCode: { type: String },
+  city: { type: String },
   email: { type: String },
-  birthYear: { type: Number }
+  phone: { type: String },
+  gender: { type: String },
+  birthDate: { type: Date },
+  team: { type: String },
 });
 
 var Member = mongoose.model('Member', memberSchema);
@@ -18,6 +24,22 @@ export class MembersService {
     let promise = new Promise((resolve, reject) => {
       console.log('querying members from db');
       Member.find((err, members) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        resolve(members);
+      });
+    });
+
+    return promise;
+  }
+
+  get(id: string) {
+    let promise = new Promise((resolve, reject) => {
+      console.log('querying member from db');
+      Member.findOne({ _id: id }, (err, members) => {
         if (err) {
           reject(err);
           return;

@@ -16,6 +16,9 @@ div {
 @import '../../../node_modules/bootstrap/scss/mixins';
 @import '../../../node_modules/bootstrap/scss/mixins/forms';
 @import '../../../node_modules/bootstrap/scss/forms';
+@import '../../../node_modules/bootstrap/scss/mixins/grid';
+@import '../../../node_modules/bootstrap/scss/mixins/grid-framework';
+@import '../../../node_modules/bootstrap/scss/grid';
 
 /* Set up a default font and some padding to provide breathing room */
 body {
@@ -45,10 +48,13 @@ li {
   margin-top: 4px;
 }
 
+form {
+  max-width: 600px;
+}
+
 input {
   border: 1px solid #106cc8;
   font-size: 14px;
-  height: 40px;
   outline: none;
   padding: 8px;
 }

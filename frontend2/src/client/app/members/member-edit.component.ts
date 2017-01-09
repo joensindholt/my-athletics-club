@@ -24,4 +24,9 @@ export class MemberEditComponent implements OnInit {
       .switchMap((params: Params) => this.memberService.getMember(params['id']))
       .subscribe(member => this.member = member);
   }
+
+  onSubmit() {
+    this.memberService.updateMember(this.member)
+      .subscribe(member => {});
+  }
 }

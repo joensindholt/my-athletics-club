@@ -24,8 +24,19 @@ export class MembersRoutes {
       });
     });
 
+    // Get a single member
+    app.get('/members/:id', (req, res) => {
+      console.log('getting member from repository');
+      this.membersService.get(req.params.id).then(member => {
+        res.status(200).json(member);
+      }).catch(err => {
+        console.error('ERROR', err);
+        res.status(500).send(err.toString());
+      });
+    });
+
     // Add new member
-    app.post('/members', this.jwtCheck, (req, res) => {
+    app.post('/members', (req, res) => {
       console.log('adding member to repository');
       let member = req.body;
       console.log('member', member);
@@ -38,7 +49,7 @@ export class MembersRoutes {
     });
 
     // Update a member
-    app.post('/members/:id', this.jwtCheck, (req, res) => {
+    app.put('/members/:id', (req, res) => {
       console.log('updating member in repository');
       let member = req.body;
       console.log('member', member);
@@ -51,7 +62,7 @@ export class MembersRoutes {
     });
 
     // Delete member
-    app.delete('/members/:id', this.jwtCheck, (req, res) => {
+    app.delete('/members/:id', (req, res) => {
       console.log('deleting member from repository', req.params.id);
       this.membersService.delete(req.params.id).then(() => {
         res.status(200).send();

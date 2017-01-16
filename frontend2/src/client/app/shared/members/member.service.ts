@@ -1,36 +1,35 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { Config } from '../config/env.config';
 import * as moment from 'moment/moment';
 
 @Injectable()
 export class MemberService {
 
-  private API_PATH = 'http://localhost:8889';
-
   private headers: Headers;
 
   constructor(private http: Http) {
-    this.headers = new Headers({'Content-Type': 'application/json'});
+    this.headers = new Headers({ 'Content-Type': 'application/json' });
   }
 
   get(): Observable<string[]> {
-    return this.http.get(this.API_PATH + '/members')
+    return this.http.get(Config.API + '/members')
       .map((res: Response) => this.toMembers(res.json()))
       .catch(this.handleError);
   }
 
   getMember(id: string): Observable<string> {
-    return this.http.get(this.API_PATH + '/members/' + id)
+    return this.http.get(Config.API + '/members/' + id)
       .map((res: Response) => this.toMember(res.json()))
       .catch(this.handleError);
   }
 
   updateMember(member: any): Observable<string> {
-    let url = this.API_PATH + '/members/' + member._id;
+    let url = Config.API + '/members/' + member._id;
     return this.http.put(url, JSON.stringify(member), { headers: this.headers })
       .map((res: Response) => this.toMember(res.json()))
-      .catch(this.handleError);      
+      .catch(this.handleError);
   }
 
   private handleError(error: any) {
@@ -55,7 +54,7 @@ export class MemberService {
     if (member.birthDate) {
       member.birthDate = moment(member.birthDate).format('YYYY-MM-DD');
     }
-    
+
     return member;
   }
 }

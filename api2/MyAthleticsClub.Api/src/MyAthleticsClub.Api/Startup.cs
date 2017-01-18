@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MyAthleticsClub.Api.Events;
+using MyAthleticsClub.Api.Users;
 using MyAthleticsClub.Api.Utilities;
 
 namespace MyAthleticsClub.Api
@@ -35,6 +36,8 @@ namespace MyAthleticsClub.Api
             services.AddSingleton(_ => Configuration);
             services.AddTransient<IIdGenerator, IdGenerator>();
             services.AddTransient<IEventService, EventService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyAthleticsClub.Api.Events
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class EventsController : Controller
     {
         private readonly IEventService _eventService;

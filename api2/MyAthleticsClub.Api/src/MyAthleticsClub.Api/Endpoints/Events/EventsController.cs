@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using MyAthleticsClub.Api.Utilities;
 using System.Collections.Generic;
@@ -18,24 +19,23 @@ namespace MyAthleticsClub.Api.Events
             _idGenerator = idGenerator;
         }
 
-        // GET events
-        //[Authorize]
+        // GET api/events
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IEnumerable<Event>> Get()
         {
             return await _eventService.GetAllAsync();
         }
 
-        // GET events/f43d42...
-        //[Authorize]
+        // GET api/events/f43d42...
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<Event> Get(string id)
         {
             return await _eventService.GetAsync("gik", id);
         }
 
-        // POST events
-        //[Authorize]
+        // POST api/events
         [HttpPost]
         public async Task<Event> Post([FromBody]Event value)
         {
@@ -47,16 +47,15 @@ namespace MyAthleticsClub.Api.Events
             return value;
         }
 
-        // PUT events/f43d42...
-        //[Authorize]
-        [HttpPut("{id}")] 
+        // PUT api/events/f43d42...
+        [HttpPost("{id}")]
         public async Task Put(string id, [FromBody]Event value)
         {
+            value.OrganizationId = "gik";
             await _eventService.UpdateAsync(value);
         }
 
-        // DELETE events/f43d42...
-        //[Authorize]
+        // DELETE api/events/f43d42...
         [HttpDelete("{id}")]
         public async Task Delete(string id)
         {

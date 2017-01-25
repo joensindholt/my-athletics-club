@@ -1,5 +1,7 @@
 {
     "dependencies": {
+        "EPPlus.Core": "1.2.0",
+        "Microsoft.AspNetCore.Cors": "1.1.0",
         "Microsoft.AspNetCore.Mvc": "1.0.1",
         "Microsoft.AspNetCore.Routing": "1.0.1",
         "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
@@ -11,10 +13,9 @@
         "Microsoft.Extensions.Logging.Console": "1.0.0",
         "Microsoft.Extensions.Logging.Debug": "1.0.0",
         "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
-        "WindowsAzure.Storage": "8.0.0",
-        "Microsoft.AspNetCore.Authentication.JwtBearer": "1.0.0",
         "System.IdentityModel.Tokens.Jwt": "5.0.0",
-        "System.Linq": "4.1.0"
+        "System.Linq": "4.3.0",
+        "WindowsAzure.Storage": "8.0.0"
     },
 
     "tools": {
@@ -52,7 +53,8 @@
             "wwwroot",
             "**/*.cshtml",
             "appsettings.json",
-            "web.config"
+            "web.config",
+            "users.json"
         ]
     },
 

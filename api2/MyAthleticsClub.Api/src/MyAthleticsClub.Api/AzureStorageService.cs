@@ -13,6 +13,8 @@ namespace MyAthleticsClub.Api
         where TObject : IEntityObject
         where TEntity : ITableEntity, new()
     {
+        private static List<string> _checkedTables = new List<string>();
+
         protected CloudStorageAccount _storageAccount;
         protected CloudTable _table;
         protected CloudTableClient _tableClient;
@@ -22,6 +24,12 @@ namespace MyAthleticsClub.Api
             _storageAccount = CloudStorageAccount.Parse(configuration.GetConnectionString("AzureTableStorage"));
             _tableClient = _storageAccount.CreateCloudTableClient();
             _table = _tableClient.GetTableReference(tableName);
+
+            if (!_checkedTables.Contains(tableName))
+            {
+                EnsureTableExists().Wait();
+                _checkedTables.Add(tableName);
+            }
         }
 
         public virtual async Task CreateAsync(TObject _object)
@@ -109,11 +117,37 @@ namespace MyAthleticsClub.Api
             await _table.ExecuteAsync(operation);
         }
 
+        protected async Task<IEnumerable<TObject>> GetAllByPartitionKeyAsync(string partitionKey)
+        {
+            var query = new TableQuery<TEntity>().Where(
+                TableQuery.GenerateFilterCondition(
+                    "PartitionKey",
+                    QueryComparisons.Equal,
+                    partitionKey
+                )
+            );
+
+            var entities = new List<TEntity>();
+
+            TableContinuationToken token = null;
+            do
+            {
+                var segment = await _table.ExecuteQuerySegmentedAsync(query, token);
+                entities.AddRange(segment.Results);
+                token = segment.ContinuationToken;
+            }
+            while (token != null);
+
+            var objects = ConvertEntitiesToObjects(entities);
+
+            return objects;
+        }
+
         protected abstract TObject ConvertEntityToObject(TEntity entity);
 
         protected abstract TEntity ConvertObjectToEntity(TObject _object);
 
-        private List<TObject> ConvertEntitiesToObjects(List<TEntity> entities)
+        protected List<TObject> ConvertEntitiesToObjects(List<TEntity> entities)
         {
             var events = entities
                 .Select(entity => ConvertEntityToObject(entity))

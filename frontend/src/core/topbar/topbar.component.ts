@@ -20,25 +20,30 @@ module core {
 
         static $inject = [
             '$state',
-            'AuthService',
+            '$rootScope',
+            'JwtAuthService',
             'FeatureTogglesService',
         ];
 
         constructor(
             private $state: ng.ui.IStateService,
-            private AuthService: users.AuthService,
+            private $rootScope: ng.IRootScopeService,
+            private JwtAuthService: users.JwtAuthService,
             private FeatureTogglesService: featuretoggles.FeatureTogglesService
         ) {
             this.init();
         }
 
         init() {
-            this.isAuthenticated = this.AuthService.isAuthenticated;
+             this.$rootScope.$watch('isAuthenticated', (value: boolean) => {
+                this.isAuthenticated = value;
+            });
+            
             this.isMembersEnabled = this.FeatureTogglesService.isMembersEnabled();
         }
 
         logout() {
-            this.AuthService.logout();
+            this.JwtAuthService.logout();
             this.$state.go('home');
         }
     }

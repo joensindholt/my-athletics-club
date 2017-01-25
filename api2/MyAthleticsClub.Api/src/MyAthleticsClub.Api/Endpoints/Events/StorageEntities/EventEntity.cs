@@ -15,9 +15,9 @@ namespace MyAthleticsClub.Api.Events
 
         public string Link { get; set; }
 
-        public DateTime RegistrationPeriodStartDate { get; set; }
+        public DateTime? RegistrationPeriodStartDate { get; set; }
 
-        public DateTime RegistrationPeriodEndDate { get; set; }
+        public DateTime? RegistrationPeriodEndDate { get; set; }
 
         public string Info { get; set; }
 
@@ -34,8 +34,8 @@ namespace MyAthleticsClub.Api.Events
             string address,
             string disciplineJson,
             string link,
-            DateTime registrationPeriodStartDate,
-            DateTime registrationPeriodEndDate,
+            DateTime? registrationPeriodStartDate,
+            DateTime? registrationPeriodEndDate,
             string info) : base(organizationId, id)
         {
             Title = title;

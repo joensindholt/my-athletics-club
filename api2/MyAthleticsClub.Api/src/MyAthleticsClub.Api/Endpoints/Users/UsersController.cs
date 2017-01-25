@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace MyAthleticsClub.Api.Users
@@ -12,15 +13,13 @@ namespace MyAthleticsClub.Api.Users
             _userService = userService;
         }
 
-        // POST api/login
         [HttpPost]
         [Route("api/login")]
+        [AllowAnonymous]
         public async Task<UserLoginResponse> Login([FromBody]UserLoginRequest request)
         {
             string token = await _userService.LoginAsync(request.Username, request.Password);
-
             var response = new UserLoginResponse(token);
-
             return response;
         }
     }

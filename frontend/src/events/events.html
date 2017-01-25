@@ -27,9 +27,9 @@
           </div>
         </div>
         <div class="o-detail-list__right">
-          <a ng-show="event.isOpenForRegistration || isAuthenticated" ui-sref="events_register({ id: event._id })" class="o-button" ng-class="{ 'o-button--primary' : !isAuthenticated } ">Tilmeld</a>
+          <a ng-show="event.isOpenForRegistration || isAuthenticated" ui-sref="events_register({ id: event.id })" class="o-button" ng-class="{ 'o-button--primary' : !isAuthenticated } ">Tilmeld</a>
           <a ng-show="!event.isOpenForRegistration && !isAuthenticated" class="o-button o-button--default o-button--disabled">Tilmelding lukket</a>
-          <a ui-sref="events_edit({ id: event._id })" class="o-button o-button--default" ng-show="isAuthenticated">Ret stævne</a>
+          <a ui-sref="events_edit({ id: event.id })" class="o-button o-button--default" ng-show="isAuthenticated">Ret stævne</a>
           <button ng-click="vm.handleEventDeleteClicked(event)" title="Slet stævne" class="o-button o-button--default" ng-show="isAuthenticated">
             <i class="fa fa-trash-o"></i>
           </button>

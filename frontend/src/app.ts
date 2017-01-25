@@ -51,8 +51,9 @@ module app {
     jwtOptionsProvider,
     jwtInterceptorProvider
   ) {
+
     lockProvider.init({
-      clientID: 'CgM7GD6XzCaYlhZWso6byg65GGplkFoP',
+      clientID: globals.auth0ClientId,
       domain: 'joensindholt.eu.auth0.com',
       options: {
         container: 'login_container',
@@ -90,8 +91,8 @@ module app {
       })
       .state('login', {
         url: '/login',
-        templateUrl: 'users/login.html',
-        controller: 'LoginController',
+        templateUrl: 'users/jwt-login.html',
+        controller: 'JwtLoginController',
         controllerAs: 'vm'
       })
       .state('logout', {
@@ -121,6 +122,8 @@ module app {
     });
 
     $httpProvider.interceptors.push('jwtInterceptor');
+
+    $httpProvider.interceptors.push('tokenInterceptor');
   }
 
   function run(authService, authManager) {

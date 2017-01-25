@@ -1,0 +1,19 @@
+<h1 class="center">Log ind</h1>
+
+<div class="center">
+  <div class="row">
+    <div class="col-sm-4 col-sm-offset-4">
+      <form ng-submit="vm.login()">
+        <div>
+          <h5 for="usernameInput" class="spacy">Brugernavn:</h5>
+          <input type="text" ng-model="vm.username" id="usernameInput" class="c-formular-input center" autofocus />
+        </div>
+        <div>
+          <h5 for="passwordInput" class="spacy">Adgangskode:</h5>
+          <input type="password" ng-model="vm.password" id="passwordInput" class="c-formular-input center" />
+        </div>
+        <input type="submit" value="Log ind" class="spacy-m o-button o-button--primary" />
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,7 @@
 module events {
 
   export class Event {
-    _id: string;
+    id: string;
     title: string;
     date: Date;
     address: string;
@@ -21,7 +21,7 @@ module events {
     isOpenForRegistration: boolean;
 
     constructor(eventData: any) {
-      this._id = eventData._id || -1;
+      this.id = eventData._id || eventData.id || -1;
       this.title = eventData.title || 'Nyt stævne';
       this.date = eventData.date ? new Date(eventData.date) : new Date();
       this.address = eventData.address || 'Ved Stadion 6\n2820 Gentofte';

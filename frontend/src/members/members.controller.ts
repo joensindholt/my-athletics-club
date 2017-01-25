@@ -62,7 +62,7 @@ module members {
     handleMemberDeleteClicked(member: Member) {
       if (this.$window.confirm('Er du sikker?')) {
         this.MembersService.delete(member).then(() => {
-          _.remove(this.members, { _id: member._id });
+          _.remove(this.members, { id: member.id });
         });
       }
     }

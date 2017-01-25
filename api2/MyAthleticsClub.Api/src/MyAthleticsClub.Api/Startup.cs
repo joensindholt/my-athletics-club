@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using MyAthleticsClub.Api.Events;
-using MyAthleticsClub.Api.Users;
-using MyAthleticsClub.Api.Utilities;
+using MyAthleticsClub.Api.Core;
 
 namespace MyAthleticsClub.Api
 {
@@ -20,8 +21,6 @@ namespace MyAthleticsClub.Api
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
-
-            new EventService(Configuration).EnsureTableExists().Wait();
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -30,14 +29,38 @@ namespace MyAthleticsClub.Api
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services
-                .AddMvc();
+            services.AddMvc(options =>
+            {
+                var policy =
+                    new AuthorizationPolicyBuilder()
+                    .AddRequirements(new JwtTokenRequirement())
+                        .Build();
+
+                options.Filters.Add(new AuthorizeFilter(policy));
+            });
+
+            services.AddCors(options =>
+            {
+                var cors = new CorsPolicyBuilder(new CorsPolicy());
+                cors.AllowAnyHeader();
+                cors.AllowAnyMethod();
+                cors.AllowAnyOrigin();
+                cors.AllowCredentials();
+
+                options.AddPolicy("AllowAll", cors.Build());
+            });
 
             services.AddSingleton(_ => Configuration);
-            services.AddTransient<IIdGenerator, IdGenerator>();
-            services.AddTransient<IEventService, EventService>();
-            services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<Events.IEventService, Events.EventService>();
+            services.AddTransient<Events.IRegistrationService, Events.RegistrationService>();
+            services.AddTransient<Events.IRegistrationService, Events.RegistrationService>();
+            services.AddTransient<Events.IEventRegistrationsExcelService, Events.EventRegistrationsExcelService>();
+            services.AddTransient<SysEvents.ISysEventService, SysEvents.SysEventService>();
+            services.AddTransient<Slack.ISlackService, Slack.SlackService>();
+            services.AddTransient<Users.IUserService, Users.UserService>();
+            services.AddTransient<Users.IUserRepository, Users.UserRepository>();
+            services.AddTransient<Utilities.IIdGenerator, Utilities.IdGenerator>();
+            services.AddSingleton<IAuthorizationHandler, JwtTokenRequirementHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,11 +70,7 @@ namespace MyAthleticsClub.Api
 
             loggerFactory.AddDebug();
 
-            app.UseJwtBearerAuthentication(new JwtBearerOptions
-            {
-                Audience = "https://authapi.myathleticsclub.com",
-                Authority = "https://joensindholt.eu.auth0.com/"
-            });
+            app.UseCors("AllowAll");
 
             app.UseMvc();
         }

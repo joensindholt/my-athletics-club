@@ -5,7 +5,6 @@ namespace MyAthleticsClub.Api.Events
     public class EventDiscipline
     {
         public string AgeGroup { get; set; }
-
         public List<Discipline> Disciplines { get; set; }
 
         public EventDiscipline()

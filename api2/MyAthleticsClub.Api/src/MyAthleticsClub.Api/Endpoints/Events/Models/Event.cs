@@ -7,24 +7,15 @@ namespace MyAthleticsClub.Api.Events
     public class Event : IEntityObject
     {
         public string Id { get; set; }
-
         public string OrganizationId { get; set; }
-
         [Required]
         public string Title { get; set; }
-
         public DateTime Date { get; set; }
-
         public string Address { get; set; }
-
         public string Link { get; set; }
-
         public List<EventDiscipline> Disciplines { get; set; }
-
-        public DateTime RegistrationPeriodStartDate { get; set; }
-
-        public DateTime RegistrationPeriodEndDate { get; set; }
-
+        public DateTime? RegistrationPeriodStartDate { get; set; }
+        public DateTime? RegistrationPeriodEndDate { get; set; }
         public string Info { get; set; }
 
         public Event()
@@ -40,8 +31,8 @@ namespace MyAthleticsClub.Api.Events
             string address,
             string link,
             List<EventDiscipline> disciplines,
-            DateTime registrationPeriodStartDate,
-            DateTime registrationPeriodEndDate,
+            DateTime? registrationPeriodStartDate,
+            DateTime? registrationPeriodEndDate,
             string info) : this()
         {
             Id = id;

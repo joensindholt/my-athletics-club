@@ -1,13 +1,13 @@
 module members {
 
   export class Member {
-    _id: string;
+    id: string;
     name: string;
     email: string;
     birthYear: number;
 
     constructor(memberData: any) {
-      this._id = memberData._id;
+      this.id = memberData._id || memberData.id;
       this.name = memberData.name;
       this.email = memberData.email;
       this.birthYear = memberData.birthYear

@@ -102,7 +102,7 @@ module events {
     }
 
     private updateExcelDownloadUrl() {
-      this.excelDownloadUrl = globals.apiUrl + '/events/' + this.event._id + '/registrations.xlsx';
+      this.excelDownloadUrl = globals.apiUrl + '/events/' + this.event.id + '/registrations.xlsx';
     }
   }
 }

@@ -69,7 +69,7 @@ module events {
 
     addEvent() {
       this.EventsService.add(new Event({})).then(event => {
-        this.$state.go('events_edit', { id: event._id });
+        this.$state.go('events_edit', { id: event.id });
       });
     }
 
@@ -90,7 +90,7 @@ module events {
     handleEventDeleteClicked(event: Event) {
       if (this.$window.confirm('Er du sikker?')) {
         this.EventsService.delete(event).then(() => {
-          _.remove(this.events, { _id: event._id });
+          _.remove(this.events, { id: event.id });
         });
       }
     }
@@ -128,7 +128,7 @@ module events {
     }
 
     getRegistrations(event: Event) {
-      this.EventsService.getRegistrations(event._id).then(registrations => {
+      this.EventsService.getRegistrations(event.id).then(registrations => {
 
         _.each(registrations, registration => {
           registration.disciplines = registration.disciplines.concat(registration.extraDisciplines);

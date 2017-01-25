@@ -75,7 +75,7 @@ module events {
     add(event: Event): ng.IPromise<Event> {
       var deferred = this.$q.defer();
       // give it a temporary id
-      event._id = '-1';
+      event.id = '-1';
       // ... and post to server
       this.$http.post(this.API_PATH + '/events', event)
         .then(response => {
@@ -93,7 +93,7 @@ module events {
       var deferred = this.$q.defer();
 
       this.getAll().then(events => {
-        const event = _.find(events, { _id: id });
+        const event = _.find(events, { id: id });
         deferred.resolve(event);
       }).catch(err => {
         deferred.reject(err);
@@ -105,7 +105,7 @@ module events {
     update(event: Event): ng.IPromise<Event> {
       var deferred = this.$q.defer();
 
-      this.$http.post(this.API_PATH + '/events/' + event._id, event).then(response => {
+      this.$http.post(this.API_PATH + '/events/' + event.id, event).then(response => {
         deferred.resolve();
       }).catch(err => {
         deferred.reject(err);
@@ -117,9 +117,9 @@ module events {
     delete(event: Event): ng.IPromise<Event> {
       var deferred = this.$q.defer();
       // remove from cached list
-      _.remove(this.events, e => e._id === event._id);
+      _.remove(this.events, e => e.id === event.id);
       // ... and delete from server
-      this.$http.delete(this.API_PATH + '/events/' + event._id).then(response => {
+      this.$http.delete(this.API_PATH + '/events/' + event.id).then(response => {
         deferred.resolve();
       }).catch(err => {
         // re-add to list if error occured
@@ -132,7 +132,7 @@ module events {
     }
 
     register(registration: Registration): ng.IHttpPromise<any> {
-      return this.$http.post(this.API_PATH + '/registrations', registration);
+      return this.$http.post(this.API_PATH + '/events/' + registration.eventId + '/registrations', registration);
     }
 
     getRegistrations(id: string): ng.IPromise<Array<Registration>> {

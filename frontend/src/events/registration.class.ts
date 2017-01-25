@@ -1,7 +1,7 @@
 module events {
 
   export class Registration {
-    _id: string;
+    id: string;
     eventId: string;
     name: string;
     email: string;
@@ -21,7 +21,7 @@ module events {
     }>;
 
     constructor(registrationData: any) {
-      this._id = registrationData._id;
+      this.id = registrationData._id || registrationData.id;
       this.eventId = registrationData.eventId;
       this.name = registrationData.name;
       this.email = registrationData.email;

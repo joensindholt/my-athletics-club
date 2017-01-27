@@ -1,0 +1,10 @@
+{
+  "port": 8000,
+  "browsersync": false,
+  "minifyCss": true,
+  "uglifyJs": true,
+  "sourcemaps": true,
+  "apiUrl": "https://myathleticsclubapi.azurewebsites.net/api",
+  "apiDomain": "myathleticsclubapi.azurewebsites.net",
+  "sentryErrors": true
+}

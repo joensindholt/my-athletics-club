@@ -33,8 +33,8 @@ module users {
         username: username,
         password: password
       })
-      .success((data: { token: string }) => {
-        localStorage.setItem('token', data.token);
+      .success((data: { access_token: string }) => {
+        localStorage.setItem('token', data.access_token);
         (<any>this.$rootScope).isAuthenticated = true;
         deferred.resolve();
       })

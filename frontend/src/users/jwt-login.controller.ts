@@ -9,19 +9,19 @@ module users {
     password: string;
 
     static $inject = [
-      'JwtAuthService',
+      'AuthService',
       '$state'
     ];
 
     constructor(
-      private JwtAuthService: JwtAuthService,
+      private AuthService: AuthService,
       private $state
     ) {
     }
 
     login() {
       console.log('asd');
-      this.JwtAuthService.login(this.username, this.password).then(() => {
+      this.AuthService.login(this.username, this.password).then(() => {
         this.$state.go('events');
       });
     }

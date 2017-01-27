@@ -20,7 +20,8 @@
         "System.IdentityModel.Tokens.Jwt": "5.1.0",
         "System.Linq": "4.3.0",
         "WindowsAzure.Storage": "8.0.0",
-        "Microsoft.AspNetCore.Authentication.JwtBearer": "1.1.0"
+        "Microsoft.AspNetCore.Authentication.JwtBearer": "1.1.0",
+        "Microsoft.AspNetCore.StaticFiles": "1.1.0"
     },
 
     "tools": {

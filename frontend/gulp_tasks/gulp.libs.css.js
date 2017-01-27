@@ -8,6 +8,6 @@ module.exports = function(gulp, settings, config){
 		return gulp.src(config.libs.css)
 			.pipe(concat('libs.css'))
 			.pipe(gulpif(settings.minifyCss,cssmin()))
-			.pipe(gulp.dest('css/', { cwd: config.dist }));
+			.pipe(gulp.dest('css/', { cwd: settings.dist || config.dist }));
 	});
 };

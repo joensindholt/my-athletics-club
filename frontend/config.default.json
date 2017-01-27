@@ -6,6 +6,5 @@
   "sourcemaps": true,
   "apiUrl": "http://localhost:5000/api",
   "apiDomain": "localhost",
-  "sentryErrors": false,
-  "auth0ClientId": "CgM7GD6XzCaYlhZWso6byg65GGplkFoP"
+  "sentryErrors": false
 }

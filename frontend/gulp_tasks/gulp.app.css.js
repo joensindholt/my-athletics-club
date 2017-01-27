@@ -10,7 +10,7 @@ module.exports = function(gulp, settings, config) {
             .pipe(sass().on('error', sass.logError))
             .pipe(sourcemaps.write())
             .pipe(gulp.dest('css/', {
-                cwd: config.dist
+                cwd: settings.dist || config.dist
             }));
     });
 

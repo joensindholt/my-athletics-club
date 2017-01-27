@@ -5,6 +5,5 @@ module globals {
     export var apiUrl = '<%= apiUrl %>';
     export var apiDomain = '<%= apiDomain %>';
     export var sentryErrors = <%= sentryErrors %>;
-    export var auth0ClientId = '<%= auth0ClientId %>';
     
 }

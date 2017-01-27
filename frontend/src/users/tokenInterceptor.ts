@@ -7,7 +7,7 @@ module users {
     return {
       'request': function (config) {
 
-        var token = localStorage.getItem('token');
+        var token = localStorage.getItem('access_token');
         if (token) {
           config.headers.Authorization = 'Bearer ' + token;
           $rootScope.isAuthenticated = true;

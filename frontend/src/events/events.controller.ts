@@ -18,21 +18,15 @@ module events {
       '$window',
       'moment',
       'EventsService',
-      'AuthService',
-      'SysEventsService'
+      'AuthService'
     ];
 
-    constructor(
-      private $scope: IScope,
-      private $state,
-      private $window: ng.IWindowService,
-      private moment: moment.MomentStatic,
-      private EventsService: EventsService,
-      private AuthService: users.AuthService,
-      private SysEventsService: core.SysEventsService
-    ) {
-      this.SysEventsService.post('Event list shown');
-
+    constructor(private $scope: IScope,
+                private $state,
+                private $window: ng.IWindowService,
+                private moment: moment.MomentStatic,
+                private EventsService: EventsService,
+                private AuthService: users.AuthService) {
       this.updateEventLists();
       this.listenForChildEvents();
     }
@@ -131,7 +125,7 @@ module events {
       this.EventsService.getRegistrations(event.id).then(registrations => {
 
         _.each(registrations, registration => {
-          registration.disciplines = registration.disciplines.concat(registration.extraDisciplines);
+          registration.disciplines = registration.disciplines.concat(<any>registration.extraDisciplines);
         })
 
         event.registrations = registrations;

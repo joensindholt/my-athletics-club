@@ -6,6 +6,5 @@
   "sourcemaps": true,
   "apiUrl": "https://gik.majig.dk/api",
   "apiDomain": "gik.majig.dk",
-  "sentryErrors": true,
-  "auth0ClientId": "CgM7GD6XzCaYlhZWso6byg65GGplkFoP"
+  "sentryErrors": true
 }

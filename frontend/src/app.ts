@@ -30,11 +30,9 @@ module app {
     'vcRecaptcha',
     'angular-autogrow',
     'multipleSelect',
-    // Auth0
-    'auth0.lock',
     'angular-jwt'
     // ---
-  ]).config(['$stateProvider', 'lockProvider', '$httpProvider', 'jwtOptionsProvider', 'jwtInterceptorProvider', config])
+  ]).config(['$stateProvider', '$httpProvider', 'jwtOptionsProvider', 'jwtInterceptorProvider', config])
     .run(['AuthService', 'authManager', run])
 
   angular.module('core', ['ngSanitize']);
@@ -46,23 +44,10 @@ module app {
 
   function config(
     $stateProvider: angular.ui.IStateProvider,
-    lockProvider,
     $httpProvider: ng.IHttpProvider,
     jwtOptionsProvider,
     jwtInterceptorProvider
   ) {
-
-    lockProvider.init({
-      clientID: globals.auth0ClientId,
-      domain: 'joensindholt.eu.auth0.com',
-      options: {
-        container: 'login_container',
-        allowSignUp: false,
-        languageDictionary: {
-          title: 'Log in'
-        }
-      }
-    });
 
     $stateProvider
       .state('home', {
@@ -116,9 +101,9 @@ module app {
 
     jwtOptionsProvider.config({
       tokenGetter: function () {
-        return localStorage.getItem('id_token');
+        return localStorage.getItem('access_token');
       },
-      whiteListedDomains: ['joensindholt.eu.auth0.com', globals.apiDomain]
+      whiteListedDomains: [globals.apiDomain]
     });
 
     $httpProvider.interceptors.push('jwtInterceptor');
@@ -127,10 +112,6 @@ module app {
   }
 
   function run(authService, authManager) {
-    // Put the authService on $rootScope so its methods
-    // can be accessed from the nav bar
-    authService.registerAuthenticationListener();
-
     // Use the authManager from angular-jwt to check for
     // the user's authentication state when the page is
     // refreshed and maintain authentication

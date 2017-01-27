@@ -88,6 +88,9 @@ namespace MyAthleticsClub.Api
 
             app.UseCors("AllowAll");
 
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
             app.UseMvc();
         }
 

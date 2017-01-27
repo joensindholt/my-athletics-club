@@ -23,7 +23,6 @@ module events {
       '$timeout',
       'moment',
       'EventsService',
-      'SysEventsService',
       'AuthService'
     ];
 
@@ -35,7 +34,6 @@ module events {
       private $timeout: ng.ITimeoutService,
       private moment: moment.MomentStatic,
       private EventsService: EventsService,
-      private SysEventsService: core.SysEventsService,
       private AuthService: users.AuthService
     ) {
       if (!$state.params.id) {
@@ -47,9 +45,6 @@ module events {
         $state.go('events_register', {id: $state.params.id});
         return;
      }
-
-
-      this.SysEventsService.post('Event shown. Id: ' + $state.params.id);
 
       // load default available disciplines      
       this.availableDisciplines = this.EventsService.getAllDisciplines();

@@ -11,6 +11,6 @@ module.exports = function(gulp, settings, config) {
         var tsResult = tsProject.src()
             .pipe(ts(tsProject));
 
-        return tsResult.js.pipe(gulp.dest('.'));
+        return tsResult.js.pipe(gulp.dest(settings.dist || config.dist));
     });
 }

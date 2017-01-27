@@ -21,14 +21,14 @@ module core {
         static $inject = [
             '$state',
             '$rootScope',
-            'JwtAuthService',
+            'AuthService',
             'FeatureTogglesService',
         ];
 
         constructor(
             private $state: ng.ui.IStateService,
             private $rootScope: ng.IRootScopeService,
-            private JwtAuthService: users.JwtAuthService,
+            private AuthService: users.AuthService,
             private FeatureTogglesService: featuretoggles.FeatureTogglesService
         ) {
             this.init();
@@ -43,7 +43,7 @@ module core {
         }
 
         logout() {
-            this.JwtAuthService.logout();
+            this.AuthService.logout();
             this.$state.go('home');
         }
     }

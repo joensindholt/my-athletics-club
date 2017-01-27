@@ -5,57 +5,53 @@ module users {
 
   export class AuthService {
 
+    private API_PATH = globals.apiUrl;
+
     public userProfile;
     public isAuthenticated: boolean;
 
     static $inject = [
       '$rootScope',
-      'lock',
-      'authManager'
+      '$http',
+      '$q'
     ];
 
     constructor(
       private $rootScope: ng.IRootScopeService,
-      private lock,
-      public authManager
+      private $http: ng.IHttpService,
+      private $q: ng.IQService
     ) {
-      this.userProfile = JSON.parse(localStorage.getItem('profile')) || {};
-
       this.$rootScope.$watch('isAuthenticated', (value: boolean) => {
         this.isAuthenticated = value;
       })
     }
 
-    login() {
-      this.lock.show();
+    login(username: string, password: string): ng.IPromise<{}> {
+      var deferred = this.$q.defer();
+
+      this.$http.post(this.API_PATH + '/login', {
+        username: username,
+        password: password
+      })
+      .success((data: { access_token: string }) => {
+        localStorage.setItem('access_token', data.access_token);
+        (<any>this.$rootScope).isAuthenticated = true;
+        deferred.resolve();
+      })
+      .error(data => {
+        console.log('An error occured logging in: ', data);
+        deferred.reject();
+      });
+
+      return deferred.promise;
     }
 
     // Logging out just requires removing the user's
     // id_token and profile
     logout() {
-      localStorage.removeItem('id_token');
-      localStorage.removeItem('profile');
-      this.authManager.unauthenticate();
+      localStorage.removeItem('access_token');
       this.userProfile = {};
-      this.isAuthenticated = false;
-    }
-
-    // Set up the logic for when a user authenticates
-    // This method is called from app.run.js
-    registerAuthenticationListener() {
-      this.lock.on('authenticated', (authResult) => {
-        localStorage.setItem('id_token', authResult.idToken);
-        this.authManager.authenticate();
-
-        this.lock.getProfile(authResult.idToken, (error, profile) => {
-          if (error) {
-            console.log(error);
-          }
-
-          localStorage.setItem('profile', JSON.stringify(profile));
-          this.$rootScope.$broadcast('userProfileSet', profile);
-        });
-      });
+      (<any>this.$rootScope).isAuthenticated = false;
     }
   }
 }

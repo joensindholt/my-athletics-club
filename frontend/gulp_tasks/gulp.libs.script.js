@@ -13,14 +13,14 @@ module.exports = function(gulp, settings, config) {
             .pipe(gulpif(settings.uglifyJs, uglify({ mangle: false })))
             .pipe(gulpif(settings.sourcemaps, sourcemaps.write('../maps')))
             .pipe(gulp.dest('js/', {
-                cwd: config.dist
+                cwd: settings.dist || config.dist
             }));
     });
 
     gulp.task('libs.fonts', 'Copy libs fonts to output dir', function() {
         return gulp.src(config.libs.fonts)
             .pipe(gulp.dest('fonts/', {
-                cwd: config.dist
+                cwd: settings.dist || config.dist
             }));
     });
 };

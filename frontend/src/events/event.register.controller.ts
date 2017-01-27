@@ -25,7 +25,6 @@ module events {
       '$timeout',
       'moment',
       'EventsService',
-      'SysEventsService',
       'MembersService'
     ];
 
@@ -37,15 +36,12 @@ module events {
       private $timeout: ng.ITimeoutService,
       private moment: moment.MomentStatic,
       private EventsService: EventsService,
-      private SysEventsService: core.SysEventsService,
       private MembersService: members.MembersService
     ) {
       if (!$state.params.id) {
         $state.go('home');
         return;
       }
-
-      this.SysEventsService.post('Registration page shown');
 
       this.EventsService.get($state.params.id).then(event => {
         this.event = event;
@@ -207,12 +203,9 @@ module events {
 
       this.registration = this.buildRegistration(registrationData);
 
-      this.SysEventsService.post('Event registration posting for email: ' + registrationData.email);
       this.EventsService.register(this.registration).then(data => {
-        this.SysEventsService.post('Event registration succeeded for email:' + registrationData.email);
         this.registrationComplete = true;
       }).catch(err => {
-        this.SysEventsService.post('Event registration failed for email ' + registrationData.email + ' with error: ' + err);
         this.alerts.push({ type: 'danger', msg: 'Hov, noget gik galt under din registrering. Prøv lige en gang til eller kontakt GIK.' });
       }).finally(() => {
         this.registering = false;

@@ -1,0 +1,11 @@
+{
+  "port": 5000,
+  "browsersync": false,
+  "minifyCss": false,
+  "uglifyJs": false,
+  "sourcemaps": true,
+  "apiUrl": "http://localhost:5000/api",
+  "apiDomain": "localhost:5000",
+  "sentryErrors": false,
+  "dist": "./../api2/MyAthleticsClub.Api/src/MyAthleticsClub.Api/wwwroot"
+}

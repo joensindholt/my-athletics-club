@@ -15,20 +15,15 @@ module members {
       '$window',
       'moment',
       'MembersService',
-      'AuthService',
-      'SysEventsService'
+      'AuthService'
     ];
 
-    constructor(
-      private $scope: ng.IScope,
-      private $state,
-      private $window: ng.IWindowService,
-      private moment: moment.MomentStatic,
-      private MembersService: MembersService,
-      private AuthService: users.AuthService,
-      private SysEventsService: core.SysEventsService
-    ) {
-      this.SysEventsService.post('Member add shown');
+    constructor(private $scope: ng.IScope,
+                private $state,
+                private $window: ng.IWindowService,
+                private moment: moment.MomentStatic,
+                private MembersService: MembersService,
+                private AuthService: users.AuthService) {
       this.birthYears = this.MembersService.getAllowedBirthYears();
     }
 

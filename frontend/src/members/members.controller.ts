@@ -17,20 +17,15 @@ module members {
       '$window',
       'moment',
       'MembersService',
-      'AuthService',
-      'SysEventsService'
+      'AuthService'
     ];
 
-    constructor(
-      private $scope: IScope,
-      private $state,
-      private $window: ng.IWindowService,
-      private moment: moment.MomentStatic,
-      private MembersService: MembersService,
-      private AuthService: users.AuthService,
-      private SysEventsService: core.SysEventsService
-    ) {
-      this.SysEventsService.post('Member list shown');
+    constructor(private $scope: IScope,
+                private $state,
+                private $window: ng.IWindowService,
+                private moment: moment.MomentStatic,
+                private MembersService: MembersService,
+                private AuthService: users.AuthService) {
       this.updateMemberList();
       this.listenForChildEvents();
     }

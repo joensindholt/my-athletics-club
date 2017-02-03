@@ -74,6 +74,10 @@ namespace MyAthleticsClub.Core.Services
         {
             var _event = await _eventService.GetAsync("gik", eventId);
             string message = $"*Tilmelding modtaget*\nNavn: {registration.Name}\nStævne: {_event.Title}\nAldersklasse {registration.AgeClass}\nEmail: {registration.Email}\nDiscipliner:\n{GetSlackMessageDisciplineList(registration)}";
+
+            // Possible new format. Needs tests first I think
+            //string message = $"{{\"text\":\"Tilmelding modtaget\",\"attachments\":[{{\"color\":\"good\",\"fields\":[{{\"title\":\"Stævne\",\"value\":\"{_event.Title}\"}},{{\"title\":\"Deltager\",\"value\":\"{registration.Name}\",\"short\":true}},{{\"title\":\"Email\",\"value\":\"{registration.Email}\",\"short\":true}},{{\"title\":\"Aldersklasse\",\"value\":\"{registration.AgeClass}\",\"short\":true}},{{\"title\":\"Discipliner\",\"value\":\"{GetSlackMessageDisciplineList(registration)}\"}}]}}]}}";
+
             return message;
         }
 

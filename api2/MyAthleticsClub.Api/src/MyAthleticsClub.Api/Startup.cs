@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
@@ -7,10 +9,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using MyAthleticsClub.Api.Core;
+using Microsoft.WindowsAzure.Storage;
+using MyAthleticsClub.Api.Core.Authentication;
+using MyAthleticsClub.Core.Repositories;
+using MyAthleticsClub.Core.Repositories.Interfaces;
+using MyAthleticsClub.Core.Services;
+using MyAthleticsClub.Core.Services.Interfaces;
+using MyAthleticsClub.Core.Utilities;
 using Serilog;
-using System;
-using System.Text;
 
 namespace MyAthleticsClub.Api
 {
@@ -99,6 +105,7 @@ namespace MyAthleticsClub.Api
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
             string SecretKey = Environment.GetEnvironmentVariable("JWT_TOKEN_KEY");
             _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
+
             services.Configure<JwtIssuerOptions>(options =>
             {
                 options.Issuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
@@ -138,14 +145,25 @@ namespace MyAthleticsClub.Api
         private void ConfigureDepencyInjection(IServiceCollection services)
         {
             services.AddSingleton(_ => Configuration);
-            services.AddTransient<Events.IEventService, Events.EventService>();
-            services.AddTransient<Events.IRegistrationService, Events.RegistrationService>();
-            services.AddTransient<Events.IRegistrationService, Events.RegistrationService>();
-            services.AddTransient<Events.IEventRegistrationsExcelService, Events.EventRegistrationsExcelService>();
-            services.AddTransient<Slack.ISlackService, Slack.SlackService>();
-            services.AddTransient<Users.IUserService, Users.UserService>();
-            services.AddTransient<Users.IUserRepository, Users.UserRepository>();
-            services.AddTransient<Utilities.IIdGenerator, Utilities.IdGenerator>();
+
+            var cloudStorageAccount = CloudStorageAccount.Parse(Configuration.GetConnectionString("AzureTableStorage"));
+            services.AddSingleton(_ => cloudStorageAccount);
+
+            // Services
+            services.AddTransient<IEventService, EventService>();
+            services.AddTransient<IEventRepository, EventRepository>();
+            services.AddTransient<IEventRegistrationsExcelService, EventRegistrationsExcelService>();
+            services.AddTransient<IRegistrationService, RegistrationService>();
+            services.AddTransient<IRegistrationRepository, RegistrationRepository>();
+            services.AddTransient<ISlackService, SlackService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IUserRepository, UserRepository>();
+
+            // Repositories
+            services.AddTransient<IUserRepository, UserRepository>();
+
+            // Utilities
+            services.AddTransient<IIdGenerator, IdGenerator>();
         }
     }
 }

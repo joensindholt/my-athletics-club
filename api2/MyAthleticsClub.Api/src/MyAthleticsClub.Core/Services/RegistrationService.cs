@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -48,7 +47,8 @@ namespace MyAthleticsClub.Core.Services
 
             try
             {
-                string message = await GetSlackMessageForRegistrationAsync(eventId, registration, cancellationToken);
+                var _event = await _eventService.GetAsync("gik", eventId);
+                var message = new RegistrationSlackMessageBuilder().BuildAdvancedMessage(_event, registration);
                 await _slackService.SendMessageAsync(message);
             }
             catch (Exception ex)
@@ -68,50 +68,6 @@ namespace MyAthleticsClub.Core.Services
         {
             var events = await GetEventRegistrationsAsync(eventId);
             return _eventRegistrationsExcelService.GetEventRegistrationsAsXlsx(events);
-        }
-
-        private async Task<string> GetSlackMessageForRegistrationAsync(string eventId, Registration registration, CancellationToken cancellationToken)
-        {
-            var _event = await _eventService.GetAsync("gik", eventId);
-            string message = $"*Tilmelding modtaget*\nNavn: {registration.Name}\nStævne: {_event.Title}\nAldersklasse {registration.AgeClass}\nEmail: {registration.Email}\nDiscipliner:\n{GetSlackMessageDisciplineList(registration)}";
-
-            // Possible new format. Needs tests first I think
-            //string message = $"{{\"text\":\"Tilmelding modtaget\",\"attachments\":[{{\"color\":\"good\",\"fields\":[{{\"title\":\"Stævne\",\"value\":\"{_event.Title}\"}},{{\"title\":\"Deltager\",\"value\":\"{registration.Name}\",\"short\":true}},{{\"title\":\"Email\",\"value\":\"{registration.Email}\",\"short\":true}},{{\"title\":\"Aldersklasse\",\"value\":\"{registration.AgeClass}\",\"short\":true}},{{\"title\":\"Discipliner\",\"value\":\"{GetSlackMessageDisciplineList(registration)}\"}}]}}]}}";
-
-            return message;
-        }
-
-        private string GetSlackMessageDisciplineList(Registration registration)
-        {
-            StringBuilder sb = new StringBuilder();
-
-            int i = 0;
-            foreach (var discipline in registration.Disciplines)
-            {
-                sb.Append($"- {discipline.Name}");
-
-                if (i != registration.Disciplines.Count - 1)
-                {
-                    sb.Append("\n");
-                }
-
-                i++;
-            }
-
-            i = 0;
-            foreach (var discipline in registration.ExtraDisciplines)
-            {
-                sb.Append($"- {discipline.Name} ({discipline.AgeClass})");
-
-                if (i != registration.Disciplines.Count - 1)
-                {
-                    sb.Append("\n");
-                }
-
-                i++;
-            }
-
-            return sb.ToString();
         }
     }
 }

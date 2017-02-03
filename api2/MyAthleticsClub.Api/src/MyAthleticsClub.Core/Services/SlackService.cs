@@ -20,24 +20,15 @@ namespace MyAthleticsClub.Core.Services
             _webhookUrl = new Uri(configuration["SLACK_WEBHOOK_URL"]);
         }
 
-        public async Task SendMessageAsync(
-            string message,
-            string channel = null,
-            string username = null,
-            CancellationToken cancellationToken = default(CancellationToken))
+        public async Task SendMessageAsync(object message, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var payload = new
-            {
-                text = message,
-                channel,
-                username,
-            };
-            var serializedPayload = JsonConvert.SerializeObject(payload);
+            var serializedMessage = JsonConvert.SerializeObject(message);
+
             var response =
                 await _httpClient.PostAsync(
                     _webhookUrl,
                     new StringContent(
-                        serializedPayload,
+                        serializedMessage,
                         Encoding.UTF8,
                         "application/json"), cancellationToken);
 

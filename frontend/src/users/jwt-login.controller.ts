@@ -7,6 +7,7 @@ module users {
 
     username: string;
     password: string;
+    loginError: string;
 
     static $inject = [
       'AuthService',
@@ -20,10 +21,14 @@ module users {
     }
 
     login() {
-      console.log('asd');
-      this.AuthService.login(this.username, this.password).then(() => {
-        this.$state.go('events');
-      });
+      this.loginError = null;
+      this.AuthService.login(this.username, this.password)
+        .then(() => {
+          this.$state.go('events');
+        })
+        .catch((err: any) => {
+          this.loginError = 'Hmmm...vi kunne ikke logge dig ind. Har du angivet din email og adgangskode korrekt?';
+        });
     }
   }
 }

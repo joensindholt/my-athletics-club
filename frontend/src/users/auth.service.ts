@@ -39,8 +39,7 @@ module users {
         deferred.resolve();
       })
       .error(data => {
-        console.log('An error occured logging in: ', data);
-        deferred.reject();
+        deferred.reject(data);
       });
 
       return deferred.promise;

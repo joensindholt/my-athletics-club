@@ -5,10 +5,6 @@ namespace MyAthleticsClub.Core.Services.Interfaces
 {
     public interface ISlackService
     {
-        Task SendMessageAsync(
-           string message,
-           string channel = null,
-           string username = null,
-           CancellationToken cancellationToken = default(CancellationToken));
+        Task SendMessageAsync(object message, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

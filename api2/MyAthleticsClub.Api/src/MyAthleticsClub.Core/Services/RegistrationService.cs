@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -49,7 +48,7 @@ namespace MyAthleticsClub.Core.Services
             try
             {
                 var _event = await _eventService.GetAsync("gik", eventId);
-                string message = new RegistrationSlackMessageBuilder().BuildSimpleMessage(_event, registration);
+                var message = new RegistrationSlackMessageBuilder().BuildAdvancedMessage(_event, registration);
                 await _slackService.SendMessageAsync(message);
             }
             catch (Exception ex)

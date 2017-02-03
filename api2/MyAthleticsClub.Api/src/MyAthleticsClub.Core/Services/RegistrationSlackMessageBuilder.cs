@@ -5,44 +5,86 @@ namespace MyAthleticsClub.Core.Services
 {
     public class RegistrationSlackMessageBuilder
     {
-        public string BuildSimpleMessage(Event _event, Registration registration)
+        public object BuildSimpleMessage(Event _event, Registration registration)
         {
-            return $"*Tilmelding modtaget*\nNavn: {registration.Name}\nStævne: {_event.Title}\nAldersklasse {registration.AgeClass}\nEmail: {registration.Email}\nDiscipliner:\n{GetSlackMessageDisciplineList(registration)}";
+            return new
+            {
+                text = $"*Tilmelding modtaget*\nNavn: {registration.Name}\nStævne: {_event.Title}\nAldersklasse: {registration.AgeClass}\nEmail: {registration.Email}\nDiscipliner:\n{GetSlackMessageDisciplineList(registration, true)}"
+            };
         }
 
-        public string BuildMessage(Event _event, Registration registration)
+        public object BuildAdvancedMessage(Event _event, Registration registration)
         {
-            return $"{{\"text\":\"Tilmelding modtaget\",\"attachments\":[{{\"color\":\"good\",\"fields\":[{{\"title\":\"Stævne\",\"value\":\"{_event.Title}\"}},{{\"title\":\"Deltager\",\"value\":\"{registration.Name}\",\"short\":true}},{{\"title\":\"Email\",\"value\":\"{registration.Email}\",\"short\":true}},{{\"title\":\"Aldersklasse\",\"value\":\"{registration.AgeClass}\",\"short\":true}},{{\"title\":\"Discipliner\",\"value\":\"{GetSlackMessageDisciplineList(registration)}\"}}]}}]}}";
+            return new
+            {
+                text = "Tilmelding modtaget",
+                attachments = new object[]
+                {
+                    new
+                    {
+                        color = "good",
+                        fields = new object[]
+                        {
+                            new { title = "Stævne", value = _event.Title },
+                            new { title = "Deltager", value = registration.Name, @short = true },
+                            new { title = "Email", value = registration.Email, @short = true },
+                            new { title = "Aldersklasse", value = registration.AgeClass, @short = true },
+                            new { title = "Discipliner", value = GetSlackMessageDisciplineList(registration, false) }
+                        }
+                    }
+                }
+            };
         }
 
-        private string GetSlackMessageDisciplineList(Registration registration)
+        private string GetSlackMessageDisciplineList(Registration registration, bool listStyleBullet)
         {
             var sb = new StringBuilder();
 
             int i = 0;
-            foreach (var discipline in registration.Disciplines)
+            if (registration.Disciplines != null)
             {
-                sb.Append($"- {discipline.Name}");
-
-                if (i != registration.Disciplines.Count - 1)
+                foreach (var discipline in registration.Disciplines)
                 {
-                    sb.Append("\n");
-                }
+                    if (listStyleBullet)
+                    {
+                        sb.Append("- ");
+                    }
 
-                i++;
+                    sb.Append(discipline.Name);
+
+                    if (i != registration.Disciplines.Count - 1)
+                    {
+                        sb.Append("\n");
+                    }
+
+                    i++;
+                }
             }
 
-            i = 0;
-            foreach (var discipline in registration.ExtraDisciplines)
+            if (registration.ExtraDisciplines != null && registration.ExtraDisciplines.Count > 0)
             {
-                sb.Append($"- {discipline.Name} ({discipline.AgeClass})");
-
-                if (i != registration.Disciplines.Count - 1)
+                if (registration.Disciplines.Count > 0)
                 {
                     sb.Append("\n");
                 }
 
-                i++;
+                i = 0;
+                foreach (var discipline in registration.ExtraDisciplines)
+                {
+                    if (listStyleBullet)
+                    {
+                        sb.Append("- ");
+                    }
+
+                    sb.Append($"{discipline.Name} ({discipline.AgeClass})");
+
+                    if (i != registration.Disciplines.Count - 1)
+                    {
+                        sb.Append("\n");
+                    }
+
+                    i++;
+                }
             }
 
             return sb.ToString();

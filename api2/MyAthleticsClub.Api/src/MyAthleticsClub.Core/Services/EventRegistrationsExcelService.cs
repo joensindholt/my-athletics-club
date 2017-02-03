@@ -21,7 +21,7 @@ namespace MyAthleticsClub.Core.Services
                 using (var package = new ExcelPackage(stream))
                 {
                     // Add a new worksheet to the empty workbook
-                    ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Employee");
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Deltagere");
 
                     // First add the headers
                     worksheet.Cells["A1"].Value = "Navn";

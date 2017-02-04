@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using MongoDB.Driver;
 using MyAthleticsClub.Migrate.Repositories;
@@ -17,9 +18,15 @@ namespace MyAthleticsClub.Migrate
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-            var accountName = Environment.GetEnvironmentVariable("AZURE_ACCOUNT_NAME");
-            var keyValue = Environment.GetEnvironmentVariable("AZURE_ACCOUNT_KEY");
-            var mongoClient = new MongoClient(Environment.GetEnvironmentVariable("MONGO_CONNECTION_STRING"));
+            var configuration =
+                new ConfigurationBuilder()
+                    .AddEnvironmentVariables()
+                    .AddUserSecrets()
+                    .Build();
+
+            var accountName = configuration["AZURE_ACCOUNT_NAME"];
+            var keyValue = configuration["AZURE_ACCOUNT_KEY"];
+            var mongoClient = new MongoClient(configuration["MONGO_CONNECTION_STRING"]);
 
             // Get mongo events
             var eventRepository = new EventRepository(mongoClient);

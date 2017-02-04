@@ -1,4 +1,5 @@
-﻿{
+{
+  "userSecretsId": "MyAthleticsClub.Migrate",
   "version": "1.0.0-*",
   "buildOptions": {
     "emitEntryPoint": true
@@ -9,7 +10,8 @@
       "target": "project"
     },
     "MongoDB.Driver": "2.4.2",
-    "System.Linq": "4.3.0"
+    "System.Linq": "4.3.0",
+    "Microsoft.Extensions.Configuration.UserSecrets": "1.0.0"
   },
 
   "frameworks": {

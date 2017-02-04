@@ -16,6 +16,7 @@ using MyAthleticsClub.Core.Repositories.Interfaces;
 using MyAthleticsClub.Core.Services;
 using MyAthleticsClub.Core.Services.Interfaces;
 using MyAthleticsClub.Core.Utilities;
+using Newtonsoft.Json;
 using Serilog;
 
 namespace MyAthleticsClub.Api
@@ -32,6 +33,7 @@ namespace MyAthleticsClub.Api
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddUserSecrets()
                 .AddEnvironmentVariables();
 
             Log.Logger = new LoggerConfiguration()
@@ -103,9 +105,8 @@ namespace MyAthleticsClub.Api
         private void ConfigureJwtIssuerOptions(IServiceCollection services)
         {
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
-            string SecretKey = Environment.GetEnvironmentVariable("JWT_TOKEN_KEY");
-            _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
-
+            string secretKey = Configuration["JWT_TOKEN_KEY"];
+            _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
             services.Configure<JwtIssuerOptions>(options =>
             {
                 options.Issuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];

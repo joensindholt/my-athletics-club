@@ -7,9 +7,10 @@ namespace MyAthleticsClub.Api.Health
     {
         [HttpGet("api/health")]
         [AllowAnonymous]
-        public string Get()
+        [ProducesResponseType(typeof(string), 200)]
+        public IActionResult Get()
         {
-            return "health";
+            return Ok("health");
         }
     }
 }

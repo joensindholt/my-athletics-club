@@ -8,33 +8,37 @@ using MyAthleticsClub.Core.Services.Interfaces;
 
 namespace MyAthleticsClub.Api.Events
 {
-    public class EventRegistrationController : Controller
+    public class RegistrationController : Controller
     {
         private readonly IRegistrationService _registrationService;
 
-        public EventRegistrationController(IRegistrationService registrationService)
+        public RegistrationController(IRegistrationService registrationService)
         {
             _registrationService = registrationService;
         }
 
         [HttpPost("api/events/{eventId}/registrations")]
         [AllowAnonymous]
-        public async Task<Registration> Register(string eventId, [FromBody]Registration registration, CancellationToken cancellationToken)
+        [ProducesResponseType(typeof(Registration), 200)]
+        public async Task<IActionResult> Register(string eventId, [FromBody]Registration registration, CancellationToken cancellationToken)
         {
             registration = await _registrationService.AddRegistrationAsync(eventId, registration, cancellationToken);
-            return registration;
+            return Ok(registration);
         }
 
         [HttpGet("api/events/{eventId}/registrations")]
         [AllowAnonymous]
-        public async Task<IEnumerable<Registration>> GetEventRegistrations(string eventId)
+        [ProducesResponseType(typeof(IEnumerable<Registration>), 200)]
+        public async Task<IActionResult> GetEventRegistrations(string eventId)
         {
-            return await _registrationService.GetEventRegistrationsAsync(eventId);
+            var registrations = await _registrationService.GetEventRegistrationsAsync(eventId);
+            return Ok(registrations);
         }
 
         [HttpGet("api/events/{eventId}/registrations.xlsx")]
         [AllowAnonymous]
-        public async Task<FileResult> GetEventRegistrationsAsExcel(string eventId)
+        [ProducesResponseType(typeof(FileContentResult), 200)]
+        public async Task<IActionResult> GetEventRegistrationsAsExcel(string eventId)
         {
             byte[] xlsx = await _registrationService.GetEventRegistrationsAsXlsxAsync(eventId);
 

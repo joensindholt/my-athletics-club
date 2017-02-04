@@ -21,40 +21,49 @@ namespace MyAthleticsClub.Api.Events
 
         [HttpGet("api/events")]
         [AllowAnonymous]
-        public async Task<IEnumerable<Event>> GetAllEvents()
+        [ProducesResponseType(typeof(IEnumerable<Event>), 200)]
+        public async Task<IActionResult> GetAllEvents()
         {
-            return await _eventService.GetAllAsync("gik");
+            var events = await _eventService.GetAllAsync("gik");
+            return Ok(events);
         }
 
         [HttpGet("api/events/{id}")]
         [AllowAnonymous]
-        public async Task<Event> GetEvent(string id)
+        [ProducesResponseType(typeof(Event), 200)]
+        public async Task<IActionResult> GetEvent(string id)
         {
-            return await _eventService.GetAsync("gik", id);
+            var _event = await _eventService.GetAsync("gik", id);
+            return Ok(_event);
         }
 
         [HttpPost("api/events")]
-        public async Task<Event> CreateEvent([FromBody]Event value)
+        [ProducesResponseType(typeof(Event), 200)]
+        public async Task<IActionResult> CreateEvent([FromBody]Event value)
         {
             value.Id = _idGenerator.GenerateId();
             value.OrganizationId = "gik";
 
             await _eventService.CreateAsync(value);
 
-            return value;
+            return Ok(value);
         }
 
         [HttpPost("api/events/{id}")]
-        public async Task UpdateEvent(string id, [FromBody]Event value)
+        [ProducesResponseType(200)]
+        public async Task<IActionResult> UpdateEvent(string id, [FromBody]Event value)
         {
             value.OrganizationId = "gik";
             await _eventService.UpdateAsync(value);
+            return Ok();
         }
 
         [HttpDelete("api/events/{id}")]
-        public async Task DeleteEvent(string id)
+        [ProducesResponseType(200)]
+        public async Task<IActionResult> DeleteEvent(string id)
         {
             await _eventService.DeleteAsync("gik", id);
+            return Ok();
         }
     }
 }

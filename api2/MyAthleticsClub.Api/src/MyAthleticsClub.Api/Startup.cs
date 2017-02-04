@@ -16,8 +16,8 @@ using MyAthleticsClub.Core.Repositories.Interfaces;
 using MyAthleticsClub.Core.Services;
 using MyAthleticsClub.Core.Services.Interfaces;
 using MyAthleticsClub.Core.Utilities;
-using Newtonsoft.Json;
 using Serilog;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace MyAthleticsClub.Api
 {
@@ -62,6 +62,11 @@ namespace MyAthleticsClub.Api
                 config.Filters.Add(new AuthorizeFilter(policy));
             });
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "My Atheltics Club", Version = "v1" });
+            });
+
             services.AddCors(config =>
             {
                 var cors = new CorsPolicyBuilder(new CorsPolicy())
@@ -100,6 +105,12 @@ namespace MyAthleticsClub.Api
             app.UseStaticFiles();
 
             app.UseMvc();
+
+            app.UseSwagger();
+            app.UseSwaggerUi(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Atheletics Club");
+            });
         }
 
         private void ConfigureJwtIssuerOptions(IServiceCollection services)

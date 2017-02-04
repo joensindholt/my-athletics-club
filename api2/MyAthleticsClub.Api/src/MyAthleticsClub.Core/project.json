@@ -1,20 +1,20 @@
-﻿{
+{
     "version": "1.0.0-*",
     "buildOptions": {
         "debugType": "portable"
     },
-    "dependencies": {
-        "EPPlus.Core": "1.2.0",
-        "Microsoft.Extensions.Configuration.Abstractions": "1.1.0",
-        "Microsoft.Extensions.Logging": "1.1.0",
-        "Microsoft.Extensions.Logging.AzureAppServices": "1.0.0",
-        "Microsoft.Extensions.Logging.Console": "1.1.0",
-        "Microsoft.Extensions.Logging.Debug": "1.1.0",
-        "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
-        "System.ComponentModel.Annotations": "4.1.0",
-        "System.IdentityModel.Tokens.Jwt": "5.1.2",
-        "WindowsAzure.Storage": "8.0.1"
-    },
+  "dependencies": {
+    "EPPlus.Core": "1.2.0",
+    "Microsoft.Extensions.Configuration.Abstractions": "1.1.0",
+    "Microsoft.Extensions.Logging": "1.1.0",
+    "Microsoft.Extensions.Logging.AzureAppServices": "1.0.0",
+    "Microsoft.Extensions.Logging.Console": "1.1.0",
+    "Microsoft.Extensions.Logging.Debug": "1.1.0",
+    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
+    "System.ComponentModel.Annotations": "4.3.0",
+    "System.IdentityModel.Tokens.Jwt": "5.1.2",
+    "WindowsAzure.Storage": "8.0.1"
+  },
     "frameworks": {
         "netstandard1.6": {
             "imports": [

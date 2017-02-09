@@ -33,8 +33,12 @@ namespace MyAthleticsClub.Api
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddUserSecrets()
                 .AddEnvironmentVariables();
+
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets();
+            }
 
             Log.Logger = new LoggerConfiguration()
               .Enrich.FromLogContext()

@@ -7,5 +7,5 @@
   "apiUrl": "https://myathleticsclubapi.azurewebsites.net/api",
   "apiDomain": "myathleticsclubapi.azurewebsites.net",
   "sentryErrors": true,
-  "dist": "./../api2/MyAthleticsClub.Api/src/MyAthleticsClub.Api/wwwroot"
+  "dist": "./../api/MyAthleticsClub.Api/src/MyAthleticsClub.Api/wwwroot"
 }

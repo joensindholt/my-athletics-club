@@ -113,7 +113,7 @@ namespace MyAthleticsClub.Api
             app.UseSwagger();
             app.UseSwaggerUi(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Atheletics Club");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Athletics Club");
             });
         }
 

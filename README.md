@@ -2,10 +2,11 @@
 
 ### Requirements
 
-- Node v. 4.x. Get it here: https://nodejs.org/en/
-- Git. Get it here: https://git-scm.com/downloads
+- [Node v. 4.x.](https://nodejs.org/en/)
+- [Git](https://git-scm.com/downloads)
+- [.NET Core 1.1 SDK](https://www.microsoft.com/net/download/core#/current)
 
-### Get it
+### Clone it
 
 ```
 git clone https://github.com/joensindholt/my-athletics-club.git
@@ -14,23 +15,15 @@ cd my-athletics-club
 
 ### Backend
 
-Before running the backend you must add Auth0 credentials. 
-
-[HOWTO TO COME]
-
-Then start the server:
+Start the backend api:
 
 ```
-cd api
-tsc
-node dist/server.js
+cd api/src/MyAthleticsClub.Api/
+dotnet restore
+dotnet run
 ```
 
-A succesful start should result in:
-
-```
-Server listening at: http://localhost:8889
-```
+Open up a browser at `http://localhost:5000/swagger` to check it out
 
 ### Frontend
 

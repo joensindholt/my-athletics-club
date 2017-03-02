@@ -1,0 +1,29 @@
+:host {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.top {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #ececec;
+    height: 45px;
+}
+
+.logo,
+app-sidebar {
+    width: 240px;
+    border-right: 1px solid #ececec;
+}
+
+main {
+    flex-grow: 1;
+    display: flex;
+}
+
+.content {
+    flex-grow: 1;
+    display: flex;
+    align-items: stretch;
+}

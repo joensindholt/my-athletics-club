@@ -1,0 +1,7 @@
+<form>
+  <div class="form-group">
+    <label for="nameInput">Navn</label>
+    <input type="text" class="form-control" id="nameInut" [(ngModel)]="member.name" name="name">
+  </div>
+  <button type="submit" class="btn btn-primary" (click)="save()">Save</button>
+</form>

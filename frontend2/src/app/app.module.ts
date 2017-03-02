@@ -9,12 +9,20 @@ import { MembersComponent } from './area/members/members/members.component';
 import { EventsComponent } from './area/events/events/events.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { LoginComponent } from './area/login/login/login.component';
+import { AuthGuard } from './auth.guard';
+import { AuthenticationService } from './services/index';
+import { AdminComponent } from './area/admin/admin.component';
+import { AdminRoutingModule } from './area/admin/admin-routing.module';
+import { AddMemberButtonComponent } from './area/members/add-member-button/add-member-button.component';
+import { AddMemberComponent } from './area/members/add-member/add-member.component';
+import { EditMemberComponent } from './area/members/edit-member/edit-member.component';
 
 const appRoutes: Routes = [
-  { path: 'members', component: MembersComponent },
-  { path: 'events', component: EventsComponent },
+  { path: 'admin', component: AdminComponent },
+  { path: 'login', component: LoginComponent },
   { path: '',
-    redirectTo: '/members',
+    redirectTo: '/admin/members',
     pathMatch: 'full'
   },
   { path: '**', component: PageNotFoundComponent }
@@ -27,15 +35,24 @@ const appRoutes: Routes = [
     MembersComponent,
     EventsComponent,
     PageNotFoundComponent,
-    SidebarComponent
+    SidebarComponent,
+    LoginComponent,
+    AdminComponent,
+    AddMemberButtonComponent,
+    AddMemberComponent,
+    EditMemberComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    AdminRoutingModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [],
+  providers: [
+    AuthGuard,
+    AuthenticationService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

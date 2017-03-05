@@ -1,49 +1,65 @@
 @import 'https://fonts.googleapis.com/css?family=Work+Sans:300,400,500';
-
 body {
-    font-family: 'Work Sans', sans-serif;
-    margin: 15px 0;
-    background: #f1f5f6;
-    letter-spacing: 0.5px;
-    color: #616976;
-    padding: 0 15px;
-
-    @media (min-width: $screen-sm-min) { 
-        max-width: 950px;
-        margin: 50px auto;
-     }
-
+  font-family: 'Work Sans', sans-serif;
+  margin: 15px 0;
+  background: #f1f5f6;
+  letter-spacing: 0.5px;
+  color: #616976;
+  padding: 0 15px;
+  @media (min-width: $screen-sm-min) {
+    max-width: 950px;
+    margin: 50px auto;
+  }
 }
 
-h1, h2, h3, h4 {
-    font-weight: 300;
-    letter-spacing: 3px;
-    margin: 20px 0;
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 300;
+  letter-spacing: 3px;
+  margin: 20px 0;
 }
 
-h1 { line-height: 55px; }
-h3 { letter-spacing: 2px; }
-h4 { font-size: 20px; letter-spacing: 1px; margin-top: 60px; text-align: center; }
-h5 { font-weight: 500; color: #337ab7; margin: 15px 0 3px 0; }
+h1 {
+  line-height: 55px;
+}
+
+h3 {
+  letter-spacing: 2px;
+}
+
+h4 {
+  font-size: 20px;
+  letter-spacing: 1px;
+  margin-top: 60px;
+  text-align: center;
+}
+
+h5 {
+  font-weight: 500;
+  color: #337ab7;
+  margin: 15px 0 3px 0;
+}
 
 .hide {
   display: none;
 }
 
 .left {
-    text-align: left;
+  text-align: left;
 }
 
 .center {
-    text-align: center;
+  text-align: center;
 }
 
 .right {
-    text-align: right;
+  text-align: right;
 }
 
 .standout {
-    margin-top: 50px;
+  margin-top: 50px;
 }
 
 .cozy {
@@ -51,52 +67,60 @@ h5 { font-weight: 500; color: #337ab7; margin: 15px 0 3px 0; }
 }
 
 .cozier {
-    padding: 5px;
+  padding: 5px;
 }
 
 .spacy {
-    padding: 10px;
+  padding: 10px;
 }
 
 .spacy-m {
-    margin: 10px;
+  margin: 10px;
+}
+
+.spacy--more {
+  padding: 30px;
 }
 
 .larger-text {
-    font-size: 140%;
+  font-size: 140%;
+}
+
+.smaller-text {
+  font-size: 80%;
 }
 
 .full-width {
-    width: 100%;
+  width: 100%;
 }
 
 .dimmed {
-    opacity: 0.7;
+  opacity: 0.7;
 }
 
 .no-break {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 [ng-click] {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 input {
-    outline: none;
+  outline: none;
 }
 
 input[disabled] {
-    opacity: 0.3;
+  opacity: 0.3;
 }
 
 th {
-    color: $red;
+  color: $red;
 }
 
 ul {
-    margin: 0;
-    padding: 0 0 0 16px;
+  margin: 0;
+  padding: 0 0 0 16px;
 }
 
 .red {
@@ -116,9 +140,9 @@ ul {
 }
 
 .flex-grow {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .flex-wrap {
-    flex-wrap: wrap;
+  flex-wrap: wrap;
 }

@@ -1,7 +1,7 @@
 {
   "name": "my-athletics-club",
   "version": "1.0.0",
-  "description": "Frontend for the Do Life project. Icons from http://www.flaticon.com/packs/humans-2",
+  "description": "Frontend for My Athletics Club",
   "main": "index.js",
   "scripts": {
     "build": "npm install && bower install && tsd reinstall -so",

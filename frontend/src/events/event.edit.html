@@ -6,7 +6,8 @@
   <div class="center">
     <div class="c-date-badge">
       <input type="text" ng-model="vm.event.date" uib-datepicker-popup="dd-MM-yyyy" ng-change="vm.showSave = true" is-open="vm.isOpen" datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk" alt-input-formats="{}" class="hide" />
-      <input type="text" ng-model="vm.event.endDate" uib-datepicker-popup="dd-MM-yyyy" ng-change="vm.showSave = true" is-open="vm.isEndDateOpen" datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk" alt-input-formats="{}" class="hide" />
+      <input type="text" ng-model="vm.event.endDate" uib-datepicker-popup="dd-MM-yyyy" ng-change="vm.showSave = true" is-open="vm.isEndDateOpen" datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk" alt-input-formats="{}" class="hide"
+      />
       <div class="c-date-badge__header" ng-click="vm.isOpen = true">
         {{ vm.event.date | formatdate: 'MMM' }}
       </div>
@@ -41,7 +42,8 @@
       <div class="col-md-2 col-md-offset-4 col-xs-4 col-xs-offset-2">
         <p class="center">FRA</p>
         <div class="c-date-badge c-date-badge--small">
-          <input type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="vm.event.registrationPeriodStartDate" ng-change="vm.showSave = true" is-open="vm.registrationStartDateIsOpen" datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk" alt-input-formats="{}" style="display: none;" />
+          <input type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="vm.event.registrationPeriodStartDate" ng-change="vm.showSave = true" is-open="vm.registrationStartDateIsOpen" datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk"
+            alt-input-formats="{}" style="display: none;" />
           <div class="c-date-badge__header" ng-click="vm.registrationStartDateIsOpen = true">
             {{ vm.event.registrationPeriodStartDate | formatdate: 'MMM' }}
           </div>
@@ -53,7 +55,8 @@
       <div class="col-md-2 col-xs-4">
         <p class="center">TIL</p>
         <div class="c-date-badge c-date-badge--small">
-          <input type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="vm.event.registrationPeriodEndDate" ng-change="vm.showSave = true" is-open="vm.registrationEndDateIsOpen" datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk" alt-input-formats="{}" style="display: none;" />
+          <input type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="vm.event.registrationPeriodEndDate" ng-change="vm.showSave = true" is-open="vm.registrationEndDateIsOpen" datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk" alt-input-formats="{}"
+            style="display: none;" />
           <div class="c-date-badge__header" ng-click="vm.registrationEndDateIsOpen = true">
             {{ vm.event.registrationPeriodEndDate | formatdate: 'MMM' }}
           </div>
@@ -74,11 +77,7 @@
         {{ ageGroup }} {{ ageGroup !== 'K' && ageGroup !== 'M' ? 'år' : '' }}
       </div>
       <div class="col-xs-9 col-sm-10">
-        <multiple-autocomplete ng-model="vm.event.disciplines[$index].disciplines"
-            object-property="name"
-            suggestions-arr="vm.availableDisciplines"
-            after-select-item="vm.showSave = true"
-            after-remove-item="vm.showSave = true">
+        <multiple-autocomplete ng-model="vm.event.disciplines[$index].disciplines" object-property="name" suggestions-arr="vm.availableDisciplines" after-select-item="vm.showSave = true" after-remove-item="vm.showSave = true">
         </multiple-autocomplete>
       </div>
     </div>
@@ -87,6 +86,14 @@
 
 <h4>Deltagere</h4>
 <p class="center"><a class="larger-text center" ng-href="{{ vm.excelDownloadUrl }}">Download deltagerliste</a></p>
+
+<p class="center" ng-show="!vm.showParticipantEmailList"><a class="larger-text center" ng-click="vm.toggleParticipantEmailList()">Vis email liste</a></p>
+<div id="showParticipantEmailListElement" ng-show="vm.showParticipantEmailList" class="spacy--more">
+  <div class="spacy"><input type="text" id="participanEmailListInput" ng-model="vm.participanEmailList" class="c-formular-input center" /></div>
+  <div class="center"><button ng-click="vm.copyParticipantEmailListToClipboard()" class="btn btn-primary">Kopiér til udklipsholder</button></div>
+  <div class="smaller-text dimmed center spacy">Du kan herefter indsætte de kopierede adresser i dit e-mail program</div>
+</div>
+
 <div class="row" ng-show="vm.registrations.length > 0">
   <div class="col-sm-8 col-sm-offset-2" ng-repeat="registration in vm.registrations">
     <div class="panel panel-default">
@@ -116,7 +123,7 @@
             <td>{{ discipline.ageClass }}</td>
             <td>{{ discipline.name }}</td>
             <td>{{ discipline.personalRecord }}</td>
-          </tr>          
+          </tr>
         </tbody>
       </table>
     </div>

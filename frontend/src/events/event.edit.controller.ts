@@ -14,13 +14,18 @@ module events {
     private registrations: Array<Registration>;
     private excelDownloadUrl: string;
     private showSave: boolean;
-    
+
+    private showParticipantEmailList: boolean;
+    private participanEmailList: string;
+
     static $inject = [
       '$scope',
       '$state',
       '$window',
+      '$document',
       '$sce',
       '$timeout',
+      '$element',
       'moment',
       'EventsService',
       'AuthService'
@@ -30,8 +35,10 @@ module events {
       private $scope: ng.IScope,
       private $state,
       private $window: ng.IWindowService,
+      private $document: ng.IDocumentService,
       private $sce: ng.ISCEService,
       private $timeout: ng.ITimeoutService,
+      private $element: ng.IRootElementService,
       private moment: moment.MomentStatic,
       private EventsService: EventsService,
       private AuthService: users.AuthService
@@ -42,9 +49,9 @@ module events {
       }
 
       if (!AuthService.isAuthenticated) {
-        $state.go('events_register', {id: $state.params.id});
+        $state.go('events_register', { id: $state.params.id });
         return;
-     }
+      }
 
       // load default available disciplines      
       this.availableDisciplines = this.EventsService.getAllDisciplines();
@@ -94,6 +101,37 @@ module events {
       this.EventsService.update(event).then(() => {
         this.showSave = false;
       });
+    }
+
+    participantEmailListClickHandler(event: any) {
+      var controller = event.data;
+      controller.$scope.$apply(() => {
+        if (!controller.$element.find('#showParticipantEmailListElement')[0].contains(event.target)) {
+          controller.showParticipantEmailList = false;
+          controller.$document.off('click', this.participantEmailListClickHandler);
+        }
+      });
+    }
+
+    toggleParticipantEmailList() {
+      this.showParticipantEmailList = !this.showParticipantEmailList;
+
+      if (this.showParticipantEmailList) {
+        var list = _.join(_.map(_.uniqBy(this.registrations, r => r.email), r => r.email), ';');
+        this.participanEmailList = list;
+        this.$timeout(() => {
+          this.$document.on('click', this, this.participantEmailListClickHandler);
+        }, 100);
+      }
+      else {
+        this.participanEmailList = '';
+      }
+    }
+
+    copyParticipantEmailListToClipboard() {
+      var elem = this.$document.find('#participanEmailListInput');
+      elem.select();
+      document.execCommand("Copy");
     }
 
     private updateExcelDownloadUrl() {

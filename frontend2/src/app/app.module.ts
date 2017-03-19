@@ -17,6 +17,8 @@ import { AdminRoutingModule } from './area/admin/admin-routing.module';
 import { AddMemberButtonComponent } from './area/members/add-member-button/add-member-button.component';
 import { AddMemberComponent } from './area/members/add-member/add-member.component';
 import { EditMemberComponent } from './area/members/edit-member/edit-member.component';
+import { MaterialModule } from '@angular/material';
+import 'hammerjs';
 
 const appRoutes: Routes = [
   { path: 'admin', component: AdminComponent },
@@ -47,6 +49,7 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule,
     AdminRoutingModule,
+    MaterialModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [

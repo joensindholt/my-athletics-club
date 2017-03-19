@@ -1,1 +1,15 @@
-<h2>Tilføj medlem</h2>
+<div class="breadcrumbs-wrapper">
+  <ol class="breadcrumbs">
+    <li><a routerLink="/admin/members" routerLinkActive="active">Medlemmer</a></li>
+    <li>Tilføj</li>
+  </ol>
+</div>
+
+<md-card>
+  <form>
+    <md-input-container>
+      <input mdInput #nameInput placeholder="Navn" [(ngModel)]="member.name" name="name">
+    </md-input-container>
+  </form>
+  <button md-raised-button color="accent" type="submit" (click)="save()">Tilføj</button>
+</md-card>

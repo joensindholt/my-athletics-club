@@ -1,14 +1,16 @@
-<div class="split-view">
-    <div class="split-view-main">
-        <h2>Medlemmer</h2>
-        <div *ngFor="let member of members" (click)="editMember(member)">
-            {{ member.name }}
-        </div>
-    </div>
-    <div class="split-view-secondary">
-        <add-member *ngIf="isAddingMember"></add-member>
-        <edit-member *ngIf="editingMember" [member]="editingMember"></edit-member>
-    </div>
+<div class="breadcrumbs-wrapper">
+  <ol class="breadcrumbs">
+    <li>Medlemmer</li>
+  </ol>
 </div>
+
+<div class="container">
+  <md-card>
+    <md-nav-list>
+      <a md-list-item routerLink="/admin/members/{{member.slug}}" routerLinkActive="active" *ngFor="let member of members">{{member.name}}</a>
+    </md-nav-list>
+  </md-card>
+</div>
+
 
 <add-member-button (click)="addMember()"></add-member-button>

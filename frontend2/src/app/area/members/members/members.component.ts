@@ -1,32 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { MemberService } from '../../../services/member.service';
+import { Router } from '@angular/router';
+import { Member, MemberService } from '../../../services/member.service';
 
 @Component({
-    selector: 'app-members',
-    templateUrl: './members.component.html',
-    styleUrls: ['./members.component.css'],
-    providers: [MemberService]
+  selector: 'app-members',
+  templateUrl: './members.component.html',
+  styleUrls: ['./members.component.css']
 })
 export class MembersComponent implements OnInit {
 
-    members: any;
-    editingMember: any;
-    isAddingMember: boolean;
+  members: Member[];
 
-    constructor(private memberService: MemberService) { }
+  constructor(
+    private memberService: MemberService,
+    private router: Router
+  ) { }
 
-    ngOnInit() {
-        this.memberService.getMembers().then(members => this.members = members);
-        this.isAddingMember = false;
-    }
+  ngOnInit() {
+    this.memberService.getMembers().then(members => this.members = members);
+  }
 
-    addMember() {
-        this.editingMember = null;
-        this.isAddingMember = true;
-    }
-
-    editMember(member) {
-        this.isAddingMember = false;
-        this.editingMember = member;
-    }
+  addMember() {
+    this.router.navigate(['/admin/members/add']);
+  }
 }

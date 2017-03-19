@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Member, MemberService } from '../../../services/member.service';
 
 @Component({
   selector: 'add-member',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddMemberComponent implements OnInit {
 
-  constructor() { }
+  member: Member;
+
+  constructor(private memberService: MemberService) { }
 
   ngOnInit() {
+    this.member = <Member>{};
   }
 
 }

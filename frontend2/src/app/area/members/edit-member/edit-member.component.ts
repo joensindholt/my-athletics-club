@@ -21,9 +21,7 @@ export class EditMemberComponent implements OnInit {
   ngOnInit() {
     let slug = this.route.snapshot.params['slug'];
     this.memberService.getMember(slug)
-      .then((member: Member) => {
-        console.log('service member', member);
-
+      .subscribe(member => {
         this.originalMember = member;
         this.mapFromMember(member);
       });
@@ -76,9 +74,10 @@ export class EditMemberComponent implements OnInit {
   }
 
   save() {
-    console.log('saving', this.mapToMember(this.member));
-    this.memberService.updateMember(this.member)
-      .then(() => {
+    let saveMember = this.mapToMember(this.member);
+    console.log('saving', saveMember);
+    this.memberService.updateMember(saveMember)
+      .subscribe(() => {
         this.router.navigate(['/admin/members']);
       });
   }

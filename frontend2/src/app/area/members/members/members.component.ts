@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { Observable } from 'rxjs/Observable';
+
 import { Member, MemberService } from '../../../services/member.service';
 
 @Component({
@@ -12,12 +15,13 @@ export class MembersComponent implements OnInit {
   members: Member[];
 
   constructor(
-    private memberService: MemberService,
-    private router: Router
+    private router: Router,
+    private memberService: MemberService
   ) { }
 
   ngOnInit() {
-    this.memberService.getMembers().then(members => this.members = members);
+    this.memberService.getMembers()
+      .subscribe(members => this.members = members);
   }
 
   addMember() {

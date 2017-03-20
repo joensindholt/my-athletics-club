@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 export enum Gender { "male", "female" }
 
@@ -31,17 +32,17 @@ export class MemberService {
 
   constructor() { }
 
-  getMembers(): Promise<Member[]> {
-    return Promise.resolve(this.members);
+  getMembers(): Observable<Member[]> {
+    return Observable.of(this.members);
   }
 
-  getMember(slug: string): Promise<Member> {
-    return Promise.resolve(this.members.find(m => m.slug === slug));
+  getMember(slug: string): Observable<Member> {
+    return Observable.of(this.members.find(m => m.slug === slug));
   }
 
-  updateMember(member: Member): Promise<void> {
+  updateMember(member: Member): Observable<void> {
     var index = this.members.findIndex(m => m.id == member.id);
     this.members[index] = member;
-    return Promise.resolve();
+    return Observable.of(null);
   }
 }

@@ -26,6 +26,8 @@
         <div class="col-xs-12 col-sm-9">
           <md-input-container>
             <input mdInput #birthDateInput placeholder="Fødselsdato" [(ngModel)]="member.birthDate" name="birthDate">
+
+            <md-date-picker [(ngModel)]="member.birthDate" name="birthDate"></md-date-picker>
           </md-input-container>
         </div>
       </div>

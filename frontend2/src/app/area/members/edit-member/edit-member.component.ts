@@ -93,4 +93,16 @@ export class EditMemberComponent implements OnInit {
   addPhone() {
     this.member.phones.push(<any>{});
   }
+
+  updateAgeClass() {
+    if (this.member.gender && this.member.birthDate) {
+      let genderPrefix = this.member.gender === 'male' ? 'D' : 'P';
+      let birthYear = new Date(this.member.birthDate).getFullYear();
+      let currentYear = new Date().getFullYear();
+      let ageClassYear = currentYear - birthYear;
+      this.member.ageClass = genderPrefix + ageClassYear;
+    } else {
+      this.member.ageClass = '';
+    }
+  }
 }

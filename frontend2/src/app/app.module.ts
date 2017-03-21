@@ -18,6 +18,7 @@ import { AddMemberButtonComponent } from './area/members/add-member-button/add-m
 import { AddMemberComponent } from './area/members/add-member/add-member.component';
 import { EditMemberComponent } from './area/members/edit-member/edit-member.component';
 import { MaterialModule } from '@angular/material';
+import { Md2DatepickerModule }  from 'md2-datepicker';
 import 'hammerjs';
 
 const appRoutes: Routes = [
@@ -50,6 +51,7 @@ const appRoutes: Routes = [
     HttpModule,
     AdminRoutingModule,
     MaterialModule,
+    Md2DatepickerModule.forRoot(),
     RouterModule.forRoot(appRoutes)
   ],
   providers: [

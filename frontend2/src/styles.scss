@@ -1,0 +1,133 @@
+@import 'material2-app-theme';
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: #fafafa;
+  padding-bottom: 50px;
+}
+
+a {
+  color: mat-color($accent, 1);
+}
+
+.breadcrumbs-wrapper {
+  background: #F3F3F3;
+  padding: 18px 0;
+}
+
+.breadcrumbs-title {
+  font-size: 1.2rem;
+  line-height: 1.8rem;
+  font-weight: 400;
+  margin: 0 18px;
+  opacity: 0.7;
+}
+
+.breadcrumbs {
+  padding: 0;
+  margin: 5px 18px;
+  list-style: none;
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.breadcrumbs>li {
+  display: inline-block;
+}
+
+.breadcrumbs>li+li:before {
+  padding: 0 5px;
+  color: #ccc;
+  content: "/\00a0";
+}
+
+md-card {
+  margin: 15px auto;
+  max-width: 800px;
+}
+
+form {
+  max-width: none !important;
+}
+
+.mat-input-container {
+  display: block !important;
+}
+
+.textarea-input-container {
+  margin-top: 2rem;
+}
+
+md2-datepicker .md2-datepicker-input-container {
+  padding: 9px 0 !important;
+}
+
+md2-datepicker .md2-datepicker-calendar-icon {
+  display: none !important;
+}
+
+md2-datepicker .md2-datepicker-header {
+  background: mat-color($primary, 1) !important;
+}
+
+.md2-datepicker-placeholder {
+  padding: 0 !important;
+}
+
+md2-datepicker:focus .md2-datepicker-placeholder {
+  color: mat-color($primary, 1);
+}
+
+md2-datepicker:focus .md2-datepicker-placeholder {
+  color: mat-color($primary, 1) !important;
+}
+
+.md2-years .md2-year.selected {
+  color: mat-color($primary, 1) !important;
+}
+
+.md2-calendar-day.today {
+  color: mat-color($primary, 1) !important;
+}
+
+.md2-calendar-day.selected:hover {
+  background: mat-color($primary, 1) !important;
+}
+
+.md2-clock-hand line {
+  stroke: mat-color($primary, 1) !important;
+}
+
+.md2-clock-bg {
+  fill: #5aaced !important;
+}
+
+.md2-clock-fg {
+  fill: mat-color($primary, 1) !important;
+}
+
+.md2-clock-center {
+  fill: mat-color($primary, 1) !important;
+}
+
+.mat-select {
+  width: 100% !important;
+  padding-top: 9px !important;
+}
+
+.mat-select-placeholder.mat-floating-placeholder {
+  top: -16px !important;
+  left: -1px !important;
+}
+
+.mat-select {
+  padding-bottom: 18px !important;
+}
+
+.md2-datepicker-input {
+  padding-left: 0 !important;
+}
+
+.md2-datepicker-input-text {
+  font-size: 16px;
+}

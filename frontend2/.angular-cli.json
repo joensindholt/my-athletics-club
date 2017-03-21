@@ -19,8 +19,7 @@
     "prefix": "app",
     "styles": [
       "../node_modules/bootstrap/dist/css/bootstrap.css",
-      "styles.css",
-      "material2-app-theme.scss"
+      "styles.scss"
     ],
     "scripts": [
 

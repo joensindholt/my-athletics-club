@@ -19,30 +19,28 @@
     <md-card>
       <div class="row">
         <div class="col-xs-12 col-sm-3">
-          <md-input-container>
-            <input mdInput #genderInput placeholder="Køn" [(ngModel)]="member.gender" name="gender">
-          </md-input-container>
+          <md-select placeholder="Køn" [(ngModel)]="member.gender" (ngModelChange)="updateAgeClass()" name="gender">
+            <md-option value="female">Pige</md-option>
+            <md-option value="male">Dreng</md-option>
+          </md-select>
         </div>
-        <div class="col-xs-12 col-sm-9">
-          <md-input-container>
-            <input mdInput #birthDateInput placeholder="Fødselsdato" [(ngModel)]="member.birthDate" name="birthDate">
-
-            <md-date-picker [(ngModel)]="member.birthDate" name="birthDate"></md-date-picker>
-          </md-input-container>
+        <div class="col-xs-12 col-sm-3">
+          <md2-datepicker type="date" [(ngModel)]="member.birthDate" (ngModelChange)="updateAgeClass()" placeholder="Fødselsdato" format="DD-MM-YYYY" name="birthDate" min="1940-01-01">
+          </md2-datepicker>
         </div>
       </div>
-    </md-card>
-    <md-card>
       <div class="row">
         <div class="col-xs-12 col-sm-3">
           <md-input-container>
-            <input mdInput #ageClassInput placeholder="Klasse" [(ngModel)]="member.ageClass" name="ageClass">
+            <input mdInput #ageClassInput readonly placeholder="Klasse" [(ngModel)]="member.ageClass" name="ageClass">
           </md-input-container>
         </div>
         <div class="col-xs-12 col-sm-9">
-          <md-input-container>
-            <input mdInput #teamInput placeholder="Hold" [(ngModel)]="member.team" name="team">
-          </md-input-container>
+          <md-select placeholder="Hold" [(ngModel)]="member.team" name="team">
+            <md-option value="minies">Minierne</md-option>
+            <md-option value="middles">Mellem</md-option>
+            <md-option value="elders">De store</md-option>
+          </md-select>
         </div>
       </div>
     </md-card>

@@ -124,6 +124,10 @@ md2-datepicker:focus .md2-datepicker-placeholder {
   padding-bottom: 18px !important;
 }
 
+md2-datepicker {
+  max-width: none !important;
+}
+
 .md2-datepicker-input {
   padding-left: 0 !important;
 }

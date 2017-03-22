@@ -15,7 +15,7 @@ using MyAthleticsClub.Core.Services.Interfaces;
 using MyAthleticsClub.Core.Utilities;
 using Newtonsoft.Json;
 
-namespace MyAthleticsClub.Api.Endpoints.Users
+namespace MyAthleticsClub.Api.Controllers
 {
     public class UserController : Controller
     {

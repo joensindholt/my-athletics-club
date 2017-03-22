@@ -166,16 +166,17 @@ namespace MyAthleticsClub.Api
             services.AddSingleton(_ => cloudStorageAccount);
 
             // Services
-            services.AddTransient<IEventService, EventService>();
-            services.AddTransient<IEventRepository, EventRepository>();
             services.AddTransient<IEventRegistrationsExcelService, EventRegistrationsExcelService>();
+            services.AddTransient<IEventService, EventService>();
+            services.AddTransient<IMemberService, MemberService>();
             services.AddTransient<IRegistrationService, RegistrationService>();
-            services.AddTransient<IRegistrationRepository, RegistrationRepository>();
             services.AddTransient<ISlackService, SlackService>();
             services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IUserRepository, UserRepository>();
 
             // Repositories
+            services.AddTransient<IEventRepository, EventRepository>();
+            services.AddTransient<IMemberRepository, MemberRepository>();
+            services.AddTransient<IRegistrationRepository, RegistrationRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
 
             // Utilities

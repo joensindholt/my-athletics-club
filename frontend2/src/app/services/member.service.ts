@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Headers, Http, Response } from '@angular/http';
+
 import { Observable } from 'rxjs/Observable';
 
 export enum Gender { "male", "female" }
@@ -25,12 +27,20 @@ export class Member {
 @Injectable()
 export class MemberService {
 
+  private headers = new Headers({'Content-Type': 'application/json'});
+
+  private url = 'http://localhost:5000/api/members';
+
   members: Member[] = [
     <any>{ id: 1, slug: 'joensindholt', name: 'Joen Sindholt', addresses: [{}], emails: ['joensindholt@gmail.com', 'joensindholt@unity3d.com'], phones: ['+45 51804599'] },
     <any>{ id: 2, slug: 'glenniesindholt', name: 'Glennie Sindholt', addresses: [<any>{}] }
   ];
 
-  constructor() { }
+  constructor(
+    private http: Http
+  ) {
+
+  }
 
   getMembers(): Observable<Member[]> {
     return Observable.of(this.members);
@@ -40,9 +50,8 @@ export class MemberService {
     return Observable.of(this.members.find(m => m.slug === slug));
   }
 
-  updateMember(member: Member): Observable<void> {
-    var index = this.members.findIndex(m => m.id == member.id);
-    this.members[index] = member;
-    return Observable.of(null);
+  updateMember(member: Member): Observable<Response> {
+    const url = `${this.url}/${member.id}`;
+    return this.http.put(url, JSON.stringify(member), {headers: this.headers});
   }
 }

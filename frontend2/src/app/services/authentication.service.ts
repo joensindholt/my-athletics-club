@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
+
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/toPromise';
+
+import { environment } from './../../environments/environment';
 
 declare var localStorage: any;
 
@@ -17,7 +20,7 @@ export class AuthenticationService {
 
     login(username: string, password: string): Promise<boolean> {
         return this.http
-            .post('http://localhost:5000/api/login', { organizationId: 'gik', username, password })
+            .post(`${environment.apiUrl}/login`, { organizationId: 'gik', username, password })
             .toPromise()
             .then((response: Response) => {
                 let access_token = response.json() && response.json().access_token;

@@ -7,14 +7,12 @@ namespace MyAthleticsClub.Core.Models
 {
     public class Member : IEntityObject
     {
-        public string Id { get; set; }
+        public string Slug { get; set; }
 
         public string OrganizationId { get; set; }
 
         [Required]
         public string Name { get; set; }
-
-        public string Slug { get; set; }
 
         public MemberAddress Address { get; set; }
 
@@ -33,11 +31,12 @@ namespace MyAthleticsClub.Core.Models
         }
 
         public Member(
-            string id,
+            string slug,
             string organizationId,
-            string name)
+            string name
+        )
         {
-            Id = id;
+            Slug = slug;
             OrganizationId = organizationId;
             Name = name;
         }
@@ -49,7 +48,7 @@ namespace MyAthleticsClub.Core.Models
 
         public string GetRowKey()
         {
-            return Id;
+            return Slug;
         }
 
         public enum MemberGender { Male, Female };

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyAthleticsClub.Core.Models;
 using MyAthleticsClub.Core.Services.Interfaces;
@@ -11,29 +10,25 @@ namespace MyAthleticsClub.Api.Controllers
     public class MemberController : Controller
     {
         private readonly IMemberService _memberService;
-        private readonly IIdGenerator _idGenerator;
 
-        public MemberController(IMemberService memberService, IIdGenerator idGenerator)
+        public MemberController(IMemberService memberService)
         {
             _memberService = memberService;
-            _idGenerator = idGenerator;
         }
 
         [HttpGet("api/members")]
-        [AllowAnonymous]
         [ProducesResponseType(typeof(IEnumerable<Member>), 200)]
         public async Task<IActionResult> GetAllMembers()
         {
             var members = await _memberService.GetAllAsync("gik");
-            return Ok(members);
+            return Ok(new { items = members });
         }
 
-        [HttpGet("api/members/{id}")]
-        [AllowAnonymous]
+        [HttpGet("api/members/{slug}")]
         [ProducesResponseType(typeof(Member), 200)]
-        public async Task<IActionResult> GetMember(string id)
+        public async Task<IActionResult> GetMember([FromRoute]string slug)
         {
-            var member = await _memberService.GetAsync("gik", id);
+            var member = await _memberService.GetAsync("gik", slug);
             return Ok(member);
         }
 
@@ -41,7 +36,6 @@ namespace MyAthleticsClub.Api.Controllers
         [ProducesResponseType(typeof(Member), 200)]
         public async Task<IActionResult> CreateMember([FromBody]Member member)
         {
-            member.Id = _idGenerator.GenerateId();
             member.OrganizationId = "gik";
 
             await _memberService.CreateAsync(member);
@@ -49,20 +43,20 @@ namespace MyAthleticsClub.Api.Controllers
             return Ok(member);
         }
 
-        [HttpPut("api/members/{id}")]
+        [HttpPut("api/members/{slug}")]
         [ProducesResponseType(200)]
-        public async Task<IActionResult> UpdateMember(string id, [FromBody]Member member)
+        public async Task<IActionResult> UpdateMember([FromRoute]string slug, [FromBody]Member member)
         {
             member.OrganizationId = "gik";
             await _memberService.UpdateAsync(member);
             return Ok();
         }
 
-        [HttpDelete("api/members/{id}")]
+        [HttpDelete("api/members/{slug}")]
         [ProducesResponseType(200)]
-        public async Task<IActionResult> DeleteMember(string id)
+        public async Task<IActionResult> DeleteMember([FromRoute]string slug)
         {
-            await _memberService.DeleteAsync("gik", id);
+            await _memberService.DeleteAsync("gik", slug);
             return Ok();
         }
     }

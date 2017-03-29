@@ -11,6 +11,7 @@
     "Microsoft.Extensions.Logging.Console": "1.1.0",
     "Microsoft.Extensions.Logging.Debug": "1.1.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
+    "Slugify.Core": "2.2.0",
     "System.ComponentModel.Annotations": "4.3.0",
     "System.IdentityModel.Tokens.Jwt": "5.1.2",
     "WindowsAzure.Storage": "8.0.1"

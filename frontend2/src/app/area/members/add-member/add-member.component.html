@@ -5,11 +5,7 @@
   </ol>
 </div>
 
-<md-card>
-  <form>
-    <md-input-container>
-      <input mdInput #nameInput placeholder="Navn" [(ngModel)]="member.name" name="name">
-    </md-input-container>
-  </form>
-  <button md-raised-button color="accent" type="submit" (click)="save()">Tilføj</button>
-</md-card>
+<div class="container">
+  <app-member-form [member]="member"></app-member-form>
+  <button md-raised-button color="accent" (click)="add()">Opret</button>
+</div>

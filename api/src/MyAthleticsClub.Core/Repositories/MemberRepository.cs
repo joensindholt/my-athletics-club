@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using MyAthleticsClub.Core.Models;
 using MyAthleticsClub.Core.Repositories.Interfaces;
@@ -32,7 +33,7 @@ namespace MyAthleticsClub.Core.Repositories
         {
             var entity = new MemberEntity(
                 member.Name,
-                member.Id,
+                member.Slug,
                 member.OrganizationId);
 
             return entity;

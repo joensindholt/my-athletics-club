@@ -1,3 +1,4 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -20,6 +21,7 @@ import { EditMemberComponent } from './area/members/edit-member/edit-member.comp
 import { MaterialModule } from '@angular/material';
 import { Md2DatepickerModule }  from 'md2-datepicker';
 import 'hammerjs';
+import { MemberFormComponent } from './area/members/member-form/member-form.component';
 
 const appRoutes: Routes = [
   { path: 'admin', component: AdminComponent },
@@ -43,10 +45,12 @@ const appRoutes: Routes = [
     AdminComponent,
     AddMemberButtonComponent,
     AddMemberComponent,
-    EditMemberComponent
+    EditMemberComponent,
+    MemberFormComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpModule,
     AdminRoutingModule,

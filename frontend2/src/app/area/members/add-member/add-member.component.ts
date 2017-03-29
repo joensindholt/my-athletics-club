@@ -16,4 +16,7 @@ export class AddMemberComponent implements OnInit {
     this.member = <Member>{};
   }
 
+  add() {
+
+  }
 }

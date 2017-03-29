@@ -1,5 +1,4 @@
 ﻿using Microsoft.WindowsAzure.Storage.Table;
-using System;
 
 namespace MyAthleticsClub.Core.StorageEntities
 {
@@ -13,9 +12,9 @@ namespace MyAthleticsClub.Core.StorageEntities
         }
 
         public MemberEntity(
-            string id,
+            string slug,
             string organizationId,
-            string name) : base(organizationId, id)
+            string name) : base(organizationId, slug)
         {
             Name = name;
             ETag = "*";

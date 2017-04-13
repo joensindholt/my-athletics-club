@@ -14,7 +14,7 @@ namespace MyAthleticsClub.Core.Models
         [Required]
         public string Name { get; set; }
 
-        public MemberAddress Address { get; set; }
+        public List<MemberAddress> Addresses { get; set; }
 
         public List<string> Emails { get; set; }
 

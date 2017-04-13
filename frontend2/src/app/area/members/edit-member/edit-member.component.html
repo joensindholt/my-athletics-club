@@ -6,6 +6,5 @@
 </div>
 
 <div class="container">
-  <app-member-form [member]="member"></app-member-form>
-  <button md-raised-button color="accent" (click)="save()">Gem</button>
+  <app-member-form [member]="member" [submitButtonText]="'Gem'" (formSubmitted)="onFormSubmitted($event)"></app-member-form>
 </div>

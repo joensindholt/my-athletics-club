@@ -32,9 +32,9 @@ namespace MyAthleticsClub.Core.Repositories
         protected override MemberEntity ConvertObjectToEntity(Member member)
         {
             var entity = new MemberEntity(
-                member.Name,
                 member.Slug,
-                member.OrganizationId);
+                member.OrganizationId,
+                member.Name);
 
             return entity;
         }

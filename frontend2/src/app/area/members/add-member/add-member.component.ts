@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Member, MemberService } from '../../../services/member.service';
 
@@ -10,13 +11,19 @@ export class AddMemberComponent implements OnInit {
 
   member: Member;
 
-  constructor(private memberService: MemberService) { }
+  constructor(
+    private router: Router,
+    private memberService: MemberService
+  ) { }
 
   ngOnInit() {
     this.member = <Member>{};
   }
 
-  add() {
-
+  onFormSubmitted(member: Member) {
+    this.memberService.addMember(member)
+      .subscribe(() => {
+        this.router.navigate(['/admin/members']);
+      });
   }
 }

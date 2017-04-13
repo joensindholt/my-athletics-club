@@ -1,9 +1,9 @@
-<form *ngIf="member">
+<form *ngIf="memberData">
   <md-card>
     <div class="row">
       <div class="col-12">
         <md-input-container>
-          <input mdInput #nameInput placeholder="Navn" [(ngModel)]="member.name" name="name">
+          <input mdInput #nameInput placeholder="Navn" [(ngModel)]="memberData.name" name="name">
         </md-input-container>
       </div>
     </div>
@@ -11,24 +11,24 @@
   <md-card>
     <div class="row">
       <div class="col-xs-12 col-sm-3">
-        <md-select placeholder="Køn" [(ngModel)]="member.gender" (ngModelChange)="updateAgeClass()" name="gender">
+        <md-select placeholder="Køn" [(ngModel)]="memberData.gender" (ngModelChange)="updateAgeClass()" name="gender">
           <md-option value="female">Pige</md-option>
           <md-option value="male">Dreng</md-option>
         </md-select>
       </div>
       <div class="col-xs-12 col-sm-3">
-        <md2-datepicker type="date" [(ngModel)]="member.birthDate" (ngModelChange)="updateAgeClass()" placeholder="Fødselsdato" format="DD-MM-YYYY" name="birthDate" min="1940-01-01">
+        <md2-datepicker type="date" [(ngModel)]="memberData.birthDate" (ngModelChange)="updateAgeClass()" placeholder="Fødselsdato" format="DD-MM-YYYY" name="birthDate" min="1940-01-01">
         </md2-datepicker>
       </div>
     </div>
     <div class="row">
       <div class="col-xs-12 col-sm-3">
         <md-input-container>
-          <input mdInput #ageClassInput readonly placeholder="Klasse" [(ngModel)]="member.ageClass" name="ageClass">
+          <input mdInput #ageClassInput readonly placeholder="Klasse" [(ngModel)]="memberData.ageClass" name="ageClass">
         </md-input-container>
       </div>
       <div class="col-xs-12 col-sm-9">
-        <md-select placeholder="Hold" [(ngModel)]="member.team" name="team">
+        <md-select placeholder="Hold" [(ngModel)]="memberData.team" name="team">
           <md-option value="minies">Minierne</md-option>
           <md-option value="middles">Mellem</md-option>
           <md-option value="elders">De store</md-option>
@@ -36,7 +36,7 @@
       </div>
     </div>
   </md-card>
-  <div *ngFor="let address of member.addresses; let i = index">
+  <div *ngFor="let address of memberData.addresses; let i = index">
     <md-card>
       <div class="row">
         <div class="col-12">
@@ -66,7 +66,7 @@
   </div>
 
   <md-card>
-    <div *ngFor="let email of member.emails; let i = index">
+    <div *ngFor="let email of memberData.emails; let i = index">
       <div class="row">
         <div class="col-12">
           <md-input-container>
@@ -83,7 +83,7 @@
   </div>
 
   <md-card>
-    <div *ngFor="let phone of member.phones; let i = index">
+    <div *ngFor="let phone of memberData.phones; let i = index">
       <div class="row">
         <div class="col-12">
           <md-input-container>
@@ -99,3 +99,4 @@
     </div>
   </div>
 </form>
+<button md-raised-button color="accent" (click)="submit()">{{submitButtonText}}</button>

@@ -23,72 +23,14 @@ export class EditMemberComponent implements OnInit {
     this.memberService.getMember(slug)
       .subscribe(member => {
         this.originalMember = member;
-        this.mapFromMember(member);
       });
   }
 
-  mapFromMember(member: Member): any {
-    this.member = Object.assign({}, member);
-
-    this.member.addresses = this.member.addresses || [<any>{}];
-
-    if (member.emails && member.emails.length > 0) {
-      this.member.emails = [];
-      for (let email of member.emails) {
-        this.member.emails.push({ value: email });
-      }
-    } else {
-      this.member.emails = [{}];
-    }
-
-    if (member.phones && member.phones.length > 0) {
-      this.member.phones = [];
-      for (let phone of member.phones) {
-        this.member.phones.push({ value: phone });
-      }
-    } else {
-      this.member.phones = [{}];
-    }
-}
-
-  mapToMember(data: any): Member {
-    var member = <Member>Object.assign({}, data);
-
-    if (data.emails && data.emails.length > 0) {
-      member.emails = [];
-      for (let email of data.emails) {
-        member.emails.push(email.value);
-      }
-    }
-
-    if (data.phones && data.phones.length > 0) {
-      member.phones = [];
-      for (let phone of data.phones) {
-        member.phones.push(phone.value);
-      }
-    }
-
-    return member;
-  }
-
-  save() {
-    let saveMember = this.mapToMember(this.member);
-    console.log('saving', saveMember);
-    this.memberService.updateMember(saveMember)
+  onFormSubmitted(member: Member) {
+    console.log('updating member', member);
+    this.memberService.updateMember(member)
       .subscribe(() => {
         this.router.navigate(['/admin/members']);
       });
-  }
-
-  addAddress() {
-    this.member.addresses.push(<any>{});
-  }
-
-  addEmail() {
-    this.member.emails.push(<any>{});
-  }
-
-  addPhone() {
-    this.member.phones.push(<any>{});
   }
 }

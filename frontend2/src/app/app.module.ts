@@ -1,3 +1,4 @@
+import 'hammerjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -20,8 +21,8 @@ import { AddMemberComponent } from './area/members/add-member/add-member.compone
 import { EditMemberComponent } from './area/members/edit-member/edit-member.component';
 import { MaterialModule } from '@angular/material';
 import { Md2DatepickerModule }  from 'md2-datepicker';
-import 'hammerjs';
 import { MemberFormComponent } from './area/members/member-form/member-form.component';
+import { ApiService } from './services/api.service';
 
 const appRoutes: Routes = [
   { path: 'admin', component: AdminComponent },
@@ -60,6 +61,7 @@ const appRoutes: Routes = [
   ],
   providers: [
     AuthGuard,
+    ApiService,
     AuthenticationService
   ],
   bootstrap: [AppComponent]

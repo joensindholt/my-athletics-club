@@ -6,6 +6,5 @@
 </div>
 
 <div class="container">
-  <app-member-form [member]="member"></app-member-form>
-  <button md-raised-button color="accent" (click)="add()">Opret</button>
+  <app-member-form [member]="member" [submitButtonText]="'Opret'" (formSubmitted)="onFormSubmitted($event)"></app-member-form>
 </div>

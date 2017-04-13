@@ -38,7 +38,7 @@ namespace MyAthleticsClub.Api
 
             if (env.IsDevelopment())
             {
-                builder.AddUserSecrets();
+                builder.AddUserSecrets<Startup>();
             }
 
             Log.Logger = new LoggerConfiguration()

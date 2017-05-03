@@ -1,4 +1,4 @@
-api: ![AppVeyor status](https://ci.appveyor.com/api/projects/status/1j19uxm7fm24y1g9/branch/master?svg=true)
+![AppVeyor status](https://ci.appveyor.com/api/projects/status/1j19uxm7fm24y1g9/branch/master?svg=true)
 
 # My Athletics Club
 

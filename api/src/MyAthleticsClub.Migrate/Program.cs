@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using MongoDB.Driver;
 using MyAthleticsClub.Migrate.Repositories;
+using System;
+using System.Threading.Tasks;
 
 namespace MyAthleticsClub.Migrate
 {
@@ -21,7 +21,7 @@ namespace MyAthleticsClub.Migrate
             var configuration =
                 new ConfigurationBuilder()
                     .AddEnvironmentVariables()
-                    .AddUserSecrets()
+                    .AddUserSecrets<Program>()
                     .Build();
 
             var accountName = configuration["AZURE_ACCOUNT_NAME"];

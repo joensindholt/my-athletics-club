@@ -6,7 +6,7 @@ using MyAthleticsClub.Core.Models;
 using MyAthleticsClub.Core.Services.Interfaces;
 using MyAthleticsClub.Core.Utilities;
 
-namespace MyAthleticsClub.Api.Events
+namespace MyAthleticsClub.Api.Controllers
 {
     public class EventController : Controller
     {

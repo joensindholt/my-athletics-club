@@ -152,6 +152,11 @@ namespace MyAthleticsClub.Core.Repositories
             return _event;
         }
 
+        public virtual async Task<bool> ExistsAsync(string partitionKey, string rowKey)
+        {
+            return await TryGetAsync(partitionKey, rowKey) != null;
+        }
+
         public virtual async Task UpdateAsync(TObject _object)
         {
             _object.GetRowKey().VerifyNotNullOrWhiteSpace("RowKey");

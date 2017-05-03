@@ -61,7 +61,7 @@ angular.module("templates", []).run(["$templateCache",
             scope.modelArr = [];
           }
           scope.onFocus = function () {
-            scope.isFocused = true
+            scope.isFocused = false
           };
 
           scope.onMouseEnter = function () {
@@ -98,31 +98,45 @@ angular.module("templates", []).run(["$templateCache",
               }
             }
             else if (key == 'down') {
+              scope.isFocused = true;
               var filteredSuggestionArr = $filter('filter')(scope.suggestionsArr, scope.inputValue);
               filteredSuggestionArr = $filter('filter')(filteredSuggestionArr, scope.alreadyAddedValues);
               if (scope.selectedItemIndex < filteredSuggestionArr.length - 1)
                 scope.selectedItemIndex++;
             }
             else if (key == 'up' && scope.selectedItemIndex > 0) {
+              scope.isFocused = true;
               scope.selectedItemIndex--;
             }
             else if (key == 'esc') {
               scope.isHover = false;
               scope.isFocused = false;
             }
-            else if (key == 'enter') {
+            else if (key == 'enter' || (key == 'tab' && scope.isFocused)) {
               var filteredSuggestionArr = $filter('filter')(scope.suggestionsArr, scope.inputValue);
               filteredSuggestionArr = $filter('filter')(filteredSuggestionArr, scope.alreadyAddedValues);
               if (scope.selectedItemIndex < filteredSuggestionArr.length)
                 scope.onSuggestedItemsClick(filteredSuggestionArr[scope.selectedItemIndex]);
               else
                 scope.selectUnknownElement();
+
+              scope.isFocused = false;
+              $event.preventDefault();
             }
             else if (key == 'comma') {
               scope.selectUnknownElement();
               $event.preventDefault();
             }
+            else if (scope.isNumberOrCharacter($event.keyCode)){
+              scope.isFocused = true;
+            }
           };
+
+          scope.isNumberOrCharacter = function(keycode) {
+            return (keycode > 47 && keycode < 58) || // Numbers
+                   (keycode > 64 && keycode < 91) || // characters
+                   (keycode > 95 && keycode < 112);  // Numpad keys 
+          }
 
           scope.selectUnknownElement = function () {
               var value = scope.inputValue;

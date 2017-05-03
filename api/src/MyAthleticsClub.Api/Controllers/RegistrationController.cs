@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyAthleticsClub.Core.Models;
 using MyAthleticsClub.Core.Services.Interfaces;
 
-namespace MyAthleticsClub.Api.Events
+namespace MyAthleticsClub.Api.Controllers
 {
     public class RegistrationController : Controller
     {

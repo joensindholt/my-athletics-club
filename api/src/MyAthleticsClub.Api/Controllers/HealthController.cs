@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MyAthleticsClub.Api.Health
+namespace MyAthleticsClub.Api.Controllers
 {
     public class HealthController : Controller
     {

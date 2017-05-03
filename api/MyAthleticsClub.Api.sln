@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{19E364AE-D12E-4FD7-AAD7-1552A4D6A903}"
 EndProject
@@ -11,17 +11,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MyAthleticsClub.Api", "src\MyAthleticsClub.Api\MyAthleticsClub.Api.xproj", "{F8433627-9BC8-4448-A4C8-E40992086F24}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{8D3F6283-0A20-4CFD-9511-A71A67A28D53}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MyAthleticsClub.Api.UnitTests", "test\MyAthleticsClub.Api.UnitTests\MyAthleticsClub.Api.UnitTests.xproj", "{439B389D-D006-479C-983C-6DA8DAD61A8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyAthleticsClub.Api", "src\MyAthleticsClub.Api\MyAthleticsClub.Api.csproj", "{F8433627-9BC8-4448-A4C8-E40992086F24}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MyAthleticsClub.Migrate", "src\MyAthleticsClub.Migrate\MyAthleticsClub.Migrate.xproj", "{89FB079A-90F3-48A4-B556-FCDB4C0CDEAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyAthleticsClub.Api.UnitTests", "test\MyAthleticsClub.Api.UnitTests\MyAthleticsClub.Api.UnitTests.csproj", "{439B389D-D006-479C-983C-6DA8DAD61A8E}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MyAthleticsClub.Core", "src\MyAthleticsClub.Core\MyAthleticsClub.Core.xproj", "{EC697AD9-29FC-44B5-9ADD-D7ABD0EF89D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyAthleticsClub.Migrate", "src\MyAthleticsClub.Migrate\MyAthleticsClub.Migrate.csproj", "{89FB079A-90F3-48A4-B556-FCDB4C0CDEAE}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MyAthleticsClub.Core.UnitTests", "test\MyAthleticsClub.Core.UnitTests\MyAthleticsClub.Core.UnitTests.xproj", "{CE7FE064-0A8A-4A78-BEE4-60E54851B886}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyAthleticsClub.Core", "src\MyAthleticsClub.Core\MyAthleticsClub.Core.csproj", "{EC697AD9-29FC-44B5-9ADD-D7ABD0EF89D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,10 +43,6 @@ Global
 		{EC697AD9-29FC-44B5-9ADD-D7ABD0EF89D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC697AD9-29FC-44B5-9ADD-D7ABD0EF89D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC697AD9-29FC-44B5-9ADD-D7ABD0EF89D4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CE7FE064-0A8A-4A78-BEE4-60E54851B886}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CE7FE064-0A8A-4A78-BEE4-60E54851B886}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CE7FE064-0A8A-4A78-BEE4-60E54851B886}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CE7FE064-0A8A-4A78-BEE4-60E54851B886}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +52,5 @@ Global
 		{439B389D-D006-479C-983C-6DA8DAD61A8E} = {8D3F6283-0A20-4CFD-9511-A71A67A28D53}
 		{89FB079A-90F3-48A4-B556-FCDB4C0CDEAE} = {19E364AE-D12E-4FD7-AAD7-1552A4D6A903}
 		{EC697AD9-29FC-44B5-9ADD-D7ABD0EF89D4} = {19E364AE-D12E-4FD7-AAD7-1552A4D6A903}
-		{CE7FE064-0A8A-4A78-BEE4-60E54851B886} = {8D3F6283-0A20-4CFD-9511-A71A67A28D53}
 	EndGlobalSection
 EndGlobal

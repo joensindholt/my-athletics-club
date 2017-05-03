@@ -15,6 +15,7 @@ using MyAthleticsClub.Core.Repositories;
 using MyAthleticsClub.Core.Repositories.Interfaces;
 using MyAthleticsClub.Core.Services;
 using MyAthleticsClub.Core.Services.Interfaces;
+using MyAthleticsClub.Core.Slug;
 using MyAthleticsClub.Core.Utilities;
 using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
@@ -37,7 +38,7 @@ namespace MyAthleticsClub.Api
 
             if (env.IsDevelopment())
             {
-                builder.AddUserSecrets();
+                builder.AddUserSecrets<Startup>();
             }
 
             Log.Logger = new LoggerConfiguration()
@@ -166,20 +167,22 @@ namespace MyAthleticsClub.Api
             services.AddSingleton(_ => cloudStorageAccount);
 
             // Services
-            services.AddTransient<IEventService, EventService>();
-            services.AddTransient<IEventRepository, EventRepository>();
-            services.AddTransient<IEventRegistrationsExcelService, EventRegistrationsExcelService>();
-            services.AddTransient<IRegistrationService, RegistrationService>();
-            services.AddTransient<IRegistrationRepository, RegistrationRepository>();
-            services.AddTransient<ISlackService, SlackService>();
-            services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddScoped<IEventRegistrationsExcelService, EventRegistrationsExcelService>();
+            services.AddScoped<IEventService, EventService>();
+            services.AddScoped<IMemberService, MemberService>();
+            services.AddScoped<IRegistrationService, RegistrationService>();
+            services.AddScoped<ISlackService, SlackService>();
+            services.AddScoped<IUserService, UserService>();
 
             // Repositories
-            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped<IMemberRepository, MemberRepository>();
+            services.AddScoped<IRegistrationRepository, RegistrationRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             // Utilities
-            services.AddTransient<IIdGenerator, IdGenerator>();
+            services.AddScoped<IIdGenerator, IdGenerator>();
+            services.AddScoped<ISlugGenerator, SlugGenerator>();
         }
     }
 }

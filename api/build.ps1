@@ -3,4 +3,3 @@ dotnet restore
 Set-Location ../MyAthleticsClub.Api/
 dotnet restore
 dotnet build
-Set-Location ../..

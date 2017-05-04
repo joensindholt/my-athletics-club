@@ -39,7 +39,7 @@ namespace MyAthleticsClub.Api.UnitTests.Endpoints.Users.Services
             // Assert
             Assert.True(result is OkObjectResult, "An OK response was expected");
             Assert.True(((OkObjectResult)result).Value is string);
-            Assert.True(JObject.Parse(((string)((OkObjectResult)result).Value))["access_token"].Value<string>().Length > 0);
+            Assert.False(JObject.Parse(((string)((OkObjectResult)result).Value))["access_token"].Value<string>().Length > 0);
         }
 
         private static JwtIssuerOptions GetTestJwtOptions()

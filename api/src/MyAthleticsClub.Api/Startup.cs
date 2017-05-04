@@ -134,7 +134,7 @@ namespace MyAthleticsClub.Api
 
         private void ConfigureJwtAuthentication(IApplicationBuilder app)
         {
-            var jwtAppSettingO ptions = Configuration.GetSection(nameof(JwtIssuerOptions));
+            var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuer = true,

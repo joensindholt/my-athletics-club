@@ -17,6 +17,7 @@ module events {
 
     private showParticipantEmailList: boolean;
     private participanEmailList: string;
+    private copiedDisciplines: any;
 
     static $inject = [
       '$scope',
@@ -134,6 +135,14 @@ module events {
       document.execCommand("Copy");
     }
 
+    copyDisciplinesToClipboard(disciplines) {
+      this.copiedDisciplines = disciplines;
+    }
+
+    pasteDisciplinesFromClipboard(index) {
+      (<any>this.event).disciplines[index].disciplines = this.copiedDisciplines;
+    }
+    
     private updateExcelDownloadUrl() {
       this.excelDownloadUrl = globals.apiUrl + '/events/' + this.event.id + '/registrations.xlsx';
     }

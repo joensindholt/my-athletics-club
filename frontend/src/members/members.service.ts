@@ -108,7 +108,7 @@ module members {
 
     getAllowedBirthYears(): Array<number> {
       var currentYear = new Date().getFullYear();
-      var maximumYear = currentYear - 4 + 1;
+      var maximumYear = currentYear - 2 + 1;
       var minimumYear = currentYear - 19 - 1;
 
       var birthYears = [];

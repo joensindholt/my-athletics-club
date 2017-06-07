@@ -52,6 +52,10 @@ module users {
       this.userProfile = {};
       (<any>this.$rootScope).isAuthenticated = false;
     }
+
+    isLoggedInOnServer() {
+      return this.$http.get(this.API_PATH + '/isloggedin');
+    }
   }
 }
 

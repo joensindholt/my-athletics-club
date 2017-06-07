@@ -14,6 +14,7 @@ module events {
 
     static $inject = [
       '$scope',
+      '$rootScope',
       '$state',
       '$window',
       'moment',
@@ -21,14 +22,23 @@ module events {
       'AuthService'
     ];
 
-    constructor(private $scope: IScope,
-                private $state,
-                private $window: ng.IWindowService,
-                private moment: moment.MomentStatic,
-                private EventsService: EventsService,
-                private AuthService: users.AuthService) {
-      this.updateEventLists();
-      this.listenForChildEvents();
+    constructor(
+      private $scope: IScope,
+      private $rootScope,
+      private $state,
+      private $window: ng.IWindowService,
+      private moment: moment.MomentStatic,
+      private EventsService: EventsService,
+      private AuthService: users.AuthService) {
+
+      this.AuthService.isLoggedInOnServer().then(() => {
+        this.$rootScope.isAuthenticated = true;
+        this.updateEventLists();
+        this.listenForChildEvents();
+      }).catch(err => {
+        this.updateEventLists();
+        this.listenForChildEvents();
+      });
     }
 
     updateEventLists() {
@@ -116,7 +126,7 @@ module events {
 
       if (this.moment(date).isSame(new Date(), 'day')) {
         return 'i dag';
-      } 
+      }
 
       return this.moment(date).from(today);
     }

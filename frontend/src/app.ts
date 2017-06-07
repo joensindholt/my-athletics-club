@@ -29,11 +29,10 @@ module app {
     'ui.bootstrap.datepickerPopup',
     'vcRecaptcha',
     'angular-autogrow',
-    'multipleSelect',
-    'angular-jwt'
+    'multipleSelect'
     // ---
-  ]).config(['$stateProvider', '$httpProvider', 'jwtOptionsProvider', 'jwtInterceptorProvider', config])
-    .run(['AuthService', 'authManager', run])
+  ]).config(['$stateProvider', '$httpProvider', config])
+    .run([run])
 
   angular.module('core', ['ngSanitize']);
   angular.module('events', []);
@@ -44,9 +43,7 @@ module app {
 
   function config(
     $stateProvider: angular.ui.IStateProvider,
-    $httpProvider: ng.IHttpProvider,
-    jwtOptionsProvider,
-    jwtInterceptorProvider
+    $httpProvider: ng.IHttpProvider
   ) {
 
     $stateProvider
@@ -76,8 +73,8 @@ module app {
       })
       .state('login', {
         url: '/login',
-        templateUrl: 'users/jwt-login.html',
-        controller: 'JwtLoginController',
+        templateUrl: 'users/login.html',
+        controller: 'LoginController',
         controllerAs: 'vm'
       })
       .state('logout', {
@@ -99,24 +96,10 @@ module app {
         controllerAs: 'vm'
       });
 
-    jwtOptionsProvider.config({
-      tokenGetter: function () {
-        return localStorage.getItem('access_token');
-      },
-      whiteListedDomains: [globals.apiDomain]
-    });
-
-    $httpProvider.interceptors.push('jwtInterceptor');
-
     $httpProvider.interceptors.push('tokenInterceptor');
   }
 
-  function run(authService, authManager) {
-    // Use the authManager from angular-jwt to check for
-    // the user's authentication state when the page is
-    // refreshed and maintain authentication
-    authManager.checkAuthOnRefresh();
-
+  function run() {
     console.log('app running');
   }
 }

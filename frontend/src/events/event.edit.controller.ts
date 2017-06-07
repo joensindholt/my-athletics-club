@@ -29,7 +29,8 @@ module events {
       '$element',
       'moment',
       'EventsService',
-      'AuthService'
+      'AuthService',
+      'hotkeys'
     ];
 
     constructor(
@@ -42,7 +43,8 @@ module events {
       private $element: ng.IRootElementService,
       private moment: moment.MomentStatic,
       private EventsService: EventsService,
-      private AuthService: users.AuthService
+      private AuthService: users.AuthService,
+      private hotkeys
     ) {
       if (!$state.params.id) {
         $state.go('home');
@@ -83,6 +85,15 @@ module events {
         // init controller registrations - ordered by name
         this.registrations = _.orderBy(registrations, ['name']);
       });
+
+      hotkeys.add({
+        combo: 'ctrl+c',
+        description: 'Kopier discipliner',
+        allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+        callback: () => {
+          console.log('ctrl + c entered');
+        } 
+      })
     }
 
     updateDisciplines(event: Event) {

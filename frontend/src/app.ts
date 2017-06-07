@@ -30,7 +30,8 @@ module app {
     'vcRecaptcha',
     'angular-autogrow',
     'multipleSelect',
-    'angular-jwt'
+    'angular-jwt',
+    'cfp.hotkeys'
     // ---
   ]).config(['$stateProvider', '$httpProvider', 'jwtOptionsProvider', 'jwtInterceptorProvider', config])
     .run(['AuthService', 'authManager', run])

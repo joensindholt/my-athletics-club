@@ -1,5 +1,7 @@
 /// <reference path="../../typings/tsd.d.ts"/>
 
+declare var toastr: any;
+
 module events {
   'use strict';
 
@@ -17,6 +19,8 @@ module events {
 
     private showParticipantEmailList: boolean;
     private participanEmailList: string;
+    private copiedDisciplines: any;
+    private currentlyFocusedDisciplines: any;
 
     static $inject = [
       '$scope',
@@ -28,7 +32,8 @@ module events {
       '$element',
       'moment',
       'EventsService',
-      'AuthService'
+      'AuthService',
+      'hotkeys'
     ];
 
     constructor(
@@ -41,7 +46,8 @@ module events {
       private $element: ng.IRootElementService,
       private moment: moment.MomentStatic,
       private EventsService: EventsService,
-      private AuthService: users.AuthService
+      private AuthService: users.AuthService,
+      private hotkeys
     ) {
       if (!$state.params.id) {
         $state.go('home');
@@ -82,6 +88,31 @@ module events {
         // init controller registrations - ordered by name
         this.registrations = _.orderBy(registrations, ['name']);
       });
+
+      hotkeys.add({
+        combo: 'ctrl+c',
+        description: 'Kopier discipliner',
+        allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+        callback: (e) => {
+          if (this.currentlyFocusedDisciplines) {
+            this.copyDisciplinesToClipboard(this.currentlyFocusedDisciplines);
+          }
+        } 
+      });
+
+      hotkeys.add({
+        combo: 'ctrl+s',
+        description: 'Gem ændringer',
+        allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+        callback: (e) => {
+          this.saveNow(this.event);
+          e.preventDefault();
+        }         
+      })
+    }
+
+    onDisciplineSelectFocus(disciplines) {
+      this.currentlyFocusedDisciplines = disciplines;
     }
 
     updateDisciplines(event: Event) {
@@ -113,6 +144,7 @@ module events {
 
       this.EventsService.update(event).then(() => {
         this.showSave = false;
+        toastr.info('Dine ændringer er gemt');
       });
     }
 
@@ -147,6 +179,16 @@ module events {
       document.execCommand("Copy");
     }
 
+    copyDisciplinesToClipboard(disciplines) {
+      this.copiedDisciplines = _.clone(disciplines);
+      var disciplineText = disciplines.length == 1 ? 'disciplin' : 'discipliner';
+      toastr.info(disciplines.length + ' ' + disciplineText + ' kopieret til udklipsholderen');
+    }
+
+    pasteDisciplinesFromClipboard(index) {
+      (<any>this.event).disciplines[index].disciplines = this.copiedDisciplines;
+    }
+    
     private updateExcelDownloadUrl() {
       this.excelDownloadUrl = globals.apiUrl + '/events/' + this.event.id + '/registrations.xlsx';
     }

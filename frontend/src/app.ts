@@ -29,8 +29,8 @@ module app {
     'ui.bootstrap.datepickerPopup',
     'vcRecaptcha',
     'angular-autogrow',
-    'multipleSelect'
-    // ---
+    'multipleSelect',
+    'cfp.hotkeys'
   ]).config(['$stateProvider', '$httpProvider', config])
     .run([run])
 

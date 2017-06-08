@@ -76,8 +76,9 @@
       <div class="col-xs-3 col-sm-2 text-center larger-text ">
         {{ ageGroup }} {{ ageGroup !== 'K' && ageGroup !== 'M' ? 'år' : '' }}
       </div>
-      <div class="col-xs-9 col-sm-10">
-        <multiple-autocomplete ng-model="vm.event.disciplines[$index].disciplines" object-property="name" suggestions-arr="vm.availableDisciplines" after-select-item="vm.showSave = true" after-remove-item="vm.showSave = true">
+      <div class="col-xs-8 col-sm-11">
+        <multiple-autocomplete ng-model="vm.event.disciplines[$index].disciplines" object-property="name" suggestions-arr="vm.availableDisciplines" after-select-item="vm.showSave = true" after-remove-item="vm.showSave = true" on-directive-focus="vm.onDisciplineSelectFocus(disciplines)"
+          clipboard-disciplines="vm.copiedDisciplines">
         </multiple-autocomplete>
       </div>
     </div>

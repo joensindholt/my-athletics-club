@@ -77,12 +77,9 @@
         {{ ageGroup }} {{ ageGroup !== 'K' && ageGroup !== 'M' ? 'år' : '' }}
       </div>
       <div class="col-xs-8 col-sm-11">
-        <multiple-autocomplete ng-model="vm.event.disciplines[$index].disciplines" object-property="name" suggestions-arr="vm.availableDisciplines" after-select-item="vm.showSave = true" after-remove-item="vm.showSave = true">
+        <multiple-autocomplete ng-model="vm.event.disciplines[$index].disciplines" object-property="name" suggestions-arr="vm.availableDisciplines" after-select-item="vm.showSave = true" after-remove-item="vm.showSave = true" on-directive-focus="vm.onDisciplineSelectFocus(disciplines)"
+          clipboard-disciplines="vm.copiedDisciplines">
         </multiple-autocomplete>
-      </div>
-      <div class="col-xs-1 col-sm-1">
-        <i class="fa fa-arrow-left" ng-show="vm.copiedDisciplines" ng-click="vm.pasteDisciplinesFromClipboard($index)"></i>
-        <i class="fa fa-clipboard" ng-show="vm.event.disciplines[$index].disciplines.length > 0" ng-click="vm.copyDisciplinesToClipboard(vm.event.disciplines[$index].disciplines)"></i>
       </div>
     </div>
   </div>

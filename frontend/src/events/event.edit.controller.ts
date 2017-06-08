@@ -1,5 +1,7 @@
 /// <reference path="../../typings/tsd.d.ts"/>
 
+declare var toastr: any;
+
 module events {
   'use strict';
 
@@ -18,6 +20,7 @@ module events {
     private showParticipantEmailList: boolean;
     private participanEmailList: string;
     private copiedDisciplines: any;
+    private currentlyFocusedDisciplines: any;
 
     static $inject = [
       '$scope',
@@ -90,10 +93,26 @@ module events {
         combo: 'ctrl+c',
         description: 'Kopier discipliner',
         allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
-        callback: () => {
-          console.log('ctrl + c entered');
+        callback: (e) => {
+          if (this.currentlyFocusedDisciplines) {
+            this.copyDisciplinesToClipboard(this.currentlyFocusedDisciplines);
+          }
         } 
+      });
+
+      hotkeys.add({
+        combo: 'ctrl+s',
+        description: 'Gem ændringer',
+        allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+        callback: (e) => {
+          this.saveNow(this.event);
+          e.preventDefault();
+        }         
       })
+    }
+
+    onDisciplineSelectFocus(disciplines) {
+      this.currentlyFocusedDisciplines = disciplines;
     }
 
     updateDisciplines(event: Event) {
@@ -112,6 +131,7 @@ module events {
 
       this.EventsService.update(event).then(() => {
         this.showSave = false;
+        toastr.info('Dine ændringer er gemt');
       });
     }
 
@@ -147,7 +167,9 @@ module events {
     }
 
     copyDisciplinesToClipboard(disciplines) {
-      this.copiedDisciplines = disciplines;
+      this.copiedDisciplines = _.clone(disciplines);
+      var disciplineText = disciplines.length == 1 ? 'disciplin' : 'discipliner';
+      toastr.info(disciplines.length + ' ' + disciplineText + ' kopieret til udklipsholderen');
     }
 
     pasteDisciplinesFromClipboard(index) {

@@ -1,6 +1,6 @@
 angular.module("templates", []).run(["$templateCache",
   function ($templateCache) {
-    $templateCache.put("multiple-autocomplete-tpl.html", "<div class=\"multiple-autocomplete\"><div class=\"ng-ms form-item-container\">\r\n    <ul class=\"list-inline\">\r\n        <li ng-repeat=\"item in modelArr\">\r\n			<span ng-if=\"objectProperty == undefined || objectProperty == \'\'\">\r\n				{{item}} <span class=\"remove\" ng-click=\"removeAddedValues(item)\">\r\n                <i class=\"fa fa-times\"></i></span>&nbsp;\r\n			</span>\r\n            <span ng-if=\"objectProperty != undefined && objectProperty != \'\'\">\r\n				{{item[objectProperty]}} <span class=\"remove\" ng-click=\"removeAddedValues(item)\">\r\n                <i class=\"fa fa-times\"></i></span>&nbsp;\r\n			</span>\r\n        </li>\r\n        <li>\r\n            <input name=\"{{name}}\" ng-model=\"inputValue\" placeholder=\"\" ng-keydown=\"keyParser($event)\"\r\n                   err-msg-required=\"{{errMsgRequired}}\"\r\n                   ng-focus=\"onFocus()\" ng-blur=\"onBlur()\" ng-required=\"!modelArr.length && isRequired\"\r\n                    ng-change=\"onChange()\">\r\n        </li>\r\n    </ul>\r\n</div>\r\n<div class=\"autocomplete-list\" ng-show=\"isFocused || isHover\" ng-mouseenter=\"onMouseEnter()\" ng-mouseleave=\"onMouseLeave()\">\r\n    <ul ng-if=\"objectProperty == undefined || objectProperty == \'\'\">\r\n        <li ng-class=\"{\'autocomplete-active\' : selectedItemIndex == $index}\"\r\n            ng-repeat=\"suggestion in suggestionsArr | filter : inputValue | filter : alreadyAddedValues\"\r\n            ng-click=\"onSuggestedItemsClick(suggestion)\" ng-mouseenter=\"mouseEnterOnItem($index)\">\r\n            {{suggestion}}\r\n        </li>\r\n    </ul>\r\n    <ul ng-if=\"objectProperty != undefined && objectProperty != \'\'\">\r\n        <li ng-class=\"{\'autocomplete-active\' : selectedItemIndex == $index}\"\r\n            ng-repeat=\"suggestion in suggestionsArr | filter : inputValue | filter : alreadyAddedValues\"\r\n            ng-click=\"onSuggestedItemsClick(suggestion)\" ng-mouseenter=\"mouseEnterOnItem($index)\">\r\n            {{suggestion[objectProperty]}}\r\n        </li>\r\n    </ul>\r\n</div></div>");
+    $templateCache.put("multiple-autocomplete-tpl.html", "<div class=\"multiple-autocomplete\"><div class=\"ng-ms form-item-container\">\r\n    <ul class=\"list-inline\">\r\n        <li ng-repeat=\"item in modelArr\">\r\n			<span ng-if=\"objectProperty == undefined || objectProperty == \'\'\">\r\n				{{item}} <span class=\"remove\" ng-click=\"removeAddedValues(item)\">\r\n                <i class=\"fa fa-times\"></i></span>&nbsp;\r\n			</span>\r\n            <span ng-if=\"objectProperty != undefined && objectProperty != \'\'\">\r\n				{{item[objectProperty]}} <span class=\"remove\" ng-click=\"removeAddedValues(item)\">\r\n                <i class=\"fa fa-times\"></i></span>&nbsp;\r\n			</span>\r\n        </li>\r\n        <li>\r\n            <input name=\"{{name}}\" ng-model=\"inputValue\" placeholder=\"\" ng-keydown=\"keyParser($event)\" ng-keyup=\"onKeyUp($event)\"\r\n                   err-msg-required=\"{{errMsgRequired}}\"\r\n                   ng-focus=\"onFocus()\" ng-blur=\"onBlur()\" ng-required=\"!modelArr.length && isRequired\"\r\n                    ng-change=\"onChange()\">\r\n        </li>\r\n    </ul>\r\n</div>\r\n<div class=\"autocomplete-list\" ng-show=\"isFocused || isHover\" ng-mouseenter=\"onMouseEnter()\" ng-mouseleave=\"onMouseLeave()\">\r\n    <ul ng-if=\"objectProperty == undefined || objectProperty == \'\'\">\r\n        <li ng-class=\"{\'autocomplete-active\' : selectedItemIndex == $index}\"\r\n            ng-repeat=\"suggestion in suggestionsArr | filter : inputValue | filter : alreadyAddedValues\"\r\n            ng-click=\"onSuggestedItemsClick(suggestion)\" ng-mouseenter=\"mouseEnterOnItem($index)\">\r\n            {{suggestion}}\r\n        </li>\r\n    </ul>\r\n    <ul ng-if=\"objectProperty != undefined && objectProperty != \'\'\">\r\n        <li ng-class=\"{\'autocomplete-active\' : selectedItemIndex == $index}\"\r\n            ng-repeat=\"suggestion in suggestionsArr | filter : inputValue | filter : alreadyAddedValues\"\r\n            ng-click=\"onSuggestedItemsClick(suggestion)\" ng-mouseenter=\"mouseEnterOnItem($index)\">\r\n            {{suggestion[objectProperty]}}\r\n        </li>\r\n    </ul>\r\n</div></div>");
   }]);
 (function () {
   //declare all modules and their dependencies.
@@ -26,7 +26,9 @@ angular.module("templates", []).run(["$templateCache",
           beforeSelectItem: '&',
           afterSelectItem: '&',
           beforeRemoveItem: '&',
-          afterRemoveItem: '&'
+          afterRemoveItem: '&',
+          onDirectiveFocus: '&',
+          clipboardDisciplines: '='
         },
         templateUrl: 'multiple-autocomplete-tpl.html',
         link: function (scope, element, attr) {
@@ -61,11 +63,12 @@ angular.module("templates", []).run(["$templateCache",
             scope.modelArr = [];
           }
           scope.onFocus = function () {
-            scope.isFocused = false
+            if (scope.onDirectiveFocus)
+              scope.onDirectiveFocus({ disciplines: scope.modelArr });
           };
 
           scope.onMouseEnter = function () {
-            scope.isHover = true
+            scope.isHover = true;
           };
 
           scope.onMouseLeave = function () {
@@ -80,6 +83,13 @@ angular.module("templates", []).run(["$templateCache",
             scope.selectedItemIndex = 0;
           };
 
+          scope.onKeyUp = function ($event) {
+            var ctrl = 17;
+            if ($event.keyCode === ctrl) {
+              scope.ctrlDown = false;
+            }
+          }
+
           scope.keyParser = function ($event) {
             var keys = {
               38: 'up',
@@ -88,11 +98,32 @@ angular.module("templates", []).run(["$templateCache",
               13: 'enter',
               9: 'tab',
               27: 'esc',
-              188: 'comma'
+              188: 'comma',
+              17: 'ctrl',
+              86: 'v'
             };
 
             var key = keys[$event.keyCode];
-            if (key == 'backspace' && scope.inputValue == "") {
+            if (key == 'ctrl') {
+              scope.ctrlDown = true;
+            }
+
+            if (scope.ctrlDown) {
+              if (key == 'v' && scope.clipboardDisciplines) {
+                _.each(scope.clipboardDisciplines, d => {
+                  if (!_.some(scope.modelArr, m => (<any>m).id == d.id)) {
+                    scope.modelArr.push(d);
+                  }
+                });
+
+                $event.preventDefault();
+                scope.afterSelectItem();
+              }
+
+              return;
+            }
+
+            if (key == 'backspace' && !scope.inputValue) {
               if (scope.modelArr.length != 0) {
                 scope.removeAddedValues(scope.modelArr[scope.modelArr.length - 1]);
               }
@@ -127,22 +158,22 @@ angular.module("templates", []).run(["$templateCache",
               scope.selectUnknownElement();
               $event.preventDefault();
             }
-            else if (scope.isNumberOrCharacter($event.keyCode)){
+            else if (scope.isNumberOrCharacter($event.keyCode)) {
               scope.isFocused = true;
             }
           };
 
-          scope.isNumberOrCharacter = function(keycode) {
+          scope.isNumberOrCharacter = function (keycode) {
             return (keycode > 47 && keycode < 58) || // Numbers
-                   (keycode > 64 && keycode < 91) || // characters
-                   (keycode > 95 && keycode < 112);  // Numpad keys 
+              (keycode > 64 && keycode < 91) || // characters
+              (keycode > 95 && keycode < 112);  // Numpad keys 
           }
 
           scope.selectUnknownElement = function () {
-              var value = scope.inputValue;
-              var valueObject = { id: -1 };
-              valueObject[scope.objectProperty] = value;
-              scope.onSuggestedItemsClick(valueObject);
+            var value = scope.inputValue;
+            var valueObject = { id: -1 };
+            valueObject[scope.objectProperty] = value;
+            scope.onSuggestedItemsClick(valueObject);
           }
 
           scope.onSuggestedItemsClick = function (selectedValue) {
@@ -171,13 +202,6 @@ angular.module("templates", []).run(["$templateCache",
           scope.alreadyAddedValues = function (item) {
             var isAdded = true;
             isAdded = !isDuplicate(scope.modelArr, item);
-            //if(scope.modelArr != null && scope.modelArr != ""){
-            //    isAdded = scope.modelArr.indexOf(item) == -1;
-            //    console.log("****************************");
-            //    console.log(item);
-            //    console.log(scope.modelArr);
-            //    console.log(isAdded);
-            //}
             return isAdded;
           };
 

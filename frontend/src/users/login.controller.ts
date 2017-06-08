@@ -5,20 +5,31 @@ module users {
 
   export class LoginController {
 
+    username: string;
+    password: string;
+    loginError: string;
+
     static $inject = [
-      'lock',
-      'AuthService'
+      'AuthService',
+      '$state'
     ];
 
     constructor(
-      private lock,
-      private AuthService
+      private AuthService: AuthService,
+      private $state
     ) {
-      this.lock.show();
+      this.AuthService.logout();
     }
 
     login() {
-      this.AuthService.login();
+      this.loginError = null;
+      this.AuthService.login(this.username, this.password)
+        .then(() => {
+          this.$state.go('events');
+        })
+        .catch((err: any) => {
+          this.loginError = 'Hmmm...vi kunne ikke logge dig ind. Har du angivet din email og adgangskode korrekt?';
+        });
     }
   }
 }

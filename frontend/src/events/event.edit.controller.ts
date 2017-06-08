@@ -116,13 +116,26 @@ module events {
     }
 
     updateDisciplines(event: Event) {
-
-      if (!event.disciplines || event.disciplines.length === 0) {
+      // make sure we have at least an empty 
+      // set of disciplines on the event
+      if (!event.disciplines) {
         event.disciplines = [];
-        for (var i = 0; i < this.ageGroups.length; i++) {
-          event.disciplines.push({ ageGroup: this.ageGroups[i], disciplines: [] });
+      }
+
+      // create new sanitized list of disciplines with all agegroups
+      var sanitized = [];
+      for (var i = 0; i < this.ageGroups.length; i++) {
+        var ageGroup = this.ageGroups[i];
+        var existing = _.find(event.disciplines, d => d.ageGroup === ageGroup);
+        if (existing) {
+          sanitized[i] = existing;
+        } else {
+          sanitized[i] = { ageGroup: this.ageGroups[i], disciplines: [] };
         }
       }
+
+      // override event disciplines with the sanitized list
+      event.disciplines = sanitized;
     }
 
     saveNow(event: Event) {

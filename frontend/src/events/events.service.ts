@@ -199,12 +199,12 @@ module events {
     getAgeClasses() {
       var classes = [];
 
-      for (let i = 7; i <= 19; i++) {
+      for (let i = 2; i <= 19; i++) {
         classes.push('P' + i);
       }
       classes.push('K');
 
-      for (let i = 7; i <= 19; i++) {
+      for (let i = 2; i <= 19; i++) {
         classes.push('D' + i);
       }
       classes.push('M');
@@ -214,7 +214,7 @@ module events {
 
     getAgeGroups() {
       var ageGroups = [];
-      for (let i = 7; i <= 19; i++) {
+      for (let i = 2; i <= 19; i++) {
         ageGroups.push(i.toString());
       }
       ageGroups.push('K');

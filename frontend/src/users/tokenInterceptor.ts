@@ -10,7 +10,6 @@ module users {
         var token = localStorage.getItem('access_token');
         if (token) {
           config.headers.Authorization = 'Bearer ' + token;
-          $rootScope.isAuthenticated = true;
         }
 
         return config;

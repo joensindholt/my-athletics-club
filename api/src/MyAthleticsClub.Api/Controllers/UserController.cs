@@ -78,5 +78,13 @@ namespace MyAthleticsClub.Api.Controllers
 
             return new OkObjectResult(json);
         }
+
+        // This route needs auth by default so if it returns ok
+        // the user is logged in
+        [Route("/api/isloggedin")]
+        public IActionResult IsLoggedIn()
+        {
+            return Ok();
+        }
     }
 }

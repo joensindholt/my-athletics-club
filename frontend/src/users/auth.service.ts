@@ -33,14 +33,17 @@ module users {
         username: username,
         password: password
       })
-      .success((data: { access_token: string }) => {
-        localStorage.setItem('access_token', data.access_token);
-        (<any>this.$rootScope).isAuthenticated = true;
-        deferred.resolve();
-      })
-      .error(data => {
-        deferred.reject(data);
-      });
+        .success((data: { access_token: string, expires: number }) => {
+          localStorage.setItem('access_token', data.access_token);
+          localStorage.setItem('expires', data.expires.toString());
+          console.log('local storage updated');
+
+          (<any>this.$rootScope).isAuthenticated = true;
+          deferred.resolve();
+        })
+        .error(data => {
+          deferred.reject(data);
+        });
 
       return deferred.promise;
     }
@@ -49,12 +52,22 @@ module users {
     // id_token and profile
     logout() {
       localStorage.removeItem('access_token');
+      localStorage.removeItem('expires');
       this.userProfile = {};
       (<any>this.$rootScope).isAuthenticated = false;
     }
 
-    isLoggedInOnServer() {
-      return this.$http.get(this.API_PATH + '/isloggedin');
+    checkLoginStatus(): boolean {
+      let expires = localStorage.getItem('expires');
+      let now = (new Date().getTime() / 1000);
+
+      let isLoggedIn = false;
+      if (expires && parseInt(expires) > now) {
+        isLoggedIn = true;
+      }
+
+      (<any>this.$rootScope).isAuthenticated = isLoggedIn;
+      return isLoggedIn;
     }
   }
 }

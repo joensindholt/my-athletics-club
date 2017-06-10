@@ -32,7 +32,7 @@ module app {
     'multipleSelect',
     'cfp.hotkeys'
   ]).config(['$stateProvider', '$httpProvider', config])
-    .run([run])
+    .run(['AuthService', run])
 
   angular.module('core', ['ngSanitize']);
   angular.module('events', []);
@@ -99,7 +99,8 @@ module app {
     $httpProvider.interceptors.push('tokenInterceptor');
   }
 
-  function run() {
-    console.log('app running');
+  function run(authService) {
+    let isLoggedIn = authService.checkLoginStatus();
+    console.log('App running', isLoggedIn);
   }
 }

@@ -68,7 +68,8 @@ namespace MyAthleticsClub.Api.Controllers
             var response = new
             {
                 access_token = encodedJwt,
-                expires_in = (int)_jwtOptions.ValidFor.TotalSeconds
+                expires_in = (int)_jwtOptions.ValidFor.TotalSeconds,
+                expires = _jwtOptions.Expiration.ToUnixEpochDate()
             };
 
             var json = JsonConvert.SerializeObject(response, new JsonSerializerSettings

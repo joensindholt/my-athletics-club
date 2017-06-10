@@ -29,16 +29,10 @@ module events {
       private $window: ng.IWindowService,
       private moment: moment.MomentStatic,
       private EventsService: EventsService,
-      private AuthService: users.AuthService) {
-
-      this.AuthService.isLoggedInOnServer().then(() => {
-        this.$rootScope.isAuthenticated = true;
-        this.updateEventLists();
-        this.listenForChildEvents();
-      }).catch(err => {
-        this.updateEventLists();
-        this.listenForChildEvents();
-      });
+      private AuthService: users.AuthService
+    ) {
+      this.updateEventLists();
+      this.listenForChildEvents();
     }
 
     updateEventLists() {

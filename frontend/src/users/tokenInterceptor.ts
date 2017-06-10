@@ -6,9 +6,11 @@ module users {
   export function tokenInterceptor($q: ng.IQService, $rootScope) {
     return {
       'request': function (config) {
+        let token = localStorage.getItem('access_token');
+        let expires = localStorage.getItem('expires');
+        let now = (new Date().getTime() / 1000);
 
-        var token = localStorage.getItem('access_token');
-        if (token) {
+        if (token && expires && parseInt(expires) > now) {
           config.headers.Authorization = 'Bearer ' + token;
         }
 

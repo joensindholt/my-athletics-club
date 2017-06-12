@@ -12,10 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="wwwroot\web.config" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="wwwroot\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>

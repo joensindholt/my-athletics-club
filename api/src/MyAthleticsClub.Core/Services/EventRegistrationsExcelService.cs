@@ -32,7 +32,7 @@ namespace MyAthleticsClub.Core.Services
 
                     // Add values
                     int rowIndex = 2;
-                    registrations.ToList().ForEach(registration =>
+                    registrations.OrderBy(r => r.Timestamp).ToList().ForEach(registration =>
                     {
                         var name = registration.Name;
                         var year = registration.BirthYear;
@@ -67,21 +67,6 @@ namespace MyAthleticsClub.Core.Services
                             rowIndex++;
                         });
                     });
-
-                    //worksheet.Cells["A2"].Value = 1000;
-                    //worksheet.Cells["B2"].Value = "Jon";
-                    //worksheet.Cells["C2"].Value = "M";
-                    //worksheet.Cells["D2"].Value = 5000;
-
-                    //worksheet.Cells["A3"].Value = 1001;
-                    //worksheet.Cells["B3"].Value = "Graham";
-                    //worksheet.Cells["C3"].Value = "M";
-                    //worksheet.Cells["D3"].Value = 10000;
-
-                    //worksheet.Cells["A4"].Value = 1002;
-                    //worksheet.Cells["B4"].Value = "Jenny";
-                    //worksheet.Cells["C4"].Value = "F";
-                    //worksheet.Cells["D4"].Value = 5000;
 
                     package.Save(); //Save the workbook.
                 }

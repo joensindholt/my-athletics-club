@@ -86,7 +86,7 @@ module events {
       // get event registrations      
       this.EventsService.getRegistrations($state.params.id).then(registrations => {
         // init controller registrations - ordered by name
-        this.registrations = _.orderBy(registrations, ['name']);
+        this.registrations = _.orderBy(registrations, ['timestamp']);
       });
 
       hotkeys.add({

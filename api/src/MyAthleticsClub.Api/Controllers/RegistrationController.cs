@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -32,7 +33,7 @@ namespace MyAthleticsClub.Api.Controllers
         public async Task<IActionResult> GetEventRegistrations(string eventId)
         {
             var registrations = await _registrationService.GetEventRegistrationsAsync(eventId);
-            return Ok(registrations);
+            return Ok(registrations.OrderBy(r => r.Timestamp));
         }
 
         [HttpGet("api/events/{eventId}/registrations.xlsx")]

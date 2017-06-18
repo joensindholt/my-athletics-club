@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MyAthleticsClub.Core.Repositories.Interfaces;
 
 namespace MyAthleticsClub.Core.Models
@@ -13,6 +14,7 @@ namespace MyAthleticsClub.Core.Models
         public string BirthYear { get; set; }
         public List<RegistrationDiscipline> Disciplines { get; set; }
         public List<RegistrationExtraDiscipline> ExtraDisciplines { get; set; }
+        public DateTimeOffset Timestamp { get; }
 
         public Registration()
         {
@@ -26,7 +28,8 @@ namespace MyAthleticsClub.Core.Models
             string ageClass,
             string birthYear,
             List<RegistrationDiscipline> disciplines,
-            List<RegistrationExtraDiscipline> extraDisciplines)
+            List<RegistrationExtraDiscipline> extraDisciplines,
+            DateTimeOffset timestamp)
             : this()
         {
             Id = id;
@@ -37,6 +40,7 @@ namespace MyAthleticsClub.Core.Models
             BirthYear = birthYear;
             Disciplines = disciplines;
             ExtraDisciplines = extraDisciplines;
+            Timestamp = timestamp;
         }
 
         public string GetPartitionKey()

@@ -31,7 +31,8 @@ namespace MyAthleticsClub.Core.Repositories
                 entity.AgeClass,
                 entity.BirthYear,
                 entity.DisciplinesJson != null ? JsonConvert.DeserializeObject<List<RegistrationDiscipline>>(entity.DisciplinesJson) : new List<RegistrationDiscipline>(),
-                entity.ExtraDisciplinesJson != null ? JsonConvert.DeserializeObject<List<RegistrationExtraDiscipline>>(entity.ExtraDisciplinesJson) : new List<RegistrationExtraDiscipline>()
+                entity.ExtraDisciplinesJson != null ? JsonConvert.DeserializeObject<List<RegistrationExtraDiscipline>>(entity.ExtraDisciplinesJson) : new List<RegistrationExtraDiscipline>(),
+                entity.Timestamp
             );
         }
 

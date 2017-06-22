@@ -9,57 +9,21 @@
 
   <ul class="o-detail-list">
     <li class="o-detail-list__item" ng-class="{ 'o-detail-list__item--with-info' : event.info }" ng-repeat="event in vm.events">
-      <div class="o-detail-list__item-content">
-        <div class="o-detail-list__left">
-          <div>
-            <span class="o-details-list__meta-item"><i class="fa fa-calendar" /> {{ event.date | formatdate }} ({{ vm.getDateFromNow(event.date) }})</span>
-            <span class="o-details-list__meta-item"><i class="fa fa-map-marker" /> {{ event.address }}</span>
-          </div>
-          <div class="o-detail-list__title">{{ event.title }}</div>
-          <div>
-            <span class="o-details-list__meta-item" ng-class="{ 'o-details-list__meta-item-warn' : vm.isImminent(event.registrationPeriodEndDate) }">
-              <span ng-if="event.registrationPeriodEndDate">
-                <i class="fa fa-exclamation" aria-hidden="true" ng-show="vm.isImminent(event.registrationPeriodEndDate)"></i>
-                <span>Sidste tilmelding:</span> 
-                <span class="no-break">{{ event.registrationPeriodEndDate | formatdate }} ({{ vm.getDateFromNow(event.registrationPeriodEndDate) }})</span>
-              </span>
-            </span>
-          </div>
-        </div>
-        <div class="o-detail-list__right">
-          <a ng-show="event.isOpenForRegistration || isAuthenticated" ui-sref="events_register({ id: event.id })" class="o-button" ng-class="{ 'o-button--primary' : !isAuthenticated } ">Tilmeld</a>
-          <a ng-show="!event.isOpenForRegistration && !isAuthenticated" class="o-button o-button--default o-button--disabled">Tilmelding lukket</a>
-          <a ui-sref="events_edit({ id: event.id })" class="o-button o-button--default" ng-show="isAuthenticated">Ret stævne</a>
-          <button ng-click="vm.handleEventDeleteClicked(event)" title="Slet stævne" class="o-button o-button--default" ng-show="isAuthenticated">
-            <i class="fa fa-trash-o"></i>
-          </button>
-        </div>
-      </div>
-      <div class="o-detail-list__item-footer">
-        <div class="o-detail-list__item-footer-more" ng-click="more = !more">
-          <i ng-show="!more" class="fa fa-angle-down" aria-hidden="true"></i>  
-          <i ng-show="more" class="fa fa-angle-up" aria-hidden="true"></i>  
-        </div>
-        <div class="o-detail-list__item-footer-content" ng-show="more">
-          <p ng-show="event.info">{{event.info}}</p>
-          
-          <div ng-show="event.registrationsStatus == 'pending'">Henter tilmeldinger...et øjeblik</div>
-          <div ng-show="event.registrations && event.registrations.length == 0">Der er ikke nogen der har tilmeldt sig endnu. Du kan blive den første.</div>
-          <div ng-show="event.registrations && event.registrations.length > 0">
-            <h5>Tilmeldinger:</h5>
-            <ul class="o-simple-lists">    
-              <li ng-repeat="registration in event.registrations">
-                {{registration.name}}: 
-                <span ng-repeat="discipline in registration.disciplines">
-                  {{discipline.name}} ({{vm.getDisciplineClass(discipline, registration)}}){{$index < registration.disciplines.length - 2 ? ', ' : ''}}{{$index == registration.disciplines.length - 2 ? ' og ' : ''}}
-                </span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <event-list-item event="event"></event-list-item>
     </li>
   </ul>
+
+  <div class="center standout" ng-show="vm.oldEvents">
+    <a ng-show="!showOldEvents" ng-click="showOldEvents = true">Vis mig tidligere stævner</a>
+  </div>
+  <ul class="o-detail-list" ng-show="showOldEvents">
+    <li class="o-detail-list__item" ng-class="{ 'o-detail-list__item--with-info' : event.info }" ng-repeat="event in vm.oldEvents" 
+        style="opacity: 0.5;">
+      <event-list-item event="event"></event-list-item>
+    </li>
+  </ul>
+  
+
 </div>
 
 <div ng-show="!isAuthenticated && vm.events.length === 0">

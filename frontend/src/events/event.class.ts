@@ -19,6 +19,7 @@ module events {
     registrationsStatus: string; // Client only property
     registrations: Array<Registration>; // Client only property
     isOpenForRegistration: boolean;
+    isOldEvent: boolean;
 
     constructor(eventData: any) {
       this.id = eventData._id || eventData.id || -1;
@@ -28,6 +29,7 @@ module events {
       this.link = eventData.link;
       this.disciplines = eventData.disciplines || [];
       this.info = eventData.info;
+      this.isOldEvent = eventData.isOldEvent;
 
       this.registrationPeriodStartDate = null;
       if (eventData.registrationPeriodStartDate) {

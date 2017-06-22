@@ -20,6 +20,7 @@ namespace MyAthleticsClub.Core.Models
         public DateTime? RegistrationPeriodStartDate { get; set; }
         public DateTime? RegistrationPeriodEndDate { get; set; }
         public string Info { get; set; }
+        public bool IsOldEvent { get; set; }
 
         public Event()
         {
@@ -48,6 +49,7 @@ namespace MyAthleticsClub.Core.Models
             RegistrationPeriodStartDate = registrationPeriodStartDate;
             RegistrationPeriodEndDate = registrationPeriodEndDate;
             Info = info;
+            IsOldEvent = date.Date < DateTime.Today.AddDays(-7);
         }
 
         public string GetPartitionKey()

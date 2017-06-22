@@ -17,7 +17,6 @@ module events {
       '$rootScope',
       '$state',
       '$window',
-      'moment',
       'EventsService',
       'AuthService'
     ];
@@ -27,7 +26,6 @@ module events {
       private $rootScope,
       private $state,
       private $window: ng.IWindowService,
-      private moment: moment.MomentStatic,
       private EventsService: EventsService,
       private AuthService: users.AuthService
     ) {
@@ -39,12 +37,7 @@ module events {
       if (this.$scope.isAuthenticated) {
         this.EventsService.getAll()
           .then(events => {
-            this.events = _.orderBy(events, ['date'], ['asc']);
-
-            _.each(this.events, event => {
-              event.registrationsStatus = 'pending';
-              this.getRegistrations(event);
-            });
+            this.handleServerEventsReceived(events);
           })
           .catch(err => {
             throw err;
@@ -52,17 +45,28 @@ module events {
       } else {
         this.EventsService.getPublicEvents()
           .then(events => {
-            this.events = _.orderBy(events, ['date'], ['asc']);
-
-            _.each(this.events, event => {
-              event.registrationsStatus = 'pending';
-              this.getRegistrations(event);
-            });
+            this.handleServerEventsReceived(events);
           })
           .catch(err => {
             throw err;
           });
       }
+    }
+
+    handleServerEventsReceived(events: Event[]) {
+      // get registrations for all events - one by one
+      _.each(events, event => {
+        event.registrationsStatus = 'pending';
+        this.getRegistrations(event);
+      });
+
+      // resolve current and old events
+      let activeEvents = _.filter(events, e => !e.isOldEvent);
+      let oldEvents = _.filter(events, e => e.isOldEvent);
+
+      // populate lists      
+      this.events = _.orderBy(activeEvents, ['date'], ['asc']);
+      this.oldEvents = _.orderBy(oldEvents, ['date'], ['desc']);
     }
 
     addEvent() {
@@ -98,33 +102,6 @@ module events {
       this.$state.go('login');
     }
 
-    isImminent(date: Date) {
-      if (!date) {
-        return false;
-      }
-
-      var now = new Date();
-      now.setHours(0, 0, 0, 0);
-      var diff = (date.getTime() - now.getTime());
-      var millisecondsOnADay = 1000 * 60 * 60 * 24;
-      return diff < millisecondsOnADay * 5;
-    }
-
-    getDateFromNow(date: Date) {
-      if (!date) {
-        return '';
-      }
-
-      var today = new Date();
-      today.setUTCHours(0, 0, 0, 0);
-
-      if (this.moment(date).isSame(new Date(), 'day')) {
-        return 'i dag';
-      }
-
-      return this.moment(date).from(today);
-    }
-
     getRegistrations(event: Event) {
       this.EventsService.getRegistrations(event.id).then(registrations => {
 
@@ -135,14 +112,6 @@ module events {
         event.registrations = registrations;
         event.registrationsStatus = 'fetched';
       });
-    }
-
-    getDisciplineClass(discipline, registration) {
-      if (discipline.ageClass) {
-        return discipline.ageClass;
-      }
-
-      return registration.ageClass;
     }
   }
 }

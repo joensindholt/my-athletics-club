@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace MyAthleticsClub.Api.UnitTests.Endpoints.Users.Services
+namespace MyAthleticsClub.UnitTests.Api.Endpoints.Users.Services
 {
     public class UserControllerTests
     {
@@ -27,10 +27,10 @@ namespace MyAthleticsClub.Api.UnitTests.Endpoints.Users.Services
             var userServiceMock = Substitute.For<IUserService>();
             userServiceMock.TryGetClaimsIdentityAsync(user).Returns(new ClaimsIdentity());
 
-            var userController = 
+            var userController =
                 new UserController(
                     Options.Create(GetTestJwtOptions()),
-                    Substitute.For<ILogger<UserController>>(), 
+                    Substitute.For<ILogger<UserController>>(),
                     userServiceMock);
 
             // Act

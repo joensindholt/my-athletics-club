@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Bson;
@@ -34,7 +35,8 @@ namespace MyAthleticsClub.Migrate.Repositories
                     name: e["name"].AsString,
                     personalRecord: ((BsonDocument)e).Contains("personalRecord") ? e["personalRecord"].AsString : null
                 )).ToList(),
-                extraDisciplines: new List<RegistrationExtraDiscipline>()
+                extraDisciplines: new List<RegistrationExtraDiscipline>(),
+                timestamp: DateTimeOffset.Now
             );
 
             return registration;

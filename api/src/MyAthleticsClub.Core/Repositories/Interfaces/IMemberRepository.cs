@@ -17,5 +17,7 @@ namespace MyAthleticsClub.Core.Repositories.Interfaces
         Task DeleteAsync(string organizationId, string slug);
 
         Task<bool> ExistsAsync(string organizationId, string slug);
+
+        Task<int> CountAllAsync(string organizationId);
     }
 }

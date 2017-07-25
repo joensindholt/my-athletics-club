@@ -32,10 +32,12 @@ module members {
       }
       // ... else get from server
       this.$http.get(this.API_PATH + '/members').then(response => {
+
         // put in cache
-        this.members = _.map(<Array<any>>response.data, (memberData) => {
+        this.members = _.map(<Array<any>>response.data.items, (memberData) => {
           return new Member(memberData);
         });
+
         // ... and return
         deferred.resolve(this.members)
       }).catch(err => {

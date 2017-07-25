@@ -10,7 +10,7 @@ namespace MyAthleticsClub.Core.Services.Interfaces
 
         Task<Member> GetAsync(string organizationId, string slug);
 
-        Task CreateAsync(Member member);
+        Task CreateAsync(string organizationId, Member member);
 
         Task UpdateAsync(Member member);
 

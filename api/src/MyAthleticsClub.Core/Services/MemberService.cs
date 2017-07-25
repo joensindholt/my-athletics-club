@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MyAthleticsClub.Core.Models;
 using MyAthleticsClub.Core.Repositories.Interfaces;
@@ -28,16 +29,10 @@ namespace MyAthleticsClub.Core.Services
             return await _memberRepository.GetAsync(organizationId, slug);
         }
 
-        public async Task CreateAsync(Member member)
+        public async Task CreateAsync(string organizationId, Member member)
         {
-            var slugKey = 0;
-            do
-            {
-                member.Slug = _slugGenerator.GenerateSlug(member.Name, slugKey);
-                slugKey++;
-            }
-            while (await _memberRepository.ExistsAsync(member.OrganizationId, member.Slug));
-
+            member.Id = Guid.NewGuid().ToString();
+            member.Number = await GetNextMemberNumberAsync(organizationId);
             await _memberRepository.CreateAsync(member);
         }
 
@@ -49,6 +44,15 @@ namespace MyAthleticsClub.Core.Services
         public async Task DeleteAsync(string organizationId, string slug)
         {
             await _memberRepository.DeleteAsync(organizationId, slug);
+        }
+
+        private async Task<string> GetNextMemberNumberAsync(string organizationId)
+        {
+            var members = await _memberRepository.CountAllAsync(organizationId);
+            var currentYear2Digit = DateTime.Now.Year.ToString().Substring(2, 2);
+            var startNumber = int.Parse(currentYear2Digit + "347");
+            var nextNumber = startNumber + members;
+            return nextNumber.ToString();
         }
     }
 }

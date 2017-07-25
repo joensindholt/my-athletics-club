@@ -1,21 +1,32 @@
 <topbar></topbar>
 
-<h1 class="center">Medlemmer</h1>
-
-<div class="center">
-  <button class="o-button o-button--primary" ui-sref="members_add">Tilføj medlem</button>
+<div ng-show="isAuthenticated || vm.events.length > 0">
+  <h1 class="center">Medlemmer</h1>
+  <div class="center">
+    <button class="o-button o-button--primary" ui-sref="members_add">Tilføj medlem</button>
+  </div>
+  <div class="spacy--more">
+    <table class="o-table">
+      <thead>
+        <tr>
+          <th>Medl.nr.</th>
+          <th>Navn</th>
+          <th>Email</th>
+          <th>Email 2</th>
+          <th>Familie medl.nr.</th>
+          <th>Fødselsdato</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="member in vm.members">
+          <td>{{ member.number }}</td>
+          <td>{{ member.name }}</td>
+          <td>{{ member.email }}</td>
+          <td>{{ member.email2 }}</td>
+          <td>{{ member.familyMembershipNumber }}</td>
+          <td>{{ member.birthDate }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
-
-<ul class="o-detail-list">
-  <li class="o-detail-list__item" ng-repeat="member in vm.members">
-    <div class="o-detail-list__left">
-      <a class="o-detail-list__title" ui-sref="members_edit({ id: member.id })">
-          {{ member.name }}
-      </a>
-    </div>
-    <div class="o-detail-list__right">
-      <a ui-sref="members_edit({ id: member.id })" class="o-button o-button--default" ng-show="isAuthenticated">Ret medlem</a>
-      <button ng-click="vm.handleMemberDeleteClicked(member)" title="Slet medlem" class="o-button o-button--default"><i class="fa fa-trash-o"></i></button>
-    </div>
-  </li>
-</ul>

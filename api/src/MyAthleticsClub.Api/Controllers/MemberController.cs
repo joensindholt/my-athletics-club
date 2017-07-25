@@ -38,7 +38,7 @@ namespace MyAthleticsClub.Api.Controllers
         {
             member.OrganizationId = "gik";
 
-            await _memberService.CreateAsync(member);
+            await _memberService.CreateAsync("gik", member);
 
             return Ok(member);
         }

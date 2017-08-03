@@ -7,7 +7,7 @@ module featuretoggles {
 
     static $inject = [];
 
-    isMembersEnabled(): boolean { return false; }
+    isMembersEnabled(): boolean { return true; }
   }
 }
 

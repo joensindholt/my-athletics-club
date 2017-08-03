@@ -16,7 +16,12 @@ module members {
       this.email = memberData.email;
       this.email2 = memberData.email2;
       this.familyMembershipNumber = memberData.familyMembershipNumber;
-      this.birthDate = memberData.birthDate
+      this.birthDate = memberData.birthDate;
+
+      // Get date part only from birth date 
+      if (this.birthDate && this.birthDate.length > 10) {
+        this.birthDate = this.birthDate.substring(0, 10);
+      }
     }
   }
 }

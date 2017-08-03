@@ -22,7 +22,7 @@ namespace MyAthleticsClub.Core.Models
 
         public string FamilyMembershipNumber { get; set; }
 
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
 
         public Member()
         {
@@ -36,7 +36,7 @@ namespace MyAthleticsClub.Core.Models
             string email,
             string email2,
             string familyMembershipNumber,
-            DateTime birthDate)
+            DateTime? birthDate)
         {
             OrganizationId = organizationId;
             Id = id;

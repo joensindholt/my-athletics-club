@@ -5,8 +5,14 @@
   <div class="center">
     <button class="o-button o-button--primary" ui-sref="members_add">Tilføj medlem</button>
   </div>
+
+  <h4>Filtrér medlemmer</h4>
+  <div class="spacy--mosre">
+    <input type="text" ng-model="search" class="c-formular-input center" />
+  </div>
+
   <div class="spacy--more">
-    <table class="o-table">
+    <table class="o-table o-table--hover-rows">
       <thead>
         <tr>
           <th>Medl.nr.</th>
@@ -18,13 +24,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="member in vm.members">
+        <tr ng-repeat="member in vm.members | filter:search" ui-sref="members_edit({ id: member.id })">
           <td>{{ member.number }}</td>
           <td>{{ member.name }}</td>
           <td>{{ member.email }}</td>
           <td>{{ member.email2 }}</td>
           <td>{{ member.familyMembershipNumber }}</td>
-          <td>{{ member.birthDate }}</td>
+          <td>{{ member.birthDate | limitTo: 10 }}</td>
         </tr>
       </tbody>
     </table>

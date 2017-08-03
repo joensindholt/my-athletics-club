@@ -32,7 +32,8 @@ namespace MyAthleticsClub.Core.Repositories
                 entity.Email,
                 entity.Email2,
                 entity.FamilyMembershipNumber,
-                DateTime.Parse(entity.BirthDate, CultureInfo.InvariantCulture));
+                entity.BirthDate != null ? (DateTime?)DateTime.Parse(entity.BirthDate, CultureInfo.InvariantCulture) 
+                                         : null);
 
             return member;
         }

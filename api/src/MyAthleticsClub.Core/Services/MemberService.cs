@@ -24,9 +24,9 @@ namespace MyAthleticsClub.Core.Services
             return await _memberRepository.GetAllByPartitionKey(organizationId);
         }
 
-        public async Task<Member> GetAsync(string organizationId, string slug)
+        public async Task<Member> GetAsync(string organizationId, string id)
         {
-            return await _memberRepository.GetAsync(organizationId, slug);
+            return await _memberRepository.GetAsync(organizationId, id);
         }
 
         public async Task CreateAsync(string organizationId, Member member)
@@ -41,9 +41,9 @@ namespace MyAthleticsClub.Core.Services
             await _memberRepository.UpdateAsync(member);
         }
 
-        public async Task DeleteAsync(string organizationId, string slug)
+        public async Task DeleteAsync(string organizationId, string id)
         {
-            await _memberRepository.DeleteAsync(organizationId, slug);
+            await _memberRepository.DeleteAsync(organizationId, id);
         }
 
         private async Task<string> GetNextMemberNumberAsync(string organizationId)

@@ -8,12 +8,12 @@ namespace MyAthleticsClub.Core.Services.Interfaces
     {
         Task<IEnumerable<Member>> GetAllAsync(string organizationId);
 
-        Task<Member> GetAsync(string organizationId, string slug);
+        Task<Member> GetAsync(string organizationId, string id);
 
         Task CreateAsync(string organizationId, Member member);
 
         Task UpdateAsync(Member member);
 
-        Task DeleteAsync(string organizationId, string slug);
+        Task DeleteAsync(string organizationId, string id);
     }
 }

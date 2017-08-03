@@ -5,6 +5,7 @@ module members {
 
   export class MemberAddController {
 
+    form: any;
     member: Member = new Member({});
     errorMessage: string;
     birthYears: Array<number>;
@@ -33,8 +34,19 @@ module members {
         return;
       }
 
+      if (!member.email) {
+        this.errorMessage = 'Du kan ikke oprette et medlem uden email-adresse';
+        return;
+      }
+
+      if (!this.form.inputBirthDate.$valid) {
+        this.errorMessage = 'Fødselsdatoen skal være i formatet: åååå-mm-dd';
+        return;
+      }
+
       this.MembersService.add(member).then(member => {
-        this.$state.go('members');
+        toastr.info('Medlemmet er oprettet med medlemsnummer ' + member.number);
+        setTimeout(() => this.$state.go('members'), 1000);
       });
     }
   }

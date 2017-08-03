@@ -31,10 +31,9 @@ module members {
         return deferred.promise;
       }
       // ... else get from server
-      this.$http.get(this.API_PATH + '/members').then(response => {
-
+      this.$http.get(this.API_PATH + '/members').then((response: any) => {
         // put in cache
-        this.members = _.map(<Array<any>>response.data.items, (memberData) => {
+        this.members = _.map(response.data.items, (memberData) => {
           return new Member(memberData);
         });
 
@@ -82,7 +81,7 @@ module members {
     update(member: Member): ng.IPromise<Member> {
       var deferred = this.$q.defer();
 
-      this.$http.post(this.API_PATH + '/members/' + member.id, member).then(response => {
+      this.$http.put(this.API_PATH + '/members/' + member.id, member).then(response => {
         deferred.resolve();
       }).catch(err => {
         deferred.reject(err);

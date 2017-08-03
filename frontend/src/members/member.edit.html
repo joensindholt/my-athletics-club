@@ -1,10 +1,28 @@
 <topbar></topbar>
 
-<h1 class="center">Tilføj medlem</h1>
-
 <div class="row">
   <div class="col-sm-8 col-sm-offset-2">
-    <form name="vm.form" class="form-horizontal" ng-submit="vm.addMember(vm.member)">
+    <div class="c-form-page-header">
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="c-form-page-header__back">
+            <a ui-sref="members">
+              <i class="fa fa-2x fa-arrow-circle-left c-form-page-header__back__icon" aria-hidden="true" ></i>
+            </a>
+          </div>
+        </div>
+        <div class="col-sm-9">
+          <h1>Medlem</h1>
+        </div>
+      </div>
+    </div>
+    <form name="vm.form" class="form-horizontal" ng-submit="vm.updateMember(vm.member)">
+      <div class="form-group">
+        <label for="input_number" class="col-sm-3 control-label">Medl.nr.</label>
+        <div class="col-sm-3">
+          <input type="text" ng-model="vm.member.number" class="form-control" id="input_number" ng-focus="vm.errorMessage = ''">
+        </div>
+      </div>
       <div class="form-group">
         <label for="input_name" class="col-sm-3 control-label">Navn</label>
         <div class="col-sm-9">
@@ -40,7 +58,8 @@
           <p ng-show="vm.errorMessage" class="bg-danger spacy">
             {{vm.errorMessage}}
           </p>
-          <button type="submit" class="btn btn-primary">Opret medlem</button>
+          <button type="submit" class="o-button o-button--primary">Gem ændringer</button>
+          <button class="o-button o-button--warning" ng-click="vm.deleteMember(vm.member, $event)">Slet medlem</button>
         </div>
       </div>
     </form>

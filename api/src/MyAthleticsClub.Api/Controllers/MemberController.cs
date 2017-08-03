@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MyAthleticsClub.Core.Models;
@@ -24,11 +25,11 @@ namespace MyAthleticsClub.Api.Controllers
             return Ok(new { items = members });
         }
 
-        [HttpGet("api/members/{slug}")]
+        [HttpGet("api/members/{id}")]
         [ProducesResponseType(typeof(Member), 200)]
-        public async Task<IActionResult> GetMember([FromRoute]string slug)
+        public async Task<IActionResult> GetMember([FromRoute]string id)
         {
-            var member = await _memberService.GetAsync("gik", slug);
+            var member = await _memberService.GetAsync("gik", id);
             return Ok(member);
         }
 
@@ -36,27 +37,35 @@ namespace MyAthleticsClub.Api.Controllers
         [ProducesResponseType(typeof(Member), 200)]
         public async Task<IActionResult> CreateMember([FromBody]Member member)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             member.OrganizationId = "gik";
-
-            await _memberService.CreateAsync(member);
-
+            await _memberService.CreateAsync("gik", member);
             return Ok(member);
         }
 
-        [HttpPut("api/members/{slug}")]
+        [HttpPut("api/members/{id}")]
         [ProducesResponseType(200)]
-        public async Task<IActionResult> UpdateMember([FromRoute]string slug, [FromBody]Member member)
+        public async Task<IActionResult> UpdateMember([FromRoute]Guid id, [FromBody]Member member)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             member.OrganizationId = "gik";
             await _memberService.UpdateAsync(member);
             return Ok();
         }
 
-        [HttpDelete("api/members/{slug}")]
+        [HttpDelete("api/members/{id}")]
         [ProducesResponseType(200)]
-        public async Task<IActionResult> DeleteMember([FromRoute]string slug)
+        public async Task<IActionResult> DeleteMember([FromRoute]string id)
         {
-            await _memberService.DeleteAsync("gik", slug);
+            await _memberService.DeleteAsync("gik", id);
             return Ok();
         }
     }

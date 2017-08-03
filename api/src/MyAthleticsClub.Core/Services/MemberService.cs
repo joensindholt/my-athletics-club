@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MyAthleticsClub.Core.Models;
 using MyAthleticsClub.Core.Repositories.Interfaces;
@@ -23,21 +24,15 @@ namespace MyAthleticsClub.Core.Services
             return await _memberRepository.GetAllByPartitionKey(organizationId);
         }
 
-        public async Task<Member> GetAsync(string organizationId, string slug)
+        public async Task<Member> GetAsync(string organizationId, string id)
         {
-            return await _memberRepository.GetAsync(organizationId, slug);
+            return await _memberRepository.GetAsync(organizationId, id);
         }
 
-        public async Task CreateAsync(Member member)
+        public async Task CreateAsync(string organizationId, Member member)
         {
-            var slugKey = 0;
-            do
-            {
-                member.Slug = _slugGenerator.GenerateSlug(member.Name, slugKey);
-                slugKey++;
-            }
-            while (await _memberRepository.ExistsAsync(member.OrganizationId, member.Slug));
-
+            member.Id = Guid.NewGuid().ToString();
+            member.Number = await GetNextMemberNumberAsync(organizationId);
             await _memberRepository.CreateAsync(member);
         }
 
@@ -46,9 +41,18 @@ namespace MyAthleticsClub.Core.Services
             await _memberRepository.UpdateAsync(member);
         }
 
-        public async Task DeleteAsync(string organizationId, string slug)
+        public async Task DeleteAsync(string organizationId, string id)
         {
-            await _memberRepository.DeleteAsync(organizationId, slug);
+            await _memberRepository.DeleteAsync(organizationId, id);
+        }
+
+        private async Task<string> GetNextMemberNumberAsync(string organizationId)
+        {
+            var members = await _memberRepository.CountAllAsync(organizationId);
+            var currentYear2Digit = DateTime.Now.Year.ToString().Substring(2, 2);
+            var startNumber = int.Parse(currentYear2Digit + "347");
+            var nextNumber = startNumber + members;
+            return nextNumber.ToString();
         }
     }
 }

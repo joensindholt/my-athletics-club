@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using MyAthleticsClub.Core.Repositories.Interfaces;
 
@@ -7,38 +6,46 @@ namespace MyAthleticsClub.Core.Models
 {
     public class Member : IEntityObject
     {
-        public string Slug { get; set; }
-
         public string OrganizationId { get; set; }
+
+        public string Id { get; set; }
+
+        public string Number { get; set; }
 
         [Required]
         public string Name { get; set; }
 
-        public List<MemberAddress> Addresses { get; set; }
+        [Required]
+        public string Email { get; set; }
 
-        public List<string> Emails { get; set; }
+        public string Email2 { get; set; }
 
-        public List<string> Phones { get; set; }
+        public string FamilyMembershipNumber { get; set; }
 
-        public MemberGender Gender { get; set; }
-
-        public DateTime BirthDate { get; set; }
-
-        public MemberTeam Team { get; set; }
+        public DateTime? BirthDate { get; set; }
 
         public Member()
         {
         }
 
         public Member(
-            string slug,
-            string organizationId,
-            string name
-        )
+            string organizationId, 
+            string id, 
+            string number,
+            string name,
+            string email,
+            string email2,
+            string familyMembershipNumber,
+            DateTime? birthDate)
         {
-            Slug = slug;
             OrganizationId = organizationId;
+            Id = id;
+            Number = number;
             Name = name;
+            Email = email;
+            Email2 = email2;
+            FamilyMembershipNumber = familyMembershipNumber;
+            BirthDate = birthDate;
         }
 
         public string GetPartitionKey()
@@ -48,20 +55,7 @@ namespace MyAthleticsClub.Core.Models
 
         public string GetRowKey()
         {
-            return Slug;
-        }
-
-        public enum MemberGender { Male, Female };
-
-        public enum MemberTeam { Mini, Middle, Elders }
-
-        public class MemberAddress
-        {
-            public string Line1 { get; set; }
-
-            public string PostalCode { get; set; }
-
-            public string City { get; set; }
+            return Id;
         }
     }
 }

@@ -1,0 +1,25 @@
+.o-table {
+    width: 100%;
+
+    th {
+        color: #568ACF;
+        font-weight: 400;
+        font-size: 17px;
+        padding: 10px;
+    }
+
+    td {
+        padding: 10px;
+        border-top: 1px solid #CACACA; 
+    }
+
+    .o-table-actions-column {
+        width: 1%;
+        white-space: nowrap;
+    }
+}
+
+.o-table--hover-rows tr:hover td {
+    background: #CEF1B5;
+    cursor: pointer;
+}

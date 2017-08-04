@@ -25,3 +25,10 @@
 @import './css/_components.white-box';
 
 @import './core/components/discipline-batch/discipline-batch.scss';
+
+.c-form-helptext {
+    margin: 5px 0;
+    opacity: .6;
+    font-size: 90%;
+    font-style: italic;
+}

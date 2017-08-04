@@ -50,7 +50,19 @@
       <div class="form-group">
         <label for="input_birth_date" class="col-sm-3 control-label">Fødselsdato</label>
         <div class="col-sm-3">
-          <input type="text" ng-model="vm.member.birthDate" placeholder="åååå-mm-dd" ng-pattern="'\\d{4}-\\d{2}-\\d{2}'" class="form-control" id="input_birth_date" name="inputBirthDate" ng-focus="vm.errorMessage = ''">
+          <input type="text" ng-model="vm.member.birthDate" placeholder="åååå-mm-dd" ng-pattern="'\\d{4}-\\d{2}-\\d{2}'" class="form-control"
+            id="input_birth_date" name="inputBirthDate" ng-focus="vm.errorMessage = ''">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="input_has_outstanding_subscription_payment" class="col-sm-3 control-label">Udest. kont.</label>
+        <div class="col-sm-9">
+          <input type="checkbox" ng-model="vm.member.hasOutstandingSubscriptionPayment" class="form-control-checkbox" id="input_has_outstanding_subscription_payment"
+            ng-focus="vm.errorMessage = ''">
+          <p class="c-form-helptext">
+            Angiv her om medlemmet har udestående kontingen. For familie-medlemskaber anses familien for at have udestående såfremt én af medlemmerne i familien
+            er angivet som havende udestående kontingent
+          </p>
         </div>
       </div>
       <div class="form-group">

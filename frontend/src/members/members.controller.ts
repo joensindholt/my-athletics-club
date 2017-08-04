@@ -9,7 +9,10 @@ module members {
 
   export class MembersController {
 
+    allMembers: Array<Member>;
     members: Array<Member>;
+    
+    hasOutstandingSubscriptionPaymentFilter: boolean;
 
     static $inject = [
       '$scope',
@@ -33,7 +36,8 @@ module members {
     updateMemberList() {
       this.MembersService.getAll()
         .then(members => {
-          this.members = _.orderBy(members, ['name']);
+          this.allMembers = _.orderBy(members, ['name']);
+          this.filterMembers(this.allMembers);
         })
         .catch(err => {
           throw err;
@@ -61,6 +65,17 @@ module members {
         });
       }
     }
+
+    filterMembers() {
+      this.members = this.allMembers.filter(m => {
+        if (this.hasOutstandingSubscriptionPaymentFilter) {
+          return m.hasOutstandingSubscriptionPayment === true && !m.familyMembershipNumber
+        }
+
+        return true;
+      });      
+    }
+    
   }
 }
 

@@ -36,6 +36,12 @@
         </div>
       </div>
       <div class="form-group">
+        <label for="input_has_outstanding_subscription_payment" class="col-sm-3 control-label">Udest. kont.</label>
+        <div class="col-sm-3">
+          <input type="checkbox" ng-model="vm.member.hasOutstandingSubscriptionPayment" class="form-control" id="input_has_outstanding_subscription_payment" ng-focus="vm.errorMessage = ''">
+        </div>
+      </div>
+      <div class="form-group">
         <div class="col-sm-offset-3 col-sm-9">
           <p ng-show="vm.errorMessage" class="bg-danger spacy">
             {{vm.errorMessage}}

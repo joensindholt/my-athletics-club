@@ -10,6 +10,7 @@
   <div class="spacy--mosre">
     <input type="text" ng-model="search" class="c-formular-input center" />
   </div>
+  <input type="checkbox" ng-model="vm.hasOutstandingSubscriptionPaymentFilter" ng-click="vm.filterMembers()" /> Vis medlemmer m. udest. kont.
 
   <div class="spacy--more">
     <table class="o-table o-table--hover-rows">
@@ -21,6 +22,7 @@
           <th>Email 2</th>
           <th>Familie medl.nr.</th>
           <th>Fødselsdato</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -31,6 +33,7 @@
           <td>{{ member.email2 }}</td>
           <td>{{ member.familyMembershipNumber }}</td>
           <td>{{ member.birthDate | limitTo: 10 }}</td>
+          <td><i ng-show="member.hasOutstandingSubscriptionPayment" class="fa fa-money" aria-hidden="true"></i></td>
         </tr>
       </tbody>
     </table>

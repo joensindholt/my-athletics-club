@@ -7,9 +7,6 @@ module members {
 
     private API_PATH = globals.apiUrl;;
 
-    private members: Array<Member>;
-    private getAllPromise: ng.IPromise<{}>;
-
     static $inject = ['$http', '$q'];
 
     constructor(

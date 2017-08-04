@@ -76,8 +76,6 @@ module members {
         return true;
       });    
       
-      console.log('this.members', JSON.stringify(this.members.length));
-
       this.familyMemberships = 
         _.map(
           _.groupBy(
@@ -98,9 +96,6 @@ module members {
 
         return true;
       });    
-
-      console.log('this.members', JSON.stringify(this.members.length));
-      
     }
     
   }

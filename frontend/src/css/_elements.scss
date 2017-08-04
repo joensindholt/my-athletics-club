@@ -103,7 +103,8 @@ h5 {
   white-space: nowrap;
 }
 
-[ng-click] {
+[ng-click],
+[ui-sref] {
   cursor: pointer;
 }
 

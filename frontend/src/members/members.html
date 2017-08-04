@@ -1,41 +1,22 @@
 <topbar></topbar>
-
-<div ng-show="isAuthenticated || vm.events.length > 0">
-  <h1 class="center">Medlemmer</h1>
+<div ng-show="isAuthenticated || vm.members.length > 0">
+  <h1 class="center">Medlemmer ({{ vm.members.length }})</h1>
   <div class="center">
     <button class="o-button o-button--primary" ui-sref="members_add">Tilføj medlem</button>
   </div>
-
   <h4>Filtrér medlemmer</h4>
   <div class="spacy--mosre">
     <input type="text" ng-model="search" class="c-formular-input center" />
   </div>
-  <input type="checkbox" ng-model="vm.hasOutstandingSubscriptionPaymentFilter" ng-click="vm.filterMembers()" /> Vis medlemmer m. udest. kont.
-
-  <div class="spacy--more">
-    <table class="o-table o-table--hover-rows">
-      <thead>
-        <tr>
-          <th>Medl.nr.</th>
-          <th>Navn</th>
-          <th>Email</th>
-          <th>Email 2</th>
-          <th>Familie medl.nr.</th>
-          <th>Fødselsdato</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="member in vm.members | filter:search" ui-sref="members_edit({ id: member.id })">
-          <td>{{ member.number }}</td>
-          <td>{{ member.name }}</td>
-          <td>{{ member.email }}</td>
-          <td>{{ member.email2 }}</td>
-          <td>{{ member.familyMembershipNumber }}</td>
-          <td>{{ member.birthDate | limitTo: 10 }}</td>
-          <td><i ng-show="member.hasOutstandingSubscriptionPayment" class="fa fa-money" aria-hidden="true"></i></td>
-        </tr>
-      </tbody>
-    </table>
+  <input type="checkbox" ng-model="vm.hasOutstandingSubscriptionPaymentFilter" ng-click="vm.filterMembers()" /> 
+  <span>Vis medlemmer m. udest. kont.</span>
+  <div class="o-detail-list">
+    <div class="row">
+      <div class="col-sm-12" ng-repeat="member in vm.members | filter:search" ui-sref="members_edit({ id: member.id })">
+        <div class="o-detail-list__item">
+          <member-list-item member="member"></member-list-item>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

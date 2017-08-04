@@ -1,0 +1,30 @@
+<div class="o-details-list-card">
+  <div class="o-details-list-card__header">
+    <div class="o-details-list-card__avatar">
+      {{ $ctrl.member.name | limitTo:1 }}
+    </div>
+    <div class="o-details-list-card__header-content">
+      <div class="o-details-list-card__title">{{ $ctrl.member.name }}</div>
+      <div class="o-details-list-card__subtitle">{{ $ctrl.member.number }}</div>
+    </div>
+  </div>
+
+  <div class="o-details-list-card__body">
+    <div>
+      <label>email</label>
+      <div>{{ $ctrl.member.email }} &nbsp;</div>
+    </div>
+    <div>
+      <label>email 2</label>
+      <div>{{ $ctrl.member.email2 || '-' }} &nbsp;</div>
+    </div>
+    <div>
+      <label>fødselsdato</label>
+      <div>{{ $ctrl.member.birthDate | limitTo:10 || '-' }} &nbsp;</div>
+    </div>
+    <div>
+      <label>fam. medl. nummer</label>
+      <div>{{ $ctrl.member.familyMembershipNumber || '-' }} &nbsp;</div>
+    </div>
+  </div>
+</div>

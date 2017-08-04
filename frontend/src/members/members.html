@@ -1,7 +1,7 @@
 <topbar></topbar>
 
-<div ng-show="isAuthenticated || vm.events.length > 0">
-  <h1 class="center">Medlemmer</h1>
+<div ng-show="isAuthenticated || vm.members.length > 0">
+  <h1 class="center">Medlemmer ({{ vm.members.length }})</h1>
   <div class="center">
     <button class="o-button o-button--primary" ui-sref="members_add">Tilføj medlem</button>
   </div>
@@ -11,7 +11,18 @@
     <input type="text" ng-model="search" class="c-formular-input center" />
   </div>
 
-  <div class="spacy--more">
+  <div class="o-detail-list">
+    <div class="row">
+      <div class="col-sm-12" ng-repeat="member in vm.members | filter:search" ui-sref="members_edit({ id: member.id })">
+        <div class="o-detail-list__item">
+          <member-list-item member="member"></member-list-item>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- <div class="spacy--more">
     <table class="o-table o-table--hover-rows">
       <thead>
         <tr>
@@ -34,5 +45,5 @@
         </tr>
       </tbody>
     </table>
-  </div>
+  </div> -->
 </div>

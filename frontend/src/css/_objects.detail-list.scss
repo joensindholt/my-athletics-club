@@ -88,3 +88,76 @@ $line-height: 30px;
 .o-detail-list__item-footer-content {
     padding: 3px 17px 15px 17px;
 }
+
+.o-detail-list__label-container {
+    opacity: .4;
+    text-align: right;
+    margin-right: -10px;
+}
+
+.o-details-list-card {
+    padding: 30px;
+}
+
+.o-details-list-card__header {
+    display: flex;
+    margin-bottom: 30px;
+    margin-left: 98px;
+}
+
+.o-details-list-card__title {
+    font-size: 20px;
+}
+
+.o-details-list-card__subtitle {
+    opacity: .7;
+}
+
+.o-details-list-card__avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #FFCF82;
+    text-align: center;
+    padding-top: 3px;
+    font-size: 31px;
+    text-indent: 2px;
+    font-weight: 300;
+    margin: 0 15px 0 0;
+}
+
+.o-details-list-card__body > div {
+    display: flex;
+    margin: 3px 0;
+}
+
+.o-details-list-card__body label {
+    min-width: 150px;
+    text-align: right;
+    font-weight: normal;
+    opacity: .4;
+    margin-right: 15px;
+}
+
+// Mobile detail list card
+@media only screen and (max-width : 768px) {
+    .o-details-list-card__header {
+        margin-left: 0;
+    }
+
+    .o-details-list-card__body {
+        margin-left: 66px;
+    }
+
+    .o-details-list-card__body > div {
+        display: block;
+        margin: 10px 0;
+    }
+
+    .o-details-list-card__body label {
+        min-width: none;
+        text-align: left;
+        margin-right: 0;
+    }
+}
+

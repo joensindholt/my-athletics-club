@@ -19,4 +19,14 @@
       </div>
     </div>
   </div>
+  <h4>Familie-medlemskaber</h4>
+  <div class="o-detail-list">
+    <div class="row">
+      <div class="col-sm-12" ng-repeat="family in vm.familyMemberships | filter:search" ui-sref="members_edit({ id: family.id })">
+        <div class="o-detail-list__item">
+          <member-list-item member="family"></member-list-item>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

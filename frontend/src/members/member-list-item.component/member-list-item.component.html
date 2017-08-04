@@ -26,5 +26,9 @@
       <label>fam. medl. nummer</label>
       <div>{{ $ctrl.member.familyMembershipNumber || '-' }} &nbsp;</div>
     </div>
+    <div>
+      <label>Udest. kont.</label>
+      <div>{{ $ctrl.member.hasOutstandingSubscriptionPayment ? 'Ja' : 'Nej' }} &nbsp;</div>
+    </div>
   </div>
 </div>

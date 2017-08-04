@@ -16,44 +16,28 @@ module members {
     }
 
     getAll(): ng.IPromise<Array<Member>> {
-
-      if (this.getAllPromise) {
-        return this.getAllPromise;
-      }
-
-      var deferred = this.$q.defer();
-      // if we have cached members - use those 
-      if (this.members) {
-        deferred.resolve(this.members);
-        return deferred.promise;
-      }
-      // ... else get from server
+      var deferred = this.$q.defer<Array<Member>>();
+      
       this.$http.get(this.API_PATH + '/members').then((response: any) => {
-        // put in cache
-        this.members = _.map(response.data.items, (memberData) => {
+        var members = _.map(response.data.items, (memberData) => {
           return new Member(memberData);
         });
-
-        // ... and return
-        deferred.resolve(this.members)
+        deferred.resolve(members)
       }).catch(err => {
         deferred.reject(err);
       });
 
-      this.getAllPromise = deferred.promise;
-
-      return this.getAllPromise;
+      return deferred.promise;
     }
 
     add(member: Member): ng.IPromise<Member> {
-      var deferred = this.$q.defer();
+      var deferred = this.$q.defer<Member>();
       // give it a temporary id
       member.id = '-1';
       // ... and post to server
       this.$http.post(this.API_PATH + '/members', member)
         .then(response => {
           var newMember = new Member(response.data);
-          this.members.push(newMember);
           deferred.resolve(newMember)
         }).catch(err => {
           deferred.reject(err);
@@ -63,10 +47,10 @@ module members {
     }
 
     get(id: string): ng.IPromise<Member> {
-      var deferred = this.$q.defer();
+      var deferred = this.$q.defer<Member>();
 
-      this.getAll().then(members => {
-        const member = _.find(members, { id: id });
+      this.$http.get(this.API_PATH + '/members/' + id).then((response: any) => {
+        var member = new Member(response.data);
         deferred.resolve(member);
       }).catch(err => {
         deferred.reject(err);
@@ -76,7 +60,7 @@ module members {
     }
 
     update(member: Member): ng.IPromise<Member> {
-      var deferred = this.$q.defer();
+      var deferred = this.$q.defer<Member>();
 
       this.$http.put(this.API_PATH + '/members/' + member.id, member).then(response => {
         deferred.resolve();
@@ -88,16 +72,11 @@ module members {
     }
 
     delete(member: Member): ng.IPromise<Member> {
-      var deferred = this.$q.defer();
-      // remove from cached list
-      _.remove(this.members, e => e.id === member.id);
-      // ... and delete from server
+      var deferred = this.$q.defer<Member>();
+
       this.$http.delete(this.API_PATH + '/members/' + member.id).then(response => {
         deferred.resolve();
       }).catch(err => {
-        // re-add to list if error occured
-        this.members.push(member);
-        // ... and reject
         deferred.reject(err);
       })
 

@@ -11,6 +11,7 @@ module members {
 
     allMembers: Array<Member>;
     members: Array<Member>;
+    familyMemberships: Array<Member>;
     
     hasOutstandingSubscriptionPaymentFilter: boolean;
 
@@ -37,7 +38,7 @@ module members {
       this.MembersService.getAll()
         .then(members => {
           this.allMembers = _.orderBy(members, ['name']);
-          this.filterMembers(this.allMembers);
+          this.filterMembers();
         })
         .catch(err => {
           throw err;
@@ -69,11 +70,37 @@ module members {
     filterMembers() {
       this.members = this.allMembers.filter(m => {
         if (this.hasOutstandingSubscriptionPaymentFilter) {
-          return m.hasOutstandingSubscriptionPayment === true && !m.familyMembershipNumber
+          return m.hasOutstandingSubscriptionPayment && !m.familyMembershipNumber
         }
 
         return true;
-      });      
+      });    
+      
+      console.log('this.members', JSON.stringify(this.members.length));
+
+      this.familyMemberships = 
+        _.map(
+          _.groupBy(
+            _.filter(this.allMembers, m => m.familyMembershipNumber),
+          m => m.familyMembershipNumber), 
+        mg => {
+          var family = _.cloneDeep(mg[0]);
+          family.name = _.join(_.map(mg, m => m.name), ', ');
+          family.number = _.join(_.map(mg, m => m.number), ', ');
+          family.hasOutstandingSubscriptionPayment = _.findIndex(mg, m => m.hasOutstandingSubscriptionPayment) >= 0;
+          return family;
+        });
+      
+      this.familyMemberships = this.familyMemberships.filter(m => {
+        if (this.hasOutstandingSubscriptionPaymentFilter) {
+          return m.hasOutstandingSubscriptionPayment;
+        }
+
+        return true;
+      });    
+
+      console.log('this.members', JSON.stringify(this.members.length));
+      
     }
     
   }

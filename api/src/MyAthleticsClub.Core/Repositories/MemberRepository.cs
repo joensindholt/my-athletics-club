@@ -22,6 +22,16 @@ namespace MyAthleticsClub.Core.Repositories
             return all.Count();
         }
 
+        public async Task ChargeAllAsync(string organizationId)
+        {
+            var all = await base.GetAllByPartitionKey(organizationId);
+            foreach(var member in all)
+            {
+                member.HasOutstandingMembershipPayment = true;
+                await UpdateAsync(member);
+            }
+        }
+
         protected override Member ConvertEntityToObject(MemberEntity entity)
         {
             var member = new Member(

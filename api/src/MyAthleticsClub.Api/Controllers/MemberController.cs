@@ -68,5 +68,13 @@ namespace MyAthleticsClub.Api.Controllers
             await _memberService.DeleteAsync("gik", id);
             return Ok();
         }
+
+        [HttpPost("api/members/charge-all")]
+        [ProducesResponseType(200)]
+        public async Task<IActionResult> ChargeAllMembers()
+        {
+            await _memberService.ChargeAllAsync("gik");
+            return Ok();
+        }
     }
 }

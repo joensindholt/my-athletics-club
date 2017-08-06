@@ -96,6 +96,18 @@ module members {
 
       return birthYears;
     }
+
+    chargeMemberships(): ng.IPromise<{}> {
+      var deferred = this.$q.defer<Member>();
+
+      this.$http.post(this.API_PATH + '/members/charge-all', {}).then(response => {
+        deferred.resolve();
+      }).catch(err => {
+        deferred.reject(err);
+      })
+
+      return deferred.promise;      
+    }
   }
 }
 

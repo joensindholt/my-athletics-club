@@ -8,7 +8,7 @@ module members {
     email2: string;
     familyMembershipNumber: string;
     birthDate: string;
-    hasOutstandingSubscriptionPayment: boolean;
+    hasOutstandingMembershipPayment: boolean;
 
     constructor(memberData: any) {
       this.id = memberData._id || memberData.id;
@@ -24,7 +24,7 @@ module members {
         this.birthDate = this.birthDate.substring(0, 10);
       }
 
-      this.hasOutstandingSubscriptionPayment = memberData.hasOutstandingSubscriptionPayment
+      this.hasOutstandingMembershipPayment = memberData.hasOutstandingMembershipPayment
     }
   }
 }

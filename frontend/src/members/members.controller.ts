@@ -13,7 +13,7 @@ module members {
     members: Array<Member>;
     familyMemberships: Array<Member>;
     
-    hasOutstandingSubscriptionPaymentFilter: boolean;
+    hasOutstandingMembershipPaymentFilter: boolean;
 
     static $inject = [
       '$scope',
@@ -69,8 +69,8 @@ module members {
 
     filterMembers() {
       this.members = this.allMembers.filter(m => {
-        if (this.hasOutstandingSubscriptionPaymentFilter) {
-          return m.hasOutstandingSubscriptionPayment && !m.familyMembershipNumber
+        if (this.hasOutstandingMembershipPaymentFilter) {
+          return m.hasOutstandingMembershipPayment && !m.familyMembershipNumber
         }
 
         return true;
@@ -85,13 +85,13 @@ module members {
           var family = _.cloneDeep(mg[0]);
           family.name = _.join(_.map(mg, m => m.name), ', ');
           family.number = _.join(_.map(mg, m => m.number), ', ');
-          family.hasOutstandingSubscriptionPayment = _.findIndex(mg, m => m.hasOutstandingSubscriptionPayment) >= 0;
+          family.hasOutstandingMembershipPayment = _.findIndex(mg, m => m.hasOutstandingMembershipPayment) >= 0;
           return family;
         });
       
       this.familyMemberships = this.familyMemberships.filter(m => {
-        if (this.hasOutstandingSubscriptionPaymentFilter) {
-          return m.hasOutstandingSubscriptionPayment;
+        if (this.hasOutstandingMembershipPaymentFilter) {
+          return m.hasOutstandingMembershipPayment;
         }
 
         return true;

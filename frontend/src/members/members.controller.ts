@@ -9,7 +9,11 @@ module members {
 
   export class MembersController {
 
+    allMembers: Array<Member>;
     members: Array<Member>;
+    familyMemberships: Array<Member>;
+    
+    hasOutstandingMembershipPaymentFilter: boolean;
 
     static $inject = [
       '$scope',
@@ -33,7 +37,8 @@ module members {
     updateMemberList() {
       this.MembersService.getAll()
         .then(members => {
-          this.members = _.orderBy(members, ['name']);
+          this.allMembers = _.orderBy(members, ['name']);
+          this.filterMembers();
         })
         .catch(err => {
           throw err;
@@ -61,6 +66,38 @@ module members {
         });
       }
     }
+
+    filterMembers() {
+      this.members = this.allMembers.filter(m => {
+        if (this.hasOutstandingMembershipPaymentFilter) {
+          return m.hasOutstandingMembershipPayment && !m.familyMembershipNumber
+        }
+
+        return true;
+      });    
+      
+      this.familyMemberships = 
+        _.map(
+          _.groupBy(
+            _.filter(this.allMembers, m => m.familyMembershipNumber),
+          m => m.familyMembershipNumber), 
+        mg => {
+          var family = _.cloneDeep(mg[0]);
+          family.name = _.join(_.map(mg, m => m.name), ', ');
+          family.number = _.join(_.map(mg, m => m.number), ', ');
+          family.hasOutstandingMembershipPayment = _.findIndex(mg, m => m.hasOutstandingMembershipPayment) >= 0;
+          return family;
+        });
+      
+      this.familyMemberships = this.familyMemberships.filter(m => {
+        if (this.hasOutstandingMembershipPaymentFilter) {
+          return m.hasOutstandingMembershipPayment;
+        }
+
+        return true;
+      });    
+    }
+    
   }
 }
 

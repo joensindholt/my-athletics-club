@@ -33,7 +33,8 @@ namespace MyAthleticsClub.Core.Repositories
                 entity.Email2,
                 entity.FamilyMembershipNumber,
                 entity.BirthDate != null ? (DateTime?)DateTime.Parse(entity.BirthDate, CultureInfo.InvariantCulture) 
-                                         : null);
+                                         : null,
+                entity.HasOutstandingMembershipPayment);
 
             return member;
         }
@@ -48,7 +49,8 @@ namespace MyAthleticsClub.Core.Repositories
                 member.Email,
                 member.Email2,
                 member.FamilyMembershipNumber,
-                member.BirthDate);
+                member.BirthDate,
+                member.HasOutstandingMembershipPayment);
 
             return entity;
         }

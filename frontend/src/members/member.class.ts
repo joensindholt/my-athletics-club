@@ -8,6 +8,7 @@ module members {
     email2: string;
     familyMembershipNumber: string;
     birthDate: string;
+    hasOutstandingMembershipPayment: boolean;
 
     constructor(memberData: any) {
       this.id = memberData._id || memberData.id;
@@ -22,6 +23,8 @@ module members {
       if (this.birthDate && this.birthDate.length > 10) {
         this.birthDate = this.birthDate.substring(0, 10);
       }
+
+      this.hasOutstandingMembershipPayment = memberData.hasOutstandingMembershipPayment
     }
   }
 }

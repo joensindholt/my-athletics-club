@@ -4,12 +4,16 @@
   <div class="center">
     <button class="o-button o-button--primary" ui-sref="members_add">Tilføj medlem</button>
   </div>
+  <!-- filters -->
   <h4>Filtrér medlemmer</h4>
-  <div class="spacy--mosre">
+  <div>
     <input type="text" ng-model="search" class="c-formular-input center" />
   </div>
-  <input type="checkbox" ng-model="vm.hasOutstandingSubscriptionPaymentFilter" ng-click="vm.filterMembers()" /> 
-  <span>Vis medlemmer m. udest. kont.</span>
+  <div class="center spacy">
+    <input type="checkbox" ng-model="vm.hasOutstandingSubscriptionPaymentFilter" ng-click="vm.filterMembers()" />
+    <span>Vis medlemmer m. udest. kont.</span>
+  </div>
+  <!-- member list -->
   <div class="o-detail-list">
     <div class="row">
       <div class="col-sm-12" ng-repeat="member in vm.members | filter:search" ui-sref="members_edit({ id: member.id })">
@@ -19,6 +23,7 @@
       </div>
     </div>
   </div>
+  <!-- family member list -->
   <h4>Familie-medlemskaber</h4>
   <div class="o-detail-list">
     <div class="row">

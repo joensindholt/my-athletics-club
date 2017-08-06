@@ -101,13 +101,15 @@ module members {
     }
 
     chargeMemberships() {
-      toastr.info('Opkræver alle medlemmer. Vent venligst...');
-      this.membersService.chargeMemberships().then(() => {
-        toastr.success('Alle medlemmer er nu registreret som havende udestående kontingent', 'Opkrævning gennemført');
-        this.updateMemberList();
-      }).catch(err => {
-        toastr.error(err.statusText, err.status);
-      })
+      if (confirm('Er du sikker på at du vil opkræve alle medlemmer?')) {
+        toastr.info('Opkræver alle medlemmer. Vent venligst...');
+        this.membersService.chargeMemberships().then(() => {
+          toastr.success('Alle medlemmer er nu registreret som havende udestående kontingent', 'Opkrævning gennemført');
+          this.updateMemberList();
+        }).catch(err => {
+          toastr.error(err.statusText, err.status);
+        });
+      }
     }
   }
 }

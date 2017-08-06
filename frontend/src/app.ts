@@ -30,7 +30,8 @@ module app {
     'vcRecaptcha',
     'angular-autogrow',
     'multipleSelect',
-    'cfp.hotkeys'
+    'cfp.hotkeys',
+    'ngCsv'
   ]).config(['$stateProvider', '$httpProvider', config])
     .run(['AuthService', run])
 

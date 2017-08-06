@@ -1,4 +1,6 @@
-.o-button {
+.o-button,
+// bootstrap override
+.btn-primary {
     border: 1px solid #eee;
     padding: 10px;
     border-radius: $elementRadius;
@@ -12,6 +14,24 @@
         text-align: center;
         margin: 15px 0;
     }
+}
+
+// bootstrap override
+.btn-primary {
+    margin-right: 0;
+}
+
+// bootstrap override
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary:active:focus,
+.btn-primary:active:hover,
+.open > .dropdown-toggle.btn-primary,
+.open > .dropdown-toggle.btn-primary:focus, 
+.open > .dropdown-toggle.btn-primary:hover {
+    background: #4e80c1;
+    border-color: #eee;
 }
 
 .o-button:focus,
@@ -39,7 +59,9 @@
 .o-button--primary,
 .o-button--primary:hover,
 .o-button--primary:active,
-.o-button--primary:focus {
+.o-button--primary:focus,
+// bootstrap override
+.btn-primary {
     background: #568ACF;
     color: white;
 }
@@ -73,4 +95,17 @@
 
 .o-button--large-icon {
     font-size: 18px;
+}
+
+// bootstrap override
+.dropdown-menu {
+    padding: 0;
+}
+
+.dropdown-menu [role=menuitem] {
+    padding: 0;
+}
+
+.dropdown-menu [role=menuitem] a {
+    padding: 10px;
 }

@@ -47,6 +47,7 @@ module.exports = {
       globalPath.bower + 'angular-autogrow/angular-autogrow.min.js',
       globalPath.bower + 'angular-bootstrap/ui-bootstrap-tpls.min.js',
       globalPath.bower + 'toastr/toastr.min.js',
+      globalPath.bower + 'ng-csv/build/ng-csv.min.js'
     ],
     css: [
       globalPath.bower + 'bootstrap/dist/css/bootstrap.min.css',

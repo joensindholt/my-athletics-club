@@ -11,7 +11,17 @@
         <span class="sr-only">Split button!</span>
       </button>
       <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="split-button">
-        <li role="menuitem"><a ng-click="vm.chargeMemberships()">Opkræv kontingent</a></li>
+        <li role="menuitem">
+          <a ng-csv="vm.members" csv-header="['Id', 'Nummer', 'Navn', 'Email', 'Email 2', 'Fam. medl. nummer', 'Fødselsdato', 'Udest. kontingent']"
+            field-separator=";" lazy-load="true" filename="medlemmer.csv">
+            <i class="fa fa-download" aria-hidden="true"></i> Hent alle medlemmer som csv
+          </a>
+        </li>
+        <li role="menuitem">
+          <a ng-click="vm.chargeMemberships()">
+            <i class="fa fa-money" aria-hidden="true"></i>
+            Opkræv kontingent fra alle medlemmer
+          </a></li>
       </ul>
     </div>
   </div>

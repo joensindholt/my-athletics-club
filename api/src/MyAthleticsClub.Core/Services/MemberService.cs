@@ -54,5 +54,10 @@ namespace MyAthleticsClub.Core.Services
             var nextNumber = startNumber + members;
             return nextNumber.ToString();
         }
+
+        public async Task ChargeAllAsync(string organizationId)
+        {
+            await _memberRepository.ChargeAllAsync(organizationId);
+        }
     }
 }

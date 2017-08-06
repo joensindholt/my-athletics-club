@@ -1,0 +1,16 @@
+.c-list-item-actions {
+    display: flex;
+}
+
+.c-list-item-actions__left {
+  flex: 1;
+}
+
+.c-list-item-actions__center {
+  flex-basis: 0%;
+  white-space: nowrap;
+}
+
+.c-list-item-actions__right {
+    flex: 1;
+}

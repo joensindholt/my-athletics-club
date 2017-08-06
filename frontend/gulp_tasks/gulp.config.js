@@ -45,13 +45,13 @@ module.exports = {
       globalPath.bower + 'angular-jwt/dist/angular-jwt.js',
       // ---
       globalPath.bower + 'angular-autogrow/angular-autogrow.min.js',
-      globalPath.thirdparty + 'ui.bootstrap/ui-bootstrap-custom-tpls-2.1.3.min.js',
+      globalPath.bower + 'angular-bootstrap/ui-bootstrap-tpls.min.js',
       globalPath.bower + 'toastr/toastr.min.js',
     ],
     css: [
       globalPath.bower + 'bootstrap/dist/css/bootstrap.min.css',
       globalPath.bower + 'font-awesome/css/font-awesome.min.css',
-      globalPath.thirdparty + 'ui.bootstrap/ui-bootstrap-custom-2.1.3-csp.css',
+      globalPath.bower + 'angular-bootstrap/ui-bootstrap-csp.css',
       globalPath.bower + 'angular-hotkeys/build/hotkeys.min.css',
       globalPath.bower + 'toastr/toastr.min.css'
     ],

@@ -15,5 +15,7 @@ namespace MyAthleticsClub.Core.Services.Interfaces
         Task UpdateAsync(Member member);
 
         Task DeleteAsync(string organizationId, string id);
+
+        Task ChargeAllAsync(string organizationId);
     }
 }

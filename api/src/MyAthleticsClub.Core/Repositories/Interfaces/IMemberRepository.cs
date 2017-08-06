@@ -19,5 +19,7 @@ namespace MyAthleticsClub.Core.Repositories.Interfaces
         Task<bool> ExistsAsync(string organizationId, string id);
 
         Task<int> CountAllAsync(string organizationId);
+
+        Task ChargeAllAsync(string organizationId);
     }
 }

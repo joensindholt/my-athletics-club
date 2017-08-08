@@ -64,5 +64,32 @@ namespace MyAthleticsClub.Core.Repositories
 
             return entity;
         }
+
+        public async Task<string> GetNextMemberNumberAsync(string organizationId)
+        {
+            // We always start a new year at the year number plus 347 just to have an offset
+            var yearStartNumber = 347;
+
+            // Find the two last digits of the current year. I.e. 17, 18, 19, 20...
+            var currentYear2Digit = DateTime.Now.Year.ToString().Substring(2, 2);
+
+            // Get all members
+            var members = await GetAllAsync();
+
+            // Find the members with member numbers from this year
+            var currentYearMembers = members.Where(m => m.Number.StartsWith(currentYear2Digit));
+
+            if (!currentYearMembers.Any())
+            {
+                // If it's the first member this year user the year start number
+                return currentYear2Digit + yearStartNumber.ToString();
+            }
+            else
+            {
+                // ...else get the max member number for this year and add 1
+                var nextNumber = currentYearMembers.Max(m => int.Parse(m.Number)) + 1;
+                return nextNumber.ToString();
+            }
+        }
     }
 }

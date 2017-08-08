@@ -2,6 +2,7 @@
 
 <div class="row">
   <div class="col-sm-8 col-sm-offset-2">
+    <!-- page header -->
     <div class="c-form-page-header">
       <div class="row">
         <div class="col-sm-3">
@@ -16,6 +17,7 @@
         </div>
       </div>
     </div>
+    <!-- form -->
     <form name="vm.form" class="form-horizontal" ng-submit="vm.updateMember(vm.member)">
       <div class="form-group">
         <label for="input_number" class="col-sm-3 control-label">Medl.nr.</label>
@@ -60,8 +62,8 @@
           <input type="checkbox" ng-model="vm.member.hasOutstandingMembershipPayment" class="form-control-checkbox" id="input_has_outstanding_membership_payment"
             ng-focus="vm.errorMessage = ''">
           <p class="c-form-helptext">
-            Angiv her om medlemmet har udestående kontingent. For familie-medlemskaber anses familien for at have udestående såfremt ét af medlemmerne i familien
-            er angivet som havende udestående kontingent
+            Angiv her om medlemmet har udestående kontingent. For familie-medlemskaber anses familien for at have udestående såfremt
+            ét af medlemmerne i familien er angivet som havende udestående kontingent
           </p>
         </div>
       </div>
@@ -71,9 +73,21 @@
             {{vm.errorMessage}}
           </p>
           <button type="submit" class="o-button o-button--primary">Gem ændringer</button>
-          <button class="o-button o-button--warning" ng-click="vm.deleteMember(vm.member, $event)">Slet medlem</button>
         </div>
       </div>
     </form>
+    <!-- ruler-->
+    <hr />
+    <!-- delete button -->
+    <div class="standout">
+      <div class="row">
+        <div class="col-sm-9 col-sm-offset-3">
+          <p class="c-form-helptext">
+            Du kan udmelde medlemmet ved at trykke nedenfor. Medlemmet bliver slettet og kan ikke genskabes.
+          </p>
+          <button class="o-button o-button--warning spacy" ng-click="vm.deleteMember(vm.member, $event)">Slet medlem</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

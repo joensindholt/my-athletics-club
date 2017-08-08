@@ -21,5 +21,7 @@ namespace MyAthleticsClub.Core.Repositories.Interfaces
         Task<int> CountAllAsync(string organizationId);
 
         Task ChargeAllAsync(string organizationId);
+
+        Task<string> GetNextMemberNumberAsync(string organizationId);
     }
 }

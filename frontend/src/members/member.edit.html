@@ -60,8 +60,8 @@
           <input type="checkbox" ng-model="vm.member.hasOutstandingMembershipPayment" class="form-control-checkbox" id="input_has_outstanding_membership_payment"
             ng-focus="vm.errorMessage = ''">
           <p class="c-form-helptext">
-            Angiv her om medlemmet har udestående kontingent. For familie-medlemskaber anses familien for at have udestående såfremt ét af medlemmerne i familien
-            er angivet som havende udestående kontingent
+            Angiv her om medlemmet har udestående kontingent. For familie-medlemskaber anses familien for at have udestående såfremt
+            ét af medlemmerne i familien er angivet som havende udestående kontingent
           </p>
         </div>
       </div>
@@ -71,9 +71,21 @@
             {{vm.errorMessage}}
           </p>
           <button type="submit" class="o-button o-button--primary">Gem ændringer</button>
-          <button class="o-button o-button--warning" ng-click="vm.deleteMember(vm.member, $event)">Slet medlem</button>
         </div>
       </div>
     </form>
+    <hr />
+    <div class="row">
+      <div class="col-sm-offset-3 col-sm-9">
+        <div class="standout">
+          <h6>Udmeld medlem</h6>
+          <p class="c-form-helptext">
+            Udmeld medlemmet ved at trykke nedenfor. Når du udmelder et medlem vil du blive spurgt pr. hvilken dato du ønsker at udmelde
+            medlemmet.
+          </p>
+          <button class="o-button o-button--warning spacy" ng-click="vm.terminateMembership(vm.member, $event)">Udmeld medlem</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

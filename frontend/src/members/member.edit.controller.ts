@@ -16,6 +16,7 @@ module members {
       '$state',
       '$window',
       'moment',
+      '$uibModal',
       'MembersService',
       'AuthService'
     ];
@@ -25,6 +26,7 @@ module members {
       private $state,
       private $window: ng.IWindowService,
       private moment: moment.MomentStatic,
+      private $uibModal,
       private MembersService: MembersService,
       private AuthService: users.AuthService
     ) {
@@ -63,16 +65,23 @@ module members {
       });
     }
 
-    deleteMember(member: Member, $event: UIEvent) {
-      // Prevent normal form submission
-      $event.preventDefault();
+    terminateMembership(member: Member, $event: UIEvent) {
 
-      // Confirm deletion and delete member
-      if (confirm(`Slet ${member.name}?`)) {
-        this.MembersService.delete(member).then(() => {
-          this.$state.go('members');
-        });
-      }
+      var modalInstance = this.$uibModal.open({
+        templateUrl: 'members/modals/member.terminate.modal.controller.html',
+        controller: 'MemberTerminateModalController',
+        controllerAs: 'vm'
+      });
+
+      modalInstance.result.then((terminationDate: string) => {
+        console.log('terminationDate', terminationDate);
+      });
+
+      // if (confirm(`Slet ${member.name}?`)) {
+      //   this.MembersService.delete(member).then(() => {
+      //     this.$state.go('members');
+      //   });
+      // }
     }
   }
 }

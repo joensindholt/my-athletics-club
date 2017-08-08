@@ -81,12 +81,12 @@ namespace MyAthleticsClub.Core.Repositories
 
             if (!currentYearMembers.Any())
             {
-                // If it's the first member this year user the year start number
+                // If it's the first member this year then use the year start number
                 return currentYear2Digit + yearStartNumber.ToString();
             }
             else
             {
-                // ...else get the max member number for this year and add 1
+                // ...else get the maximum member number for this year and add one
                 var nextNumber = currentYearMembers.Max(m => int.Parse(m.Number)) + 1;
                 return nextNumber.ToString();
             }

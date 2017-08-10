@@ -13,9 +13,10 @@
     </li>
   </ul>
 
-  <div class="center standout" ng-show="vm.oldEvents">
+  <div class="center standout" ng-show="vm.oldEvents && isAuthenticated">
     <a ng-show="!showOldEvents" ng-click="showOldEvents = true">Vis mig tidligere stævner</a>
   </div>
+
   <ul class="o-detail-list" ng-show="showOldEvents">
     <li class="o-detail-list__item" ng-class="{ 'o-detail-list__item--with-info' : event.info }" ng-repeat="event in vm.oldEvents" 
         style="opacity: 0.5;">

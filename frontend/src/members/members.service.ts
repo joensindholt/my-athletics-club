@@ -17,7 +17,7 @@ module members {
 
     getAll(): ng.IPromise<Array<Member>> {
       var deferred = this.$q.defer<Array<Member>>();
-      
+
       this.$http.get(this.API_PATH + '/members').then((response: any) => {
         var members = _.map(response.data.items, (memberData) => {
           return new Member(memberData);
@@ -106,7 +106,22 @@ module members {
         deferred.reject(err);
       })
 
-      return deferred.promise;      
+      return deferred.promise;
+    }
+
+    terminateMembership(id: string, terminationDate: string): ng.IPromise<{}> {
+      var deferred = this.$q.defer<Member>();
+
+      this.$http.post(this.API_PATH + '/members/terminate', {
+        memberId: id,
+        terminationDate: terminationDate
+      }).then(response => {
+        deferred.resolve();
+      }).catch(err => {
+        deferred.reject(err);
+      })
+
+      return deferred.promise;
     }
   }
 }

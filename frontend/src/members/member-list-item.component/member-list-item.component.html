@@ -1,4 +1,5 @@
 <div class="o-details-list-card">
+  <!-- header -->
   <div class="o-details-list-card__header">
     <div class="o-details-list-card__avatar">
       {{ $ctrl.member.name | limitTo:1 }}
@@ -8,7 +9,12 @@
       <div class="o-details-list-card__subtitle">{{ $ctrl.member.number }}</div>
     </div>
   </div>
-
+  <!-- termination info -->
+  <div ng-if="$ctrl.member.terminationDate" class="o-details-list-card__info">
+    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+    <span>Udmeldt per {{ $ctrl.member.terminationDate | limitTo:10 }}</span>
+  </div>
+  <!-- fields -->
   <div class="o-details-list-card__body">
     <div>
       <label>email</label>

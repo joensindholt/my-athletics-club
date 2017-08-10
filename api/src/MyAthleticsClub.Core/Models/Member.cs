@@ -26,6 +26,8 @@ namespace MyAthleticsClub.Core.Models
 
         public bool HasOutstandingMembershipPayment { get; set; }
 
+        public DateTime? TerminationDate { get; set; }
+
         public Member()
         {
         }
@@ -39,7 +41,8 @@ namespace MyAthleticsClub.Core.Models
             string email2,
             string familyMembershipNumber,
             DateTime? birthDate,
-            bool hasOutstandingMembershipPayment)
+            bool hasOutstandingMembershipPayment,
+            DateTime? terminationDate)
         {
             OrganizationId = organizationId;
             Id = id;
@@ -50,6 +53,7 @@ namespace MyAthleticsClub.Core.Models
             FamilyMembershipNumber = familyMembershipNumber;
             BirthDate = birthDate;
             HasOutstandingMembershipPayment = hasOutstandingMembershipPayment;
+            TerminationDate = terminationDate;
         }
 
         public string GetPartitionKey()

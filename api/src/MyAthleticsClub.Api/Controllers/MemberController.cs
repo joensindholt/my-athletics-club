@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MyAthleticsClub.Core.Commands;
 using MyAthleticsClub.Core.Models;
 using MyAthleticsClub.Core.Services.Interfaces;
 using MyAthleticsClub.Core.Utilities;
@@ -74,6 +75,19 @@ namespace MyAthleticsClub.Api.Controllers
         public async Task<IActionResult> ChargeAllMembers()
         {
             await _memberService.ChargeAllAsync("gik");
+            return Ok();
+        }
+
+        [HttpPost("api/members/terminate")]
+        [ProducesResponseType(200)]
+        public async Task<IActionResult> TerminateMembership([FromBody]TerminateMembershipCommand command)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            await _memberService.TerminateMembershipAsync("gik", command);
             return Ok();
         }
     }

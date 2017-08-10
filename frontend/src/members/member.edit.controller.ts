@@ -10,6 +10,7 @@ module members {
     form: any;
     member: Member = new Member({});
     errorMessage: string;
+    terminationDate: string;
 
     static $inject = [
       '$scope',
@@ -60,28 +61,27 @@ module members {
       }
 
       this.MembersService.update(member).then(member => {
-        toastr.info('Dine ændringer er gemt');
+        toastr.success('Dine ændringer er gemt');
         setTimeout(() => this.$state.go('members'), 1000);
       });
     }
 
     terminateMembership(member: Member, $event: UIEvent) {
-
-      var modalInstance = this.$uibModal.open({
+      this.$uibModal.open({
         templateUrl: 'members/modals/member.terminate.modal.controller.html',
         controller: 'MemberTerminateModalController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        resolve: {
+          context: () => {
+            return {
+              memberId: member.id
+            }
+          }
+        }
+      }).result.then((terminationDate: string) => {
+        toastr.success('Medlemmet er udmeldt pr. ' + terminationDate);
+        this.$state.go('members');
       });
-
-      modalInstance.result.then((terminationDate: string) => {
-        console.log('terminationDate', terminationDate);
-      });
-
-      // if (confirm(`Slet ${member.name}?`)) {
-      //   this.MembersService.delete(member).then(() => {
-      //     this.$state.go('members');
-      //   });
-      // }
     }
   }
 }

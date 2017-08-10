@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MyAthleticsClub.Core.Commands;
 using MyAthleticsClub.Core.Models;
 using MyAthleticsClub.Core.Repositories.Interfaces;
 using MyAthleticsClub.Core.Services.Interfaces;
@@ -48,16 +49,17 @@ namespace MyAthleticsClub.Core.Services
 
         private async Task<string> GetNextMemberNumberAsync(string organizationId)
         {
-            var members = await _memberRepository.CountAllAsync(organizationId);
-            var currentYear2Digit = DateTime.Now.Year.ToString().Substring(2, 2);
-            var startNumber = int.Parse(currentYear2Digit + "347");
-            var nextNumber = startNumber + members;
-            return nextNumber.ToString();
+            return await _memberRepository.GetNextMemberNumberAsync(organizationId);
         }
 
         public async Task ChargeAllAsync(string organizationId)
         {
             await _memberRepository.ChargeAllAsync(organizationId);
+        }
+
+        public async Task TerminateMembershipAsync(string organizationId, TerminateMembershipCommand command)
+        {
+            await _memberRepository.SetTerminationDate(organizationId, command.MemberId, command.TerminationDate);
         }
     }
 }

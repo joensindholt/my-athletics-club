@@ -7,13 +7,12 @@
       Angiv datoen per hvilken medlemmet skal udmeldes. Efter denne dato vil medlemmet ikke længere optræde på medlemslister i
       systemet.
     </p>
-    <form name="memberTerminateModalForm">
+    <form name="vm.memberTerminateModalForm">
       <div class="form-group">
-        <input type="text" ng-model="vm.terminationDate" placeholder="åååå-mm-dd" ng-pattern="'\\d{4}-\\d{2}-\\d{2}'" class="form-control"
+        <input type="text" ng-model="vm.terminationDate" placeholder="åååå-mm-dd" required ng-pattern="'\\d{4}-\\d{2}-\\d{2}'" class="form-control"
           id="input_termination_date" name="inputTerminationDate">
       </div>
     </form>
-    {{ vm }}
   </div>
   <div class="modal-footer">
     <button class="o-button o-button--primary" type="button" ng-click="vm.ok()">OK</button>

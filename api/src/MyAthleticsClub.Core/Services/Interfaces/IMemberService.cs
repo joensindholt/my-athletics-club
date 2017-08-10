@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using MyAthleticsClub.Core.Commands;
 using MyAthleticsClub.Core.Models;
 
 namespace MyAthleticsClub.Core.Services.Interfaces
@@ -17,5 +18,7 @@ namespace MyAthleticsClub.Core.Services.Interfaces
         Task DeleteAsync(string organizationId, string id);
 
         Task ChargeAllAsync(string organizationId);
+
+        Task TerminateMembershipAsync(string organizationId, TerminateMembershipCommand command);
     }
 }

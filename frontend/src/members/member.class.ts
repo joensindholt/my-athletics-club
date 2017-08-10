@@ -9,6 +9,7 @@ module members {
     familyMembershipNumber: string;
     birthDate: string;
     hasOutstandingMembershipPayment: boolean;
+    terminationDate: string;
 
     constructor(memberData: any) {
       this.id = memberData._id || memberData.id;
@@ -25,6 +26,7 @@ module members {
       }
 
       this.hasOutstandingMembershipPayment = memberData.hasOutstandingMembershipPayment
+      this.terminationDate = memberData.terminationDate;
     }
   }
 }

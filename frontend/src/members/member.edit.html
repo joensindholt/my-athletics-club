@@ -82,10 +82,12 @@
     <div class="standout">
       <div class="row">
         <div class="col-sm-9 col-sm-offset-3">
+          <h6>Udmeld medlem</h6>
           <p class="c-form-helptext">
-            Du kan udmelde medlemmet ved at trykke nedenfor. Medlemmet bliver slettet og kan ikke genskabes.
+            Udmeld medlemmet ved at trykke nedenfor. Når du udmelder et medlem vil du blive spurgt pr. hvilken dato du ønsker at udmelde
+            medlemmet.
           </p>
-          <button class="o-button o-button--warning spacy" ng-click="vm.deleteMember(vm.member, $event)">Slet medlem</button>
+          <button class="o-button o-button--warning spacy" ng-click="vm.terminateMembership(vm.member, $event)">Udmeld medlem</button>
         </div>
       </div>
     </div>

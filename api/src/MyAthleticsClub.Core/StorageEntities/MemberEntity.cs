@@ -19,6 +19,8 @@ namespace MyAthleticsClub.Core.StorageEntities
 
         public bool HasOutstandingMembershipPayment { get; set; }
 
+        public DateTime? TerminationDate { get; set; }
+
         public MemberEntity()
         {
             ETag = "*";
@@ -33,7 +35,8 @@ namespace MyAthleticsClub.Core.StorageEntities
             string email2,
             string familyMembershipNumber,
             DateTime? birthDate,
-            bool hasOutstandingMembershipPayment)
+            bool hasOutstandingMembershipPayment,
+            DateTime? terminationDate)
             : base(organizationId, id)
         {
             Number = number;
@@ -43,6 +46,7 @@ namespace MyAthleticsClub.Core.StorageEntities
             FamilyMembershipNumber = familyMembershipNumber;
             BirthDate = birthDate.HasValue ? birthDate.Value.ToString("yyyy-MM-dd") : null;
             HasOutstandingMembershipPayment = hasOutstandingMembershipPayment;
+            TerminationDate = terminationDate;
 
             ETag = "*";
         }

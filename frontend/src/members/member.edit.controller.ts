@@ -10,12 +10,14 @@ module members {
     form: any;
     member: Member = new Member({});
     errorMessage: string;
+    terminationDate: string;
 
     static $inject = [
       '$scope',
       '$state',
       '$window',
       'moment',
+      '$uibModal',
       'MembersService',
       'AuthService'
     ];
@@ -25,6 +27,7 @@ module members {
       private $state,
       private $window: ng.IWindowService,
       private moment: moment.MomentStatic,
+      private $uibModal,
       private MembersService: MembersService,
       private AuthService: users.AuthService
     ) {
@@ -58,21 +61,27 @@ module members {
       }
 
       this.MembersService.update(member).then(member => {
-        toastr.info('Dine ændringer er gemt');
+        toastr.success('Dine ændringer er gemt');
         setTimeout(() => this.$state.go('members'), 1000);
       });
     }
 
-    deleteMember(member: Member, $event: UIEvent) {
-      // Prevent normal form submission
-      $event.preventDefault();
-
-      // Confirm deletion and delete member
-      if (confirm(`Slet ${member.name}?`)) {
-        this.MembersService.delete(member).then(() => {
-          this.$state.go('members');
-        });
-      }
+    terminateMembership(member: Member, $event: UIEvent) {
+      this.$uibModal.open({
+        templateUrl: 'members/modals/member.terminate.modal.controller.html',
+        controller: 'MemberTerminateModalController',
+        controllerAs: 'vm',
+        resolve: {
+          context: () => {
+            return {
+              memberId: member.id
+            }
+          }
+        }
+      }).result.then((terminationDate: string) => {
+        toastr.success('Medlemmet er udmeldt pr. ' + terminationDate);
+        this.$state.go('members');
+      });
     }
   }
 }

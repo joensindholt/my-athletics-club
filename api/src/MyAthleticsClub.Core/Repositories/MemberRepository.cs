@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +15,24 @@ namespace MyAthleticsClub.Core.Repositories
         public MemberRepository(CloudStorageAccount account)
             : base(account, "members")
         {
+        }
+
+        /// <summary>
+        /// Gets all members that are not terminated
+        /// </summary>
+        /// <returns>The list of members</returns>
+        public async override Task<IEnumerable<Member>> GetAllAsync()
+        {
+            return
+                (await base.GetAllAsync())
+                    .Where(m => MemberIsActive(m));
+        }
+
+        public async override Task<IEnumerable<Member>> GetAllByPartitionKey(string partitionKey)
+        {
+            return 
+                (await base.GetAllByPartitionKey(partitionKey))
+                    .Where(m => MemberIsActive(m));
         }
 
         public async Task<int> CountAllAsync(string organizationId)
@@ -44,7 +63,8 @@ namespace MyAthleticsClub.Core.Repositories
                 entity.FamilyMembershipNumber,
                 entity.BirthDate != null ? (DateTime?)DateTime.Parse(entity.BirthDate, CultureInfo.InvariantCulture) 
                                          : null,
-                entity.HasOutstandingMembershipPayment);
+                entity.HasOutstandingMembershipPayment,
+                entity.TerminationDate);
 
             return member;
         }
@@ -60,7 +80,8 @@ namespace MyAthleticsClub.Core.Repositories
                 member.Email2,
                 member.FamilyMembershipNumber,
                 member.BirthDate,
-                member.HasOutstandingMembershipPayment);
+                member.HasOutstandingMembershipPayment,
+                member.TerminationDate);
 
             return entity;
         }
@@ -90,6 +111,18 @@ namespace MyAthleticsClub.Core.Repositories
                 var nextNumber = currentYearMembers.Max(m => int.Parse(m.Number)) + 1;
                 return nextNumber.ToString();
             }
+        }
+
+        public async Task SetTerminationDate(string organizationId, string memberId, DateTime terminationDate)
+        {
+            var member = await GetAsync(organizationId, memberId);
+            member.TerminationDate = terminationDate;
+            await UpdateAsync(member);
+        }
+
+        private bool MemberIsActive(Member member)
+        {
+            return member.TerminationDate == null || member.TerminationDate > DateTime.Today;
         }
     }
 }

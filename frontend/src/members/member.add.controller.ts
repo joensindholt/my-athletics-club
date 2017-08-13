@@ -16,8 +16,7 @@ module members {
       '$window',
       'moment',
       'MembersService',
-      'AuthService',
-      'DateService'
+      'AuthService'
     ];
 
     constructor(private $scope: ng.IScope,
@@ -25,10 +24,9 @@ module members {
                 private $window: ng.IWindowService,
                 private moment: moment.MomentStatic,
                 private MembersService: MembersService,
-                private AuthService: users.AuthService,
-                private dateService: core.DateService) {
+                private AuthService: users.AuthService) {
       this.birthYears = this.MembersService.getAllowedBirthYears();
-      this.member.startDate = this.dateService.getDateString(new Date());
+      this.member.startDate = moment(new Date()).format('YYYY-MM-DD');
     }
 
     addMember(member: Member) {

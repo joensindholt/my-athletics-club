@@ -26,6 +26,7 @@ module members {
                 private MembersService: MembersService,
                 private AuthService: users.AuthService) {
       this.birthYears = this.MembersService.getAllowedBirthYears();
+      this.member.startDate = moment(new Date()).format('YYYY-MM-DD');
     }
 
     addMember(member: Member) {

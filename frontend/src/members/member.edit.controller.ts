@@ -60,9 +60,16 @@ module members {
         return;
       }
 
+      if (!this.form.inputStartDate.$valid) {
+        this.errorMessage = 'Indmeldelsesdatoen skal være i formatet: åååå-mm-dd';
+        return;
+      }
+
       this.MembersService.update(member).then(member => {
         toastr.success('Dine ændringer er gemt');
         setTimeout(() => this.$state.go('members'), 1000);
+      }).catch(err => {
+        toastr.error(err.statusText, err.status);
       });
     }
 
@@ -81,6 +88,8 @@ module members {
       }).result.then((terminationDate: string) => {
         toastr.success('Medlemmet er udmeldt pr. ' + terminationDate);
         this.$state.go('members');
+      }).catch(err => {
+        toastr.error(err.statusText, err.status);
       });
     }
   }

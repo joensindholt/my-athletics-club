@@ -64,7 +64,8 @@ namespace MyAthleticsClub.Core.Repositories
                 entity.BirthDate != null ? (DateTime?)DateTime.Parse(entity.BirthDate, CultureInfo.InvariantCulture) 
                                          : null,
                 entity.HasOutstandingMembershipPayment,
-                entity.TerminationDate);
+                entity.TerminationDate,
+                entity.StartDate);
 
             return member;
         }
@@ -81,7 +82,8 @@ namespace MyAthleticsClub.Core.Repositories
                 member.FamilyMembershipNumber,
                 member.BirthDate,
                 member.HasOutstandingMembershipPayment,
-                member.TerminationDate);
+                member.TerminationDate,
+                member.StartDate);
 
             return entity;
         }

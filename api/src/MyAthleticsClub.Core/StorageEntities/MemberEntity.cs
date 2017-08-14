@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.WindowsAzure.Storage.Table;
+using MyAthleticsClub.Core.Models;
 
 namespace MyAthleticsClub.Core.StorageEntities
 {
@@ -23,6 +24,10 @@ namespace MyAthleticsClub.Core.StorageEntities
 
         public DateTime? StartDate { get; set; }
 
+        public int? Team { get; set; }
+
+        public int? Gender { get; set; }
+
         public MemberEntity()
         {
             ETag = "*";
@@ -39,7 +44,9 @@ namespace MyAthleticsClub.Core.StorageEntities
             DateTime? birthDate,
             bool hasOutstandingMembershipPayment,
             DateTime? terminationDate,
-            DateTime? startDate)
+            DateTime? startDate,
+            Team? team,
+            Gender? gender)
             : base(organizationId, id)
         {
             Number = number;
@@ -51,6 +58,8 @@ namespace MyAthleticsClub.Core.StorageEntities
             HasOutstandingMembershipPayment = hasOutstandingMembershipPayment;
             TerminationDate = terminationDate;
             StartDate = startDate;
+            Team = (int?)team;
+            Gender = (int?)gender;
 
             ETag = "*";
         }

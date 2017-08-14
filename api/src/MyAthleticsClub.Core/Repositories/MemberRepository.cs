@@ -65,7 +65,9 @@ namespace MyAthleticsClub.Core.Repositories
                                          : null,
                 entity.HasOutstandingMembershipPayment,
                 entity.TerminationDate,
-                entity.StartDate);
+                entity.StartDate,
+                (Team?)entity.Team,
+                (Gender?)entity.Gender);
 
             return member;
         }
@@ -83,7 +85,9 @@ namespace MyAthleticsClub.Core.Repositories
                 member.BirthDate,
                 member.HasOutstandingMembershipPayment,
                 member.TerminationDate,
-                member.StartDate);
+                member.StartDate,
+                member.Team,
+                member.Gender);
 
             return entity;
         }

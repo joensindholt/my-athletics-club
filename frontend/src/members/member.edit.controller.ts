@@ -11,6 +11,7 @@ module members {
     member: Member = new Member({});
     errorMessage: string;
     terminationDate: string;
+    selectableTeams: Array<any>;
 
     static $inject = [
       '$scope',
@@ -40,6 +41,8 @@ module members {
         $state.go('home');
         return;
       }
+
+      this.selectableTeams = this.MembersService.getTeamInfos();
 
       this.MembersService.get($state.params.id).then(member => this.member = member);
     }

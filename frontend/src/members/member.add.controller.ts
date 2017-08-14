@@ -9,6 +9,7 @@ module members {
     member: Member = new Member({});
     errorMessage: string;
     birthYears: Array<number>;
+    selectableTeams: Array<any>;
 
     static $inject = [
       '$scope',
@@ -27,6 +28,7 @@ module members {
                 private AuthService: users.AuthService) {
       this.birthYears = this.MembersService.getAllowedBirthYears();
       this.member.startDate = moment(new Date()).format('YYYY-MM-DD');
+      this.selectableTeams = this.MembersService.getTeamInfos();
     }
 
     addMember(member: Member) {

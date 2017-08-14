@@ -123,6 +123,19 @@ module members {
 
       return deferred.promise;
     }
+
+    getTeamInfos() {
+      return [{
+        id: 0,
+        label: 'Miniholdet'
+      }, {
+        id: 1,
+        label: 'Mellemholdet'
+      }, {
+        id: 2,
+        label: 'Storeholdet'
+      }]
+    }
   }
 }
 

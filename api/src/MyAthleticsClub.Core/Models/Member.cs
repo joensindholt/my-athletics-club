@@ -4,6 +4,10 @@ using MyAthleticsClub.Core.Repositories.Interfaces;
 
 namespace MyAthleticsClub.Core.Models
 {
+    public enum Team { Miniholdet, Mellemholdet, Storeholdet }
+
+    public enum Gender { Male, Female }
+
     public class Member : IEntityObject
     {
         public string OrganizationId { get; set; }
@@ -30,6 +34,10 @@ namespace MyAthleticsClub.Core.Models
 
         public DateTime? TerminationDate { get; set; }
 
+        public Team? Team { get; set; }
+
+        public Gender? Gender { get; set; }
+
         public Member()
         {
         }
@@ -45,7 +53,9 @@ namespace MyAthleticsClub.Core.Models
             DateTime? birthDate,
             bool hasOutstandingMembershipPayment,
             DateTime? terminationDate,
-            DateTime? startDate)
+            DateTime? startDate,
+            Team? team,
+            Gender? gender)
         {
             OrganizationId = organizationId;
             Id = id;
@@ -58,6 +68,8 @@ namespace MyAthleticsClub.Core.Models
             HasOutstandingMembershipPayment = hasOutstandingMembershipPayment;
             TerminationDate = terminationDate;
             StartDate = startDate;
+            Team = team;
+            Gender = gender;
         }
 
         public string GetPartitionKey()

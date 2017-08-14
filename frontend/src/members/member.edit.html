@@ -32,6 +32,14 @@
         </div>
       </div>
       <div class="form-group">
+        <label for="input_team" class="col-sm-3 control-label">Hold</label>
+        <div class="col-sm-9">
+          <select ng-model="vm.member.team" ng-options="item.id as item.label for item in vm.selectableTeams track by item.id" class="form-control"
+            id="input_team" ng-focus="vm.errorMessage = ''">
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
         <label for="input_email" class="col-sm-3 control-label">Email</label>
         <div class="col-sm-9">
           <input type="text" ng-model="vm.member.email" class="form-control" id="input_email" ng-focus="vm.errorMessage = ''">

@@ -12,9 +12,9 @@
       </button>
       <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="split-button">
         <li role="menuitem">
-          <a ng-csv="vm.members" csv-header="['Id', 'Nummer', 'Navn', 'Email', 'Email 2', 'Fam. medl. nummer', 'Fødselsdato', 'Udest. kontingent']"
+          <a ng-csv="vm.getCsvMembers()" csv-header="['Id', 'Nummer', 'Navn', 'Email', 'Email 2', 'Fam. medl. nummer', 'Fødselsdato', 'Udest. kontingent']"
             field-separator=";" lazy-load="true" filename="medlemmer.csv">
-            <i class="fa fa-download" aria-hidden="true"></i> Hent alle medlemmer som csv
+            <i class="fa fa-download" aria-hidden="true"></i> Hent viste medlemmer som csv
           </a>
         </li>
         <li role="menuitem">
@@ -28,7 +28,7 @@
   <!-- filters -->
   <h4>Filtrér medlemmer</h4>
   <div>
-    <input type="text" ng-model="search" class="c-formular-input center" />
+    <input type="text" ng-model="vm.search" ng-change="vm.searchChanged()" class="c-formular-input center" />
   </div>
   <div class="center spacy">
     <input type="checkbox" ng-model="vm.hasOutstandingMembershipPaymentFilter" ng-click="vm.filterMembers()" />
@@ -37,7 +37,7 @@
   <!-- member list -->
   <div class="o-detail-list">
     <div class="row">
-      <div class="col-sm-12" ng-repeat="member in vm.members | filter:search" ui-sref="members_edit({ id: member.id })">
+      <div class="col-sm-12" ng-repeat="member in vm.members" ui-sref="members_edit({ id: member.id })">
         <div class="o-detail-list__item">
           <member-list-item member="member"></member-list-item>
         </div>
@@ -48,7 +48,7 @@
   <h4>Familie-medlemskaber</h4>
   <div class="o-detail-list">
     <div class="row">
-      <div class="col-sm-12" ng-repeat="family in vm.familyMemberships | filter:search" ui-sref="members_edit({ id: family.id })">
+      <div class="col-sm-12" ng-repeat="family in vm.familyMemberships" ui-sref="members_edit({ id: family.id })">
         <div class="o-detail-list__item">
           <member-list-item member="family"></member-list-item>
         </div>

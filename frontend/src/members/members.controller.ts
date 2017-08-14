@@ -12,13 +12,14 @@ module members {
     allMembers: Array<Member>;
     members: Array<Member>;
     familyMemberships: Array<Member>;
-
+    search: string;
     hasOutstandingMembershipPaymentFilter: boolean;
 
     static $inject = [
       '$scope',
       '$state',
       '$window',
+      '$filter',
       'moment',
       'MembersService',
       'AuthService'
@@ -27,6 +28,7 @@ module members {
     constructor(private $scope: IScope,
       private $state,
       private $window: ng.IWindowService,
+      private $filter: ng.IFilterService,
       private moment: moment.MomentStatic,
       private membersService: MembersService,
       private authService: users.AuthService
@@ -78,6 +80,8 @@ module members {
         return true;
       });
 
+      this.members = this.$filter('filter')(this.members, this.search);
+
       this.familyMemberships =
         _.map(
           _.groupBy(
@@ -98,6 +102,8 @@ module members {
 
         return true;
       });
+
+      this.familyMemberships = this.$filter('filter')(this.familyMemberships, this.search);
     }
 
     chargeMemberships() {
@@ -110,6 +116,14 @@ module members {
           toastr.error(err.statusText, err.status);
         });
       }
+    }
+
+    searchChanged() {
+      this.updateMemberList();
+    }
+
+    getCsvMembers()  {
+      return _.concat(this.members, this.familyMemberships);      
     }
   }
 }

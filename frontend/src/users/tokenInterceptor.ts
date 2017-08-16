@@ -3,14 +3,16 @@
 module users {
   'use strict';
 
-  export function tokenInterceptor($q: ng.IQService, $rootScope) {
+  export function tokenInterceptor(
+    $q: ng.IQService,
+    $rootScope,
+    $injector
+  ) {
     return {
       'request': function (config) {
         let token = localStorage.getItem('access_token');
-        let expires = localStorage.getItem('expires');
-        let now = (new Date().getTime() / 1000);
 
-        if (token && expires && parseInt(expires) > now) {
+        if (token) {
           config.headers.Authorization = 'Bearer ' + token;
         }
 
@@ -19,6 +21,8 @@ module users {
       'responseError': function (rejection) {
         if (rejection.status === 401) {
           $rootScope.isAuthenticated = false;
+          let stateService = $injector.get('$state'); 
+          stateService.go('login');
         }
         return $q.reject(rejection);
       }

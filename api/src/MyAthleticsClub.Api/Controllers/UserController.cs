@@ -2,6 +2,7 @@
  * Much of the JWT token stuff comes from here: https://goblincoding.com/2016/07/03/issuing-and-authenticating-jwt-tokens-in-asp-net-core-webapi-part-i/
  */
 
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -54,12 +55,15 @@ namespace MyAthleticsClub.Api.Controllers
             };
 
             // Create the JWT security token and encode it.
+            var expiration = DateTime.UtcNow.AddDays(7);
+            var notBefore = DateTime.UtcNow.AddMinutes(-5);
+
             var jwt = new JwtSecurityToken(
                 issuer: _jwtOptions.Issuer,
                 audience: _jwtOptions.Audience,
                 claims: claims,
-                notBefore: _jwtOptions.NotBefore,
-                expires: _jwtOptions.Expiration,
+                notBefore: notBefore,
+                expires: expiration,
                 signingCredentials: _jwtOptions.SigningCredentials);
 
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
@@ -68,8 +72,7 @@ namespace MyAthleticsClub.Api.Controllers
             var response = new
             {
                 access_token = encodedJwt,
-                expires_in = (int)_jwtOptions.ValidFor.TotalSeconds,
-                expires = _jwtOptions.Expiration.ToUnixEpochDate()
+                expires = expiration.ToUnixEpochDate()
             };
 
             var json = JsonConvert.SerializeObject(response, new JsonSerializerSettings

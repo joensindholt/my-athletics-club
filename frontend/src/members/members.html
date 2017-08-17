@@ -12,7 +12,7 @@
       </button>
       <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="split-button">
         <li role="menuitem">
-          <a ng-csv="vm.getCsvMembers()" csv-header="['Id', 'Nummer', 'Navn', 'Email', 'Email 2', 'Fam. medl. nummer', 'Fødselsdato', 'Udest. kontingent']"
+          <a ng-csv="vm.getCsvMembers()" csv-header="vm.getCsvHeaders()"
             field-separator=";" lazy-load="true" filename="medlemmer.csv">
             <i class="fa fa-download" aria-hidden="true"></i> Hent viste medlemmer som csv
           </a>

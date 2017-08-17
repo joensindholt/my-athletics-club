@@ -16,10 +16,29 @@ module members {
     member: members.Member;
 
     static $inject = [
+      'MembersService'
     ];
 
     constructor(
+      private membersService: MembersService
     ) {
+    }
+
+    getMemberGender() {
+      if (this.member.gender !== null) {
+        return this.membersService.getGenderLabel(this.member.gender);
+      } else {
+        return null;
+      }
+    } 
+
+    getMemberTeam() {
+      if (this.member.team !== null) {
+        return this.membersService.getTeamLabel(this.member.team);
+      } else {
+        return null;
+      }
+
     }
   }
 }

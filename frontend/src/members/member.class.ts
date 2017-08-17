@@ -11,6 +11,8 @@ module members {
     hasOutstandingMembershipPayment: boolean;
     terminationDate: string;
     startDate: string;
+    team: number;
+    gender: number;
 
     constructor(memberData: any) {
       this.id = memberData._id || memberData.id;
@@ -27,13 +29,21 @@ module members {
       }
 
       this.hasOutstandingMembershipPayment = memberData.hasOutstandingMembershipPayment
-      this.terminationDate = memberData.terminationDate;
       
+      this.terminationDate = memberData.terminationDate;
+      // Get date part only from start date 
+      if (this.terminationDate && this.terminationDate.length > 10) {
+        this.terminationDate = this.terminationDate.substring(0, 10);
+      }
+
       this.startDate = memberData.startDate;
       // Get date part only from start date 
       if (this.startDate && this.startDate.length > 10) {
         this.startDate = this.startDate.substring(0, 10);
       }
+
+      this.team = memberData.team;
+      this.gender = memberData.gender;
     }
   }
 }

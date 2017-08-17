@@ -10,6 +10,11 @@ module members {
     errorMessage: string;
     birthYears: Array<number>;
 
+    selectableTeams: Array<{id: number, label: string}>;
+    selectedTeam: string;
+    selectableGenders: Array<{id: number, label: string}>;
+    selectedGender: string;
+
     static $inject = [
       '$scope',
       '$state',
@@ -26,6 +31,9 @@ module members {
                 private MembersService: MembersService,
                 private AuthService: users.AuthService) {
       this.birthYears = this.MembersService.getAllowedBirthYears();
+      this.selectableTeams = this.MembersService.getTeamInfos();
+      this.selectableGenders = this.MembersService.getGenderInfos();
+
       this.member.startDate = moment(new Date()).format('YYYY-MM-DD');
     }
 
@@ -44,6 +52,11 @@ module members {
         this.errorMessage = 'Fødselsdatoen skal være i formatet: åååå-mm-dd';
         return;
       }
+
+      member.team = this.selectedTeam ? parseInt(this.selectedTeam) : null;
+      member.gender = this.selectedGender ? parseInt(this.selectedGender) : null;
+
+      console.log('adding member', member);
 
       this.MembersService.add(member).then(member => {
         toastr.info('Medlemmet er oprettet med medlemsnummer ' + member.number);

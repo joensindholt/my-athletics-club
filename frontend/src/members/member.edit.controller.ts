@@ -11,6 +11,11 @@ module members {
     member: Member = new Member({});
     errorMessage: string;
     terminationDate: string;
+    
+    selectableTeams: Array<{id: number, label: string}>;
+    selectedTeam: string;
+    selectableGenders: Array<{id: number, label: string}>;
+    selectedGender: string;
 
     static $inject = [
       '$scope',
@@ -41,7 +46,14 @@ module members {
         return;
       }
 
-      this.MembersService.get($state.params.id).then(member => this.member = member);
+      this.selectableTeams = this.MembersService.getTeamInfos();
+      this.selectableGenders = this.MembersService.getGenderInfos();
+
+      this.MembersService.get($state.params.id).then(member => {
+        this.member = member
+        this.selectedTeam = member.team !== null ? member.team.toString() : null;
+        this.selectedGender = member.gender !== null ? member.gender.toString() : null;
+      });
     }
 
     updateMember(member: Member) {
@@ -64,6 +76,9 @@ module members {
         this.errorMessage = 'Indmeldelsesdatoen skal være i formatet: åååå-mm-dd';
         return;
       }
+
+      member.team = this.selectedTeam ? parseInt(this.selectedTeam) : null;
+      member.gender = this.selectedGender ? parseInt(this.selectedGender) : null;
 
       this.MembersService.update(member).then(member => {
         toastr.success('Dine ændringer er gemt');

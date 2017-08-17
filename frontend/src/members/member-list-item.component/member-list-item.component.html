@@ -17,6 +17,14 @@
   <!-- fields -->
   <div class="o-details-list-card__body">
     <div>
+      <label>køn</label>
+      <div>{{ $ctrl.getMemberGender() || '-' }} &nbsp;</div>
+    </div>
+    <div>
+      <label>hold</label>
+      <div>{{ $ctrl.getMemberTeam() || '-' }} &nbsp;</div>
+    </div>
+    <div>
       <label>email</label>
       <div>{{ $ctrl.member.email }} &nbsp;</div>
     </div>

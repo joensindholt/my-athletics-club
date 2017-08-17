@@ -4,9 +4,9 @@ using MyAthleticsClub.Core.Repositories.Interfaces;
 
 namespace MyAthleticsClub.Core.Models
 {
-    public enum Team { Miniholdet, Mellemholdet, Storeholdet }
+    public enum Team { Miniholdet = 1, Mellemholdet = 2, Storeholdet = 3}
 
-    public enum Gender { Male, Female }
+    public enum Gender { Female = 1, Male = 2}
 
     public class Member : IEntityObject
     {

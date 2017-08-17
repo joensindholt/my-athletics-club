@@ -29,8 +29,13 @@ module members {
       }
 
       this.hasOutstandingMembershipPayment = memberData.hasOutstandingMembershipPayment
-      this.terminationDate = memberData.terminationDate;
       
+      this.terminationDate = memberData.terminationDate;
+      // Get date part only from start date 
+      if (this.terminationDate && this.terminationDate.length > 10) {
+        this.terminationDate = this.terminationDate.substring(0, 10);
+      }
+
       this.startDate = memberData.startDate;
       // Get date part only from start date 
       if (this.startDate && this.startDate.length > 10) {

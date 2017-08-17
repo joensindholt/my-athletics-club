@@ -34,6 +34,7 @@ module members {
       var deferred = this.$q.defer<Member>();
       // give it a temporary id
       member.id = '-1';
+
       // ... and post to server
       this.$http.post(this.API_PATH + '/members', member)
         .then(response => {
@@ -125,16 +126,34 @@ module members {
     }
 
     getTeamInfos() {
-      return [{
-        id: 0,
-        label: 'Miniholdet'
-      }, {
-        id: 1,
-        label: 'Mellemholdet'
-      }, {
-        id: 2,
-        label: 'Storeholdet'
-      }]
+      return [
+        { id: 1, label: 'Miniholdet' },
+        { id: 2, label: 'Mellemholdet' },
+        { id: 3, label: 'Storeholdet' }
+      ];
+    }
+
+    getTeamLabel(id: number) {
+      if (id === null) {
+        return null;
+      } else {
+        return _.find(this.getTeamInfos(), i => i.id === id).label;
+      }
+    }
+
+    getGenderInfos() {
+      return [
+        { id: 1, label: 'Pige' },
+        { id: 2, label: 'Dreng' }
+      ];
+    }
+
+    getGenderLabel(id: number) {
+      if (id === null) {
+        return null;
+      } else {
+        return _.find(this.getGenderInfos(), i => i.id === id).label;
+      }
     }
   }
 }

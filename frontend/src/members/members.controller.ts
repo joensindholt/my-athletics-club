@@ -9,9 +9,9 @@ module members {
 
   export class MembersController {
 
-    allMembers: Array<Member>;
-    members: Array<Member>;
-    familyMemberships: Array<Member>;
+    allMembers: Array<any>;
+    members: Array<any>;
+    familyMemberships: Array<any>;
     search: string;
     hasOutstandingMembershipPaymentFilter: boolean;
 
@@ -40,7 +40,16 @@ module members {
     updateMemberList() {
       this.membersService.getAll()
         .then(members => {
+          // order members by name
           this.allMembers = _.orderBy(members, ['name']);
+
+          // make team and gender enums searchable
+          _.forEach(this.allMembers, m => {
+            m.teamLabel = this.membersService.getTeamLabel(m.team);
+            m.genderLabel = this.membersService.getGenderLabel(m.gender);
+          });
+
+          // filter members by search text and other filters
           this.filterMembers();
         })
         .catch(err => {
@@ -123,7 +132,27 @@ module members {
     }
 
     getCsvMembers()  {
-      return _.concat(this.members, this.familyMemberships);      
+      return _.map(_.concat(this.members, this.familyMemberships), m => {
+        return { 
+          id: m.id, 
+          number: m.number, 
+          name: m.name,
+          genderLabel: m.genderLabel,
+          teamLabel: m.teamLabel, 
+          email: m.email,
+          email2: m.email2, 
+          familyMembershipNumber: m.familyMembershipNumber, 
+          birthDate: m.birthDate, 
+          hasOutstandingMembershipPayment: m.hasOutstandingMembershipPayment, 
+          startDate: m.startDate, 
+          terminationDate: m.terminationDate
+        };
+      });      
+    }
+
+    getCsvHeaders() {
+      return ['Id', 'Nummer', 'Navn', 'Køn', 'Hold', 'Email', 'Email 2', 'Fam. medl. nummer', 'Fødselsdato', 'Udest. kontingent',
+      'Indmeldelsesdato', 'Udmeldelsesdato'];
     }
   }
 }

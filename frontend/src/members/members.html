@@ -12,8 +12,7 @@
       </button>
       <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="split-button">
         <li role="menuitem">
-          <a ng-csv="vm.getCsvMembers()" csv-header="vm.getCsvHeaders()"
-            field-separator=";" lazy-load="true" filename="medlemmer.csv">
+          <a ng-csv="vm.getCsvMembers()" csv-header="vm.getCsvHeaders()" field-separator=";" lazy-load="true" filename="medlemmer.csv">
             <i class="fa fa-download" aria-hidden="true"></i> Hent viste medlemmer som csv
           </a>
         </li>
@@ -31,8 +30,80 @@
     <input type="text" ng-model="vm.search" ng-change="vm.searchChanged()" class="c-formular-input center" />
   </div>
   <div class="center spacy">
-    <input type="checkbox" ng-model="vm.hasOutstandingMembershipPaymentFilter" ng-click="vm.filterMembers()" />
-    <span>Vis medlemmer m. udest. kont.</span>
+    <a ng-click="showFilters = !showFilters">{{ !showFilters ? 'Vis flere filtre...' : 'Skjul filtre' }}</a>
+  </div>
+
+  <div class="center spacy c-card" ng-show="showFilters">
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label class="control-label">Køn</label>
+          <select ng-model="vm.filters.genderFilter" ng-change="vm.filterMembers()" class="form-control">
+            <option value="all">Alle</option>
+            <option value="female">Piger</option>
+            <option value="male">Drenge</option>
+            <option value="null">Ikke angivet</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label class="control-label">Hold</label>
+          <select ng-model="vm.filters.team" ng-change="vm.filterMembers()" class="form-control">
+              <option value="all">Alle hold</option>
+              <option value="1">Miniholdet</option>
+              <option value="2">Mellemholdet</option>
+              <option value="3">Storeholdet</option>
+              <option value="null">Ikke angivet</option>
+            </select>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label class="control-label">Fødselsdato</label>
+          <div class="row">
+            <div class="col-xs-6">
+              <input type="text" ng-model="vm.filters.birthDate" ng-disabled="vm.filters.birthDateNull" ng-change="vm.filterMembers()"
+                class="form-control" />
+            </div>
+            <div class="col-xs-1">
+              <input type="checkbox" ng-model="vm.filters.birthDateNull" ng-change="vm.filterMembers()" />
+            </div>
+            <div class="col-x-5 left">
+              Ikke angivet
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <input type="checkbox" ng-model="vm.filters.hasOutstandingMembershipPaymentFilter" ng-click="vm.filterMembers()" />
+          <span>Vis medlemmer m. udest. kont.</span>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label class="control-label left">Indmeldelsesdato</label>
+          <div class="row">
+            <div class="col-xs-6">
+              <input type="text" ng-model="vm.filters.startDate" ng-disabled="vm.filters.startDateNull" ng-change="vm.filterMembers()"
+                class="form-control" />
+            </div>
+            <div class="col-xs-1">
+              <input type="checkbox" ng-model="vm.filters.startDateNull" ng-change="vm.filterMembers()" />
+            </div>
+            <div class="col-x-5 left">
+              Ikke angivet
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 right">
+        <a ng-click="vm.filters = {}; vm.filterMembers()">nulstil filtre</a>
+      </div>
+    </div>
   </div>
   <!-- member list -->
   <div class="o-detail-list">

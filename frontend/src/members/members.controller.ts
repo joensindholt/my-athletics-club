@@ -13,7 +13,15 @@ module members {
     members: Array<any>;
     familyMemberships: Array<any>;
     search: string;
-    hasOutstandingMembershipPaymentFilter: boolean;
+    filters: {
+      hasOutstandingMembershipPaymentFilter?: boolean;
+      genderFilter?: string;
+      team?: string;
+      birthDateNull?: boolean;
+      birthDate?: string;
+      startDateNull?: boolean;
+      startDate?: string;
+    }
 
     static $inject = [
       '$scope',
@@ -35,6 +43,7 @@ module members {
     ) {
       this.updateMemberList();
       this.listenForChildEvents();
+      this.filters = {};
     }
 
     updateMemberList() {
@@ -81,15 +90,71 @@ module members {
     }
 
     filterMembers() {
+
+      console.log('ad', this.allMembers);
+
       this.members = this.allMembers.filter(m => {
-        if (this.hasOutstandingMembershipPaymentFilter) {
-          return m.hasOutstandingMembershipPayment && !m.familyMembershipNumber
+        var includeMember = true;
+
+        // filter by outstanding memberhip payment
+        if (this.filters.hasOutstandingMembershipPaymentFilter) {
+          includeMember = includeMember && m.hasOutstandingMembershipPayment && !m.familyMembershipNumber
         }
 
-        return true;
+        // filter by gender
+        switch (this.filters.genderFilter) {
+          case 'female':
+            includeMember = includeMember && m.gender === 1;
+            break;
+          case 'male':
+            includeMember = includeMember && m.gender === 2;
+            break;
+          case 'null':
+            includeMember = includeMember && !m.gender;
+            break;
+        }
+
+        // filter by team
+        switch (this.filters.team) {
+          case '1':
+            includeMember = includeMember && m.team === 1;
+            break;
+          case '2':
+            includeMember = includeMember && m.team === 2;
+            break;
+          case '3':
+            includeMember = includeMember && m.team === 3;
+            break;
+          case 'null':
+            includeMember = includeMember && !m.team;
+            break;
+        }
+
+        // filter by birth date existing
+        if (this.filters.birthDateNull) {
+          includeMember = includeMember && !m.birthDate;
+        }
+
+        // filter by start date existing
+        if (this.filters.startDateNull) {
+          includeMember = includeMember && !m.startDate;
+        }
+
+        return includeMember;
       });
 
+      // filter by search
       this.members = this.$filter('filter')(this.members, this.search);
+
+      // filter by typed birth date
+      if (!this.filters.birthDateNull && this.filters.birthDate) {
+        this.members = this.$filter('filter')(this.members, { birthDate: this.filters.birthDate });
+      }
+
+      // filter by typed start date
+      if (!this.filters.startDateNull && this.filters.startDate) {
+        this.members = this.$filter('filter')(this.members, { startDate: this.filters.startDate });
+      }
 
       this.familyMemberships =
         _.map(
@@ -105,7 +170,7 @@ module members {
           });
 
       this.familyMemberships = this.familyMemberships.filter(m => {
-        if (this.hasOutstandingMembershipPaymentFilter) {
+        if (this.filters.hasOutstandingMembershipPaymentFilter) {
           return m.hasOutstandingMembershipPayment;
         }
 
@@ -131,28 +196,28 @@ module members {
       this.updateMemberList();
     }
 
-    getCsvMembers()  {
+    getCsvMembers() {
       return _.map(_.concat(this.members, this.familyMemberships), m => {
-        return { 
-          id: m.id, 
-          number: m.number, 
+        return {
+          id: m.id,
+          number: m.number,
           name: m.name,
           genderLabel: m.genderLabel,
-          teamLabel: m.teamLabel, 
+          teamLabel: m.teamLabel,
           email: m.email,
-          email2: m.email2, 
-          familyMembershipNumber: m.familyMembershipNumber, 
-          birthDate: m.birthDate, 
-          hasOutstandingMembershipPayment: m.hasOutstandingMembershipPayment, 
-          startDate: m.startDate, 
+          email2: m.email2,
+          familyMembershipNumber: m.familyMembershipNumber,
+          birthDate: m.birthDate,
+          hasOutstandingMembershipPayment: m.hasOutstandingMembershipPayment,
+          startDate: m.startDate,
           terminationDate: m.terminationDate
         };
-      });      
+      });
     }
 
     getCsvHeaders() {
       return ['Id', 'Nummer', 'Navn', 'Køn', 'Hold', 'Email', 'Email 2', 'Fam. medl. nummer', 'Fødselsdato', 'Udest. kontingent',
-      'Indmeldelsesdato', 'Udmeldelsesdato'];
+        'Indmeldelsesdato', 'Udmeldelsesdato'];
     }
   }
 }

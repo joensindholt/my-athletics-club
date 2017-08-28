@@ -11,10 +11,9 @@ module members {
 
     allMembers: Array<any>;
     members: Array<any>;
-    familyMemberships: Array<any>;
     search: string;
     filters: {
-      hasOutstandingMembershipPaymentFilter?: boolean;
+      memberhipPayment?: string;
       genderFilter?: string;
       team?: string;
       birthDateNull?: boolean;
@@ -90,16 +89,8 @@ module members {
     }
 
     filterMembers() {
-
-      console.log('ad', this.allMembers);
-
       this.members = this.allMembers.filter(m => {
         var includeMember = true;
-
-        // filter by outstanding memberhip payment
-        if (this.filters.hasOutstandingMembershipPaymentFilter) {
-          includeMember = includeMember && m.hasOutstandingMembershipPayment && !m.familyMembershipNumber
-        }
 
         // filter by gender
         switch (this.filters.genderFilter) {
@@ -140,6 +131,16 @@ module members {
           includeMember = includeMember && !m.startDate;
         }
 
+        // filter by membership payment
+        switch (this.filters.memberhipPayment) {
+          case '1':
+            includeMember = includeMember && m.hasOutstandingMembershipPayment === true;
+            break;
+          case '2':
+            includeMember = includeMember && m.hasOutstandingMembershipPayment === false;
+            break;
+        }
+
         return includeMember;
       });
 
@@ -155,29 +156,6 @@ module members {
       if (!this.filters.startDateNull && this.filters.startDate) {
         this.members = this.$filter('filter')(this.members, { startDate: this.filters.startDate });
       }
-
-      this.familyMemberships =
-        _.map(
-          _.groupBy(
-            _.filter(this.allMembers, m => m.familyMembershipNumber),
-            m => m.familyMembershipNumber),
-          mg => {
-            var family = _.cloneDeep(mg[0]);
-            family.name = _.join(_.map(mg, m => m.name), ', ');
-            family.number = _.join(_.map(mg, m => m.number), ', ');
-            family.hasOutstandingMembershipPayment = _.findIndex(mg, m => m.hasOutstandingMembershipPayment) >= 0;
-            return family;
-          });
-
-      this.familyMemberships = this.familyMemberships.filter(m => {
-        if (this.filters.hasOutstandingMembershipPaymentFilter) {
-          return m.hasOutstandingMembershipPayment;
-        }
-
-        return true;
-      });
-
-      this.familyMemberships = this.$filter('filter')(this.familyMemberships, this.search);
     }
 
     chargeMemberships() {
@@ -197,7 +175,7 @@ module members {
     }
 
     getCsvMembers() {
-      return _.map(_.concat(this.members, this.familyMemberships), m => {
+      return _.map(this.members, m => {
         return {
           id: m.id,
           number: m.number,

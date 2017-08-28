@@ -36,7 +36,7 @@
   <div class="center spacy c-card" ng-show="showFilters">
     <div class="row">
       <div class="col-sm-3">
-        <div class="form-group">
+        <div class="form-group left">
           <label class="control-label">Køn</label>
           <select ng-model="vm.filters.genderFilter" ng-change="vm.filterMembers()" class="form-control">
             <option value="all">Alle</option>
@@ -47,19 +47,19 @@
         </div>
       </div>
       <div class="col-sm-3">
-        <div class="form-group">
+        <div class="form-group left">
           <label class="control-label">Hold</label>
           <select ng-model="vm.filters.team" ng-change="vm.filterMembers()" class="form-control">
-              <option value="all">Alle hold</option>
-              <option value="1">Miniholdet</option>
-              <option value="2">Mellemholdet</option>
-              <option value="3">Storeholdet</option>
-              <option value="null">Ikke angivet</option>
-            </select>
+            <option value="all">Alle hold</option>
+            <option value="1">Miniholdet</option>
+            <option value="2">Mellemholdet</option>
+            <option value="3">Storeholdet</option>
+            <option value="null">Ikke angivet</option>
+          </select>
         </div>
       </div>
       <div class="col-sm-6">
-        <div class="form-group">
+        <div class="form-group left">
           <label class="control-label">Fødselsdato</label>
           <div class="row">
             <div class="col-xs-6">
@@ -76,13 +76,17 @@
         </div>
       </div>
       <div class="col-sm-6">
-        <div class="form-group">
-          <input type="checkbox" ng-model="vm.filters.hasOutstandingMembershipPaymentFilter" ng-click="vm.filterMembers()" />
-          <span>Vis medlemmer m. udest. kont.</span>
+        <div class="form-group left">
+          <label class="control-label">Kontingent</label>
+          <select ng-model="vm.filters.memberhipPayment" ng-change="vm.filterMembers()" class="form-control">
+            <option value="all">Alle</option>
+            <option value="1">Medlemmer med udestående kontingent</option>
+            <option value="2">Medlemmer som har betalt</option>
+          </select>
         </div>
       </div>
       <div class="col-sm-6">
-        <div class="form-group">
+        <div class="form-group left">
           <label class="control-label left">Indmeldelsesdato</label>
           <div class="row">
             <div class="col-xs-6">
@@ -111,17 +115,6 @@
       <div class="col-sm-12" ng-repeat="member in vm.members" ui-sref="members_edit({ id: member.id })">
         <div class="o-detail-list__item">
           <member-list-item member="member"></member-list-item>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- family member list -->
-  <h4>Familie-medlemskaber</h4>
-  <div class="o-detail-list">
-    <div class="row">
-      <div class="col-sm-12" ng-repeat="family in vm.familyMemberships" ui-sref="members_edit({ id: family.id })">
-        <div class="o-detail-list__item">
-          <member-list-item member="family"></member-list-item>
         </div>
       </div>
     </div>

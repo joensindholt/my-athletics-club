@@ -17,10 +17,17 @@
           </a>
         </li>
         <li role="menuitem">
+          <a ng-click="vm.copyMemberEmailList()">
+            <i class="fa fa-clipboard" aria-hidden="true"></i> Kopier viste medlemmers emails til udklipsholderen
+            <input type="text" id="copyContent" style="position: absolute; left: -10000px;" />
+          </a>
+        </li>
+        <li role="menuitem">
           <a ng-click="vm.chargeMemberships()">
             <i class="fa fa-money" aria-hidden="true"></i>
             Opkræv kontingent fra alle medlemmer
-          </a></li>
+          </a>
+        </li>
       </ul>
     </div>
   </div>

@@ -1,5 +1,7 @@
 /// <reference path="../../typings/tsd.d.ts"/>
 
+declare var toastr: any;
+
 module members {
   'use strict';
 
@@ -196,6 +198,19 @@ module members {
     getCsvHeaders() {
       return ['Id', 'Nummer', 'Navn', 'Køn', 'Hold', 'Email', 'Email 2', 'Fam. medl. nummer', 'Fødselsdato', 'Udest. kontingent',
         'Indmeldelsesdato', 'Udmeldelsesdato'];
+    }
+
+    copyMemberEmailList() {
+      var emails = _.uniq(_.map(this.members, m => m.email));
+      var emailsCount = emails.length;
+      var emailsString = _.join(emails, ';');
+
+      let copyContentInput = <HTMLInputElement>document.getElementById('copyContent');
+      copyContentInput.value = emailsString;
+      copyContentInput.select();
+      document.execCommand('Copy');
+
+      toastr.success(`${emailsCount} e-mailadresse${emailsCount > 1 ? 'r' : ''} kopieret til udklipsholderen`);
     }
   }
 }

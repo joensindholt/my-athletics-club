@@ -207,7 +207,6 @@ module members {
 
       let copyContentInput = <HTMLInputElement>document.getElementById('copyContent');
       copyContentInput.value = emailsString;
-      console.log(copyContentInput.value);
       copyContentInput.select();
       document.execCommand('Copy');
 

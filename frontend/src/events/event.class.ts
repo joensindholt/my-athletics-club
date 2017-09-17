@@ -20,6 +20,7 @@ module events {
     registrations: Array<Registration>; // Client only property
     isOpenForRegistration: boolean;
     isOldEvent: boolean;
+    maxDisciplinesAllowed: number;
 
     constructor(eventData: any) {
       this.id = eventData._id || eventData.id || -1;
@@ -29,6 +30,7 @@ module events {
       this.link = eventData.link;
       this.disciplines = eventData.disciplines || [];
       this.info = eventData.info;
+      this.maxDisciplinesAllowed = eventData.maxDisciplinesAllowed || 3;
       this.isOldEvent = eventData.isOldEvent;
 
       this.registrationPeriodStartDate = null;

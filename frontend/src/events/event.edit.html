@@ -69,6 +69,13 @@
   </p>
 </div>
 
+<h4>Max antal discipliner</h4>
+<div class="row">
+  <div class="col-sm-2 col-sm-offset-5">
+    <input type="text" ng-model="vm.event.maxDisciplinesAllowed" ng-change="vm.showSave = true" class="c-formular-input center" />
+  </div>
+</div>
+
 <h4>Discipliner</h4>
 <div>
   <div ng-repeat="ageGroup in vm.ageGroups" class="cozy">

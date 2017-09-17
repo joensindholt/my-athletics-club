@@ -88,7 +88,9 @@
         <div class="col-sm-3 col-sm-offset-3 col-xs-6">
           <button class="o-button o-button--default o-button--flow-list full-width" 
             ng-class="discipline.selected ? 'o-button--success' : 'o-button--default'" 
-            ng-click="discipline.selected = !discipline.selected; vm.onDataChange(vm.registrationData);">
+            ng-click="vm.toggleDiscipline(discipline); vm.onDataChange(vm.registrationData);"
+            ng-disabled="!vm.canSelectMoreDisciplines && !discipline.selected"
+            ng-attr-title="{{!vm.canSelectMoreDisciplines && !discipline.selected ? 'Du kan maksimalt vælge ' + vm.event.maxDisciplinesAllowed + ' ' + (vm.event.maxDisciplinesAllowed === 1 ? 'disciplin' : 'discipliner') + ' ved dette stævne' : ''}}">
               {{ discipline.name }}
           </button>
         </div>
@@ -105,10 +107,15 @@
       </p>
     </div>
 
-    <p class="center spacy"><a ng-click="vm.addExtraDiscipline()">
-      Klik her</a> hvis du ønsker at tilmelde {{ vm.registrationData.name || 'deltageren' }} til en 
-      disciplin i en anden aldersgruppe end {{ vm.registrationData.gender === 'male' ? 'hans' : 'hendes' }} egen
-    </p>
+    <div class="center spacy">
+      <div ng-show="vm.canSelectMoreDisciplines">
+        <a ng-click="vm.addExtraDiscipline()">Klik her</a> hvis du ønsker at tilmelde {{ vm.registrationData.name || 'deltageren' }} til en 
+        disciplin i en anden aldersgruppe end {{ vm.registrationData.gender === 'male' ? 'hans' : 'hendes' }} egen
+      </div>
+      <div ng-show="!vm.canSelectMoreDisciplines && vm.registrationData.extraDisciplines.length > 0">
+        Discipliner i andre aldersgrupper
+      </div>
+    </div>
     <div ng-show="vm.registrationData.extraDisciplines && vm.registrationData.extraDisciplines.length > 0">
       <div class="row">
         <div class="col-sm-2 col-sm-offset-2">

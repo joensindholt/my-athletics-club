@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.WindowsAzure.Storage;
 using MyAthleticsClub.Api.Core.Authentication;
+using MyAthleticsClub.Api.Infrastructure;
 using MyAthleticsClub.Core.Repositories;
 using MyAthleticsClub.Core.Repositories.Interfaces;
 using MyAthleticsClub.Core.Services;
@@ -65,6 +66,7 @@ namespace MyAthleticsClub.Api
                      .Build();
 
                 config.Filters.Add(new AuthorizeFilter(policy));
+                config.Filters.Add(new BadRequestExceptionFilter());
             });
 
             services.AddSwaggerGen(c =>

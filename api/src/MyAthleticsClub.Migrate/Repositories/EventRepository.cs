@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Bson;
@@ -42,7 +42,8 @@ namespace MyAthleticsClub.Migrate.Repositories
                     ).ToList(),
                 registrationPeriodStartDate: be["registrationPeriodStartDate"].ToUniversalTime(),
                 registrationPeriodEndDate: be["registrationPeriodEndDate"].ToUniversalTime(),
-                info: be.Elements.Any(e => e.Name == "info") ? be["info"].AsString : null
+                info: be.Elements.Any(e => e.Name == "info") ? be["info"].AsString : null,
+                maxDisciplinesAllowed: be["maxDisciplinesAllowed"] != null ? be["maxDisciplinesAllowed"].AsInt32 : 3
             );
 
             return _event;

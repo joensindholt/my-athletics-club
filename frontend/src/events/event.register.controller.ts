@@ -16,6 +16,7 @@ module events {
     private birthYears: Array<number>;
     private ageGroups: Array<string>;
     private validationError: string;
+    private canSelectMoreDisciplines: boolean = true;
 
     static $inject = [
       '$scope',
@@ -146,14 +147,27 @@ module events {
       }
 
       this.registrationData.extraDisciplines.push({});
+      this.updateCanSelectMoreDisciplines(); 
     }
 
     removeExtraDiscipline(index: number) {
       this.registrationData.extraDisciplines.splice(index, 1);
+      this.updateCanSelectMoreDisciplines(); 
     }
 
     onDataChange(registrationData: any) {
       this.validate(registrationData);
+    }
+
+    toggleDiscipline(discipline: any) {
+      discipline.selected = !discipline.selected;
+      this.updateCanSelectMoreDisciplines();
+    }
+
+    updateCanSelectMoreDisciplines() {
+      var selectedDisciplinesCount = _.filter(this.registrationData.disciplines, { selected: true }).length;
+      var extraDisciplinesCount = this.registrationData.extraDisciplines ? this.registrationData.extraDisciplines.length : 0;
+      this.canSelectMoreDisciplines = selectedDisciplinesCount + extraDisciplinesCount < this.event.maxDisciplinesAllowed;
     }
 
     validate(registrationData: any) {

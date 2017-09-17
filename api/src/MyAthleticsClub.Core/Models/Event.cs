@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using MyAthleticsClub.Core.Repositories.Interfaces;
@@ -21,6 +21,7 @@ namespace MyAthleticsClub.Core.Models
         public DateTime? RegistrationPeriodEndDate { get; set; }
         public string Info { get; set; }
         public bool IsOldEvent { get; set; }
+        public int MaxDisciplinesAllowed { get; set; }
 
         public Event()
         {
@@ -37,7 +38,8 @@ namespace MyAthleticsClub.Core.Models
             List<EventDiscipline> disciplines,
             DateTime? registrationPeriodStartDate,
             DateTime? registrationPeriodEndDate,
-            string info) : this()
+            string info,
+            int maxDisciplinesAllowed) : this()
         {
             Id = id;
             OrganizationId = organizationId;
@@ -50,6 +52,7 @@ namespace MyAthleticsClub.Core.Models
             RegistrationPeriodEndDate = registrationPeriodEndDate;
             Info = info;
             IsOldEvent = date.Date < DateTime.Today.AddDays(-7);
+            MaxDisciplinesAllowed = maxDisciplinesAllowed;
         }
 
         public string GetPartitionKey()

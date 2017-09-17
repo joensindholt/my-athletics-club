@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using MyAthleticsClub.Core.Models;
@@ -34,7 +34,8 @@ namespace MyAthleticsClub.Core.Repositories
                 entity.DisciplinesJson != null ? JsonConvert.DeserializeObject<List<EventDiscipline>>(entity.DisciplinesJson) : new List<EventDiscipline>(),
                 entity.RegistrationPeriodStartDate,
                 entity.RegistrationPeriodEndDate,
-                entity.Info);
+                entity.Info,
+                entity.MaxDisciplinesAllowed.HasValue ? entity.MaxDisciplinesAllowed.Value : 3);
 
             return _event;
         }
@@ -51,7 +52,8 @@ namespace MyAthleticsClub.Core.Repositories
                 _event.Link,
                 _event.RegistrationPeriodStartDate,
                 _event.RegistrationPeriodEndDate,
-                _event.Info);
+                _event.Info,
+                _event.MaxDisciplinesAllowed);
 
             return entity;
         }

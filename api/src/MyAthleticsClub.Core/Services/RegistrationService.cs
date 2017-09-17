@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using MyAthleticsClub.Core.Exceptions;
 using MyAthleticsClub.Core.Models;
 using MyAthleticsClub.Core.Repositories.Interfaces;
 using MyAthleticsClub.Core.Services.Interfaces;
@@ -40,6 +41,10 @@ namespace MyAthleticsClub.Core.Services
             eventId.VerifyNotNullOrWhiteSpace("eventId");
             registration.VerifyNotNull("registration");
 
+            var _event = await _eventService.GetAsync("gik", eventId);
+
+            VerifyRegistrationDisciplinesCountNotAboveAllowed(registration, _event);
+
             registration.Id = _idGenerator.GenerateId();
             registration.EventId = eventId;
 
@@ -47,7 +52,6 @@ namespace MyAthleticsClub.Core.Services
 
             try
             {
-                var _event = await _eventService.GetAsync("gik", eventId);
                 var message = new RegistrationSlackMessageBuilder().BuildAdvancedMessage(_event, registration);
                 await _slackService.SendMessageAsync(message);
             }
@@ -57,6 +61,16 @@ namespace MyAthleticsClub.Core.Services
             }
 
             return registration;
+        }
+
+        private void VerifyRegistrationDisciplinesCountNotAboveAllowed(Registration registration, Event _event)
+        {
+            var selectedDisciplinesCount = registration.Disciplines?.Count + registration.ExtraDisciplines?.Count;
+            var maxDisciplinesAllowed = _event.MaxDisciplinesAllowed;
+            if (selectedDisciplinesCount > maxDisciplinesAllowed)
+            {
+                throw new BadRequestException($"The number of selected disciplines '{selectedDisciplinesCount}' is higher than the event allows, which is '{maxDisciplinesAllowed}'");
+            }
         }
 
         public Task<IEnumerable<Registration>> GetEventRegistrationsAsync(string eventId)

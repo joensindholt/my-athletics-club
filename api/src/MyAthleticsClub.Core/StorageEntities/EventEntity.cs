@@ -1,4 +1,4 @@
-﻿using Microsoft.WindowsAzure.Storage.Table;
+using Microsoft.WindowsAzure.Storage.Table;
 using System;
 
 namespace MyAthleticsClub.Core.StorageEntities
@@ -21,6 +21,8 @@ namespace MyAthleticsClub.Core.StorageEntities
 
         public string Info { get; set; }
 
+        public int? MaxDisciplinesAllowed { get; set; }
+
         public EventEntity()
         {
             ETag = "*";
@@ -36,7 +38,8 @@ namespace MyAthleticsClub.Core.StorageEntities
             string link,
             DateTime? registrationPeriodStartDate,
             DateTime? registrationPeriodEndDate,
-            string info) : base(organizationId, id)
+            string info,
+            int? maxDisciplinesAllowed) : base(organizationId, id)
         {
             Title = title;
             Date = date;
@@ -46,6 +49,8 @@ namespace MyAthleticsClub.Core.StorageEntities
             RegistrationPeriodStartDate = registrationPeriodStartDate;
             RegistrationPeriodEndDate = registrationPeriodEndDate;
             Info = info;
+            MaxDisciplinesAllowed = maxDisciplinesAllowed;
+
             ETag = "*";
         }
     }

@@ -1,0 +1,33 @@
+<topbar></topbar>
+
+<div ng-show="isAuthenticated && vm.statistics">
+  <!-- header -->
+  <h1 class="center">Medlemmer</h1>
+  <!-- statistics -->
+  <table class="box-center stats-table" style="max-width: 400px">
+    <thead>
+      <tr>
+        <th>Alder</th>
+        <th><i class="fa fa-venus" aria-hidden="true"></i></th>
+        <th><i class="fa fa-mars" aria-hidden="true"></i></th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in vm.statistics">
+        <td>{{ item.age }} år</td>
+        <td>{{ item.genders.female }}</td>
+        <td>{{ item.genders.male }}</td>
+        <td>{{ item.genders.male + item.genders.female }}</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>I alt</td>
+        <td>{{ vm.totals.female }}</td>
+        <td>{{ vm.totals.male }}</td>
+        <td>{{ vm.totals.total }}</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

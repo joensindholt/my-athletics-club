@@ -54,6 +54,10 @@ h5 {
   text-align: center;
 }
 
+.box-center {
+  margin: 0 auto;
+}
+
 .right {
   text-align: right;
 }
@@ -72,6 +76,10 @@ h5 {
 
 .spacy {
   padding: 10px;
+}
+
+.spacy-horizontal {
+  padding: 0 20px;
 }
 
 .spacy-m {
@@ -142,6 +150,10 @@ ul {
   justify-content: center;
 }
 
+.flex-space-between {
+  justify-content: space-between;
+}
+
 .flex-grow {
   flex-grow: 1;
 }
@@ -156,4 +168,26 @@ ul {
 
 input[type=checkbox].form-control-checkbox {
   margin: 11px 0 0 0;
+}
+
+.stats-table {
+  background: white;
+  border: 1px solid #dedede;
+  border-radius: 3px;
+  max-width: 400px;
+}
+
+.stats-table td, 
+.stats-table th {
+  padding: 15px;
+  border: 1px dotted #dedede;
+  width: 1%;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.stats-table td:first-child,
+.stats-table th:first-child {
+  width: auto;
+  text-align: left;
 }

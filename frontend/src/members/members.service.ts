@@ -155,6 +155,14 @@ module members {
         return _.find(this.getGenderInfos(), i => i.id === id).label;
       }
     }
+
+    getStatistics(): ng.IPromise<any> {
+      return Promise.resolve([
+        { age: 8, genders: { female: 13, male: 12 }},
+        { age: 9, genders: { female: 8, male: 3 }},
+        { age: 10, genders: { female: 2, male: 17 }}
+      ]);
+    }
   }
 }
 

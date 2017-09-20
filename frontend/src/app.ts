@@ -101,6 +101,12 @@ module app {
         templateUrl: 'members/member.edit.html',
         controller: 'MemberEditController',
         controllerAs: 'vm'
+      })
+      .state('members_stats', {
+        url: '/members/statistics',
+        templateUrl: 'members/member.statistics.html',
+        controller: 'MemberStatisticsController',
+        controllerAs: 'vm'
       });
 
     $httpProvider.interceptors.push('tokenInterceptor');

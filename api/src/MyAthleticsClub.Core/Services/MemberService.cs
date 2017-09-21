@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MyAthleticsClub.Core.Commands;
@@ -60,6 +60,11 @@ namespace MyAthleticsClub.Core.Services
         public async Task TerminateMembershipAsync(string organizationId, TerminateMembershipCommand command)
         {
             await _memberRepository.SetTerminationDate(organizationId, command.MemberId, command.TerminationDate);
+        }
+
+        public async Task<MemberStatistics> GetStatistics(string organizationId, DateTime date)
+        {
+            return await _memberRepository.GetStatistics(organizationId, date);
         }
     }
 }

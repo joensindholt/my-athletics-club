@@ -156,12 +156,21 @@ module members {
       }
     }
 
-    getStatistics(): ng.IPromise<any> {
-      return Promise.resolve([
-        { age: 8, genders: { female: 13, male: 12 }},
-        { age: 9, genders: { female: 8, male: 3 }},
-        { age: 10, genders: { female: 2, male: 17 }}
-      ]);
+    getStatistics(date: string): ng.IPromise<any> {
+      var deferred = this.$q.defer<Member>();
+      
+      this.$http.get(this.API_PATH + '/members/statistics?date=' + date).then((response: any) => {
+        deferred.resolve(response.data);
+      }).catch(err => {
+        deferred.reject(err)
+      });
+
+      return deferred.promise;
+      // return Promise.resolve([
+      //   { age: 8, genders: { female: 13, male: 12 }},
+      //   { age: 9, genders: { female: 8, male: 3 }},
+      //   { age: 10, genders: { female: 2, male: 17 }}
+      // ]);
     }
   }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -89,6 +89,14 @@ namespace MyAthleticsClub.Api.Controllers
 
             await _memberService.TerminateMembershipAsync("gik", command);
             return Ok();
+        }
+
+        [HttpGet("api/members/statistics")]
+        [ProducesResponseType(typeof(MemberStatistics), 200)]
+        public async Task<IActionResult> Statistics([FromQuery]DateTime date)
+        {
+            var statistics = await _memberService.GetStatistics("gik", date);
+            return Ok(statistics);
         }
     }
 }

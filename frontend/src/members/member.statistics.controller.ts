@@ -7,23 +7,31 @@ module members {
 
   export class MemberStatisticsController {
 
+    date: string;
     statistics: any;
     totals: any;
 
     static $inject = [
+      'moment',
       'MembersService'
     ];
 
     constructor(
+      private moment: moment.MomentStatic,
       private MembersService: MembersService
     ) {
-      this.MembersService.getStatistics().then(statistics => {
-        console.log('asd', statistics);
+      this.date = this.moment().format('YYYY-MM-DD');
+      console.log('date', this.date);
+      this.update();
+    }
+
+    update() {
+      this.MembersService.getStatistics(this.date).then(statistics => {
         this.statistics = statistics;
         this.totals = {
-          female: _.sumBy(statistics, (i: any) => i.genders.female),
-          male: _.sumBy(statistics, (i: any) => i.genders.male),
-          total: _.sumBy(statistics, (i: any) => i.genders.female + i.genders.male)
+          females: _.sumBy(statistics, (i: any) => i.genders.females),
+          males: _.sumBy(statistics, (i: any) => i.genders.males),
+          total: _.sumBy(statistics, (i: any) => i.genders.females + i.genders.males)
         }
       });
     }

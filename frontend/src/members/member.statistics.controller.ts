@@ -11,6 +11,10 @@ module members {
     statistics: any;
     totals: any;
 
+    labels: any;
+    series: any;
+    data: any;
+
     static $inject = [
       'moment',
       'MembersService'
@@ -21,18 +25,26 @@ module members {
       private MembersService: MembersService
     ) {
       this.date = this.moment().format('YYYY-MM-DD');
-      console.log('date', this.date);
       this.update();
+
     }
 
     update() {
       this.MembersService.getStatistics(this.date).then(statistics => {
         this.statistics = statistics;
+
         this.totals = {
           females: _.sumBy(statistics, (i: any) => i.genders.females),
           males: _.sumBy(statistics, (i: any) => i.genders.males),
           total: _.sumBy(statistics, (i: any) => i.genders.females + i.genders.males)
         }
+
+        this.labels = _.map(this.statistics, (s: any) => s.age + ' år');;
+        this.series = ['Piger', 'Drenge'];
+        this.data = [
+          _.map(this.statistics, (s: any) => s.genders.females),
+          _.map(this.statistics, (s: any) => s.genders.males)
+        ];
       });
     }
   }

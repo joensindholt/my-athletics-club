@@ -31,7 +31,8 @@ module app {
     'angular-autogrow',
     'multipleSelect',
     'cfp.hotkeys',
-    'ngCsv'
+    'ngCsv',
+    'chart.js'
   ]).config(['$stateProvider', '$httpProvider', config])
     .run(['AuthService', run])
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MyAthleticsClub.Core.Commands;
 using MyAthleticsClub.Core.Models;
@@ -20,5 +21,7 @@ namespace MyAthleticsClub.Core.Services.Interfaces
         Task ChargeAllAsync(string organizationId);
 
         Task TerminateMembershipAsync(string organizationId, TerminateMembershipCommand command);
+
+        Task<MemberStatistics> GetStatistics(string organizationId, DateTime date);
     }
 }

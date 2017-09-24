@@ -31,7 +31,8 @@ module app {
     'angular-autogrow',
     'multipleSelect',
     'cfp.hotkeys',
-    'ngCsv'
+    'ngCsv',
+    'chart.js'
   ]).config(['$stateProvider', '$httpProvider', config])
     .run(['AuthService', run])
 
@@ -100,6 +101,12 @@ module app {
         url: '/members/edit/{id}',
         templateUrl: 'members/member.edit.html',
         controller: 'MemberEditController',
+        controllerAs: 'vm'
+      })
+      .state('members_stats', {
+        url: '/members/statistics',
+        templateUrl: 'members/member.statistics.html',
+        controller: 'MemberStatisticsController',
         controllerAs: 'vm'
       });
 

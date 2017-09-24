@@ -1,6 +1,7 @@
 var globalPath = {
   app: "./src/",
   bower: "./bower_components/",
+  npm: "./node_modules/",
   thirdparty: "./3rdparty/"
 };
 
@@ -47,7 +48,9 @@ module.exports = {
       globalPath.bower + 'angular-autogrow/angular-autogrow.min.js',
       globalPath.bower + 'angular-bootstrap/ui-bootstrap-tpls.min.js',
       globalPath.bower + 'toastr/toastr.min.js',
-      globalPath.bower + 'ng-csv/build/ng-csv.min.js'
+      globalPath.bower + 'ng-csv/build/ng-csv.min.js',
+      globalPath.npm + 'chart.js/dist/Chart.min.js',
+      globalPath.npm + 'angular-chart.js/dist/angular-chart.min.js'
     ],
     css: [
       globalPath.bower + 'bootstrap/dist/css/bootstrap.min.css',

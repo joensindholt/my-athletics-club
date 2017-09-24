@@ -1,0 +1,55 @@
+<topbar></topbar>
+
+<div ng-show="isAuthenticated && vm.statistics">
+  <!-- header -->
+  <h1 class="center">Medlemmer</h1>
+  <!-- date picker -->
+  <div class="spacy-m3-v">
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-3">
+        <div class="input-group box-center">
+          <span class="input-group-addon">Per dato</span>
+          <input type="text" ng-model="vm.date" class="form-control center" aria-label="Statistics date" aria-describedby="basic-addon2">
+          <span class="input-group-addon" id="basic-addon2" ng-click="vm.update()">Opdater</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- statistics -->
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+      <table class="box-center stats-table">
+        <thead>
+          <tr>
+            <th>Alder</th>
+            <th><i class="fa fa-venus" aria-hidden="true"></i></th>
+            <th><i class="fa fa-mars" aria-hidden="true"></i></th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in vm.statistics">
+            <td>{{ item.age }} år</td>
+            <td>{{ item.genders.females }}</td>
+            <td>{{ item.genders.males }}</td>
+            <td>{{ item.genders.males + item.genders.females }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>I alt</td>
+            <td>{{ vm.totals.females }}</td>
+            <td>{{ vm.totals.males }}</td>
+            <td>{{ vm.totals.total }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <!-- chart -->
+  <div class="spacy-m3-v chart-container">
+    <div>
+      <canvas id="bar" class="chart chart-bar" chart-data="vm.data" chart-labels="vm.labels" chart-series="vm.series"></canvas>
+    </div>
+  </div>
+</div>

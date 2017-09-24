@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MyAthleticsClub.Core.Models;
@@ -26,5 +26,7 @@ namespace MyAthleticsClub.Core.Repositories.Interfaces
         Task<string> GetNextMemberNumberAsync(string organizationId);
 
         Task SetTerminationDate(string organizationId, string memberId, DateTime terminationDate);
+
+        Task<MemberStatistics> GetStatistics(string organizationId, DateTime date);
     }
 }

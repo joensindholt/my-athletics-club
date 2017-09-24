@@ -54,6 +54,10 @@ h5 {
   text-align: center;
 }
 
+.box-center {
+  margin: 0 auto;
+}
+
 .right {
   text-align: right;
 }
@@ -74,6 +78,10 @@ h5 {
   padding: 10px;
 }
 
+.spacy-horizontal {
+  padding: 0 20px;
+}
+
 .spacy-m {
   margin: 10px;
 }
@@ -81,6 +89,18 @@ h5 {
 .spacy--more {
   margin-top: 30px;
   margin-bottom: 30px;
+}
+
+.spacy-m2 {
+  margin: 20px;
+}
+
+.spacy-m3 {
+  margin: 30px;
+}
+
+.spacy-m3-v {
+  margin: 30px 0;
 }
 
 .larger-text {
@@ -142,6 +162,10 @@ ul {
   justify-content: center;
 }
 
+.flex-space-between {
+  justify-content: space-between;
+}
+
 .flex-grow {
   flex-grow: 1;
 }
@@ -156,4 +180,31 @@ ul {
 
 input[type=checkbox].form-control-checkbox {
   margin: 11px 0 0 0;
+}
+
+.stats-table {
+  background: white;
+  border: 1px solid #dedede;
+  border-radius: 3px;
+}
+
+.stats-table td, 
+.stats-table th {
+  padding: 15px;
+  border: 1px dotted #dedede;
+  width: 1%;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.stats-table td:first-child,
+.stats-table th:first-child {
+  width: auto;
+  text-align: left;
+}
+
+.chart-container {
+  background: white;
+  padding: 25px;
+  border: 1px solid #dedede;
 }

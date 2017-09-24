@@ -155,6 +155,18 @@ module members {
         return _.find(this.getGenderInfos(), i => i.id === id).label;
       }
     }
+
+    getStatistics(date: string): ng.IPromise<any> {
+      var deferred = this.$q.defer<Member>();
+      
+      this.$http.get(this.API_PATH + '/members/statistics?date=' + date).then((response: any) => {
+        deferred.resolve(response.data);
+      }).catch(err => {
+        deferred.reject(err)
+      });
+
+      return deferred.promise;
+    }
   }
 }
 

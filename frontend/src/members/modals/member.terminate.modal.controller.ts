@@ -10,17 +10,20 @@ module members {
     private memberTerminateModalForm: any;
     private terminationDate: string;
 
-    static $inject = [
+    static $inject = [      
       '$uibModalInstance',
       'context',
+      'moment',
       'MembersService'
     ];
 
     constructor(
       private $uibModalInstance,
       private context,
+      private moment,
       private membersService: MembersService
     ) {
+      this.terminationDate = moment().format('YYYY-MM-DD');
     }
 
     ok() {

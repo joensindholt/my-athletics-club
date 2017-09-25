@@ -108,6 +108,12 @@ module app {
         templateUrl: 'members/member.statistics.html',
         controller: 'MemberStatisticsController',
         controllerAs: 'vm'
+      })
+      .state('members_terminated', {
+        url: '/members/terminated',
+        templateUrl: 'members/terminated/terminated-members.html',
+        controller: 'TerminatedMembersController',
+        controllerAs: 'vm'
       });
 
     $httpProvider.interceptors.push('tokenInterceptor');

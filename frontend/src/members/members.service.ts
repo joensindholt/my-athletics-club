@@ -30,6 +30,21 @@ module members {
       return deferred.promise;
     }
 
+    getTerminatedMembers(): ng.IPromise<Array<Member>> {
+      var deferred = this.$q.defer<Array<Member>>();
+
+      this.$http.get(this.API_PATH + '/members/terminated').then((response: any) => {
+        var members = _.map(response.data.items, (memberData) => {
+          return new Member(memberData);
+        });
+        deferred.resolve(members)
+      }).catch(err => {
+        deferred.reject(err);
+      });
+
+      return deferred.promise;
+    }
+
     add(member: Member): ng.IPromise<Member> {
       var deferred = this.$q.defer<Member>();
       // give it a temporary id
@@ -158,7 +173,7 @@ module members {
 
     getStatistics(date: string): ng.IPromise<any> {
       var deferred = this.$q.defer<Member>();
-      
+
       this.$http.get(this.API_PATH + '/members/statistics?date=' + date).then((response: any) => {
         deferred.resolve(response.data);
       }).catch(err => {

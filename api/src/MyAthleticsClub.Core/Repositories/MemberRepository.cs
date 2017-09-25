@@ -30,9 +30,16 @@ namespace MyAthleticsClub.Core.Repositories
 
         public async override Task<IEnumerable<Member>> GetAllByPartitionKey(string partitionKey)
         {
-            return 
+            return
                 (await base.GetAllByPartitionKey(partitionKey))
                     .Where(m => MemberIsActive(m));
+        }
+
+        public async Task<IEnumerable<Member>> GetTerminatedMembers(string organizationId)
+        {
+            return
+                (await base.GetAllByPartitionKey(organizationId))
+                    .Where(m => !MemberIsActive(m));
         }
 
         public async Task<int> CountAllAsync(string organizationId)
@@ -44,52 +51,11 @@ namespace MyAthleticsClub.Core.Repositories
         public async Task ChargeAllAsync(string organizationId)
         {
             var all = await base.GetAllByPartitionKey(organizationId);
-            foreach(var member in all)
+            foreach (var member in all)
             {
                 member.HasOutstandingMembershipPayment = true;
                 await UpdateAsync(member);
             }
-        }
-
-        protected override Member ConvertEntityToObject(MemberEntity entity)
-        {
-            var member = new Member(
-                entity.PartitionKey,
-                entity.RowKey,
-                entity.Number,
-                entity.Name,
-                entity.Email,
-                entity.Email2,
-                entity.FamilyMembershipNumber,
-                entity.BirthDate != null ? (DateTime?)DateTime.Parse(entity.BirthDate, CultureInfo.InvariantCulture) 
-                                         : null,
-                entity.HasOutstandingMembershipPayment,
-                entity.TerminationDate,
-                entity.StartDate,
-                (Team?)entity.Team,
-                (Gender?)entity.Gender);
-
-            return member;
-        }
-
-        protected override MemberEntity ConvertObjectToEntity(Member member)
-        {
-            var entity = new MemberEntity(
-                member.OrganizationId,
-                member.Id,
-                member.Number,
-                member.Name,
-                member.Email,
-                member.Email2,
-                member.FamilyMembershipNumber,
-                member.BirthDate,
-                member.HasOutstandingMembershipPayment,
-                member.TerminationDate,
-                member.StartDate,
-                member.Team,
-                member.Gender);
-
-            return entity;
         }
 
         public async Task<string> GetNextMemberNumberAsync(string organizationId)
@@ -174,6 +140,47 @@ namespace MyAthleticsClub.Core.Repositories
             if (reference < birthday.AddYears(age)) age--;
 
             return age;
+        }
+
+        protected override Member ConvertEntityToObject(MemberEntity entity)
+        {
+            var member = new Member(
+                entity.PartitionKey,
+                entity.RowKey,
+                entity.Number,
+                entity.Name,
+                entity.Email,
+                entity.Email2,
+                entity.FamilyMembershipNumber,
+                entity.BirthDate != null ? (DateTime?)DateTime.Parse(entity.BirthDate, CultureInfo.InvariantCulture)
+                                         : null,
+                entity.HasOutstandingMembershipPayment,
+                entity.TerminationDate,
+                entity.StartDate,
+                (Team?)entity.Team,
+                (Gender?)entity.Gender);
+
+            return member;
+        }
+
+        protected override MemberEntity ConvertObjectToEntity(Member member)
+        {
+            var entity = new MemberEntity(
+                member.OrganizationId,
+                member.Id,
+                member.Number,
+                member.Name,
+                member.Email,
+                member.Email2,
+                member.FamilyMembershipNumber,
+                member.BirthDate,
+                member.HasOutstandingMembershipPayment,
+                member.TerminationDate,
+                member.StartDate,
+                member.Team,
+                member.Gender);
+
+            return entity;
         }
     }
 }

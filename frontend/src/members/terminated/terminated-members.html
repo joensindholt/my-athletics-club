@@ -1,0 +1,20 @@
+<topbar></topbar>
+<div ng-show="isAuthenticated && vm.members">
+  <!-- header -->
+  <h1 class="center">Tidligere medlemmer</h1>
+  <!-- filters -->
+  <h4>Filtrér</h4>
+  <div>
+    <input type="text" ng-model="search" class="c-formular-input center" />
+  </div>
+  <!-- member list -->
+  <div class="o-detail-list">
+    <div class="row">
+      <div class="col-sm-12" ng-repeat="member in vm.members | filter:search">
+        <div class="o-detail-list__item">
+          <terminated-member-list-item member="member"></terminated-member-list-item>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

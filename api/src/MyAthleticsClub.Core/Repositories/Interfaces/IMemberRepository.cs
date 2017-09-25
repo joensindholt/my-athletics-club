@@ -9,6 +9,8 @@ namespace MyAthleticsClub.Core.Repositories.Interfaces
     {
         Task<IEnumerable<Member>> GetAllByPartitionKey(string organizationId);
 
+        Task<IEnumerable<Member>> GetTerminatedMembers(string organizationId);
+
         Task<Member> GetAsync(string organizationId, string id);
 
         Task CreateAsync(Member member);

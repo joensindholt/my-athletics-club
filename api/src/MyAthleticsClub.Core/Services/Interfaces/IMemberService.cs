@@ -10,6 +10,8 @@ namespace MyAthleticsClub.Core.Services.Interfaces
     {
         Task<IEnumerable<Member>> GetAllAsync(string organizationId);
 
+        Task<IEnumerable<Member>> GetTerminatedMembersAsync(string organizationId);
+
         Task<Member> GetAsync(string organizationId, string id);
 
         Task CreateAsync(string organizationId, Member member);

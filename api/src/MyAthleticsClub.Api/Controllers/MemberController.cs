@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using MyAthleticsClub.Core.Commands;
 using MyAthleticsClub.Core.Models;
 using MyAthleticsClub.Core.Services.Interfaces;
-using MyAthleticsClub.Core.Utilities;
 
 namespace MyAthleticsClub.Api.Controllers
 {
@@ -23,6 +22,14 @@ namespace MyAthleticsClub.Api.Controllers
         public async Task<IActionResult> GetAllMembers()
         {
             var members = await _memberService.GetAllAsync("gik");
+            return Ok(new { items = members });
+        }
+
+        [HttpGet("api/members/terminated")]
+        [ProducesResponseType(typeof(IEnumerable<Member>), 200)]
+        public async Task<IActionResult> GetTerminatedMembers()
+        {
+            var members = await _memberService.GetTerminatedMembersAsync("gik");
             return Ok(new { items = members });
         }
 

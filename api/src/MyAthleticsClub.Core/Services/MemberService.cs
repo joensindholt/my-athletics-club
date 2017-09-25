@@ -25,6 +25,11 @@ namespace MyAthleticsClub.Core.Services
             return await _memberRepository.GetAllByPartitionKey(organizationId);
         }
 
+        public async Task<IEnumerable<Member>> GetTerminatedMembersAsync(string organizationId)
+        {
+            return await _memberRepository.GetTerminatedMembers(organizationId);
+        }
+
         public async Task<Member> GetAsync(string organizationId, string id)
         {
             return await _memberRepository.GetAsync(organizationId, id);

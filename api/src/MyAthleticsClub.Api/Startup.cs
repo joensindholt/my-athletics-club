@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -188,6 +188,7 @@ namespace MyAthleticsClub.Api
             services.AddScoped<IRegistrationService, RegistrationService>();
             services.AddScoped<ISlackService, SlackService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IEmailService, EmailService>();
 
             // Repositories
             services.AddScoped<IEventRepository, EventRepository>();

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using MyAthleticsClub.Core.Models;
@@ -12,5 +12,7 @@ namespace MyAthleticsClub.Core.Services.Interfaces
         Task<IEnumerable<Registration>> GetEventRegistrationsAsync(string eventId);
 
         Task<byte[]> GetEventRegistrationsAsXlsxAsync(string eventId);
+
+        Task SendRegistrationReceiptAsync(Registration registration, Event _event);
     }
 }

@@ -56,6 +56,13 @@ module events {
       });
 
       this.birthYears = this.MembersService.getAllowedBirthYears();
+
+      setTimeout(() => {
+        toastr.info(
+          'Når du har gennemført din tilmelding modtager du en bekræftelses-e-mail. Modtager du - mod forventning - ikke denne e-mail bør du kontakte os.<br /><br /><button type="button" class="btn clear o-button--default">OK, det er forstået</button>', 
+          'Vi har tilføjet e-mail-bekræftelse ved tilmelding',
+          { timeOut: 0, positionClass: "toast-top-center registration-toast" });
+      }, 2000);
     }
 
     updateDisciplines() {

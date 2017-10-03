@@ -208,3 +208,9 @@ input[type=checkbox].form-control-checkbox {
   padding: 25px;
   border: 1px solid #dedede;
 }
+
+#toast-container.registration-toast > div {
+  opacity: 1;
+  width: 400px;
+  background-position: 14px 23px;
+}

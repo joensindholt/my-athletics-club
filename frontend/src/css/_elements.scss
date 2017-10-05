@@ -211,6 +211,34 @@ input[type=checkbox].form-control-checkbox {
 
 #toast-container.registration-toast > div {
   opacity: 1;
-  width: 400px;
+  width: 100%;
+  border-radius: 0;
   background-position: 14px 23px;
+}
+
+.event-register__form {
+  position: relative;
+  left: 0px;
+  height: 100%;
+  overflow: hidden;
+  transition: opacity .4s, height .4s;
+}
+
+.event-register__form.hide {
+  opacity: 0;
+  height: 0;
+}
+
+.event-register__receipt {
+  position: absolute;
+  top: -1000px;
+  left: 0px;
+  opacity: 0;
+  transition: top .2s, opacity 1s;
+}
+
+.event-register__receipt.show {
+  position: relative;
+  top: 0px;
+  opacity: 1;
 }

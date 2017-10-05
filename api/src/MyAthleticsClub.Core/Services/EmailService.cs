@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
@@ -56,5 +57,13 @@ namespace MyAthleticsClub.Core.Services
         public string FromEmail { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+
+        public void Verify()
+        {
+            if (FromName == null) throw new ArgumentException("Invalid EmailOptions", nameof(FromName));
+            if (FromEmail == null) throw new ArgumentException("Invalid EmailOptions", nameof(FromEmail));
+            if (Username == null) throw new ArgumentException("Invalid EmailOptions", nameof(Username));
+            if (Password == null) throw new ArgumentException("Invalid EmailOptions", nameof(Password));
+        }
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.WindowsAzure.Storage;
 using MyAthleticsClub.Api.Core.Authentication;
@@ -101,9 +102,6 @@ namespace MyAthleticsClub.Api
                 .AddAzureWebAppDiagnostics()
                 .AddSerilog();
 
-            // Serilog: Ensure any buffered events are sent at shutdown
-            appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
-
             ConfigureJwtAuthentication(app);
 
             app.UseCors("AllowAll");
@@ -130,6 +128,12 @@ namespace MyAthleticsClub.Api
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Athletics Club");
             });
+
+            // Check that options have been properly initialized
+            app.ApplicationServices.GetRequiredService<IOptions<EmailOptions>>().Value.Verify();
+
+            // Serilog: Ensure any buffered events are sent at shutdown
+            appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
         }
 
         private void ConfigureJwtIssuerOptions(IServiceCollection services)
@@ -176,10 +180,8 @@ namespace MyAthleticsClub.Api
 
         private void ConfigureDepencyInjection(IServiceCollection services)
         {
-            services.AddSingleton(_ => Configuration);
-
-            var cloudStorageAccount = CloudStorageAccount.Parse(Configuration.GetConnectionString("AzureTableStorage"));
-            services.AddSingleton(_ => cloudStorageAccount);
+            services.AddSingleton(Configuration);
+            services.AddSingleton(CloudStorageAccount.Parse(Configuration.GetConnectionString("AzureTableStorage")));
 
             // Services
             services.AddScoped<IEventRegistrationsExcelService, EventRegistrationsExcelService>();
@@ -199,6 +201,9 @@ namespace MyAthleticsClub.Api
             // Utilities
             services.AddScoped<IIdGenerator, IdGenerator>();
             services.AddScoped<ISlugGenerator, SlugGenerator>();
+
+            // Options configuration
+            services.Configure<EmailOptions>(Configuration.GetSection(nameof(EmailOptions)));
         }
     }
 }

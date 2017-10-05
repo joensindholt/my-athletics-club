@@ -113,7 +113,7 @@ namespace MyAthleticsClub.Core.Services
                 $"</p>\n" +
                 $"<p>God fornøjelse</p>\n" +
                 $"<p>Mvh. GIK</p>\n" +
-                $"<div style=\"border-top: 1px solid #e0e0e0; padding: 17px 0 0 0;\">\n" +
+                $"<div style=\"padding: 17px 0 0 0;\">\n" +
                     $"<div style=\"color: #bdbdbd; font-size: 12px;\">Dato: {DateTime.Now}</div>\n" +
                     $"<div style=\"color: #bdbdbd; font-size: 12px;\">Ref.: {registration.Id}</div>\n" +
                 $"</div>\n";

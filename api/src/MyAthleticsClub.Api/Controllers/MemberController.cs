@@ -69,14 +69,6 @@ namespace MyAthleticsClub.Api.Controllers
             return Ok();
         }
 
-        [HttpDelete("api/members/{id}")]
-        [ProducesResponseType(200)]
-        public async Task<IActionResult> DeleteMember([FromRoute]string id)
-        {
-            await _memberService.DeleteAsync("gik", id);
-            return Ok();
-        }
-
         [HttpPost("api/members/charge-all")]
         [ProducesResponseType(200)]
         public async Task<IActionResult> ChargeAllMembers()

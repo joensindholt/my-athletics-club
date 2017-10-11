@@ -87,18 +87,6 @@ module members {
       return deferred.promise;
     }
 
-    delete(member: Member): ng.IPromise<Member> {
-      var deferred = this.$q.defer<Member>();
-
-      this.$http.delete(this.API_PATH + '/members/' + member.id).then(response => {
-        deferred.resolve();
-      }).catch(err => {
-        deferred.reject(err);
-      })
-
-      return deferred.promise;
-    }
-
     getAllowedBirthYears(): Array<number> {
       var currentYear = new Date().getFullYear();
       var maximumYear = currentYear - 2 + 1;

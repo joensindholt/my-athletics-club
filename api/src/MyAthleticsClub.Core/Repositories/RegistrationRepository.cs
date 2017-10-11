@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using MyAthleticsClub.Core.Models;
 using MyAthleticsClub.Core.Repositories.Interfaces;
@@ -19,6 +18,11 @@ namespace MyAthleticsClub.Core.Repositories
         public async Task<IEnumerable<Registration>> GetRegistrationsByEventIdAsync(string eventId)
         {
             return await base.GetAllByPartitionKey(eventId);
+        }
+
+        public async Task DeleteRegistrationAsync(string eventId, string id)
+        {
+            await base.DeleteAsync(eventId, id);
         }
 
         protected override Registration ConvertEntityToObject(RegistrationEntity entity)

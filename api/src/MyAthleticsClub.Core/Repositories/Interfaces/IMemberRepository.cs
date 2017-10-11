@@ -17,8 +17,6 @@ namespace MyAthleticsClub.Core.Repositories.Interfaces
 
         Task UpdateAsync(Member member);
 
-        Task DeleteAsync(string organizationId, string id);
-
         Task<bool> ExistsAsync(string organizationId, string id);
 
         Task<int> CountAllAsync(string organizationId);

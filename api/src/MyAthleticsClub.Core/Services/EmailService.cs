@@ -22,6 +22,8 @@ namespace MyAthleticsClub.Core.Services
 
         public async Task SendEmailAsync(IEnumerable<string> to, string subject, string body)
         {
+            if (!_options.Enabled) return;
+
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(_options.FromName, _options.FromEmail));
 
@@ -57,6 +59,7 @@ namespace MyAthleticsClub.Core.Services
         public string FromEmail { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public bool Enabled { get; set; } = true;
 
         public void Verify()
         {

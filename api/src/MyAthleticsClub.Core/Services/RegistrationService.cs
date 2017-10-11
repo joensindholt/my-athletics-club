@@ -52,18 +52,19 @@ namespace MyAthleticsClub.Core.Services
             registration.Id = _idGenerator.GenerateId();
             registration.EventId = eventId;
 
-            await _registrationRepository.CreateAsync(registration);
-
-            await SendRegistrationReceiptAsync(registration, _event);
-
             try
             {
+                await _registrationRepository.CreateAsync(registration);
+
+                await SendRegistrationEmailReceiptAsync(registration, _event);
+
                 var message = new RegistrationSlackMessageBuilder().BuildAdvancedMessage(_event, registration);
                 await _slackService.SendMessageAsync(message);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                _logger.LogWarning(new EventId(1, "SlackMessage"), ex, "An error occured sending Slack message regarding new registration");
+                await _registrationRepository.DeleteRegistrationAsync(registration.EventId, registration.Id);
+                throw;
             }
 
             return registration;
@@ -90,7 +91,7 @@ namespace MyAthleticsClub.Core.Services
             return _eventRegistrationsExcelService.GetEventRegistrationsAsXlsx(events);
         }
 
-        public async Task SendRegistrationReceiptAsync(Registration registration, Event _event)
+        public async Task SendRegistrationEmailReceiptAsync(Registration registration, Event _event)
         {
             if (string.IsNullOrWhiteSpace(registration.Email))
             {

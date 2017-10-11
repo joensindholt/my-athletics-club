@@ -4,8 +4,8 @@
   "minifyCss": true,
   "uglifyJs": true,
   "sourcemaps": true,
-  "apiUrl": "https://myathleticsclubapi.azurewebsites.net/api",
-  "apiDomain": "myathleticsclubapi.azurewebsites.net",
+  "apiUrl": "http://myathleticsclubstaging.azurewebsites.net/api",
+  "apiDomain": "myathleticsclubstaging.azurewebsites.net",
   "sentryErrors": true,
   "dist": "./../api/src/MyAthleticsClub.Api/wwwroot"
 }

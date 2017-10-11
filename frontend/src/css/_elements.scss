@@ -209,12 +209,20 @@ input[type=checkbox].form-control-checkbox {
   border: 1px solid #dedede;
 }
 
+/* Toastr overrides */
+
 #toast-container.registration-toast > div {
   opacity: 1;
   width: 100%;
   border-radius: 0;
   background-position: 14px 23px;
 }
+
+.toast {
+  max-width: 950px;
+}
+
+/* Event register */
 
 .event-register__form {
   position: relative;
@@ -241,8 +249,4 @@ input[type=checkbox].form-control-checkbox {
   position: relative;
   top: 0px;
   opacity: 1;
-}
-
-.toast {
-  max-width: 950px;
 }

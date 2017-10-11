@@ -1,0 +1,14 @@
+version: 1.0.{build}
+image: Previous Visual Studio 2017
+build_script:
+- cmd: >-
+    cd C:\projects\my-athletics-club\api
+
+    dotnet msbuild
+test_script:
+- cmd: >-
+    cd C:\projects\my-athletics-club\api\test\MyAthleticsClub.UnitTests
+
+    dotnet restore
+
+    dotnet test

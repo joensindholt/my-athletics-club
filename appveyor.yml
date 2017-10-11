@@ -4,6 +4,8 @@ build_script:
 - cmd: >-
     cd C:\projects\my-athletics-club\api
 
+    dotnet restore
+
     dotnet msbuild
 test_script:
 - cmd: >-

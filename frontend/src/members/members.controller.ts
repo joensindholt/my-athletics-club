@@ -82,14 +82,6 @@ module members {
       });
     }
 
-    handleMemberDeleteClicked(member: Member) {
-      if (this.$window.confirm('Er du sikker?')) {
-        this.membersService.delete(member).then(() => {
-          _.remove(this.members, { id: member.id });
-        });
-      }
-    }
-
     filterMembers() {
       this.members = this.allMembers.filter(m => {
         var includeMember = true;

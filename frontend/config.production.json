@@ -4,7 +4,8 @@
   "minifyCss": true,
   "uglifyJs": true,
   "sourcemaps": true,
-  "apiUrl": "https://gik.majig.dk/api",
-  "apiDomain": "gik.majig.dk",
-  "sentryErrors": true
+  "apiUrl": "https://myathleticsclubapi.azurewebsites.net/api",
+  "apiDomain": "myathleticsclubapi.azurewebsites.net",
+  "sentryErrors": true,
+  "dist": "./../api/src/MyAthleticsClub.Api/wwwroot"
 }

@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using MyAthleticsClub.Core.Repositories.Interfaces;
@@ -108,7 +107,7 @@ namespace MyAthleticsClub.Core.Repositories
 
             if (getResult.Result == null)
             {
-                throw new Exception("No entity found");
+                return;
             }
 
             var entity = (TEntity)getResult.Result;

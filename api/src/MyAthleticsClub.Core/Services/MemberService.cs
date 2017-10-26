@@ -47,11 +47,6 @@ namespace MyAthleticsClub.Core.Services
             await _memberRepository.UpdateAsync(member);
         }
 
-        public async Task DeleteAsync(string organizationId, string id)
-        {
-            await _memberRepository.DeleteAsync(organizationId, id);
-        }
-
         private async Task<string> GetNextMemberNumberAsync(string organizationId)
         {
             return await _memberRepository.GetNextMemberNumberAsync(organizationId);

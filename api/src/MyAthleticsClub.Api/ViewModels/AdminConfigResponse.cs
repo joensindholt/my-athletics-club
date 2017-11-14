@@ -40,7 +40,7 @@ namespace MyAthleticsClub.Api.ViewModels
         public static void CreateMap(AutoMapperProfile profile)
         {
             profile.CreateMap<JwtOptions, JwtOptionsReponse>()
-                .ForMember(dest => dest.TokenKey, opt => opt.AddTransform(m => m.TakeFirst3Characters()));
+                .ForMember(dest => dest.TokenKey, opt => opt.AddTransform(m => m.TakeFirstCharacters(3)));
         }
     }
 
@@ -83,26 +83,26 @@ namespace MyAthleticsClub.Api.ViewModels
         public static void CreateMap(AutoMapperProfile profile)
         {
             profile.CreateMap<EmailOptions, EmailOptionsResponse>()
-                .ForMember(dest => dest.Username, opt => opt.AddTransform(m => m.TakeFirst3Characters()))
-                .ForMember(dest => dest.Password, opt => opt.AddTransform(m => m.TakeFirst3Characters()));
+                .ForMember(dest => dest.Username, opt => opt.AddTransform(m => m.TakeFirstCharacters(3)))
+                .ForMember(dest => dest.Password, opt => opt.AddTransform(m => m.TakeFirstCharacters(6)));
         }
     }
 
     public static class StringMapExtensions
     {
-        public static string TakeFirst3Characters(this string input)
+        public static string TakeFirstCharacters(this string input, int characters)
         {
             if (string.IsNullOrWhiteSpace(input))
             {
                 return input;
             }
 
-            if (input.Length <= 3)
+            if (input.Length <= characters)
             {
                 return input;
             }
 
-            return input.Substring(0, 3) + "...";
+            return input.Substring(0, characters) + "...";
         }
 
         public static string RemoveLastTenCharacters(this string input)

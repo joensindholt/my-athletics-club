@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
@@ -13,6 +14,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.WindowsAzure.Storage;
 using MyAthleticsClub.Api.Core.Authentication;
 using MyAthleticsClub.Api.Infrastructure;
+using MyAthleticsClub.Api.Infrastructure.Authentication;
+using MyAthleticsClub.Api.Infrastructure.AutoMapper;
+using MyAthleticsClub.Api.ViewModels;
 using MyAthleticsClub.Core.Repositories;
 using MyAthleticsClub.Core.Repositories.Interfaces;
 using MyAthleticsClub.Core.Services;
@@ -86,9 +90,9 @@ namespace MyAthleticsClub.Api
                 config.AddPolicy("AllowAll", cors.Build());
             });
 
-            ConfigureJwtIssuerOptions(services);
-
             ConfigureDepencyInjection(services);
+
+            ConfigureJwtIssuerOptions(services);
         }
 
         public void Configure(IApplicationBuilder app,
@@ -138,9 +142,11 @@ namespace MyAthleticsClub.Api
 
         private void ConfigureJwtIssuerOptions(IServiceCollection services)
         {
+            var jwtOptions = new JwtOptions();
+            Configuration.GetSection(nameof(JwtOptions)).Bind(jwtOptions);
+            _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtOptions.TokenKey));
+
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
-            string secretKey = Configuration["JWT_TOKEN_KEY"];
-            _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
             services.Configure<JwtIssuerOptions>(options =>
             {
                 options.Issuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
@@ -201,9 +207,14 @@ namespace MyAthleticsClub.Api
             // Utilities
             services.AddScoped<IIdGenerator, IdGenerator>();
             services.AddScoped<ISlugGenerator, SlugGenerator>();
+            services.AddSingleton<AutoMapper.IConfigurationProvider>(new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperProfile>()));
+            services.AddScoped<IMapper>(s => new Mapper(s.GetRequiredService<AutoMapper.IConfigurationProvider>()));
 
             // Options configuration
+            services.AddScoped<AdminConfigResponse, AdminConfigResponse>();
             services.Configure<EmailOptions>(Configuration.GetSection(nameof(EmailOptions)));
+            services.Configure<SlackOptions>(Configuration.GetSection(nameof(SlackOptions)));
+            services.Configure<JwtOptions>(Configuration.GetSection(nameof(JwtOptions)));
         }
     }
 }

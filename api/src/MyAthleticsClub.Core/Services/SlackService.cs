@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using MyAthleticsClub.Core.Services.Interfaces;
 using Newtonsoft.Json;
 
@@ -15,9 +15,9 @@ namespace MyAthleticsClub.Core.Services
         private readonly Uri _webhookUrl;
         private readonly HttpClient _httpClient = new HttpClient();
 
-        public SlackService(IConfigurationRoot configuration)
+        public SlackService(IOptions<SlackOptions> slackOptions)
         {
-            _webhookUrl = new Uri(configuration["SLACK_WEBHOOK_URL"]);
+            _webhookUrl = new Uri(slackOptions.Value.WebHookUrl);
         }
 
         public async Task SendMessageAsync(object message, CancellationToken cancellationToken = default(CancellationToken))

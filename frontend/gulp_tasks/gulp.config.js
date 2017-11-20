@@ -12,7 +12,8 @@ module.exports = {
       globalPath.app + ".htaccess",
       globalPath.app + "**/*.html",
       globalPath.app + "**/favicon/*.*",
-      globalPath.app + "**/*.svg"
+      globalPath.app + "**/*.svg",
+      globalPath.app + "**/files/*.*"
     ],
     sass: [
       globalPath.app + '**/*.scss'

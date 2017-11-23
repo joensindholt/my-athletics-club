@@ -57,31 +57,34 @@ namespace MyAthleticsClub.UnitTests.Core.Services
         [Test]
         public async Task WhenAPersonEnrolls_AnEmailReceiptIsSentToTheEnrollmentEmailAddress()
         {
-            // Arrange
-            var enrollment = new EnrollmentRequest
-            {
-                Email = "test@test.dk",
-                Members = new List<EnrollmentRequestMember>
-                {
-                    new EnrollmentRequestMember { Name = "John", BirthDate = "13-02-2005" },
-                    new EnrollmentRequestMember { Name = "Jane", BirthDate = "12-07-2012" }
-                },
-                Comments = "These are my comments\nwith a newline and all"
-            };
+            Assert.Inconclusive("The mail text for this mail has not yet been determined");
+            await Task.FromResult(0);
 
-            var emailServiceMock = Substitute.For<IEmailService>();
-            var enrollmentOptions = Substitute.For<IOptions<EnrollmentOptions>>();
-            enrollmentOptions.Value.Returns(new EnrollmentOptions());
+            //// Arrange
+            //var enrollment = new EnrollmentRequest
+            //{
+            //    Email = "test@test.dk",
+            //    Members = new List<EnrollmentRequestMember>
+            //    {
+            //        new EnrollmentRequestMember { Name = "John", BirthDate = "13-02-2005" },
+            //        new EnrollmentRequestMember { Name = "Jane", BirthDate = "12-07-2012" }
+            //    },
+            //    Comments = "These are my comments\nwith a newline and all"
+            //};
 
-            var enrollmentService = new EnrollmentService(enrollmentOptions, emailServiceMock);
+            //var emailServiceMock = Substitute.For<IEmailService>();
+            //var enrollmentOptions = Substitute.For<IOptions<EnrollmentOptions>>();
+            //enrollmentOptions.Value.Returns(new EnrollmentOptions());
 
-            // Act
-            await enrollmentService.EnrollAsync(enrollment, CancellationToken.None);
+            //var enrollmentService = new EnrollmentService(enrollmentOptions, emailServiceMock);
 
-            // Assert
-            var expectedBody = $"<div>Vis skal have noget tekst i den her mail</div>";
+            //// Act
+            //await enrollmentService.EnrollAsync(enrollment, CancellationToken.None);
 
-            await emailServiceMock.Received(1).SendEmailAsync(enrollment.Email, "Tak for din indmeldelse", expectedBody, CancellationToken.None);
+            //// Assert
+            //var expectedBody = $"<div>Vis skal have noget tekst i den her mail</div>";
+
+            //await emailServiceMock.Received(1).SendEmailAsync(enrollment.Email, "Tak for din indmeldelse", expectedBody, CancellationToken.None);
         }
     }
 }

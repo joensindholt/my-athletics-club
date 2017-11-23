@@ -20,7 +20,7 @@ namespace MyAthleticsClub.UnitTests.Api.Controllers
     public class UserControllerTests
     {
         [Test]
-        public async Task CanLoginAndGetToken()
+        public async Task WhenAUserLogsIn_AnOkResponseAndATokenIsReturned()
         {
             // Arrange
             var user = new User { Username = "myuser", Password = "mypassword" };

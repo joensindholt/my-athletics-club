@@ -14,7 +14,7 @@ namespace MyAthleticsClub.UnitTests.Core.Services
     public class EnrollmentServiceTests
     {
         [Test]
-        public async Task SendsExpectedEmailToGIKOnEnrollment()
+        public async Task WhenAPersonEnrolls_AnEmailIsSentToGik()
         {
             // Arrange
             var enrollment = new EnrollmentRequest
@@ -55,7 +55,7 @@ namespace MyAthleticsClub.UnitTests.Core.Services
         }
 
         [Test]
-        public async Task SendsExpectedEmailToEmailSpecifiedOnEnrollment()
+        public async Task WhenAPersonEnrolls_AnEmailReceiptIsSentToTheEnrollmentEmailAddress()
         {
             // Arrange
             var enrollment = new EnrollmentRequest

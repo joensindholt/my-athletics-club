@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
@@ -30,34 +31,23 @@ namespace MyAthleticsClub.Api
 {
     public class Startup
     {
-        private SymmetricSecurityKey _signingKey;
+        public IConfiguration Configuration { get; }
 
-        public IConfigurationRoot Configuration { get; }
-
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables("MyAthleticsClub_");
-
-            if (env.IsDevelopment())
-            {
-                builder.AddUserSecrets<Startup>();
-            }
+            Configuration = configuration;
 
             Log.Logger = new LoggerConfiguration()
               .Enrich.FromLogContext()
               .WriteTo.File(Environment.GetEnvironmentVariable("HOME") + "\\logs\\log.txt")
               .CreateLogger();
-
-            Configuration = builder.Build();
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
+
+            ConfigureAuthentication(services);
 
             services.AddAuthorization(options =>
             {
@@ -91,8 +81,6 @@ namespace MyAthleticsClub.Api
             });
 
             ConfigureDepencyInjection(services);
-
-            ConfigureJwtIssuerOptions(services);
         }
 
         public void Configure(IApplicationBuilder app,
@@ -105,8 +93,6 @@ namespace MyAthleticsClub.Api
                 .AddDebug()
                 .AddAzureWebAppDiagnostics()
                 .AddSerilog();
-
-            ConfigureJwtAuthentication(app);
 
             app.UseCors("AllowAll");
 
@@ -125,10 +111,11 @@ namespace MyAthleticsClub.Api
                 }
             });
 
+            app.UseAuthentication();
             app.UseMvc();
 
             app.UseSwagger();
-            app.UseSwaggerUi(c =>
+            app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Athletics Club");
             });
@@ -140,48 +127,44 @@ namespace MyAthleticsClub.Api
             appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
         }
 
-        private void ConfigureJwtIssuerOptions(IServiceCollection services)
+        private void ConfigureAuthentication(IServiceCollection services)
         {
-            var jwtOptions = new JwtOptions();
-            Configuration.GetSection(nameof(JwtOptions)).Bind(jwtOptions);
-            _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtOptions.TokenKey));
+            var jwtIssuerOptions = Configuration.GetSection(nameof(JwtIssuerOptions)).Get<JwtIssuerOptions>();
+            var jwtOptions = Configuration.GetSection(nameof(JwtOptions)).Get<JwtOptions>();
 
-            var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
+            // Token issuing
+            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtOptions.TokenKey));
+
             services.Configure<JwtIssuerOptions>(options =>
             {
-                options.Issuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
-                options.Audience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)];
-                options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
+                options.Issuer = jwtIssuerOptions.Issuer;
+                options.Audience = jwtIssuerOptions.Audience;
+                options.SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
                 options.ValidFor = TimeSpan.FromDays(1);
             });
-        }
 
-        private void ConfigureJwtAuthentication(IApplicationBuilder app)
-        {
-            var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)],
+            // Authentication and authorization
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = jwtIssuerOptions.Issuer,
 
-                ValidateAudience = true,
-                ValidAudience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)],
+                        ValidateAudience = true,
+                        ValidAudience = jwtIssuerOptions.Audience,
 
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = _signingKey,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = signingKey,
 
-                RequireExpirationTime = true,
-                ValidateLifetime = true,
+                        RequireExpirationTime = true,
+                        ValidateLifetime = true,
 
-                ClockSkew = TimeSpan.Zero
-            };
-
-            app.UseJwtBearerAuthentication(new JwtBearerOptions
-            {
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true,
-                TokenValidationParameters = tokenValidationParameters
-            });
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
         }
 
         private void ConfigureDepencyInjection(IServiceCollection services)

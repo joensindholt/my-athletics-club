@@ -40,7 +40,7 @@ namespace MyAthleticsClub.Api
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
+                .AddEnvironmentVariables("MyAthleticsClub_");
 
             if (env.IsDevelopment())
             {
@@ -76,7 +76,7 @@ namespace MyAthleticsClub.Api
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "My Atheltics Club", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "My Athletics Club", Version = "v1" });
             });
 
             services.AddCors(config =>
@@ -190,13 +190,14 @@ namespace MyAthleticsClub.Api
             services.AddSingleton(CloudStorageAccount.Parse(Configuration.GetConnectionString("AzureTableStorage")));
 
             // Services
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IEnrollmentService, EnrollmentService>();
             services.AddScoped<IEventRegistrationsExcelService, EventRegistrationsExcelService>();
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IMemberService, MemberService>();
             services.AddScoped<IRegistrationService, RegistrationService>();
             services.AddScoped<ISlackService, SlackService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IEmailService, EmailService>();
 
             // Repositories
             services.AddScoped<IEventRepository, EventRepository>();
@@ -213,8 +214,9 @@ namespace MyAthleticsClub.Api
             // Options configuration
             services.AddScoped<AdminConfigResponse, AdminConfigResponse>();
             services.Configure<EmailOptions>(Configuration.GetSection(nameof(EmailOptions)));
-            services.Configure<SlackOptions>(Configuration.GetSection(nameof(SlackOptions)));
+            services.Configure<EnrollmentOptions>(Configuration.GetSection(nameof(EnrollmentOptions)));
             services.Configure<JwtOptions>(Configuration.GetSection(nameof(JwtOptions)));
+            services.Configure<SlackOptions>(Configuration.GetSection(nameof(SlackOptions)));
         }
     }
 }

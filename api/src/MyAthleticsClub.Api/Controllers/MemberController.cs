@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using MyAthleticsClub.Core.Commands;
 using MyAthleticsClub.Core.Models;
+using MyAthleticsClub.Core.Models.Requests;
 using MyAthleticsClub.Core.Services.Interfaces;
 
 namespace MyAthleticsClub.Api.Controllers
@@ -79,14 +79,14 @@ namespace MyAthleticsClub.Api.Controllers
 
         [HttpPost("api/members/terminate")]
         [ProducesResponseType(200)]
-        public async Task<IActionResult> TerminateMembership([FromBody]TerminateMembershipCommand command)
+        public async Task<IActionResult> TerminateMembership([FromBody]TerminateMembershipRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            await _memberService.TerminateMembershipAsync("gik", command);
+            await _memberService.TerminateMembershipAsync("gik", request);
             return Ok();
         }
 

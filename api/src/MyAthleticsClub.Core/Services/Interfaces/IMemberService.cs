@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MyAthleticsClub.Core.Commands;
 using MyAthleticsClub.Core.Models;
+using MyAthleticsClub.Core.Models.Requests;
 
 namespace MyAthleticsClub.Core.Services.Interfaces
 {
@@ -20,7 +20,7 @@ namespace MyAthleticsClub.Core.Services.Interfaces
 
         Task ChargeAllAsync(string organizationId);
 
-        Task TerminateMembershipAsync(string organizationId, TerminateMembershipCommand command);
+        Task TerminateMembershipAsync(string organizationId, TerminateMembershipRequest command);
 
         Task<MemberStatistics> GetStatistics(string organizationId, DateTime date);
     }

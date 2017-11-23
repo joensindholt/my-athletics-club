@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using MimeKit;
@@ -20,7 +21,12 @@ namespace MyAthleticsClub.Core.Services
             _options = options.Value;
         }
 
-        public async Task SendEmailAsync(IEnumerable<string> to, string subject, string body)
+        public async Task SendEmailAsync(string to, string subject, string body, CancellationToken cancellationToken)
+        {
+            await SendEmailAsync(new List<string> { to }, subject, body, cancellationToken);
+        }
+
+        public async Task SendEmailAsync(IEnumerable<string> to, string subject, string body, CancellationToken cancellationToken)
         {
             if (!_options.Enabled) return;
 
@@ -43,9 +49,9 @@ namespace MyAthleticsClub.Core.Services
             {
                 client.ServerCertificateValidationCallback = (s, c, h, e) => true;
                 client.Connect(_options.Host, _options.Port, _options.UseSsl);
-                await client.AuthenticateAsync(_options.Username, _options.Password);
-                await client.SendAsync(message);
-                await client.DisconnectAsync(true);
+                await client.AuthenticateAsync(_options.Username, _options.Password, cancellationToken);
+                await client.SendAsync(message, cancellationToken);
+                await client.DisconnectAsync(true, cancellationToken);
             }
         }
     }
@@ -63,6 +69,12 @@ namespace MyAthleticsClub.Core.Services
 
         public void Verify()
         {
+            if (!Enabled)
+            {
+                // We do not verify email options if sending out emails is not enabled at all
+                return;
+            }
+
             if (FromName == null) throw new ArgumentException("Invalid EmailOptions", nameof(FromName));
             if (FromEmail == null) throw new ArgumentException("Invalid EmailOptions", nameof(FromEmail));
             if (Username == null) throw new ArgumentException("Invalid EmailOptions", nameof(Username));

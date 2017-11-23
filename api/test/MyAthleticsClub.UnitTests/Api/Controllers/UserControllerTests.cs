@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -8,18 +12,15 @@ using MyAthleticsClub.Core.Models;
 using MyAthleticsClub.Core.Services.Interfaces;
 using Newtonsoft.Json.Linq;
 using NSubstitute;
-using System;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
+using NUnit.Framework;
 
-namespace MyAthleticsClub.UnitTests.Api.Endpoints.Users.Services
+namespace MyAthleticsClub.UnitTests.Api.Controllers
 {
+    [TestFixture]
     public class UserControllerTests
     {
-        [Fact]
-        public async Task CanLoginAndGetToken()
+        [Test]
+        public async Task WhenAUserLogsIn_AnOkResponseAndATokenIsReturned()
         {
             // Arrange
             var user = new User { Username = "myuser", Password = "mypassword" };
@@ -37,8 +38,8 @@ namespace MyAthleticsClub.UnitTests.Api.Endpoints.Users.Services
             var result = await userController.Login(user);
 
             // Assert
-            Assert.True(result is OkObjectResult, "An OK response was expected");
-            Assert.True(((OkObjectResult)result).Value is string);
+            Assert.That(result, Is.TypeOf<OkObjectResult>(), "An OK response was expected");
+            Assert.That(((OkObjectResult)result).Value, Is.TypeOf<string>());
             Assert.True(JObject.Parse(((string)((OkObjectResult)result).Value))["access_token"].Value<string>().Length > 0);
         }
 

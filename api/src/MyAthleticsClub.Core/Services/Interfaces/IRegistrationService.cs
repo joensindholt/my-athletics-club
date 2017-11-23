@@ -13,6 +13,6 @@ namespace MyAthleticsClub.Core.Services.Interfaces
 
         Task<byte[]> GetEventRegistrationsAsXlsxAsync(string eventId);
 
-        Task SendRegistrationEmailReceiptAsync(Registration registration, Event _event);
+        Task SendRegistrationEmailReceiptAsync(Registration registration, Event _event, CancellationToken cancellationToken);
     }
 }

@@ -1,26 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <DebugType>full</DebugType>
-    <AssemblyName>MyAthleticsClub.UnitTests</AssemblyName>
-    <PackageId>MyAthleticsClub.UnitTests</PackageId>
-    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
-    <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
-    <RuntimeFrameworkVersion>1.1.1</RuntimeFrameworkVersion>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
   </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="Mono.Cecil" Version="0.10.0-beta6" />
+    <PackageReference Include="NUnit" Version="3.9.0" />
+    <PackageReference Include="NUnit.ConsoleRunner" Version="3.7.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.9.0" />
     <PackageReference Include="OpenCover" Version="4.6.519" />
-    <PackageReference Include="ReportGenerator" Version="2.5.8" />
-    <PackageReference Include="xunit" Version="2.2.0" />
-    <PackageReference Include="xunit.runner.console" Version="2.2.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
-    <PackageReference Include="NSubstitute" Version="2.0.3" />
+    <PackageReference Include="ReportGenerator" Version="3.0.2" />
+    <PackageReference Include="NSubstitute" Version="3.1.0" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\src\MyAthleticsClub.Api\MyAthleticsClub.Api.csproj" />
   </ItemGroup>
+
 </Project>

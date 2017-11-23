@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Much of the JWT token stuff comes from here: https://goblincoding.com/2016/07/03/issuing-and-authenticating-jwt-tokens-in-asp-net-core-webapi-part-i/
  */
 
@@ -85,6 +85,7 @@ namespace MyAthleticsClub.Api.Controllers
 
         // This route needs auth by default so if it returns ok
         // the user is logged in
+        [HttpGet]
         [Route("/api/isloggedin")]
         public IActionResult IsLoggedIn()
         {

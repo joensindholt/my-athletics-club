@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 
-namespace MyAthleticsClub.Core.Commands
+namespace MyAthleticsClub.Core.Models.Requests
 {
-    public class TerminateMembershipCommand
+    public class TerminateMembershipRequest
     {
         public string MemberId { get; set; }
 

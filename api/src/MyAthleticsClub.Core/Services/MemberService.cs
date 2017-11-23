@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MyAthleticsClub.Core.Commands;
 using MyAthleticsClub.Core.Models;
+using MyAthleticsClub.Core.Models.Requests;
 using MyAthleticsClub.Core.Repositories.Interfaces;
 using MyAthleticsClub.Core.Services.Interfaces;
 using MyAthleticsClub.Core.Slug;
@@ -57,7 +57,7 @@ namespace MyAthleticsClub.Core.Services
             await _memberRepository.ChargeAllAsync(organizationId);
         }
 
-        public async Task TerminateMembershipAsync(string organizationId, TerminateMembershipCommand command)
+        public async Task TerminateMembershipAsync(string organizationId, TerminateMembershipRequest command)
         {
             await _memberRepository.SetTerminationDate(organizationId, command.MemberId, command.TerminationDate);
         }

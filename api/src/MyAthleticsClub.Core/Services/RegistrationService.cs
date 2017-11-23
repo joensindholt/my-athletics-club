@@ -56,7 +56,7 @@ namespace MyAthleticsClub.Core.Services
             {
                 await _registrationRepository.CreateAsync(registration);
 
-                await SendRegistrationEmailReceiptAsync(registration, _event);
+                await SendRegistrationEmailReceiptAsync(registration, _event, cancellationToken);
 
                 var message = new RegistrationSlackMessageBuilder().BuildAdvancedMessage(_event, registration);
                 await _slackService.SendMessageAsync(message);
@@ -91,7 +91,7 @@ namespace MyAthleticsClub.Core.Services
             return _eventRegistrationsExcelService.GetEventRegistrationsAsXlsx(events);
         }
 
-        public async Task SendRegistrationEmailReceiptAsync(Registration registration, Event _event)
+        public async Task SendRegistrationEmailReceiptAsync(Registration registration, Event _event, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(registration.Email))
             {
@@ -119,7 +119,7 @@ namespace MyAthleticsClub.Core.Services
                     $"<div style=\"color: #bdbdbd; font-size: 12px;\">Ref.: {registration.Id}</div>\n" +
                 $"</div>\n";
 
-            await _emailService.SendEmailAsync(to, subject, body);
+            await _emailService.SendEmailAsync(to, subject, body, cancellationToken);
         }
     }
 }

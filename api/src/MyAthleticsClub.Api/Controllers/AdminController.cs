@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ using MyAthleticsClub.Core.Services.Interfaces;
 
 namespace MyAthleticsClub.Api.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class AdminController : Controller
     {
         private readonly IServiceProvider _serviceProvider;
@@ -39,11 +41,11 @@ namespace MyAthleticsClub.Api.Controllers
         [HttpPost("api/admin/email/send")]
         [ProducesResponseType(typeof(string), 200)]
         [ProducesResponseType(typeof(Exception), 200)]
-        public async Task<IActionResult> SendEmail([FromBody]SendEmailRequest request)
+        public async Task<IActionResult> SendEmail([FromBody]SendEmailRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                await _emailService.SendEmailAsync(new List<string> { request.To }, request.Subject, request.Body);
+                await _emailService.SendEmailAsync(new List<string> { request.To }, request.Subject, request.Body, cancellationToken);
             }
             catch (Exception ex)
             {

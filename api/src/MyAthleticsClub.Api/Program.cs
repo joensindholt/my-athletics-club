@@ -16,12 +16,7 @@ namespace MyAthleticsClub.Api
                 .UseStartup<Startup>()
                 .ConfigureAppConfiguration((hostContext, config) =>
                 {
-                    // delete all default configuration providers
-                    config.Sources.Clear();
-                    config
-                        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false)
-                        .AddJsonFile($"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: false)
-                        .AddEnvironmentVariables("MyAthleticsClub_");
+                    config.AddEnvironmentVariables("MyAthleticsClub_");
                 })
                 .Build();
     }

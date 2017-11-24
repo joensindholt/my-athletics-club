@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -24,6 +26,7 @@ using MyAthleticsClub.Core.Services;
 using MyAthleticsClub.Core.Services.Interfaces;
 using MyAthleticsClub.Core.Slug;
 using MyAthleticsClub.Core.Utilities;
+using Newtonsoft.Json;
 using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -125,6 +128,8 @@ namespace MyAthleticsClub.Api
 
             // Serilog: Ensure any buffered events are sent at shutdown
             appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
+
+            LogStartupInformation(app.ApplicationServices);
         }
 
         private void ConfigureAuthentication(IServiceCollection services)
@@ -200,6 +205,30 @@ namespace MyAthleticsClub.Api
             services.Configure<EnrollmentOptions>(Configuration.GetSection(nameof(EnrollmentOptions)));
             services.Configure<JwtOptions>(Configuration.GetSection(nameof(JwtOptions)));
             services.Configure<SlackOptions>(Configuration.GetSection(nameof(SlackOptions)));
+        }
+
+        private void LogStartupInformation(IServiceProvider serviceProvider)
+        {
+            var scopeFactory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
+            using (var scope = scopeFactory.CreateScope())
+            {
+                Log.Logger.Information("-----------------------------");
+                Log.Logger.Information("Application started");
+                Log.Logger.Information("-----------------------------");
+
+                Log.Logger.Information("Storage connectionstring: " + Configuration.GetConnectionString("AzureTableStorage"));
+
+                Log.Logger.Information("Options:");
+                Log.Logger.Information(JsonConvert.SerializeObject(scope.ServiceProvider.GetRequiredService<AdminConfigResponse>(), Formatting.Indented));
+
+                Log.Logger.Information("Configuration:");
+                foreach (var item in Configuration.AsEnumerable())
+                {
+                    Log.Logger.Information($"- key: \"{item.Key}\", value: \"{item.Value}\"");
+                }
+
+                Log.Logger.Information("-----------------------------");
+            }
         }
     }
 }

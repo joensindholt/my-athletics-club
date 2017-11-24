@@ -7,9 +7,10 @@ namespace MyAthleticsClub.Api.Infrastructure.AutoMapper
     {
         public AutoMapperProfile()
         {
-            JwtOptionsReponse.CreateMap(this);
-            JwtIssuerOptionsResponse.CreateMap(this);
+            EnrollmentOptionsResponse.CreateMap(this);
             EmailOptionsResponse.CreateMap(this);
+            JwtIssuerOptionsResponse.CreateMap(this);
+            JwtOptionsReponse.CreateMap(this);
             SlackOptionsResponse.CreateMap(this);
         }
     }

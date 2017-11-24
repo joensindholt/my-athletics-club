@@ -12,24 +12,68 @@ namespace MyAthleticsClub.Api.ViewModels
     {
         private readonly IMapper _autoMapper;
 
-        public JwtOptionsReponse Jwt { get; }
-        public JwtIssuerOptionsResponse JwtIssuer { get; }
         public EmailOptionsResponse Email { get; }
+        public EnrollmentOptionsResponse Enrollment { get; }
+        public JwtIssuerOptionsResponse JwtIssuer { get; }
+        public JwtOptionsReponse Jwt { get; }
         public SlackOptionsResponse Slack { get; }
 
         public AdminConfigResponse(
             IMapper autoMapper,
-            IOptions<JwtIssuerOptions> jwtIssuerOptions,
             IOptions<EmailOptions> emailOptions,
-            IOptions<SlackOptions> slackOptions,
-            IOptions<JwtOptions> jwtOptions)
+            IOptions<EnrollmentOptions> enrollmentOptions,
+            IOptions<JwtIssuerOptions> jwtIssuerOptions,
+            IOptions<JwtOptions> jwtOptions,
+            IOptions<SlackOptions> slackOptions)
         {
             _autoMapper = autoMapper;
 
-            JwtIssuer = _autoMapper.Map<JwtIssuerOptionsResponse>(jwtIssuerOptions.Value);
             Email = _autoMapper.Map<EmailOptionsResponse>(emailOptions.Value);
-            Slack = _autoMapper.Map<SlackOptionsResponse>(slackOptions.Value);
+            Enrollment = _autoMapper.Map<EnrollmentOptionsResponse>(enrollmentOptions.Value);
+            JwtIssuer = _autoMapper.Map<JwtIssuerOptionsResponse>(jwtIssuerOptions.Value);
             Jwt = _autoMapper.Map<JwtOptionsReponse>(jwtOptions.Value);
+            Slack = _autoMapper.Map<SlackOptionsResponse>(slackOptions.Value);
+        }
+    }
+
+    public class EmailOptionsResponse
+    {
+        public string Host { get; set; }
+        public int Port { get; set; }
+        public bool UseSsl { get; set; } = true;
+        public string FromName { get; set; }
+        public string FromEmail { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public bool Enabled { get; set; }
+
+        public static void CreateMap(AutoMapperProfile profile)
+        {
+            profile.CreateMap<EmailOptions, EmailOptionsResponse>()
+                .ForMember(dest => dest.Username, opt => opt.AddTransform(m => m.TakeFirstCharacters(3)))
+                .ForMember(dest => dest.Password, opt => opt.AddTransform(m => m.TakeFirstCharacters(6)));
+        }
+    }
+
+    public class EnrollmentOptionsResponse
+    {
+        public bool Enabled { get; set; }
+
+        public static void CreateMap(AutoMapperProfile profile)
+        {
+            profile.CreateMap<EnrollmentOptions, EnrollmentOptionsResponse>();
+        }
+    }
+
+    public class JwtIssuerOptionsResponse
+    {
+        public string Issuer { get; set; }
+        public string Audience { get; set; }
+        public TimeSpan ValidFor { get; set; }
+
+        public static void CreateMap(AutoMapperProfile profile)
+        {
+            profile.CreateMap<JwtIssuerOptions, JwtIssuerOptionsResponse>();
         }
     }
 
@@ -54,37 +98,6 @@ namespace MyAthleticsClub.Api.ViewModels
                 .ForMember(
                     dest => dest.WebHookUrl,
                     opt => opt.AddTransform(m => m.RemoveLastTenCharacters()));
-        }
-    }
-
-    public class JwtIssuerOptionsResponse
-    {
-        public string Issuer { get; set; }
-        public string Audience { get; set; }
-        public TimeSpan ValidFor { get; set; }
-
-        public static void CreateMap(AutoMapperProfile profile)
-        {
-            profile.CreateMap<JwtIssuerOptions, JwtIssuerOptionsResponse>();
-        }
-    }
-
-    public class EmailOptionsResponse
-    {
-        public string Host { get; set; }
-        public int Port { get; set; }
-        public bool UseSsl { get; set; } = true;
-        public string FromName { get; set; }
-        public string FromEmail { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public bool Enabled { get; set; }
-
-        public static void CreateMap(AutoMapperProfile profile)
-        {
-            profile.CreateMap<EmailOptions, EmailOptionsResponse>()
-                .ForMember(dest => dest.Username, opt => opt.AddTransform(m => m.TakeFirstCharacters(3)))
-                .ForMember(dest => dest.Password, opt => opt.AddTransform(m => m.TakeFirstCharacters(6)));
         }
     }
 

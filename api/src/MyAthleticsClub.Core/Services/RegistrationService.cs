@@ -4,9 +4,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using MyAthleticsClub.Core.Exceptions;
 using MyAthleticsClub.Core.Models;
 using MyAthleticsClub.Core.Repositories.Interfaces;
+using MyAthleticsClub.Core.Services.Email;
 using MyAthleticsClub.Core.Services.Interfaces;
 using MyAthleticsClub.Core.Utilities;
 
@@ -16,6 +18,7 @@ namespace MyAthleticsClub.Core.Services
     {
         private readonly IIdGenerator _idGenerator;
         private readonly IEmailService _emailService;
+        private readonly EmailOptions _emailOptions;
         private readonly IEventRegistrationsExcelService _eventRegistrationsExcelService;
         private readonly IEventService _eventService;
         private readonly IRegistrationRepository _registrationRepository;
@@ -25,6 +28,7 @@ namespace MyAthleticsClub.Core.Services
         public RegistrationService(
             IIdGenerator idGenerator,
             IEmailService emailService,
+            IOptions<EmailOptions> emailOptions,
             IEventRegistrationsExcelService eventRegistrationsExcelService,
             IEventService eventService,
             IRegistrationRepository registrationRepository,
@@ -33,6 +37,7 @@ namespace MyAthleticsClub.Core.Services
         {
             _idGenerator = idGenerator;
             _emailService = emailService;
+            _emailOptions = emailOptions.Value;
             _eventRegistrationsExcelService = eventRegistrationsExcelService;
             _eventService = eventService;
             _registrationRepository = registrationRepository;
@@ -98,28 +103,16 @@ namespace MyAthleticsClub.Core.Services
                 throw new Exception($"Could not send email to registrant {registration.Name} because no email address was found");
             }
 
-            var to = new List<string> { registration.Email };
-
-            var subject = $"Bekræftelse af tilmelding";
-
-            var body =
-                $"<p><strong>Hej {registration.Name}</strong></p>\n" +
-                $"<p>Din tilmelding til stævnet {_event.Title} er modtaget.</p>\n" +
-                $"<p>Du er tilmeldt nedenstående discipliner:</p>\n" +
-                $"<p>\n" +
-                    string.Join("\n", registration.Disciplines.Select(d =>
-                        $"<span>{d.Name} ({registration.AgeClass})</span><br/>\n")) +
-                    string.Join("\n", registration.ExtraDisciplines.Select(d =>
-                        $"<span>{d.Name} ({d.AgeClass})</span><br/>\n")) +
-                $"</p>\n" +
-                $"<p>God fornøjelse</p>\n" +
-                $"<p>Mvh. GIK</p>\n" +
-                $"<div style=\"padding: 17px 0 0 0;\">\n" +
-                    $"<div style=\"color: #bdbdbd; font-size: 12px;\">Dato: {DateTime.Now}</div>\n" +
-                    $"<div style=\"color: #bdbdbd; font-size: 12px;\">Ref.: {registration.Id}</div>\n" +
-                $"</div>\n";
-
-            await _emailService.SendEmailAsync(to, subject, body, cancellationToken);
+            await _emailService.SendTemplateEmailAsync(
+                to: registration.Email,
+                templateId: _emailOptions.Templates.EventRegistrationReceipt,
+                data: new
+                {
+                    Registration = registration,
+                    Event = _event,
+                    Date = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")
+                },
+                cancellationToken: cancellationToken);
         }
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace MyAthleticsClub.Api.Core.Authentication
 {
@@ -79,6 +80,7 @@ namespace MyAthleticsClub.Api.Core.Authentication
         ///   Implementers MAY provide for some small leeway, usually no more than
         ///   a few minutes, to account for clock skew.  Its value MUST be a number
         ///   containing a NumericDate value.  Use of this claim is OPTIONAL.</remarks>
+        [JsonIgnore]
         public DateTime Expiration => IssuedAt.Add(ValidFor);
 
         /// <summary>
@@ -92,6 +94,7 @@ namespace MyAthleticsClub.Api.Core.Authentication
         ///   produced by different issuers as well.  The "jti" claim can be used
         ///   to prevent the JWT from being replayed.  The "jti" value is a case-
         ///   sensitive string.  Use of this claim is OPTIONAL.</remarks>
+        [JsonIgnore]
         public Func<Task<string>> JtiGenerator =>
           () => Task.FromResult(Guid.NewGuid().ToString());
 

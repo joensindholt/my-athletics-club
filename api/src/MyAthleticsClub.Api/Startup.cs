@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AutoMapper;
@@ -15,14 +14,15 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.WindowsAzure.Storage;
+using MyAthleticsClub.Api.Controllers;
 using MyAthleticsClub.Api.Core.Authentication;
 using MyAthleticsClub.Api.Infrastructure;
 using MyAthleticsClub.Api.Infrastructure.Authentication;
-using MyAthleticsClub.Api.Infrastructure.AutoMapper;
 using MyAthleticsClub.Api.ViewModels;
 using MyAthleticsClub.Core.Repositories;
 using MyAthleticsClub.Core.Repositories.Interfaces;
 using MyAthleticsClub.Core.Services;
+using MyAthleticsClub.Core.Services.Email;
 using MyAthleticsClub.Core.Services.Interfaces;
 using MyAthleticsClub.Core.Slug;
 using MyAthleticsClub.Core.Utilities;
@@ -186,6 +186,8 @@ namespace MyAthleticsClub.Api
             services.AddScoped<IRegistrationService, RegistrationService>();
             services.AddScoped<ISlackService, SlackService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IEmailTemplateProvider, SendGridService>();
+            services.AddScoped<ITemplateMerger, SendGridService>();
 
             // Repositories
             services.AddScoped<IEventRepository, EventRepository>();
@@ -196,11 +198,11 @@ namespace MyAthleticsClub.Api
             // Utilities
             services.AddScoped<IIdGenerator, IdGenerator>();
             services.AddScoped<ISlugGenerator, SlugGenerator>();
-            services.AddSingleton<AutoMapper.IConfigurationProvider>(new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperProfile>()));
-            services.AddScoped<IMapper>(s => new Mapper(s.GetRequiredService<AutoMapper.IConfigurationProvider>()));
+            services.AddAutoMapper();
 
             // Options configuration
             services.AddScoped<AdminConfigResponse, AdminConfigResponse>();
+            services.Configure<AdminOptions>(Configuration.GetSection(nameof(AdminOptions)));
             services.Configure<EmailOptions>(Configuration.GetSection(nameof(EmailOptions)));
             services.Configure<EnrollmentOptions>(Configuration.GetSection(nameof(EnrollmentOptions)));
             services.Configure<JwtOptions>(Configuration.GetSection(nameof(JwtOptions)));

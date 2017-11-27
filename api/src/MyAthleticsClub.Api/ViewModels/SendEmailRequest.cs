@@ -4,8 +4,8 @@ namespace MyAthleticsClub.Api.ViewModels
     {
         public string To { get; set; }
 
-        public string Subject { get; set; }
+        public string TemplateId { get; set; }
 
-        public string Body { get; set; }
+        public object Data { get; set; }
     }
 }

@@ -1,9 +1,9 @@
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using MyAthleticsClub.Core.Exceptions;
 using MyAthleticsClub.Core.Models.Requests;
+using MyAthleticsClub.Core.Services.Email;
 using MyAthleticsClub.Core.Services.Interfaces;
 
 namespace MyAthleticsClub.Core.Services
@@ -12,21 +12,24 @@ namespace MyAthleticsClub.Core.Services
     {
         private readonly EnrollmentOptions _options;
         private readonly IEmailService _emailService;
+        private readonly EmailOptions _emailOptions;
 
         public EnrollmentService(
             IOptions<EnrollmentOptions> options,
-            IEmailService emailService
+            IEmailService emailService,
+            IOptions<EmailOptions> emailOptions
             )
         {
             _options = options.Value;
             _emailService = emailService;
+            _emailOptions = emailOptions.Value;
         }
 
         public async Task EnrollAsync(EnrollmentRequest enrollment, CancellationToken cancellationToken)
         {
             if (!_options.Enabled)
             {
-                throw new BadRequestException("Enrolling via this api is not yet available");
+                throw new BadRequestException("Enrolling via this api is not yet possible");
             }
 
             await SendAdminEmailAsync(enrollment, cancellationToken);
@@ -35,39 +38,27 @@ namespace MyAthleticsClub.Core.Services
 
         private async Task SendAdminEmailAsync(EnrollmentRequest enrollment, CancellationToken cancellationToken)
         {
-            var to = "gik.atletik@gmail.com";
-
-            var subject = "Ny indmeldelse";
-
-            var body =
-                $"<div>En person har indsendt en indmeldelse via hjemmesiden</div>" +
-                $"<div>&nbsp;</div>" +
-                $"<div><strong>Email:</strong></div>" +
-                $"<div>{enrollment.Email}</div>" +
-                $"<div>&nbsp;</div>" +
-                $"<div><strong>Personer der skal indmeldes:</strong></div>" +
-                string.Join("", enrollment.Members.Select(m => $"<div>Navn: {m.Name}, Fødselsdato: {m.BirthDate}</div>")) +
-                $"<div>&nbsp;</div>" +
-                $"<div><strong>Kommentarer:</strong></div>" +
-                $"<div style=\"white-space: pre;\">{enrollment.Comments}</div>";
-
-            await _emailService.SendEmailAsync(to, subject, body, cancellationToken);
+            await _emailService.SendTemplateEmailAsync(
+                to: _options.AdminEmail,
+                templateId: _emailOptions.Templates.EnrollmentAdminNotification,
+                data: enrollment,
+                cancellationToken: cancellationToken);
         }
 
         private async Task SendConfirmationEmailAsync(EnrollmentRequest enrollment, CancellationToken cancellationToken)
         {
-            var to = enrollment.Email;
-
-            var subject = "Tak for din indmeldelse";
-
-            var body = $"Vis skal have noget andet tekst i den her mail";
-
-            await _emailService.SendEmailAsync(to, subject, body, cancellationToken);
+            await _emailService.SendTemplateEmailAsync(
+                to: enrollment.Email,
+                templateId: _emailOptions.Templates.EnrollmentReceipt,
+                data: enrollment,
+                cancellationToken: cancellationToken);
         }
     }
 
     public class EnrollmentOptions
     {
         public bool Enabled { get; set; } = true;
+
+        public string AdminEmail { get; set; } = "gik.atletik@gmail.com";
     }
 }

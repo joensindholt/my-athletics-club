@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using MyAthleticsClub.Core.Models.Requests;
 using MyAthleticsClub.Core.Services;
+using MyAthleticsClub.Core.Services.Email;
 using MyAthleticsClub.Core.Services.Interfaces;
 using NSubstitute;
 using NUnit.Framework;
@@ -28,63 +29,71 @@ namespace MyAthleticsClub.UnitTests.Core.Services
                 Comments = "These are my comments\nwith a newline and all"
             };
 
+            var emailOptionsMock = Substitute.For<IOptions<EmailOptions>>();
+            emailOptionsMock.Value.Returns(new EmailOptions
+            {
+                Templates = new EmailTemplates
+                {
+                    EnrollmentAdminNotification = "123"
+                }
+            });
+
             var emailServiceMock = Substitute.For<IEmailService>();
             var enrollmentOptions = Substitute.For<IOptions<EnrollmentOptions>>();
             enrollmentOptions.Value.Returns(new EnrollmentOptions());
 
-            var enrollmentService = new EnrollmentService(enrollmentOptions, emailServiceMock);
+            var enrollmentService = new EnrollmentService(enrollmentOptions, emailServiceMock, emailOptionsMock);
 
             // Act
             await enrollmentService.EnrollAsync(enrollment, CancellationToken.None);
 
             // Assert
-            var expectedBody =
-                $"<div>En person har indsendt en indmeldelse via hjemmesiden</div>" +
-                $"<div>&nbsp;</div>" +
-                $"<div><strong>Email:</strong></div>" +
-                $"<div>test@test.dk</div>" +
-                $"<div>&nbsp;</div>" +
-                $"<div><strong>Personer der skal indmeldes:</strong></div>" +
-                $"<div>Navn: John, Fødselsdato: 13-02-2005</div>" +
-                $"<div>Navn: Jane, Fødselsdato: 12-07-2012</div>" +
-                $"<div>&nbsp;</div>" +
-                $"<div><strong>Kommentarer:</strong></div>" +
-                $"<div style=\"white-space: pre;\">These are my comments\nwith a newline and all</div>";
-
-            await emailServiceMock.Received(1).SendEmailAsync("gik.atletik@gmail.com", "Ny indmeldelse", expectedBody, CancellationToken.None);
+            await emailServiceMock.Received(1).SendTemplateEmailAsync(
+                to: "gik.atletik@gmail.com",
+                templateId: "123",
+                data: enrollment,
+                cancellationToken: CancellationToken.None);
         }
 
         [Test]
-        public async Task WhenAPersonEnrolls_AnEmailReceiptIsSentToTheEnrollmentEmailAddress()
+        public async Task WhenAPersonEnrolls_AnEmailReceiptIsSentToTheEnrollersEmailAddress()
         {
-            Assert.Inconclusive("The mail text for this mail has not yet been determined");
-            await Task.FromResult(0);
+            // Arrange
+            var enrollment = new EnrollmentRequest
+            {
+                Email = "test@test.dk",
+                Members = new List<EnrollmentRequestMember>
+                {
+                    new EnrollmentRequestMember { Name = "John", BirthDate = "13-02-2005" },
+                    new EnrollmentRequestMember { Name = "Jane", BirthDate = "12-07-2012" }
+                },
+                Comments = "These are my comments\nwith a newline and all"
+            };
 
-            //// Arrange
-            //var enrollment = new EnrollmentRequest
-            //{
-            //    Email = "test@test.dk",
-            //    Members = new List<EnrollmentRequestMember>
-            //    {
-            //        new EnrollmentRequestMember { Name = "John", BirthDate = "13-02-2005" },
-            //        new EnrollmentRequestMember { Name = "Jane", BirthDate = "12-07-2012" }
-            //    },
-            //    Comments = "These are my comments\nwith a newline and all"
-            //};
+            var emailOptionsMock = Substitute.For<IOptions<EmailOptions>>();
+            emailOptionsMock.Value.Returns(new EmailOptions
+            {
+                Templates = new EmailTemplates
+                {
+                    EnrollmentReceipt = "456"
+                }
+            });
 
-            //var emailServiceMock = Substitute.For<IEmailService>();
-            //var enrollmentOptions = Substitute.For<IOptions<EnrollmentOptions>>();
-            //enrollmentOptions.Value.Returns(new EnrollmentOptions());
+            var emailServiceMock = Substitute.For<IEmailService>();
+            var enrollmentOptions = Substitute.For<IOptions<EnrollmentOptions>>();
+            enrollmentOptions.Value.Returns(new EnrollmentOptions());
 
-            //var enrollmentService = new EnrollmentService(enrollmentOptions, emailServiceMock);
+            var enrollmentService = new EnrollmentService(enrollmentOptions, emailServiceMock, emailOptionsMock);
 
-            //// Act
-            //await enrollmentService.EnrollAsync(enrollment, CancellationToken.None);
+            // Act
+            await enrollmentService.EnrollAsync(enrollment, CancellationToken.None);
 
-            //// Assert
-            //var expectedBody = $"<div>Vis skal have noget tekst i den her mail</div>";
-
-            //await emailServiceMock.Received(1).SendEmailAsync(enrollment.Email, "Tak for din indmeldelse", expectedBody, CancellationToken.None);
+            // Assert
+            await emailServiceMock.Received(1).SendTemplateEmailAsync(
+                to: enrollment.Email,
+                templateId: "456",
+                data: enrollment,
+                cancellationToken: CancellationToken.None);
         }
     }
 }

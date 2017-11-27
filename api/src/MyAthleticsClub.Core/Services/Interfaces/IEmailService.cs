@@ -6,8 +6,8 @@ namespace MyAthleticsClub.Core.Services.Interfaces
 {
     public interface IEmailService
     {
-        Task SendEmailAsync(string to, string subject, string body, CancellationToken cancellationToken);
+        Task SendTemplateEmailAsync(string to, string templateId, object data, CancellationToken cancellationToken);
 
-        Task SendEmailAsync(IEnumerable<string> to, string subject, string body, CancellationToken cancellationToken);
+        Task SendTemplateEmailAsync(IEnumerable<string> to, string templateId, object data, CancellationToken cancellationToken);
     }
 }

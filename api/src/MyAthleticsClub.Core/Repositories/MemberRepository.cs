@@ -17,25 +17,14 @@ namespace MyAthleticsClub.Core.Repositories
         {
         }
 
-        /// <summary>
-        /// Gets all members that are not terminated
-        /// </summary>
-        /// <returns>The list of members</returns>
-        public async override Task<IEnumerable<Member>> GetAllAsync()
+        public async Task<IEnumerable<Member>> GetActiveMembersAsync(string organizationId)
         {
             return
-                (await base.GetAllAsync())
+                (await base.GetAllByPartitionKey(organizationId))
                     .Where(m => MemberIsActive(m));
         }
 
-        public async override Task<IEnumerable<Member>> GetAllByPartitionKey(string partitionKey)
-        {
-            return
-                (await base.GetAllByPartitionKey(partitionKey))
-                    .Where(m => MemberIsActive(m));
-        }
-
-        public async Task<IEnumerable<Member>> GetTerminatedMembers(string organizationId)
+        public async Task<IEnumerable<Member>> GetTerminatedMembersAsync(string organizationId)
         {
             return
                 (await base.GetAllByPartitionKey(organizationId))
@@ -48,10 +37,13 @@ namespace MyAthleticsClub.Core.Repositories
             return all.Count();
         }
 
-        public async Task ChargeAllAsync(string organizationId)
+        public async Task ChargeMembersAsync(string organizationId)
         {
-            var all = await base.GetAllByPartitionKey(organizationId);
-            foreach (var member in all)
+            var allMembers = await base.GetAllByPartitionKey(organizationId);
+
+            var membersToCharge = allMembers.Where(m => MemberIsActive(m));
+
+            foreach (var member in membersToCharge)
             {
                 member.HasOutstandingMembershipPayment = true;
                 await UpdateAsync(member);
@@ -67,7 +59,7 @@ namespace MyAthleticsClub.Core.Repositories
             var currentYear2Digit = DateTime.Now.Year.ToString().Substring(2, 2);
 
             // Get all members
-            var members = await GetAllAsync();
+            var members = await GetAllByPartitionKey(organizationId);
 
             // Find the members with member numbers from this year
             var currentYearMembers = members.Where(m => m.Number.StartsWith(currentYear2Digit));
@@ -85,16 +77,30 @@ namespace MyAthleticsClub.Core.Repositories
             }
         }
 
+        public async Task<int> GetAvailableFamilyMembershipNumberAsync(string organizationId)
+        {
+            var allMembers = await GetAllByPartitionKey(organizationId);
+
+            var familyMembers =
+                allMembers
+                  .Where(m => m.FamilyMembershipNumber != null)
+                  .Where(m => int.TryParse(m.FamilyMembershipNumber, out int result));
+
+            if (!familyMembers.Any())
+            {
+                return 1;
+            }
+
+            var maxFamilyMembershipNumber = familyMembers.Max(m => int.Parse(m.FamilyMembershipNumber));
+
+            return maxFamilyMembershipNumber + 1;
+        }
+
         public async Task SetTerminationDate(string organizationId, string memberId, DateTime terminationDate)
         {
             var member = await GetAsync(organizationId, memberId);
             member.TerminationDate = terminationDate;
             await UpdateAsync(member);
-        }
-
-        private bool MemberIsActive(Member member)
-        {
-            return member.TerminationDate == null || member.TerminationDate > DateTime.Today;
         }
 
         public async Task<MemberStatistics> GetStatistics(string organizationId, DateTime date)
@@ -132,6 +138,11 @@ namespace MyAthleticsClub.Core.Repositories
             }
 
             return statistics;
+        }
+
+        private bool MemberIsActive(Member member)
+        {
+            return member.TerminationDate == null || member.TerminationDate > DateTime.Today;
         }
 
         private int GetAge(DateTime reference, DateTime birthday)

@@ -35,6 +35,10 @@ module members {
       this.selectableGenders = this.MembersService.getGenderInfos();
 
       this.member.startDate = moment(new Date()).format('YYYY-MM-DD');
+
+      this.$scope.$on('family-membership-number-found', ($event, number) => {
+        this.member.familyMembershipNumber = number;
+      });
     }
 
     addMember(member: Member) {

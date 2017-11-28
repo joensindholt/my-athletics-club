@@ -30,7 +30,7 @@ module members {
       } else {
         return null;
       }
-    } 
+    }
 
     getMemberTeam() {
       if (this.member.team !== null) {

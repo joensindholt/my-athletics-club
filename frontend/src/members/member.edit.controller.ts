@@ -54,6 +54,10 @@ module members {
         this.selectedTeam = member.team !== null ? member.team.toString() : null;
         this.selectedGender = member.gender !== null ? member.gender.toString() : null;
       });
+
+      this.$scope.$on('family-membership-number-found', ($event, number) => {
+        this.member.familyMembershipNumber = number;
+      });
     }
 
     updateMember(member: Member) {

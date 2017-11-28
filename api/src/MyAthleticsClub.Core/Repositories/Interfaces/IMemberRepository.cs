@@ -7,9 +7,9 @@ namespace MyAthleticsClub.Core.Repositories.Interfaces
 {
     public interface IMemberRepository
     {
-        Task<IEnumerable<Member>> GetAllByPartitionKey(string organizationId);
+        Task<IEnumerable<Member>> GetActiveMembersAsync(string organizationId);
 
-        Task<IEnumerable<Member>> GetTerminatedMembers(string organizationId);
+        Task<IEnumerable<Member>> GetTerminatedMembersAsync(string organizationId);
 
         Task<Member> GetAsync(string organizationId, string id);
 
@@ -21,12 +21,14 @@ namespace MyAthleticsClub.Core.Repositories.Interfaces
 
         Task<int> CountAllAsync(string organizationId);
 
-        Task ChargeAllAsync(string organizationId);
+        Task ChargeMembersAsync(string organizationId);
 
         Task<string> GetNextMemberNumberAsync(string organizationId);
 
         Task SetTerminationDate(string organizationId, string memberId, DateTime terminationDate);
 
         Task<MemberStatistics> GetStatistics(string organizationId, DateTime date);
+
+        Task<int> GetAvailableFamilyMembershipNumberAsync(string organizationId);
     }
 }

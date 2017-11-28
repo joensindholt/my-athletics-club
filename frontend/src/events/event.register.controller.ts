@@ -15,8 +15,9 @@ module events {
     private registrationComplete: boolean = false;
     private birthYears: Array<number>;
     private ageGroups: Array<string>;
-    private validationError: string;
+    private validationErrors: Array<string>;
     private canSelectMoreDisciplines: boolean = true;
+    private eventHasDisciplines: boolean = false;
 
     static $inject = [
       '$scope',
@@ -51,6 +52,8 @@ module events {
           this.trustedMapUrl =
             this.$sce.trustAsResourceUrl('https://www.google.com/maps/embed/v1/place?key=AIzaSyC-0IZYk7mmRswHapPmWnSpMa6i2kHnP9I&q=' + event.address);
         }
+
+        this.eventHasDisciplines = this.event.disciplines.filter(d => d.disciplines.length > 0).length > 0;
 
         this.updateExtraDisciplineAgeGroups();
       });
@@ -165,6 +168,7 @@ module events {
     removeExtraDiscipline(index: number) {
       this.registrationData.extraDisciplines.splice(index, 1);
       this.updateCanSelectMoreDisciplines(); 
+      this.validate(this.registrationData);      
     }
 
     onDataChange(registrationData: any) {
@@ -183,38 +187,45 @@ module events {
     }
 
     validate(registrationData: any) {
+
+      this.registrationIsValid = true;
+      this.validationErrors = [];
+
       if (!registrationData.name || registrationData.name.trim() === '') {
         this.registrationIsValid = false;
-        this.validationError = 'Du har ikke angivet deltagerens navn';
-        return;
+        this.validationErrors.push('Angive deltagerens navn');
       }
 
       if (!registrationData.gender || registrationData.gender.trim() === '') {
         this.registrationIsValid = false;
-        this.validationError = 'Du har ikke angivet om deltageren er en pige eller en dreng';
-        return;
+        this.validationErrors.push('Angive om deltageren er en pige eller en dreng');
       }
 
       if (!registrationData.birthYear) {
         this.registrationIsValid = false;
-        this.validationError = 'Du skal angive deltagerens alder';
-        return;
+        this.validationErrors.push('Angive deltagerens alder');
       }
 
       if (!registrationData.email || registrationData.email.trim() === '') {
         this.registrationIsValid = false;
-        this.validationError = 'Du har ikke angivet din e-mail adresse';
-        return;
+        this.validationErrors.push('Angive din e-mail adresse');
+      }
+
+      // ensure at least on displine selected if the event itself has any disciplines
+      if (this.eventHasDisciplines) {
+        var hasSelectedDiscipline = registrationData.disciplines && registrationData.disciplines.filter(d => d.selected).length > 0; 
+        var hasSelectedExtraDiscipline = registrationData.extraDisciplines && registrationData.extraDisciplines.length > 0;
+        
+        if (!hasSelectedDiscipline && !hasSelectedExtraDiscipline) {
+          this.registrationIsValid = false;
+          this.validationErrors.push('Angive hvilke discipliner der stilles op i');
+        }
       }
 
       if (!registrationData.recaptcha) {
         this.registrationIsValid = false;
-        this.validationError = 'Du mangler at angive at du ikke er en robot';
-        return;
+        this.validationErrors.push('Angive at du ikke er en robot');
       }
-
-      this.registrationIsValid = true;
-      this.validationError = null;
     }
 
     validateDelayed() {

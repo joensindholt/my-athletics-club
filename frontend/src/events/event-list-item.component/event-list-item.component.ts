@@ -17,11 +17,17 @@ module events {
     isAuthenticated: boolean;
 
     static $inject = [
+      '$scope',
+      '$window',
+      'EventsService',
       'moment',
       'AuthService'
     ];
 
     constructor(
+      private $scope: ng.IScope,
+      private $window: ng.IWindowService,
+      private EventsService: EventsService,
       private moment: moment.MomentStatic,
       private authService: users.AuthService
     ) {
@@ -61,6 +67,14 @@ module events {
       }
 
       return registration.ageClass;
+    }
+
+    handleEventDeleteClicked(event: Event) {
+      if (this.$window.confirm(`Er du sikker på at du vil slette ${event.title}?`)) {
+        this.EventsService.delete(event).then(() => {
+          this.$scope.$emit('event-deleted', event);
+        });
+      }
     }
   }
 }

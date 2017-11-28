@@ -76,25 +76,17 @@ module events {
     }
 
     listenForChildEvents() {
-      this.$scope.$on('event-added', event => {
+      this.$scope.$on('event-added', $event => {
         this.updateEventLists();
       });
 
-      this.$scope.$on('event-updated', event => {
+      this.$scope.$on('event-updated', $event => {
         this.updateEventLists();
       });
 
-      this.$scope.$on('event-deleted', () => {
-        this.updateEventLists();
+      this.$scope.$on('event-deleted', ($event, event) => {
+        _.remove(this.events, { id: event.id });
       });
-    }
-
-    handleEventDeleteClicked(event: Event) {
-      if (this.$window.confirm('Er du sikker?')) {
-        this.EventsService.delete(event).then(() => {
-          _.remove(this.events, { id: event.id });
-        });
-      }
     }
 
     logout() {

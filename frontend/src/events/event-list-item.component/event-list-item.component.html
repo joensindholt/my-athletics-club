@@ -21,7 +21,7 @@
                 ng-class="{ 'o-button--primary' : !$ctrl.isAuthenticated } ">Tilmeld</a>
             <a ng-show="!$ctrl.event.isOpenForRegistration && !$ctrl.isAuthenticated" class="o-button o-button--default o-button--disabled">Tilmelding lukket</a>
             <a ui-sref="events_edit({ id: $ctrl.event.id })" class="o-button o-button--default" ng-show="$ctrl.isAuthenticated">Ret stævne</a>
-            <button ng-click="$ctrl.handleEventDeleteClicked(event)" title="Slet stævne" class="o-button o-button--default" ng-show="$ctrl.isAuthenticated">
+            <button ng-click="$ctrl.handleEventDeleteClicked($ctrl.event)" title="Slet stævne" class="o-button o-button--default" ng-show="$ctrl.isAuthenticated">
             <i class="fa fa-trash-o"></i>
           </button>
         </div>

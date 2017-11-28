@@ -30,11 +30,15 @@ namespace MyAthleticsClub.Core.Services.Email
 
         public async Task SendTemplateEmailAsync(string to, string templateId, object data, CancellationToken cancellationToken)
         {
+            if (!_options.Enabled) return;
+
             await SendTemplateEmailAsync(new List<string> { to }, templateId, data, cancellationToken);
         }
 
         public async Task SendTemplateEmailAsync(IEnumerable<string> to, string templateId, object data, CancellationToken cancellationToken)
         {
+            if (!_options.Enabled) return;
+
             var template = await _emailTemplateProvider.GetTemplateAsync(templateId, cancellationToken);
             var subject = _templateMerger.Merge(template.GetSubject(), data);
             var htmlContent = _templateMerger.Merge(template.GetHtmlContent(), data);

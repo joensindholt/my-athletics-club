@@ -68,75 +68,77 @@
     </div>
 
     <div ng-if="vm.registrationData.name && vm.registrationData.birthYear">
-      <h2 class="center standout">Hvilke discipliner vil {{ vm.registrationData.name || 'Deltageren' }} stille op i?</h2>
-      <div ng-show="vm.registrationData.disciplines.length > 0">
-        <p class="center">
-          {{ vm.registrationData.name || 'Deltageren' }} bør deltage i klassen <i>{{ vm.registrationData.ageGroup }}</i>,
-          hvor {{ vm.registrationData.gender === 'male' ? 'han' : 'hun' }} kan stille op i følgende discipliner.
-        </p>
-        <p class="center">
-          Vælg discipliner og angiv {{ vm.registrationData.name }}'s personlige rekord, hvis du kender den.
-        </p>
-        <div class="row" ng-repeat="discipline in vm.registrationData.disciplines">
-          <div class="col-sm-3 col-sm-offset-3 col-xs-6">
-            <button class="o-button o-button--default o-button--flow-list full-width" ng-class="discipline.selected ? 'o-button--success' : 'o-button--default'"
-              ng-click="vm.toggleDiscipline(discipline); vm.onDataChange(vm.registrationData);" ng-disabled="!vm.canSelectMoreDisciplines && !discipline.selected"
-              ng-attr-title="{{!vm.canSelectMoreDisciplines && !discipline.selected ? 'Du kan maksimalt vælge ' + vm.event.maxDisciplinesAllowed + ' ' + (vm.event.maxDisciplinesAllowed === 1 ? 'disciplin' : 'discipliner') + ' ved dette stævne' : ''}}">
-              {{ discipline.name }}
-          </button>
-          </div>
-          <div class="col-sm-3 col-xs-6">
-            <input type="text" ng-model="discipline.personalRecord" class="c-formular-input" placeholder="Personlig rekord" ng-disabled="!discipline.selected"
-            />
+      <div ng-if="vm.eventHasDisciplines">
+        <h2 class="center standout">Hvilke discipliner vil {{ vm.registrationData.name || 'Deltageren' }} stille op i?</h2>
+        <div ng-show="vm.registrationData.disciplines.length > 0">
+          <p class="center">
+            {{ vm.registrationData.name || 'Deltageren' }} bør deltage i klassen <i>{{ vm.registrationData.ageGroup }}</i>,
+            hvor {{ vm.registrationData.gender === 'male' ? 'han' : 'hun' }} kan stille op i følgende discipliner.
+          </p>
+          <p class="center">
+            Vælg discipliner og angiv {{ vm.registrationData.name }}'s personlige rekord, hvis du kender den.
+          </p>
+          <div class="row" ng-repeat="discipline in vm.registrationData.disciplines">
+            <div class="col-sm-3 col-sm-offset-3 col-xs-6">
+              <button class="o-button o-button--default o-button--flow-list full-width" ng-class="discipline.selected ? 'o-button--success' : 'o-button--default'"
+                ng-click="vm.toggleDiscipline(discipline); vm.onDataChange(vm.registrationData);" ng-disabled="!vm.canSelectMoreDisciplines && !discipline.selected"
+                ng-attr-title="{{!vm.canSelectMoreDisciplines && !discipline.selected ? 'Du kan maksimalt vælge ' + vm.event.maxDisciplinesAllowed + ' ' + (vm.event.maxDisciplinesAllowed === 1 ? 'disciplin' : 'discipliner') + ' ved dette stævne' : ''}}">
+                {{ discipline.name }}
+            </button>
+            </div>
+            <div class="col-sm-3 col-xs-6">
+              <input type="text" ng-model="discipline.personalRecord" class="c-formular-input" placeholder="Personlig rekord" ng-disabled="!discipline.selected"
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <div ng-show="!vm.registrationData.disciplines || vm.registrationData.disciplines.length === 0">
-        <p class="center larger-text">
-          Stævnet har desværre ingen discipliner i {{ vm.registrationData.name + 's' || 'deltagerens' }} aldersgruppe
-        </p>
-      </div>
+        <div ng-show="!vm.registrationData.disciplines || vm.registrationData.disciplines.length === 0">
+          <p class="center larger-text">
+            Stævnet har desværre ingen discipliner i {{ vm.registrationData.name + 's' || 'deltagerens' }} aldersgruppe
+          </p>
+        </div>
 
-      <div class="center spacy">
-        <div ng-show="vm.canSelectMoreDisciplines">
-          <a ng-click="vm.addExtraDiscipline()">Klik her</a> hvis du ønsker at tilmelde {{ vm.registrationData.name || 'deltageren'
-          }} til en disciplin i en anden aldersgruppe end {{ vm.registrationData.gender === 'male' ? 'hans' : 'hendes' }}
-          egen
-        </div>
-        <div ng-show="!vm.canSelectMoreDisciplines && vm.registrationData.extraDisciplines.length > 0">
-          Discipliner i andre aldersgrupper
-        </div>
-      </div>
-      <div ng-show="vm.registrationData.extraDisciplines && vm.registrationData.extraDisciplines.length > 0">
-        <div class="row">
-          <div class="col-sm-2 col-sm-offset-2">
-            <div class="text-center spacy">Aldersgruppe</div>
+        <div class="center spacy">
+          <div ng-show="vm.canSelectMoreDisciplines">
+            <a ng-click="vm.addExtraDiscipline()">Klik her</a> hvis du ønsker at tilmelde {{ vm.registrationData.name || 'deltageren'
+            }} til en disciplin i en anden aldersgruppe end {{ vm.registrationData.gender === 'male' ? 'hans' : 'hendes' }}
+            egen
           </div>
-          <div class="col-sm-3">
-            <div class="text-center spacy">Disciplin</div>
-          </div>
-          <div class="col-sm-3">
-            <div class="text-center spacy">Personlig rekord</div>
+          <div ng-show="!vm.canSelectMoreDisciplines && vm.registrationData.extraDisciplines.length > 0">
+            Discipliner i andre aldersgrupper
           </div>
         </div>
-        <div class="row flex flex--center-vertically" ng-repeat="extraDiscipline in vm.registrationData.extraDisciplines">
-          <div class="col-sm-2 col-sm-offset-2 cozy">
-            <select ng-model="extraDiscipline.ageGroup" ng-change="vm.onDataChange(vm.registrationData)" class="c-formular-input c-formular-input--select"
-              placeholder="asd">
-            <option ng-repeat="ageGroup in vm.ageGroups" value="{{ ageGroup }}">{{ageGroup}}</option>
-          </select>
+        <div ng-show="vm.registrationData.extraDisciplines && vm.registrationData.extraDisciplines.length > 0">
+          <div class="row">
+            <div class="col-sm-2 col-sm-offset-2">
+              <div class="text-center spacy">Aldersgruppe</div>
+            </div>
+            <div class="col-sm-3">
+              <div class="text-center spacy">Disciplin</div>
+            </div>
+            <div class="col-sm-3">
+              <div class="text-center spacy">Personlig rekord</div>
+            </div>
           </div>
-          <div class="col-sm-3 cozy">
-            <select ng-model="extraDiscipline.name" ng-change="vm.onDataChange(vm.registrationData)" class="c-formular-input c-formular-input--select">
-            <option ng-repeat="discipline in vm.getAgeGroupDisciplines(extraDiscipline.ageGroup)" 
-              value="{{discipline.name}}">{{discipline.name}}</option>
-          </select>
-          </div>
-          <div class="col-sm-3 cozy">
-            <input type="text" ng-model="extraDiscipline.personalRecord" class="c-formular-input" />
-          </div>
-          <div class="col-sm-1 cozy">
-            <i class="fa fa-remove spacy" title="Fjern disciplin" ng-click="vm.removeExtraDiscipline($index)"></i>
+          <div class="row flex flex--center-vertically" ng-repeat="extraDiscipline in vm.registrationData.extraDisciplines">
+            <div class="col-sm-2 col-sm-offset-2 cozy">
+              <select ng-model="extraDiscipline.ageGroup" ng-change="vm.onDataChange(vm.registrationData)" class="c-formular-input c-formular-input--select"
+                placeholder="asd">
+              <option ng-repeat="ageGroup in vm.ageGroups" value="{{ ageGroup }}">{{ageGroup}}</option>
+            </select>
+            </div>
+            <div class="col-sm-3 cozy">
+              <select ng-model="extraDiscipline.name" ng-change="vm.onDataChange(vm.registrationData)" class="c-formular-input c-formular-input--select">
+              <option ng-repeat="discipline in vm.getAgeGroupDisciplines(extraDiscipline.ageGroup)" 
+                value="{{discipline.name}}">{{discipline.name}}</option>
+            </select>
+            </div>
+            <div class="col-sm-3 cozy">
+              <input type="text" ng-model="extraDiscipline.personalRecord" class="c-formular-input" />
+            </div>
+            <div class="col-sm-1 cozy">
+              <i class="fa fa-remove spacy" title="Fjern disciplin" ng-click="vm.removeExtraDiscipline($index)"></i>
+            </div>
           </div>
         </div>
       </div>
@@ -158,7 +160,13 @@
           <div uib-alert ng-repeat="alert in vm.alerts" class="c-alert" ng-class="'alert-' + (alert.type || 'warning')" close="vm.alerts = []">
             {{alert.msg}}
           </div>
-          <button title="{{vm.validationError}}" class="o-button o-button--primary o-button--large" ng-disabled="!vm.registrationIsValid || vm.registering"
+          <div class="c-alert alert-warning" ng-show="!vm.registrationIsValid">
+            <p><strong>Du mangler at...</strong></p>
+            <div ng-repeat="validationError in vm.validationErrors">
+              {{validationError}}
+            </div>
+          </div>
+          <button class="o-button o-button--primary o-button--large" ng-disabled="!vm.registrationIsValid || vm.registering"
             ng-click="vm.register(vm.registrationData)">
           {{ vm.registering ? "sender tilmelding..." : "Tilmeld" }}
         </button>

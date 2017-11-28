@@ -10,36 +10,58 @@ namespace MyAthleticsClub.Api.ViewModels
 {
     public class AdminConfigResponse
     {
-        private readonly IMapper _autoMapper;
-
-        public EmailOptions EmailOptions { get; }
-        public EnrollmentOptions EnrollmentOptions { get; }
-        public JwtIssuerOptions JwtIssuerOptions { get; }
-        public JwtOptions JwtOptions { get; }
-        public SlackOptions SlackOptions { get; }
+        public object EmailOptions { get; }
+        public object EnrollmentOptions { get; }
+        public object JwtIssuerOptions { get; }
+        public object JwtOptions { get; }
+        public object SlackOptions { get; }
 
         public AdminConfigResponse(
-            IMapper autoMapper,
             IOptions<EmailOptions> emailOptions,
             IOptions<EnrollmentOptions> enrollmentOptions,
             IOptions<JwtIssuerOptions> jwtIssuerOptions,
             IOptions<JwtOptions> jwtOptions,
             IOptions<SlackOptions> slackOptions)
         {
-            _autoMapper = autoMapper;
+            EmailOptions = new
+            {
+                emailOptions.Value.Host,
+                emailOptions.Value.Port,
+                emailOptions.Value.UseSsl,
+                emailOptions.Value.FromName,
+                emailOptions.Value.FromEmail,
+                emailOptions.Value.Username,
+                Password = emailOptions.Value.Password.TakeFirstCharacters(5),
+                emailOptions.Value.Enabled,
+                emailOptions.Value.Templates,
+                ApiKey = emailOptions.Value.ApiKey.TakeFirstCharacters(5)
+            };
 
-            EmailOptions = _autoMapper.Map<EmailOptions>(emailOptions.Value);
-            EmailOptions.Password = EmailOptions.Password.TakeFirstCharacters(3);
+            EnrollmentOptions = new
+            {
+                enrollmentOptions.Value.Enabled,
+                enrollmentOptions.Value.AdminEmail
+            };
 
-            EnrollmentOptions = _autoMapper.Map<EnrollmentOptions>(enrollmentOptions.Value);
+            JwtIssuerOptions = new
+            {
+                jwtIssuerOptions.Value.Issuer,
+                jwtIssuerOptions.Value.Subject,
+                jwtIssuerOptions.Value.Audience,
+                jwtIssuerOptions.Value.NotBefore,
+                jwtIssuerOptions.Value.IssuedAt,
+                jwtIssuerOptions.Value.ValidFor
+            };
 
-            JwtIssuerOptions = _autoMapper.Map<JwtIssuerOptions>(jwtIssuerOptions.Value);
+            JwtOptions = new
+            {
+                TokenKey = jwtOptions.Value.TokenKey.TakeFirstCharacters(5)
+            };
 
-            JwtOptions = _autoMapper.Map<JwtOptions>(jwtOptions.Value);
-            JwtOptions.TokenKey = JwtOptions.TokenKey.TakeFirstCharacters(3);
-
-            SlackOptions = _autoMapper.Map<SlackOptions>(slackOptions.Value);
-            SlackOptions.WebHookUrl = SlackOptions.WebHookUrl.RemoveLastTenCharacters();
+            SlackOptions = new
+            {
+                WebHookUrl = slackOptions.Value.WebHookUrl.RemoveLastTenCharacters()
+            };
         }
     }
 

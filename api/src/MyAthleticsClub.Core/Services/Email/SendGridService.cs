@@ -29,7 +29,7 @@ namespace MyAthleticsClub.Core.Services.Email
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                throw new Exception($"Got unexpected status code '{response.StatusCode}' getting template with id '{id}'");
+                throw new Exception($"Got unexpected status code '{response.StatusCode}' getting template with id '{id}' using api key '{_options.ApiKey}'");
             }
 
             var template = SendGridTemplate.FromJson(await response.Body.ReadAsStringAsync());

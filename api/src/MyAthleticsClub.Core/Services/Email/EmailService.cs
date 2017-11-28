@@ -91,14 +91,14 @@ namespace MyAthleticsClub.Core.Services.Email
 
         public EmailTemplates Templates { get; set; }
 
-        public EmailOptions()
-        {
-            Templates = new EmailTemplates();
-        }
-
         public string ApiKey
         {
             get { return Password; }
+        }
+
+        public EmailOptions()
+        {
+            Templates = new EmailTemplates();
         }
 
         public void Verify()

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MyAthleticsClub.Api.ViewModels;
 using MyAthleticsClub.Core.Models;
 using MyAthleticsClub.Core.Models.Requests;
 using MyAthleticsClub.Core.Services.Interfaces;
@@ -21,7 +22,7 @@ namespace MyAthleticsClub.Api.Controllers
         [ProducesResponseType(typeof(IEnumerable<Member>), 200)]
         public async Task<IActionResult> GetAllMembers()
         {
-            var members = await _memberService.GetAllAsync("gik");
+            var members = await _memberService.GetActiveMembersAsync("gik");
             return Ok(new { items = members });
         }
 
@@ -73,7 +74,7 @@ namespace MyAthleticsClub.Api.Controllers
         [ProducesResponseType(200)]
         public async Task<IActionResult> ChargeAllMembers()
         {
-            await _memberService.ChargeAllAsync("gik");
+            await _memberService.ChargeMembersAsync("gik");
             return Ok();
         }
 
@@ -96,6 +97,14 @@ namespace MyAthleticsClub.Api.Controllers
         {
             var statistics = await _memberService.GetStatistics("gik", date);
             return Ok(statistics);
+        }
+
+        [HttpGet("api/members/available-family-membership-number")]
+        [ProducesResponseType(typeof(AvailableFamilyMembershipNumberResponse), 200)]
+        public async Task<IActionResult> GetAvailableFamilyMembershipNumber()
+        {
+            var number = await _memberService.GetAvailableFamilyMembershipNumberAsync("gik");
+            return Ok(new AvailableFamilyMembershipNumberResponse(number));
         }
     }
 }

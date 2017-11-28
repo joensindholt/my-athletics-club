@@ -170,6 +170,18 @@ module members {
 
       return deferred.promise;
     }
+
+    getAvailableFamilyMembershipNumber(): ng.IPromise<Number> {
+      var deferred = this.$q.defer<Number>();
+
+      this.$http.get(this.API_PATH + '/members/available-family-membership-number').then((response: any) => {
+        deferred.resolve(response.data.number);
+      }).catch(err => {
+        deferred.reject(err)
+      });
+      
+      return deferred.promise;
+    }
   }
 }
 

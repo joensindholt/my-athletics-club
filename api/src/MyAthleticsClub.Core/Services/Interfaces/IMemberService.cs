@@ -8,7 +8,7 @@ namespace MyAthleticsClub.Core.Services.Interfaces
 {
     public interface IMemberService
     {
-        Task<IEnumerable<Member>> GetAllAsync(string organizationId);
+        Task<IEnumerable<Member>> GetActiveMembersAsync(string organizationId);
 
         Task<IEnumerable<Member>> GetTerminatedMembersAsync(string organizationId);
 
@@ -18,10 +18,12 @@ namespace MyAthleticsClub.Core.Services.Interfaces
 
         Task UpdateAsync(Member member);
 
-        Task ChargeAllAsync(string organizationId);
+        Task ChargeMembersAsync(string organizationId);
 
         Task TerminateMembershipAsync(string organizationId, TerminateMembershipRequest command);
 
         Task<MemberStatistics> GetStatistics(string organizationId, DateTime date);
+
+        Task<int> GetAvailableFamilyMembershipNumberAsync(string organizationId);
     }
 }

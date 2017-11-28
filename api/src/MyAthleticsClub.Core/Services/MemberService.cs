@@ -20,14 +20,14 @@ namespace MyAthleticsClub.Core.Services
             _slugGenerator = slugGenerator;
         }
 
-        public async Task<IEnumerable<Member>> GetAllAsync(string organizationId)
+        public async Task<IEnumerable<Member>> GetActiveMembersAsync(string organizationId)
         {
-            return await _memberRepository.GetAllByPartitionKey(organizationId);
+            return await _memberRepository.GetActiveMembersAsync(organizationId);
         }
 
         public async Task<IEnumerable<Member>> GetTerminatedMembersAsync(string organizationId)
         {
-            return await _memberRepository.GetTerminatedMembers(organizationId);
+            return await _memberRepository.GetTerminatedMembersAsync(organizationId);
         }
 
         public async Task<Member> GetAsync(string organizationId, string id)
@@ -52,9 +52,9 @@ namespace MyAthleticsClub.Core.Services
             return await _memberRepository.GetNextMemberNumberAsync(organizationId);
         }
 
-        public async Task ChargeAllAsync(string organizationId)
+        public async Task ChargeMembersAsync(string organizationId)
         {
-            await _memberRepository.ChargeAllAsync(organizationId);
+            await _memberRepository.ChargeMembersAsync(organizationId);
         }
 
         public async Task TerminateMembershipAsync(string organizationId, TerminateMembershipRequest command)
@@ -65,6 +65,11 @@ namespace MyAthleticsClub.Core.Services
         public async Task<MemberStatistics> GetStatistics(string organizationId, DateTime date)
         {
             return await _memberRepository.GetStatistics(organizationId, date);
+        }
+
+        public async Task<int> GetAvailableFamilyMembershipNumberAsync(string organizationId)
+        {
+            return await _memberRepository.GetAvailableFamilyMembershipNumberAsync(organizationId);
         }
     }
 }

@@ -41,6 +41,10 @@ namespace MyAthleticsClub.Core.Repositories
             }
         }
 
+        /// <summary>
+        /// NB: Use with caution. You should almost always use the GetAllByPartition... method instead
+        /// </summary>
+        /// <returns></returns>
         public virtual async Task<IEnumerable<TObject>> GetAllAsync()
         {
             var query = new TableQuery<TEntity>();

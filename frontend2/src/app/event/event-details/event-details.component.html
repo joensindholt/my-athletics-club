@@ -1,0 +1,12 @@
+<div class="card" *ngIf="event">
+  <div class="card-body">
+    <h4 class="card-title">{{event.title}}</h4>
+    <h6 class="card-subtitle mb-3 text-muted">{{event.date}}</h6>
+    <p class="card-text">
+      {{event.address}}
+    </p>
+    <p class="card-text">
+      <a href="{{event.link}}">Læs mere her</a>
+    </p>
+  </div>
+</div>

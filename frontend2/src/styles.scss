@@ -1,0 +1,27 @@
+/* You can add global styles to this file, and also import other style files */
+
+// Bootstrap variables overrides
+
+// Colors from https://dribbble.com/shots/974693-Easy-Note
+$app-dark-grey: #58585c;
+$app-blue: #249cd5;
+$app-light: #ecedf0;
+$app-cyan: #4abcce;
+$app-dark: #1c2836;
+$app-orange: #e26f50;
+$app-light-brown: #8f847f;
+$app-grey: #b7beb6;
+
+// Bootstrap variables
+$body-bg: $app-light;
+$body-color: $app-dark;
+
+$blue: $app-blue;
+$green: #4ace6b;
+
+$border-radius: 0;
+
+// Bootstrap and its default variables
+ @import "../node_modules/bootstrap/scss/bootstrap";
+
+// Custom App Styling - Should contain very little as components define their own css

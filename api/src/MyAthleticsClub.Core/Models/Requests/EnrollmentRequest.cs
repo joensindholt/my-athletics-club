@@ -9,6 +9,9 @@ namespace MyAthleticsClub.Core.Models.Requests
     public class EnrollmentRequest
     {
         [Required]
+        public string MembershipType { get; set; }
+
+        [Required]
         [RegularExpression(".+@.+\\..+", ErrorMessage = "The email address is invalid")]
         public string Email { get; set; }
 

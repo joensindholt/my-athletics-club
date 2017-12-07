@@ -20,6 +20,7 @@ namespace MyAthleticsClub.Api.Controllers
         [HttpGet("api/results")]
         [AllowAnonymous]
         [ProducesResponseType(typeof(IEnumerable<Result>), 200)]
+        [ProducesResponseType(204)]
         public async Task<IActionResult> GetAllResults(CancellationToken cancellationToken)
         {
             var results = await _resultService.GetResultsAsync("gik", cancellationToken);

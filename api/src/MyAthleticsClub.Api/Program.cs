@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +13,7 @@ namespace MyAthleticsClub.Api
         {
             Log.Logger = new LoggerConfiguration()
               .Enrich.FromLogContext()
-              .WriteTo.File(Environment.GetEnvironmentVariable("HOME") + "\\logs\\log.txt")
+              .WriteTo.RollingFile(ResolveLogFilePath())
               .WriteTo.Console()
               .CreateLogger();
 
@@ -28,5 +29,15 @@ namespace MyAthleticsClub.Api
                     config.AddEnvironmentVariables("MyAthleticsClub_");
                 })
                 .Build();
+
+        private static string ResolveLogFilePath()
+        {
+            var home = Environment.GetEnvironmentVariable("HOME");
+            var homePath = Environment.GetEnvironmentVariable("HOMEPATH");
+
+            var path = home ?? homePath;
+
+            return Path.Combine(homePath, "logs", "log-{Date}.txt");
+        }
     }
 }

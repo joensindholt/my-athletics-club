@@ -37,7 +37,7 @@ namespace MyAthleticsClub.Api
 
             var path = home ?? homePath;
 
-            return homePath + "\\logs\\log-{Date}.txt";
+            return path + "\\logs\\log-{Date}.txt";
         }
     }
 }

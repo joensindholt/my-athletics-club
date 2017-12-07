@@ -25,7 +25,7 @@ namespace MyAthleticsClub.Core.Services
         }
 
         /// <summary>
-        /// Gets the Mars events from storage and stores  the resulting result data in storage for client retrieval
+        /// Gets the Mars events from storage and stores the resulting result data in storage for client retrieval
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns>A task</returns>

@@ -37,7 +37,7 @@ namespace MyAthleticsClub.Api
 
             var path = home ?? homePath;
 
-            return Path.Combine(homePath, "logs", "log-{Date}.txt");
+            return homePath + "\\logs\\log-{Date}.txt";
         }
     }
 }

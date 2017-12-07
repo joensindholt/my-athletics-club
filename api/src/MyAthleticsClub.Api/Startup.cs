@@ -1,7 +1,10 @@
 using System;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using AutoMapper;
+using Hangfire;
+using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -19,11 +22,13 @@ using MyAthleticsClub.Api.Core.Authentication;
 using MyAthleticsClub.Api.Infrastructure;
 using MyAthleticsClub.Api.Infrastructure.Authentication;
 using MyAthleticsClub.Api.ViewModels;
+using MyAthleticsClub.Core.Mocks;
 using MyAthleticsClub.Core.Repositories;
 using MyAthleticsClub.Core.Repositories.Interfaces;
 using MyAthleticsClub.Core.Services;
 using MyAthleticsClub.Core.Services.Email;
 using MyAthleticsClub.Core.Services.Interfaces;
+using MyAthleticsClub.Core.Services.MarsEvents;
 using MyAthleticsClub.Core.Slug;
 using MyAthleticsClub.Core.Utilities;
 using Newtonsoft.Json;
@@ -36,14 +41,12 @@ namespace MyAthleticsClub.Api
     {
         public IConfiguration Configuration { get; }
 
-        public Startup(IConfiguration configuration)
+        public IHostingEnvironment HostingEnvironment { get; }
+
+        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
             Configuration = configuration;
-
-            Log.Logger = new LoggerConfiguration()
-              .Enrich.FromLogContext()
-              .WriteTo.File(Environment.GetEnvironmentVariable("HOME") + "\\logs\\log.txt")
-              .CreateLogger();
+            HostingEnvironment = hostingEnvironment;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -56,6 +59,8 @@ namespace MyAthleticsClub.Api
             {
                 options.AddPolicy("Admin", policy => policy.RequireClaim("Role", "Admin"));
             });
+
+            services.AddHangfire(config => config.UseMemoryStorage());
 
             services.AddMvc(config =>
             {
@@ -89,7 +94,8 @@ namespace MyAthleticsClub.Api
         public void Configure(IApplicationBuilder app,
                               IHostingEnvironment env,
                               ILoggerFactory loggerFactory,
-                              IApplicationLifetime appLifetime)
+                              IApplicationLifetime appLifetime,
+                              IBackgroundJobService backgroundJobService)
         {
             loggerFactory
                 .AddConsole(Configuration.GetSection("Logging"))
@@ -114,6 +120,8 @@ namespace MyAthleticsClub.Api
                 }
             });
 
+            app.UseHangfireServer(storage: new MemoryStorage());
+
             app.UseAuthentication();
             app.UseMvc();
 
@@ -128,6 +136,9 @@ namespace MyAthleticsClub.Api
 
             // Serilog: Ensure any buffered events are sent at shutdown
             appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
+
+            // Configure recurring background event result parsing
+            appLifetime.ApplicationStarted.Register(backgroundJobService.Initialize);
 
             LogStartupInformation(app.ApplicationServices);
         }
@@ -182,23 +193,37 @@ namespace MyAthleticsClub.Api
             services.AddScoped<IEnrollmentService, EnrollmentService>();
             services.AddScoped<IEventRegistrationsExcelService, EventRegistrationsExcelService>();
             services.AddScoped<IEventService, EventService>();
+            services.AddScoped<IResultService, ResultService>();
             services.AddScoped<IMemberService, MemberService>();
             services.AddScoped<IRegistrationService, RegistrationService>();
             services.AddScoped<ISlackService, SlackService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IEmailTemplateProvider, SendGridService>();
             services.AddScoped<ITemplateMerger, SendGridService>();
+            services.AddScoped<IMarsEventService, MarsEventService>();
+            services.AddScoped<IBackgroundJobService, BackgroundJobService>();
 
             // Repositories
             services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped<IResultRepository, ResultRepository>();
             services.AddScoped<IMemberRepository, MemberRepository>();
             services.AddScoped<IRegistrationRepository, RegistrationRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IMarsEventRepository, MarsEventRepository>();
 
             // Utilities
             services.AddScoped<IIdGenerator, IdGenerator>();
             services.AddScoped<ISlugGenerator, SlugGenerator>();
             services.AddAutoMapper();
+
+            if (HostingEnvironment.IsDevelopment())
+            {
+                services.AddSingleton<IHttpClientAdapter, MockedHttpClientAdapter>();
+            }
+            else
+            {
+                services.AddSingleton<IHttpClientAdapter, HttpClientAdapter>(provider => new HttpClientAdapter(new HttpClient()));
+            }
 
             // Options configuration
             services.AddScoped<AdminConfigResponse, AdminConfigResponse>();
@@ -218,7 +243,7 @@ namespace MyAthleticsClub.Api
                 Log.Logger.Information("Application started");
                 Log.Logger.Information("-----------------------------");
 
-                Log.Logger.Information("Storage connectionstring: " + Configuration.GetConnectionString("AzureTableStorage"));
+                Log.Logger.Information("Storage connectionstring: {ConnectionString}", Configuration.GetConnectionString("AzureTableStorage"));
 
                 Log.Logger.Information("Options:");
                 Log.Logger.Information(JsonConvert.SerializeObject(scope.ServiceProvider.GetRequiredService<AdminConfigResponse>(), Formatting.Indented));
@@ -226,7 +251,7 @@ namespace MyAthleticsClub.Api
                 Log.Logger.Information("Configuration:");
                 foreach (var item in Configuration.AsEnumerable())
                 {
-                    Log.Logger.Information($"- key: \"{item.Key}\", value: \"{item.Value}\"");
+                    Log.Logger.Information("- key: \"{Key}\", value: \"{Value}\"", item.Key, item.Value);
                 }
 
                 Log.Logger.Information("-----------------------------");

@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using MyAthleticsClub.Core.Mocks;
 using MyAthleticsClub.Core.Repositories.Interfaces;
 using MyAthleticsClub.Core.Services.Interfaces;
 using MyAthleticsClub.Core.Services.MarsEvents;
@@ -66,19 +67,7 @@ namespace MyAthleticsClub.UnitTests.Core.Services.MarsEvents
 
         private MarsEventService BuildMarsEventService()
         {
-            var httpClient = Substitute.For<IHttpClientAdapter>();
-
-            httpClient
-                .GetAsync("http://d.mars-net.dk/Liveboard", CancellationToken.None)
-                .Returns(new HttpResponseMessage() { StatusCode = HttpStatusCode.OK, Content = new StringContent(MarsLiveBoardData.Value) });
-
-            httpClient
-                .GetAsync(Arg.Is<string>(s => Regex.IsMatch(s, "http:\\/\\/d\\.mars-net\\.dk\\/Liveboard\\/Teams\\?meetId=.*")), CancellationToken.None)
-                .Returns(new HttpResponseMessage() { StatusCode = HttpStatusCode.OK, Content = new StringContent(MarsTeamsData.Value) });
-
-            httpClient
-                .GetAsync(Arg.Is<string>(s => Regex.IsMatch(s, "http:\\/\\/d\\.mars-net\\.dk\\/Liveboard\\/Team\\?meetId=.*&teamId=.*&dayNo=0&sortBy=0")), CancellationToken.None)
-                .Returns(new HttpResponseMessage() { StatusCode = HttpStatusCode.OK, Content = new StringContent(MarsTeamData.Value) });
+            var httpClient = new MockedHttpClientAdapter();
 
             var service =
                 new MarsEventService(

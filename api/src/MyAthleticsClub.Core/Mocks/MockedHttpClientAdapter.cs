@@ -16,7 +16,7 @@ namespace MyAthleticsClub.Core.Mocks
         {
             var knownUrls = new List<(Regex regex, string response)>
             {
-                (new Regex("http://d.mars-net.dk/Liveboard"), MarsLiveboardResponse.Value),
+                (new Regex("http:\\/\\/d\\.mars-net\\.dk\\/Liveboard$"), MarsLiveboardResponse.Value),
                 (new Regex("http:\\/\\/d\\.mars-net\\.dk\\/Liveboard\\/Teams\\?meetId=.*"), MarsTeamsResponse.Value),
                 (new Regex("http:\\/\\/d\\.mars-net\\.dk\\/Liveboard\\/Team\\?meetId=.*&teamId=.*&dayNo=0&sortBy=0"), MarsTeamResponse.Value)
             };

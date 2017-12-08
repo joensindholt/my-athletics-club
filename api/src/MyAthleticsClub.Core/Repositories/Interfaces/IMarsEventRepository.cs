@@ -7,7 +7,7 @@ namespace MyAthleticsClub.Core.Repositories.Interfaces
 {
     public interface IMarsEventRepository
     {
-        Task<MarsEvent> GetLastRetrievedEventAsync(string organizationId, CancellationToken cancellationToken);
+        Task<MarsEvent> GetLastRetrievedEventAsync(string organizationId, string parserName, CancellationToken cancellationToken);
 
         Task AddEventsAsync(IEnumerable<MarsEvent> events, CancellationToken cancellationToken);
 

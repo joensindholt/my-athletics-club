@@ -201,6 +201,7 @@ namespace MyAthleticsClub.Api
             services.AddScoped<IEmailTemplateProvider, SendGridService>();
             services.AddScoped<ITemplateMerger, SendGridService>();
             services.AddScoped<IMarsEventService, MarsEventService>();
+            services.AddScoped<IMarsParserFactory, MarsParserFactory>();
             services.AddScoped<IBackgroundJobService, BackgroundJobService>();
 
             // Repositories
@@ -216,6 +217,7 @@ namespace MyAthleticsClub.Api
             services.AddScoped<ISlugGenerator, SlugGenerator>();
             services.AddAutoMapper();
 
+            // We use mocked http responses when in development to avoid relying to much on 3rd party services being up
             if (HostingEnvironment.IsDevelopment())
             {
                 services.AddSingleton<IHttpClientAdapter, MockedHttpClientAdapter>();

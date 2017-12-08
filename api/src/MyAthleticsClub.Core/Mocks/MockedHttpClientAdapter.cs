@@ -31,7 +31,7 @@ namespace MyAthleticsClub.Core.Mocks
                 return await Task.FromResult(new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent(response) });
             }
 
-            return new HttpResponseMessage { StatusCode = HttpStatusCode.NotFound };
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.NotFound, ReasonPhrase = "No mocked response defined for url" };
         }
     }
 }

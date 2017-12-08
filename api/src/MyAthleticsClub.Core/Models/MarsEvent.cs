@@ -16,16 +16,23 @@ namespace MyAthleticsClub.Core.Models
 
         public string MeetId { get; set; }
 
+        /// <summary>
+        /// The parser with which the event was found (MarsNet, IMars, ...)
+        /// </summary>
+        public string Parser { get; set; }
+
         public MarsEvent(
             string meetId,
             string title,
             string link,
-            IEnumerable<Result> results)
+            IEnumerable<Result> results,
+            string parser)
         {
             MeetId = meetId;
             Title = title;
             Link = link;
             Results = results;
+            Parser = parser;
         }
 
         public string GetTitle()

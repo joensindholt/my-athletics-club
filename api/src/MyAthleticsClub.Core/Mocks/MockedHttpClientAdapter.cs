@@ -18,7 +18,11 @@ namespace MyAthleticsClub.Core.Mocks
             {
                 (new Regex("http:\\/\\/d\\.mars-net\\.dk\\/Liveboard$"), MarsLiveboardResponse.Value),
                 (new Regex("http:\\/\\/d\\.mars-net\\.dk\\/Liveboard\\/Teams\\?meetId=.*"), MarsTeamsResponse.Value),
-                (new Regex("http:\\/\\/d\\.mars-net\\.dk\\/Liveboard\\/Team\\?meetId=.*&teamId=.*&dayNo=0&sortBy=0"), MarsTeamResponse.Value)
+                (new Regex("http:\\/\\/d\\.mars-net\\.dk\\/Liveboard\\/Team\\?meetId=.*&teamId=.*&dayNo=0&sortBy=0"), MarsTeamResponse.Value),
+
+                (new Regex("http:\\/\\/imars\\.dk\\/Liveboard$"), IMarsLiveboardResponse.Value),
+                (new Regex("http:\\/\\/imars\\.dk\\/Liveboard\\/Teams\\?meetId=.*"), IMarsTeamsResponse.Value),
+                (new Regex("http:\\/\\/imars\\.dk\\/Liveboard\\/Team\\?meetId=.*&teamId=.*&dayNo=0&sortBy=0"), IMarsTeamResponse.Value),
             };
 
             if (knownUrls.Any(k => k.regex.IsMatch(url)))
@@ -27,7 +31,7 @@ namespace MyAthleticsClub.Core.Mocks
                 return await Task.FromResult(new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent(response) });
             }
 
-            return new HttpResponseMessage { StatusCode = HttpStatusCode.NotFound };
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.NotFound, ReasonPhrase = "No mocked response defined for url" };
         }
     }
 }

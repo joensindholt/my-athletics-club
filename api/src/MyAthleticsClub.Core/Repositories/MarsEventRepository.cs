@@ -31,10 +31,17 @@ namespace MyAthleticsClub.Core.Repositories
             return await base.GetAllByPartitionKey(organizationId);
         }
 
-        public async Task<MarsEvent> GetLastRetrievedEventAsync(string organizationId, CancellationToken cancellationToken)
+        public async Task<MarsEvent> GetLastRetrievedEventAsync(string organizationId, string parser, CancellationToken cancellationToken)
         {
             var events = await base.GetAllByPartitionKey(organizationId);
+
+            if (parser != null)
+            {
+                events = events.Where(e => e.Parser == parser);
+            }
+
             var lastEvent = events.OrderByDescending(e => e.GetDate()).FirstOrDefault();
+
             return lastEvent;
         }
 
@@ -44,7 +51,8 @@ namespace MyAthleticsClub.Core.Repositories
                 entity.MeetId,
                 entity.Title,
                 entity.Link,
-                JsonConvert.DeserializeObject<IEnumerable<MarsEvent.Result>>(entity.ResultsJson));
+                JsonConvert.DeserializeObject<IEnumerable<MarsEvent.Result>>(entity.ResultsJson),
+                entity.Parser);
         }
 
         protected override MarsEventEntity ConvertObjectToEntity(MarsEvent model)
@@ -54,7 +62,8 @@ namespace MyAthleticsClub.Core.Repositories
                 model.MeetId,
                 model.Title,
                 model.Link,
-                JsonConvert.SerializeObject(model.Results));
+                JsonConvert.SerializeObject(model.Results),
+                model.Parser);
         }
     }
 }

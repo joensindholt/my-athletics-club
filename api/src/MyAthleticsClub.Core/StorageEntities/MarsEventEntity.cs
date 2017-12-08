@@ -12,6 +12,11 @@ namespace MyAthleticsClub.Core.StorageEntities
 
         public string ResultsJson { get; set; }
 
+        /// <summary>
+        /// The parser with which the event was found (MarsNet, IMars, ...)
+        /// </summary>
+        public string Parser { get; set; }
+
         public MarsEventEntity()
         {
             ETag = "*";
@@ -22,12 +27,14 @@ namespace MyAthleticsClub.Core.StorageEntities
             string meetId,
             string title,
             string link,
-            string resultsJson) : base(organizationId, meetId)
+            string resultsJson,
+            string parser) : base(organizationId, meetId)
         {
             MeetId = meetId;
             Title = title;
             Link = link;
             ResultsJson = resultsJson;
+            Parser = parser;
 
             ETag = "*";
         }

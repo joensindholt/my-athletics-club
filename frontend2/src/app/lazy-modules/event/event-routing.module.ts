@@ -3,18 +3,12 @@ import { RouterModule } from '@angular/router';
 
 import { EventComponent } from './event.component';
 import { EventDetailsComponent } from './event-details/event-details.component';
-import { AuthGuardService } from '../core/auth-guard.service';
+import { AuthGuardService } from '../../core/auth-guard.service';
 
+/* The event module is lazy loaded so the path should be empty.
+   The app routing module defines the subpath this module is loaded under */
 const routes = [
-  {
-    path: 'event',
-    component: EventComponent,
-    canActivate: [AuthGuardService],
-    canActivateChild: [AuthGuardService],
-    children: [
-      { path: ':id', component: EventDetailsComponent }
-    ]
-  }
+  { path: '', component: EventComponent, canActivate: [AuthGuardService] }
 ];
 
 @NgModule({
@@ -22,3 +16,4 @@ const routes = [
   exports: [RouterModule]
 })
 export class EventRoutingModule { }
+

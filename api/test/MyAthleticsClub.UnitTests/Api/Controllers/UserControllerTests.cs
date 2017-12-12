@@ -1,4 +1,5 @@
 using System;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,7 +33,8 @@ namespace MyAthleticsClub.UnitTests.Api.Controllers
                 new UserController(
                     Options.Create(GetTestJwtOptions()),
                     Substitute.For<ILogger<UserController>>(),
-                    userServiceMock);
+                    userServiceMock,
+                    Substitute.For<HttpClient>());
 
             // Act
             var result = await userController.Login(user);

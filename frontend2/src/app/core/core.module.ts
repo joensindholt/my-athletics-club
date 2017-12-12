@@ -7,11 +7,13 @@ import { ApiService } from './api.service';
 import { UserService } from './user.service';
 import { AuthGuardService } from './auth-guard.service';
 import { LoginComponent } from './login/login.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   declarations: [
     NavbarComponent,

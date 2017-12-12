@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -199,6 +200,7 @@ namespace MyAthleticsClub.Api
             services.AddScoped<IIdGenerator, IdGenerator>();
             services.AddScoped<ISlugGenerator, SlugGenerator>();
             services.AddAutoMapper();
+            services.AddSingleton(new HttpClient());
 
             // Options configuration
             services.AddScoped<AdminConfigResponse, AdminConfigResponse>();

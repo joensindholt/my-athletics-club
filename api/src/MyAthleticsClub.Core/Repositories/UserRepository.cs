@@ -1,6 +1,5 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using MyAthleticsClub.Core.Models;
 using MyAthleticsClub.Core.Repositories.Interfaces;
@@ -19,6 +18,12 @@ namespace MyAthleticsClub.Core.Repositories
         {
             var users = await GetAllAsync();
             return users.FirstOrDefault(u => u.Username == username && u.Password == password);
+        }
+
+        public async Task<User> FindByEmailAsync(string email)
+        {
+            var users = await GetAllAsync();
+            return users.FirstOrDefault(u => u.Username == email);
         }
 
         protected override User ConvertEntityToObject(UserEntity entity)

@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { EventModule } from './event/event.module';
+import { MemberModule } from './member/member.module';
 import { AuthGuardService } from './core/auth-guard.service';
 import { LoginComponent } from './core/login/login.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'event', pathMatch: 'full' },
-  { path: 'member', loadChildren: 'app/lazy-modules/member/member.module#MemberModule' },
+  { path: '', redirectTo: 'member', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'event', loadChildren: 'app/lazy-modules/event/event.module#EventModule' },
 ];
 
 @NgModule({
   imports: [
-    EventModule,
+    MemberModule,
     RouterModule.forRoot(routes),
   ],
   exports: [RouterModule]

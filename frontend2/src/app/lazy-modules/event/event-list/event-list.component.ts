@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ApiService } from '../../core/api.service';
+import { ApiService } from '../../../core/api.service';
 
 @Component({
   selector: 'app-event-list',
@@ -9,7 +9,7 @@ import { ApiService } from '../../core/api.service';
 })
 export class EventListComponent implements OnInit {
 
-  private events: Array<any>;
+  events: Array<any>;
 
   constructor(
     private apiService: ApiService

@@ -4,6 +4,7 @@
 
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MyAthleticsClub.Api.Core.Authentication;
+using MyAthleticsClub.Api.ViewModels;
 using MyAthleticsClub.Core.Models;
 using MyAthleticsClub.Core.Services.Interfaces;
 using MyAthleticsClub.Core.Utilities;
@@ -23,8 +25,13 @@ namespace MyAthleticsClub.Api.Controllers
         private readonly JwtIssuerOptions _jwtOptions;
         private readonly ILogger _logger;
         private readonly IUserService _userService;
+        private readonly HttpClient _httpClient;
 
-        public UserController(IOptions<JwtIssuerOptions> jwtOptions, ILogger<UserController> logger, IUserService userService)
+        public UserController(
+            IOptions<JwtIssuerOptions> jwtOptions,
+            ILogger<UserController> logger,
+            IUserService userService,
+            HttpClient httpClient)
         {
             _logger = logger;
 
@@ -32,11 +39,13 @@ namespace MyAthleticsClub.Api.Controllers
             JwtIssuerOptionsValidator.EnsureValidOptions(_jwtOptions);
 
             _userService = userService;
+            _httpClient = httpClient;
         }
 
         [HttpPost]
         [Route("/api/login")]
         [AllowAnonymous]
+        [ProducesResponseType(typeof(LoginResponse), 200)]
         public async Task<IActionResult> Login([FromBody] User applicationUser)
         {
             var identity = await _userService.TryGetClaimsIdentityAsync(applicationUser);
@@ -46,12 +55,53 @@ namespace MyAthleticsClub.Api.Controllers
                 return BadRequest("Invalid credentials");
             }
 
+            (string encodedJwt, DateTime expiration) = await GetJwtTokenAsync(applicationUser.Username, "Admin");
+
+            // Serialize and return the response
+            var response = new LoginResponse(applicationUser.Username, encodedJwt, expiration.ToUnixEpochDate());
+
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("/api/login-google")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(LoginResponse), 200)]
+        public async Task<IActionResult> LoginGoogle([FromBody] GoogleLoginRequest login)
+        {
+            var response = await _httpClient.GetAsync("https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=" + login.IdToken);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest(response.ReasonPhrase);
+            }
+
+            var content = await response.Content.ReadAsStringAsync();
+            var claims = JsonConvert.DeserializeObject<GoogleTokenClaims>(content);
+
+            var user = await _userService.FindByEmailAsync(claims.Email);
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            (string encodedJwt, DateTime expiration) = await GetJwtTokenAsync(user.Username, "Admin");
+
+            // Serialize and return the response
+            var result = new LoginResponse(user.Username, encodedJwt, expiration.ToUnixEpochDate());
+
+            return Ok(result);
+        }
+
+        private async Task<(string encodedJwt, DateTime expiration)> GetJwtTokenAsync(string username, string role)
+        {
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, applicationUser.Username),
+                new Claim(JwtRegisteredClaimNames.Sub, username),
                 new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
                 new Claim(JwtRegisteredClaimNames.Iat, _jwtOptions.IssuedAt.ToUnixEpochDate().ToString(), ClaimValueTypes.Integer64),
-                identity.FindFirst("Role")
+                new Claim("Role", role)
             };
 
             // Create the JWT security token and encode it.
@@ -68,25 +118,14 @@ namespace MyAthleticsClub.Api.Controllers
 
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
-            // Serialize and return the response
-            var response = new
-            {
-                access_token = encodedJwt,
-                expires = expiration.ToUnixEpochDate()
-            };
-
-            var json = JsonConvert.SerializeObject(response, new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented
-            });
-
-            return new OkObjectResult(json);
+            return (encodedJwt, expiration);
         }
 
         // This route needs auth by default so if it returns ok
         // the user is logged in
         [HttpGet]
         [Route("/api/isloggedin")]
+        [ProducesResponseType(200)]
         public IActionResult IsLoggedIn()
         {
             return Ok();

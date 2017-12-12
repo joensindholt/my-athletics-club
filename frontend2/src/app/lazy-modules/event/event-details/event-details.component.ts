@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ApiService } from '../../core/api.service';
+import { ApiService } from '../../../core/api.service';
 
 @Component({
   selector: 'app-event-details',
@@ -9,7 +9,7 @@ import { ApiService } from '../../core/api.service';
 })
 export class EventDetailsComponent implements OnInit {
 
-  private event: any;
+  event: any;
 
   constructor(
     private route: ActivatedRoute,

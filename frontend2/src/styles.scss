@@ -25,3 +25,6 @@ $border-radius: 0;
  @import "../node_modules/bootstrap/scss/bootstrap";
 
 // Custom App Styling - Should contain very little as components define their own css
+#googleLogin > div {
+  width: 100% !important;
+}

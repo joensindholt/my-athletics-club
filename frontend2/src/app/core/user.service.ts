@@ -5,6 +5,7 @@ import { of } from 'rxjs/observable/of';
 import { ApiService } from './api.service';
 import { Subject } from 'rxjs/Subject';
 import { User } from './user';
+import { AccessTokenService } from './access-token.service';
 
 @Injectable()
 export class UserService {
@@ -15,7 +16,8 @@ export class UserService {
   private googleAuth: any;
 
   constructor(
-    private apiService: ApiService
+    private apiService: ApiService,
+    private accessTokenService: AccessTokenService
   ) {
     this.init();
 
@@ -29,14 +31,8 @@ export class UserService {
   }
 
   init() {
-    let userJson = localStorage.getItem('user');
 
-    if (!userJson || userJson === 'null') {
-      console.info('no user found in local storage');
-      return;
-    }
-
-    let user: User = JSON.parse(userJson);
+    let user = this.accessTokenService.getUser();
 
     if (user.expires * 1000 <= (new Date()).valueOf()) {
       console.info('access token expired', user.expires * 1000, new Date().valueOf());
@@ -70,13 +66,13 @@ export class UserService {
   handleSuccessfullLogin(user: User) {
     this.isLoggedIn$.next(true);
     this.loggedInUser$.next(user);
-    localStorage.setItem('user', JSON.stringify(user));
-}
+    this.accessTokenService.storeUser(user);
+  }
 
   logout() {
     this.googleAuth.disconnect();
     this.isLoggedIn$.next(false);
     this.loggedInUser$.next(null);
-    localStorage.setItem('user', '');
+    this.accessTokenService.clearUser();
   }
 }

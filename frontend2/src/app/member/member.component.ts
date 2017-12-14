@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Member } from "./member";
 
 @Component({
   selector: 'app-member',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MemberComponent implements OnInit {
 
+  selectedMember: Member;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onMemberSelected(member: Member) {
+    this.selectedMember = member;
   }
 
 }

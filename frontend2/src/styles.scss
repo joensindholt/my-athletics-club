@@ -20,6 +20,7 @@ $blue: $app-blue;
 $green: #4ace6b;
 
 $border-radius: 0;
+$enable-rounded: false;
 
 // Bootstrap and its default variables
  @import "../node_modules/bootstrap/scss/bootstrap";
@@ -27,4 +28,15 @@ $border-radius: 0;
 // Custom App Styling - Should contain very little as components define their own css
 #googleLogin > div {
   width: 100% !important;
+}
+
+.form-control-edit-inline {
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  line-height: 1.3;
+}
+
+.form-control-edit-inline-h4 {
+  font-size: $h4-font-size;
 }

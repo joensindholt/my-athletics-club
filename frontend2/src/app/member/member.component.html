@@ -1,5 +1,8 @@
-<div class="card">
-  <div class="card-body">
-    member works!
+<div class="row">
+  <div class="col-md-6 col-lg-4 100-wh">
+    <app-member-list (memberSelected)="onMemberSelected($event)"></app-member-list>
+  </div>
+  <div class="col-md-6 col-lg-4" *ngIf="selectedMember">
+    <app-member-details [member]="selectedMember"></app-member-details>
   </div>
 </div>

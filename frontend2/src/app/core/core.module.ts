@@ -7,13 +7,15 @@ import { ApiService } from './api.service';
 import { UserService } from './user.service';
 import { AuthGuardService } from './auth-guard.service';
 import { LoginComponent } from './login/login.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AccessTokenService } from './access-token.service';
 
 @NgModule({
   imports: [
     CommonModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     NavbarComponent,
@@ -25,7 +27,8 @@ import { FormsModule } from '@angular/forms';
   providers: [
     ApiService,
     UserService,
-    AuthGuardService
+    AuthGuardService,
+    AccessTokenService
   ]
 })
 export class CoreModule {

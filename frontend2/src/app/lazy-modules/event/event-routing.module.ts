@@ -8,7 +8,14 @@ import { AuthGuardService } from '../../core/auth-guard.service';
 /* The event module is lazy loaded so the path should be empty.
    The app routing module defines the subpath this module is loaded under */
 const routes = [
-  { path: '', component: EventComponent, canActivate: [AuthGuardService] }
+  {
+    path: '',
+    component: EventComponent,
+    canActivate: [AuthGuardService],
+    children: [
+      { path: ':id', component: EventDetailsComponent}
+    ]
+  },
 ];
 
 @NgModule({

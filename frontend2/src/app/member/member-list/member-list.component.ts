@@ -10,7 +10,7 @@ import { Member } from "../member";
 export class MemberListComponent implements OnInit {
 
   members: Member[];
-  memberFilter: Member = { name: '' };
+  memberFilter: any = { name: '' };
 
   @Output() memberSelected: EventEmitter<Member> = new EventEmitter();
 
@@ -20,7 +20,12 @@ export class MemberListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.apiService.get('/members').subscribe(memberData => this.members = memberData.items);
+    this.apiService.get('/members').subscribe(memberData => {
+      this.members = memberData.items;
+      if (this.members.length > 0){
+        this.selectMember(this.members[0]);
+      }
+    });
   }
 
   selectMember(member: Member) {

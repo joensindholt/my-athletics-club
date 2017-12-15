@@ -1,0 +1,15 @@
+<div [formGroup]="group">
+  <div class="mb-2">
+    <small class="text-muted">{{ config.label }}</small>
+    <input #datepicker
+           class="form-control form-control-edit-inline"
+           [ngClass]="{ 'is-invalid': group.controls[config.name].touched && group.controls[config.name].invalid }"
+           [formControlName]="config.name">
+    <!-- validation -->
+    <div class="invalid-feedback">
+      <div *ngFor="let error of group.controls[config.name].errors | keys">
+        {{ config.errorMessages[error] || 'MISSING ERRORMESSAGE FOR FIELD: ' + error }}
+      </div>
+    </div>
+  </div>
+</div>

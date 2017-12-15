@@ -10,10 +10,6 @@ const routes = [
     component: MemberComponent,
     canActivate: [AuthGuardService],
     canActivateChild: [AuthGuardService]
-    // ,
-    // children: [
-    //   { path: ':id', component: MemberDetailsComponent }
-    // ]
   }
 ];
 

@@ -5,3 +5,13 @@ interface NodeModule {
 }
 
 declare var gapi: any;
+
+interface DatePickerOptions {
+  autoShow?: boolean;
+  autoHide?: boolean;
+  format?: string;
+}
+
+interface JQuery {
+  datepicker: (options?: DatePickerOptions) => any;
+}

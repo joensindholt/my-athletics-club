@@ -25,14 +25,18 @@ export class UserService {
       this.googleAuth = gapi.auth2.init({
         client_id: '90031089579-ejh2po3lssvusiea848mr2h1ksg2648c.apps.googleusercontent.com'
       });
-
-      console.log('this.googleAuth', this.googleAuth);
     });
   }
 
   init() {
 
     let user = this.accessTokenService.getUser();
+
+    if (!user) {
+      this.loggedInUser$.next(null);
+      this.isLoggedIn$.next(false);
+      return;
+      }
 
     if (user.expires * 1000 <= (new Date()).valueOf()) {
       console.info('access token expired', user.expires * 1000, new Date().valueOf());

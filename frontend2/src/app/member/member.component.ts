@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Member } from "./member";
 
 @Component({
@@ -8,15 +9,16 @@ import { Member } from "./member";
 })
 export class MemberComponent implements OnInit {
 
-  selectedMember: Member;
+  selectedMember: BehaviorSubject<Member>;
 
   constructor() { }
 
   ngOnInit() {
+    this.selectedMember = new BehaviorSubject<Member>(null);
   }
 
   onMemberSelected(member: Member) {
-    this.selectedMember = member;
+    this.selectedMember.next(member);
   }
 
 }

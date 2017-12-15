@@ -29,7 +29,7 @@ export class ApiService {
     var user = this.accessTokenService.getUser();
 
     if (!user) {
-      return null;
+      return { headers: new HttpHeaders() };
     }
 
     var options = {

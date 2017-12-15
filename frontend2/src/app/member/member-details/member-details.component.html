@@ -1,48 +1,13 @@
-<div class="card">
+<div class="card"
+     *ngIf="member">
   <div class="card-header bg-dark">
-    <input type="text" class="form-control form-control-lg form-control-edit-inline form-control-edit-inline-h4 mb-0 bg-dark text-white"
-      [(ngModel)]="member.name">
+    <input type="text"
+           class="form-control form-control-lg form-control-edit-inline form-control-edit-inline-h4 mb-0 bg-dark text-white"
+           [(ngModel)]="member.name">
     <small class="text-muted">{{member.number}}</small>
   </div>
   <div class="card-body">
-
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="mb-2">
-          <small class="text-muted">Køn</small>
-          <input type="text" class="form-control form-control-sm form-control-edit-inline" [(ngModel)]="member.gender">
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <div class="mb-2">
-          <small class="text-muted">Hold</small>
-          <input type="text" class="form-control form-control-sm form-control-edit-inline" [(ngModel)]="member.team">
-        </div>
-      </div>
-      <div class="col-sm-12">
-        <div class="mb-2">
-          <small class="text-muted">E-mail</small>
-          <input type="text" class="form-control form-control-sm form-control-edit-inline" [(ngModel)]="member.email">
-        </div>
-      </div>
-      <div class="col-sm-12">
-        <div class="mb-2">
-          <small class="text-muted">E-mail 2</small>
-          <input type="text" class="form-control form-control-sm form-control-edit-inline" [(ngModel)]="member.email2">
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <div class="mb-2">
-          <small class="text-muted">Fødselsdato</small>
-          <input type="text" class="form-control form-control-sm form-control-edit-inline" [(ngModel)]="member.birthDate">
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <div class="mb-2">
-          <small class="text-muted">Familiemedlemskab</small>
-          <input type="text" class="form-control form-control-sm form-control-edit-inline" [(ngModel)]="member.familyMembershipNumber">
-        </div>
-      </div>
-    </div>
+    <app-dynamic-form [config]="config"
+                      (submitted)="formSubmitted($event)"></app-dynamic-form>
   </div>
 </div>

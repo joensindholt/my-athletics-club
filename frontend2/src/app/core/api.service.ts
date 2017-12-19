@@ -25,6 +25,11 @@ export class ApiService {
     return this.http.post(absoluteUrl, body, this.getOptions());
   }
 
+  put(url: string, body: any): Observable<any> {
+    let absoluteUrl = this.API_URL + url;
+    return this.http.put(absoluteUrl, body, this.getOptions());
+  }
+
   getOptions(): { headers: HttpHeaders } {
     var user = this.accessTokenService.getUser();
 

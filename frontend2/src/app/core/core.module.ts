@@ -9,6 +9,7 @@ import { AuthGuardService } from './auth-guard.service';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AccessTokenService } from './access-token.service';
+import { DateService } from "./date.service";
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { AccessTokenService } from './access-token.service';
     ApiService,
     UserService,
     AuthGuardService,
-    AccessTokenService
+    AccessTokenService,
+    DateService
   ]
 })
 export class CoreModule {

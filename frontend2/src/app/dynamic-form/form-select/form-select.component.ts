@@ -1,18 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup } from "@angular/forms";
-import { DynamicFormField } from "../dynamic-form-field";
 
 @Component({
   selector: 'app-form-select',
   templateUrl: './form-select.component.html',
-  styleUrls: ['./form-select.component.scss'],
-  host: {
-    '[class]': "config.width === 'half' ? 'col-sm-6' : 'col-sm-12'"
-  }
+  styleUrls: ['./form-select.component.scss']
 })
 export class FormSelectComponent {
 
-  config: DynamicFormField;
-  group: FormGroup;
+  @Input()
+  field: string;
 
+  @Input()
+  label: string;
+
+  @Input()
+  placeholder?: string;
+
+  @Input()
+  options: any[];
+
+  @Input()
+  validations: any[];
+
+  @Input()
+  formGroup: FormGroup;
 }

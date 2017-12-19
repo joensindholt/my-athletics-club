@@ -1,15 +1,25 @@
-<div [formGroup]="group">
-  <div class="mb-2">
-    <small class="text-muted">{{ config.label }}</small>
-    <input type="text"
-           class="form-control form-control-edit-inline"
-           [ngClass]="{ 'is-invalid': group.controls[config.name].touched && group.controls[config.name].invalid }"
-           [attr.placeholder]="config.placeholder"
-           [formControlName]="config.name">
-    <!-- validation -->
-    <div class="invalid-feedback">
-      <div *ngFor="let error of group.controls[config.name].errors | keys">
-        {{ config.errorMessages[error] || 'MISSING ERRORMESSAGE FOR FIELD: ' + error }}
+<div [formGroup]="formGroup">
+  <div class="row">
+    <div class="col">
+      <small class="text-muted"
+             *ngIf="label">{{ label }}</small>
+    </div>
+    <div class="col-auto">
+      <ng-content></ng-content>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <input type="text"
+             [class]="'form-control form-control-edit-inline ' + inputClass"
+             [formControlName]="field"
+             [ngClass]="{ 'is-invalid': formGroup.get(field).invalid }"
+             [attr.placeholder]="placeholder">
+      <div class="invalid-feedback"
+           *ngFor="let validation of validations">
+        <div *ngIf="formGroup.get(field).hasError(validation.key) && formGroup.get(field).touched">
+          {{ validation.value }}
+        </div>
       </div>
     </div>
   </div>

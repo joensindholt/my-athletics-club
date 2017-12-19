@@ -1,9 +1,11 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Member } from "../member";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { FormGroup, FormControl, Validators, FormBuilder } from "@angular/forms";
 import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
-import { DynamicFormField } from "../../dynamic-form/dynamic-form-field";
+import * as moment from 'moment';
+import { Member } from "../member";
+import { ApiService } from "../../core/api.service";
+import { DateService } from "../../core/date.service";
 
 @Component({
   selector: 'app-member-details',
@@ -15,118 +17,71 @@ export class MemberDetailsComponent implements OnChanges {
   @Input()
   member: Member;
 
-  config: DynamicFormField[];
+  form: FormGroup;
+  terminationForm: FormGroup;
+  memberTerminateActive: boolean;
+  submitMemberButtonText: string = 'Gem';
 
-  constructor() { }
+  constructor(
+    private apiService: ApiService,
+    private dateService: DateService,
+    private fb: FormBuilder
+  ) {
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['member']) {
-      this.config = [
-        {
-          type: 'select',
-          label: 'Køn',
-          name: 'gender',
-          placeholder: 'Vælg køn',
-          value: this.member ? this.member.gender : '',
-          width: 'half',
-          options: [
-            { value: 1, text: 'Pige' },
-            { value: 2, text: 'Dreng' }
-          ],
-          validators: [
-            Validators.required
-          ],
-          errorMessages: {
-            'required': 'Vælg køn'
-          }
-        },
-        {
-          type: 'select',
-          label: 'Hold',
-          name: 'team',
-          placeholder: 'Vælg et hold',
-          value: this.member ? this.member.team : '',
-          width: 'half',
-          options: [
-            { value: 1, text: 'Minierne' },
-            { value: 2, text: 'Mellemholdet' },
-            { value: 3, text: 'Storeholdet' }
-          ],
-          validators: [
-            Validators.required
-          ],
-          errorMessages: {
-            'required': 'Vælg et hold'
-          }
-        },
-        {
-          type: 'input',
-          label: 'E-mail',
-          name: 'email',
-          placeholder: 'Indtast en e-mail adresse',
-          value: this.member ? this.member.email : '',
-          width: 'full',
-          validators: [
-            Validators.required,
-            Validators.email
-          ],
-          errorMessages: {
-            'required': 'Indtast en e-mail adresse',
-            'email': 'Indtast venligst en gyldig e-mail adresse'
-          }
-        },
-        {
-          type: 'input',
-          label: 'E-mail 2',
-          name: 'email2',
-          placeholder: '',
-          value: this.member ? this.member.email2 : '',
-          width: 'full',
-          validators: [
-            (control) => !control.value ? null : Validators.email(control)
-          ],
-          errorMessages: {
-            'email': 'Indtast venligst en gyldig e-mail adresse'
-          }
-        },
-        {
-          type: 'date',
-          label: 'Fødselsdato',
-          name: 'birthDate',
-          value: this.member ? this.member.birthDate : null,
-          width: 'half',
-          validators: [
-            Validators.pattern(/^\d{2}-\d{2}-\d{4}$/)
-          ],
-          errorMessages: {
-            'pattern': 'Indtast venligst en gyldig dato'
-          }
-        },
-        {
-          type: 'input',
-          label: 'Familiemedlemskab',
-          name: 'familyMembershipNumber',
-          placeholder: '',
-          value: this.member ? this.member.familyMembershipNumber : '',
-          width: 'half',
-          validators: [
-            Validators.pattern(/^\d*$/)
-          ],
-          errorMessages: {
-            'pattern': 'Familiemedlemskabsnummeret må kun bestå af tal'
-          }
-        },
-        {
-          label: 'Gem',
-          name: 'submit',
-          type: 'button'
-        }
-      ];
+
+      this.form = this.fb.group({
+        name: [this.member ? this.member.name : null, Validators.required],
+        gender: [this.member ? this.member.gender : null, Validators.required],
+        team: [this.member ? this.member.team : null, Validators.required],
+        email: [this.member ? this.member.email : null, Validators.compose([Validators.required, Validators.email])],
+        email2: [this.member ? this.member.email2 : null, (control) => !control.value ? null : Validators.email(control)],
+        birthDate: [this.member ? this.dateService.apiDateToString(this.member.birthDate) : null, Validators.pattern(/^\d{2}-\d{2}-\d{4}$/)],
+        familyMembershipNumber: [this.member ? this.member.familyMembershipNumber : null, Validators.pattern(/^\d*$/)],
+        startDate: [this.member ? this.dateService.apiDateToString(this.member.startDate) : null, Validators.pattern(/^\d{2}-\d{2}-\d{4}$/)]
+      });
+
+      this.terminationForm = this.fb.group({
+        terminationDate: [moment().format('DD-MM-YYYY'), Validators.compose([Validators.required, Validators.pattern(/^\d{2}-\d{2}-\d{4}$/)])]
+      })
     }
   }
 
-  formSubmitted($event) {
-    console.debug('form submitted', $event);
+  formSubmitted(form: FormGroup) {
+    this.submitMemberButtonText = 'Gemmer...';
+
+    var memberData = form.value;
+
+    this.member.name = memberData.name;
+    this.member.gender = memberData.gender;
+    this.member.team = memberData.team;
+    this.member.email = memberData.email;
+    this.member.email2 = memberData.email2;
+    this.member.birthDate = this.dateService.clientDateToApiDate(memberData.birthDate);
+    this.member.familyMembershipNumber = memberData.familyMembershipNumber;
+    this.member.startDate = this.dateService.clientDateToApiDate(memberData.startDate);
+
+    this.apiService.put(`/members/${this.member.id}`, this.member).subscribe(() => {
+      this.submitMemberButtonText = 'Gemt';
+      setTimeout(() => { this.submitMemberButtonText = 'Gem'; }, 2000);
+    });
   }
 
+  initiateTerminateMember(): void {
+    this.memberTerminateActive = true;
+  }
+
+  cancelTerminateMember(): void {
+    this.memberTerminateActive = false;
+  }
+
+  teminationSubmitted(terminationForm): void {
+    console.log('terminating member', terminationForm.value);
+  }
+
+  findAvailableFamilyMembershipNumber(): void {
+    this.apiService.get('/members/available-family-membership-number').subscribe(data => this.form.get('familyMembershipNumber').setValue(data.number));
+  }
 }

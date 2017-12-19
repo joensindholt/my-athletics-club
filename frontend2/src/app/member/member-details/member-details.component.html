@@ -1,13 +1,143 @@
-<div class="card"
-     *ngIf="member">
-  <div class="card-header bg-dark">
-    <input type="text"
-           class="form-control form-control-lg form-control-edit-inline form-control-edit-inline-h4 mb-0 bg-dark text-white"
-           [(ngModel)]="member.name">
-    <small class="text-muted">{{member.number}}</small>
+<form [formGroup]="form"
+      (ngSubmit)="formSubmitted(form)">
+  <div class="card mt-3 mt-md-0"
+       *ngIf="member">
+    <div class="card-header bg-dark">
+      <div class="row">
+        <div class="col">
+          <div>
+            <app-form-input field="name"
+                            placeholder="Indtast et navn"
+                            inputClass="form-control-edit-inline-h4 mb-0 bg-dark text-white"
+                            [formGroup]="form"
+                            [validations]="[{ key: 'required', value: 'Du mangler vist et navn'}]"></app-form-input>
+          </div>
+          <small class="text-muted">{{member.number}}</small>
+        </div>
+        <div class="col-xs-auto">
+          <div class="btn-group">
+            <button type="button"
+                    class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle--card-header mt-1 mr-2"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"></button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <button class="dropdown-item btn-sm"
+                      type="button"
+                      (click)="initiateTerminateMember()">Meld medlemmet ud</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-6 mb-2">
+          <app-form-select field="gender"
+                           label="Køn"
+                           placeholder="Vælg køn"
+                           [formGroup]="form"
+                           [options]="[{ key: '1', value: 'Pige' }, { key: '2', value: 'Dreng' }]"
+                           [validations]="[{ key: 'required', value: 'Du mangler vist at vælge køn' }]"></app-form-select>
+        </div>
+        <div class="col-sm-6 mb-2">
+          <app-form-select field="team"
+                           label="Hold"
+                           placeholder="Vælg hold"
+                           [formGroup]="form"
+                           [options]="[{ key: 1, value: 'Minierne' }, { key: 2, value: 'Mellemholdet' }, { key: 3, value: 'Storeholdet' } ]"
+
+                           [validations]="[{ key: 'required', value: 'Du mangler vist at vælge hold' }]"></app-form-select>
+        </div>
+        <div class="col-sm-12 mb-2">
+          <app-form-input field="email"
+                          label="Email"
+                          placeholder="Indtast en email-adresse"
+                          [formGroup]="form"
+                          [validations]="[{ key: 'required', value: 'Du mangler vist en email'}, { key: 'email', value: 'Den email er vist ikke gyldig' }]"></app-form-input>
+        </div>
+        <div class="col-sm-12 mb-2">
+          <app-form-input field="email2"
+                          label="Email 2"
+                          [formGroup]="form"
+                          [validations]="[{ key: 'required', value: 'Du mangler vist en email'}, { key: 'email', value: 'Den email er vist ikke gyldig' }]"></app-form-input>
+        </div>
+        <div class="col-sm-6 mb-2">
+          <app-form-date field="birthDate"
+                         label="Fødselsdato"
+                         placeholder="Indtast en fødselsdato"
+                         [formGroup]="form"
+                         [validations]="[{ key: 'pattern', value: 'Den fødselsdato er vist ikke en gyldig dato' }]"></app-form-date>
+        </div>
+        <div class="col-sm-6 mb-2">
+        </div>
+        <div class="col-sm-6 mb-2">
+          <app-form-input field="familyMembershipNumber"
+                          label="Familiemedl."
+                          [formGroup]="form"
+                          [validations]="[{ key: 'pattern', value: 'Det er vist ikke et tal du har skrevet' }]">
+            <div class="btn-group">
+              <button type="button"
+                      class="btn btn-sm dropdown-toggle bg-white p-0 px-2 text-muted"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"></button>
+              <div class="dropdown-menu dropdown-menu-right">
+                <button class="dropdown-item btn-sm"
+                        type="button"
+                        (click)="findAvailableFamilyMembershipNumber()">Find ledigt nummer</button>
+              </div>
+            </div>
+          </app-form-input>
+        </div>
+        <div class="col-sm-6 mb-2">
+          <app-form-date field="startDate"
+                         label="Indmeldelsesdato"
+                         placeholder="Indtast en dato"
+                         [formGroup]="form"
+                         [validations]="[{ key: 'pattern', value: 'Den indmeldelsesdato er vist ikke en gyldig dato' }]"></app-form-date>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <button type="submit"
+                  [disabled]="form.invalid"
+                  class="btn btn-primary btn-block mt-3">{{ submitMemberButtonText }}</button>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="card-body">
-    <app-dynamic-form [config]="config"
-                      (submitted)="formSubmitted($event)"></app-dynamic-form>
+</form>
+
+<form [formGroup]="terminationForm"
+      (ngSubmit)="teminationSubmitted(terminationForm)">
+  <div class="card mt-3"
+       *ngIf="member && memberTerminateActive">
+    <div class="card-header bg-dark text-white">
+      Udmeld {{ member.name }}
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-6">
+          <app-form-date field="terminationDate"
+                         label="Udmeldelsesdato"
+                         placeholder="Indtast en dato"
+                         [formGroup]="terminationForm"
+                         [validations]="[{ key: 'pattern', value: 'Den udmeldelsesdato er vist ikke en gyldig dato' }]"></app-form-date>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <button type="submit"
+                  [disabled]="terminationForm.invalid"
+                  class="btn btn-primary btn-block mt-3">Udmeld</button>
+        </div>
+        <div class="col-sm-6">
+          <button type="button"
+                  class="btn btn-outline-secondary btn-block mt-3"
+                  (click)="cancelTerminateMember()">Fortryd</button>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+</form>

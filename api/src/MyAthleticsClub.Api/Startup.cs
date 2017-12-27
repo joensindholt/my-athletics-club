@@ -180,20 +180,23 @@ namespace MyAthleticsClub.Api
 
             // Services
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IEmailTemplateProvider, SendGridService>();
             services.AddScoped<IEnrollmentService, EnrollmentService>();
             services.AddScoped<IEventRegistrationsExcelService, EventRegistrationsExcelService>();
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IMemberService, MemberService>();
             services.AddScoped<IRegistrationService, RegistrationService>();
             services.AddScoped<ISlackService, SlackService>();
+            services.AddScoped<ISubscriptionService, SubscriptionService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IEmailTemplateProvider, SendGridService>();
             services.AddScoped<ITemplateMerger, SendGridService>();
 
             // Repositories
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<IMemberRepository, MemberRepository>();
             services.AddScoped<IRegistrationRepository, RegistrationRepository>();
+            services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+            services.AddScoped<ISubscriptionAccountRepository, SubscriptionAccountRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
 
             // Utilities

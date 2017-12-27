@@ -6,6 +6,7 @@ import { ApiService } from './api.service';
 import { Subject } from 'rxjs/Subject';
 import { User } from './user';
 import { AccessTokenService } from './access-token.service';
+import { NotificationService } from "./notification.service";
 
 @Injectable()
 export class UserService {
@@ -52,8 +53,6 @@ export class UserService {
       .post('/login', { organizationId: 'gik', username, password })
       .subscribe((user: User) => {
         this.handleSuccessfullLogin(user);
-      }, err => {
-        console.log(err);
       });
   }
 
@@ -62,8 +61,6 @@ export class UserService {
       .post('/login-google', { idToken: id_token })
       .subscribe((user: User) => {
         this.handleSuccessfullLogin(user);
-      }, err => {
-        console.log(err);
       })
   }
 

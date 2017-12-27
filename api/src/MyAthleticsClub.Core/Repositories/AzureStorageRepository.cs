@@ -14,6 +14,7 @@ namespace MyAthleticsClub.Core.Repositories
         where TEntity : ITableEntity, new()
     {
         private static List<string> _checkedTables = new List<string>();
+        private static object locker = new object();
 
         protected CloudStorageAccount _storageAccount;
         protected CloudTable _table;
@@ -25,10 +26,13 @@ namespace MyAthleticsClub.Core.Repositories
             _tableClient = _storageAccount.CreateCloudTableClient();
             _table = _tableClient.GetTableReference(tableName);
 
-            if (!_checkedTables.Contains(tableName))
+            lock (locker)
             {
-                EnsureTableExists().Wait();
-                _checkedTables.Add(tableName);
+                if (!_checkedTables.Contains(tableName))
+                {
+                    EnsureTableExists().Wait();
+                    _checkedTables.Add(tableName);
+                }
             }
         }
 

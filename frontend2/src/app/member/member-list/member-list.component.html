@@ -1,6 +1,26 @@
 <div class="card">
+  <div class="card-header">
+    <div class="row py-1">
+      <div class="col">
+        <h4 class="card-title ml-1 mb-0">Medlemmer</h4>
+      </div>
+      <div class="col-auto">
+        <div class="btn-group">
+          <button type="button"
+                  class="btn btn-sm dropdown-toggle dropdown-toggle--card-header"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"></button>
+          <div class="dropdown-menu dropdown-menu-right">
+            <button class="dropdown-item btn-sm"
+                    type="button"
+                    (click)="chargeMemberships()">Opkræv kontingent</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="card-body">
-    <h4 class="card-title ml-1">Medlemmer</h4>
     <input type="text"
            class="form-control form-control-sm mb-3"
            name="filter"

@@ -12,10 +12,15 @@ namespace MyAthleticsClub.Api.Controllers
     public class MemberController : Controller
     {
         private readonly IMemberService _memberService;
+        private readonly ISubscriptionService _subscriptionService;
 
-        public MemberController(IMemberService memberService)
+        public MemberController(
+            IMemberService memberService,
+            ISubscriptionService subscriptionService
+        )
         {
             _memberService = memberService;
+            _subscriptionService = subscriptionService;
         }
 
         [HttpGet("api/members")]
@@ -75,6 +80,10 @@ namespace MyAthleticsClub.Api.Controllers
         public async Task<IActionResult> ChargeAllMembers()
         {
             await _memberService.ChargeMembersAsync("gik");
+
+            // new implementation
+            await _subscriptionService.ChargeAllSubscriptionsAsync();
+
             return Ok();
         }
 

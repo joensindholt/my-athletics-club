@@ -12,17 +12,14 @@ namespace MyAthleticsClub.Core.Services
     {
         private readonly EnrollmentOptions _options;
         private readonly IEmailService _emailService;
-        private readonly EmailOptions _emailOptions;
 
         public EnrollmentService(
             IOptions<EnrollmentOptions> options,
-            IEmailService emailService,
-            IOptions<EmailOptions> emailOptions
+            IEmailService emailService
             )
         {
             _options = options.Value;
             _emailService = emailService;
-            _emailOptions = emailOptions.Value;
         }
 
         public async Task EnrollAsync(EnrollmentRequest enrollment, CancellationToken cancellationToken)
@@ -40,7 +37,7 @@ namespace MyAthleticsClub.Core.Services
         {
             await _emailService.SendTemplateEmailAsync(
                 to: _options.AdminEmail,
-                templateId: _emailOptions.Templates.EnrollmentAdminNotification,
+                templateId: _emailService.Templates.EnrollmentAdminNotification,
                 data: enrollment,
                 cancellationToken: cancellationToken);
         }
@@ -49,7 +46,7 @@ namespace MyAthleticsClub.Core.Services
         {
             await _emailService.SendTemplateEmailAsync(
                 to: enrollment.Email,
-                templateId: _emailOptions.Templates.EnrollmentReceipt,
+                templateId: _emailService.Templates.EnrollmentReceipt,
                 data: enrollment,
                 cancellationToken: cancellationToken);
         }

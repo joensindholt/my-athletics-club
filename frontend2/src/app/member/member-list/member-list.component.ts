@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ApiService } from "../../core/api.service";
 import { Member } from "../member";
+import { MemberService } from "../member.service";
 
 @Component({
   selector: 'app-member-list',
@@ -15,14 +16,15 @@ export class MemberListComponent implements OnInit {
   @Output() memberSelected: EventEmitter<Member> = new EventEmitter();
 
   constructor(
-    private apiService: ApiService
+    private apiService: ApiService,
+    private memberService: MemberService
   ) {
   }
 
   ngOnInit() {
-    this.apiService.get('/members').subscribe(memberData => {
-      this.members = memberData.items;
-      if (this.members.length > 0){
+    this.memberService.getMembers().subscribe(members => {
+      this.members = members;
+      if (this.members.length > 0) {
         this.selectMember(this.members[0]);
       }
     });
@@ -30,5 +32,11 @@ export class MemberListComponent implements OnInit {
 
   selectMember(member: Member) {
     this.memberSelected.emit(member);
+  }
+
+  chargeMemberships() {
+    this.apiService.post('/members/charge-all', {}).subscribe(() => {
+      // TODO: Notify
+    });
   }
 }

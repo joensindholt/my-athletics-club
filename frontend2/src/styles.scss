@@ -30,6 +30,10 @@ $enable-rounded: false;
   width: 100% !important;
 }
 
+[data-toggle=collapse] {
+  cursor: pointer;
+}
+
 /* * * * * * * * * * * * * * * * * * * * * * * *
 Forms
 * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -105,9 +109,22 @@ Datepicker
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * *
-Card header dropdowns
+Cards
 * * * * * * * * * * * * * * * * * * * * * * * * */
 
+.card-header {
+  background: white;
+}
+
 .dropdown-toggle--card-header {
-  border: 1px solid $gray-700;
+  //border: 1px solid $gray-300;
+  border: none;
+  background: transparent;
+  color: $gray-600;
+}
+
+.dropdown-toggle--card-header-dark {
+  // border: 1px solid $gray-700;
+  background: transparent;
+  border: none;
 }

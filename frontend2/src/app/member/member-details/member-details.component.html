@@ -17,14 +17,14 @@
         <div class="col-xs-auto">
           <div class="btn-group">
             <button type="button"
-                    class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle--card-header mt-1 mr-2"
+                    class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle--card-header-dark mt-1 mr-2"
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"></button>
             <div class="dropdown-menu dropdown-menu-right">
               <button class="dropdown-item btn-sm"
                       type="button"
-                      (click)="initiateTerminateMember()">Meld medlemmet ud</button>
+                      (click)="initiateTerminateMember()">Meld medlemmet ud...</button>
             </div>
           </div>
         </div>
@@ -99,7 +99,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-auto">
           <button type="submit"
                   [disabled]="form.invalid"
                   class="btn btn-primary btn-block mt-3">{{ submitMemberButtonText }}</button>

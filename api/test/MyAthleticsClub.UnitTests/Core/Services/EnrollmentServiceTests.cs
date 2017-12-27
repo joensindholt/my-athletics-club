@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using MyAthleticsClub.Core.Models.Requests;
+using MyAthleticsClub.Core.Repositories.Interfaces;
 using MyAthleticsClub.Core.Services;
 using MyAthleticsClub.Core.Services.Email;
 using MyAthleticsClub.Core.Services.Interfaces;
@@ -29,20 +30,13 @@ namespace MyAthleticsClub.UnitTests.Core.Services
                 Comments = "These are my comments\nwith a newline and all"
             };
 
-            var emailOptionsMock = Substitute.For<IOptions<EmailOptions>>();
-            emailOptionsMock.Value.Returns(new EmailOptions
-            {
-                Templates = new EmailTemplates
-                {
-                    EnrollmentAdminNotification = "123"
-                }
-            });
-
             var emailServiceMock = Substitute.For<IEmailService>();
+            emailServiceMock.Templates.Returns(new EmailTemplates { EnrollmentAdminNotification = "123" });
+
             var enrollmentOptions = Substitute.For<IOptions<EnrollmentOptions>>();
             enrollmentOptions.Value.Returns(new EnrollmentOptions());
 
-            var enrollmentService = new EnrollmentService(enrollmentOptions, emailServiceMock, emailOptionsMock);
+            var enrollmentService = new EnrollmentService(enrollmentOptions, emailServiceMock);
 
             // Act
             await enrollmentService.EnrollAsync(enrollment, CancellationToken.None);
@@ -70,20 +64,13 @@ namespace MyAthleticsClub.UnitTests.Core.Services
                 Comments = "These are my comments\nwith a newline and all"
             };
 
-            var emailOptionsMock = Substitute.For<IOptions<EmailOptions>>();
-            emailOptionsMock.Value.Returns(new EmailOptions
-            {
-                Templates = new EmailTemplates
-                {
-                    EnrollmentReceipt = "456"
-                }
-            });
-
             var emailServiceMock = Substitute.For<IEmailService>();
+            emailServiceMock.Templates.Returns(new EmailTemplates { EnrollmentReceipt = "456" });
+
             var enrollmentOptions = Substitute.For<IOptions<EnrollmentOptions>>();
             enrollmentOptions.Value.Returns(new EnrollmentOptions());
 
-            var enrollmentService = new EnrollmentService(enrollmentOptions, emailServiceMock, emailOptionsMock);
+            var enrollmentService = new EnrollmentService(enrollmentOptions, emailServiceMock);
 
             // Act
             await enrollmentService.EnrollAsync(enrollment, CancellationToken.None);

@@ -1,0 +1,20 @@
+$app-dark: #1c2836;
+
+.notification-wrapper {
+  display: flex;
+  align-items: stretch;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  right: 0;
+  bottom: -1px; // the minus one prevents the little ray of light otherwise seen on transitions
+}
+
+.notification {
+  flex-grow: 1;
+  padding: 15px;
+  background: $app-dark;
+  color: white;
+  text-align: center;
+  font-size: 80%;
+}

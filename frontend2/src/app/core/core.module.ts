@@ -10,6 +10,8 @@ import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AccessTokenService } from './access-token.service';
 import { DateService } from "./date.service";
+import { NotificationComponent } from './notification/notification.component';
+import { NotificationService } from "./notification.service";
 
 @NgModule({
   imports: [
@@ -20,17 +22,20 @@ import { DateService } from "./date.service";
   ],
   declarations: [
     NavbarComponent,
-    LoginComponent
+    LoginComponent,
+    NotificationComponent
   ],
   exports: [
-    NavbarComponent
+    NavbarComponent,
+    NotificationComponent
   ],
   providers: [
     ApiService,
     UserService,
     AuthGuardService,
     AccessTokenService,
-    DateService
+    DateService,
+    NotificationService
   ]
 })
 export class CoreModule {

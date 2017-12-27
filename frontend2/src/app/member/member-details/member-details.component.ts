@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { Member } from "../member";
 import { ApiService } from "../../core/api.service";
 import { DateService } from "../../core/date.service";
+import { NotificationService } from "../../core/notification.service";
 
 @Component({
   selector: 'app-member-details',
@@ -25,13 +26,13 @@ export class MemberDetailsComponent implements OnChanges {
   constructor(
     private apiService: ApiService,
     private dateService: DateService,
+    private notificationService: NotificationService,
     private fb: FormBuilder
   ) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['member']) {
-
       this.form = this.fb.group({
         name: [this.member ? this.member.name : null, Validators.required],
         gender: [this.member ? this.member.gender : null, Validators.required],
@@ -64,8 +65,8 @@ export class MemberDetailsComponent implements OnChanges {
     this.member.startDate = this.dateService.clientDateToApiDate(memberData.startDate);
 
     this.apiService.put(`/members/${this.member.id}`, this.member).subscribe(() => {
-      this.submitMemberButtonText = 'Gemt';
-      setTimeout(() => { this.submitMemberButtonText = 'Gem'; }, 2000);
+      this.submitMemberButtonText = 'Gem';
+      this.notificationService.success('Medlemmet er opdateret');
     });
   }
 
@@ -78,10 +79,16 @@ export class MemberDetailsComponent implements OnChanges {
   }
 
   teminationSubmitted(terminationForm): void {
-    console.log('terminating member', terminationForm.value);
+    var data = {
+      memberId: this.member.id,
+      terminationDate: this.dateService.clientDateToApiDate(terminationForm.terminationDate)
+    };
+
+    this.apiService.post('/members/terminate', data).subscribe(() => this.notificationService.success('Medlemmet er udmeldt'));
   }
 
   findAvailableFamilyMembershipNumber(): void {
-    this.apiService.get('/members/available-family-membership-number').subscribe(data => this.form.get('familyMembershipNumber').setValue(data.number));
+    this.apiService.get('/members/available-family-membership-number')
+      .subscribe(data => this.form.get('familyMembershipNumber').setValue(data.number));
   }
 }

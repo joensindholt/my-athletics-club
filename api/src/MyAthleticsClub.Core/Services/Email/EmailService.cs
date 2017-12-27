@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
@@ -17,6 +18,8 @@ namespace MyAthleticsClub.Core.Services.Email
         private readonly EmailOptions _options;
         private readonly IEmailTemplateProvider _emailTemplateProvider;
         private readonly ITemplateMerger _templateMerger;
+
+        public EmailTemplates Templates => _options.Templates;
 
         public EmailService(
             IOptions<EmailOptions> options,
@@ -117,10 +120,9 @@ namespace MyAthleticsClub.Core.Services.Email
             if (FromEmail == null) throw new ArgumentException("Invalid EmailOptions", nameof(FromEmail));
             if (Username == null) throw new ArgumentException("Invalid EmailOptions", nameof(Username));
             if (Password == null) throw new ArgumentException("Invalid EmailOptions", nameof(Password));
-
             if (Templates == null) throw new ArgumentException("Invalid EmailOptions", nameof(Templates));
-            Templates.Verify();
 
+            Templates.Verify();
         }
     }
 
@@ -130,16 +132,20 @@ namespace MyAthleticsClub.Core.Services.Email
     public class EmailTemplates
     {
         public string EnrollmentAdminNotification { get; set; } = "393d49c0-7f3d-4ea9-900d-4bbef952bd5e";
-
         public string EnrollmentReceipt { get; set; } = "09c61205-5850-4fd5-832e-26879c8824ca";
-
         public string EventRegistrationReceipt { get; set; } = "36c480cb-d7af-4f2b-be89-22e77b2d26d3";
+        public string SubscriptionReminderOne { get; set; }
+        public string SubscriptionReminderTwo { get; set; }
+        public string SubscriptionReminderThree { get; set; }
 
         public void Verify()
         {
             if (EnrollmentAdminNotification == null) throw new ArgumentException("Invalid Templates in EmailOptions", nameof(EnrollmentAdminNotification));
             if (EnrollmentReceipt == null) throw new ArgumentException("Invalid Templates in EmailOptions", nameof(EnrollmentReceipt));
             if (EventRegistrationReceipt == null) throw new ArgumentException("Invalid Templates in EmailOptions", nameof(EventRegistrationReceipt));
+            if (SubscriptionReminderOne == null) throw new ArgumentException("Invalid Templates in EmailOptions", nameof(SubscriptionReminderOne));
+            if (SubscriptionReminderTwo == null) throw new ArgumentException("Invalid Templates in EmailOptions", nameof(SubscriptionReminderTwo));
+            if (SubscriptionReminderThree == null) throw new ArgumentException("Invalid Templates in EmailOptions", nameof(SubscriptionReminderThree));
         }
     }
 }

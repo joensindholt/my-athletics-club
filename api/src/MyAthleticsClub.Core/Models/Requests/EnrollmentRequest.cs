@@ -20,6 +20,48 @@ namespace MyAthleticsClub.Core.Models.Requests
 
         [Required]
         public string Comments { get; set; }
+
+        public string NameList
+        {
+            get
+            {
+                var nameList = "";
+
+                for (var i = 0; i < Members.Count; i++)
+                {
+                    if (i > 0)
+                    {
+                        if (i == Members.Count - 1)
+                        {
+                            nameList += " og ";
+                        }
+                        else
+                        {
+                            nameList += ", ";
+                        }
+                    }
+
+                    nameList += Members[i].Name;
+                }
+
+                return nameList;
+            }
+        }
+
+        public string SeeName
+        {
+            get
+            {
+                if (Members.Count == 1)
+                {
+                    return "dig";
+                }
+                else
+                {
+                    return "jer";
+                }
+            }
+        }
     }
 
     public class EnrollmentRequestMember

@@ -22,14 +22,17 @@ namespace MyAthleticsClub.Core.Models
             var lastEvent = events.OrderByDescending(e => e.GetDate()).FirstOrDefault();
             if (lastEvent != null)
             {
-                var results = lastEvent.Results.Select(r => new EventResult
-                {
-                    Name = r.Name,
-                    AgeGroup = r.Group,
-                    Discipline = r.GetSanitizedEvent(),
-                    Position = !string.IsNullOrWhiteSpace(r.Position) ? (int?)int.Parse(r.Position) : null,
-                    Value = r.Value
-                });
+                var results = lastEvent.Results
+                    .Where(e => e.IsFinal())
+                    .Where(e => e.Value != "DNS")
+                    .Select(r => new EventResult
+                    {
+                        Name = r.Name,
+                        AgeGroup = r.Group,
+                        Discipline = r.GetSanitizedEvent(),
+                        Position = !string.IsNullOrWhiteSpace(r.Position) ? (int?)int.Parse(r.Position) : null,
+                        Value = r.Value
+                    });
 
                 // We order the results by position so that the best positions are shown first
                 results =

@@ -87,6 +87,11 @@ namespace MyAthleticsClub.Core.Models
                     return false;
                 }
 
+                if (Event.Contains("Round"))
+                {
+                    return false;
+                }
+
                 return true;
             }
 

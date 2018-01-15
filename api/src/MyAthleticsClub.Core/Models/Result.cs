@@ -19,7 +19,12 @@ namespace MyAthleticsClub.Core.Models
             events = events.Where(e => e.Results != null);
 
             // Resolve last event info
-            var lastEvent = events.OrderByDescending(e => e.GetDate()).FirstOrDefault();
+            var lastEvent =
+                events
+                    .Where(e => e.GetDate().Date < DateTime.Today)
+                    .OrderByDescending(e => e.GetDate())
+                    .FirstOrDefault();
+
             if (lastEvent != null)
             {
                 // Get all results containing position. This will filter out DNS results and results where,

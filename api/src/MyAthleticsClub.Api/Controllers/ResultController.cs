@@ -23,7 +23,7 @@ namespace MyAthleticsClub.Api.Controllers
         [ProducesResponseType(204)]
         public async Task<IActionResult> GetAllResults(CancellationToken cancellationToken)
         {
-            var results = await _resultService.GetResultsAsync("gik", cancellationToken);
+            Result results = await _resultService.GetResultsAsync("gik", cancellationToken);
 
             if (results == null)
             {

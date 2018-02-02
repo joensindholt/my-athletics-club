@@ -7,7 +7,7 @@ namespace MyAthleticsClub.Core.Models
 {
     public class Result : IEntityObject
     {
-        public Event LastEvent { get; set; }
+        public ResultEvent LastEvent { get; set; }
 
         public Medals MedalsThisYear { get; set; }
 
@@ -57,7 +57,7 @@ namespace MyAthleticsClub.Core.Models
                         .ThenBy(r => r.Position)
                         .ThenBy(r => r.Name);
 
-                result.LastEvent = new Event
+                result.LastEvent = new ResultEvent
                 {
                     Title = lastEvent.GetTitle(),
                     Date = lastEvent.GetDate(),
@@ -87,7 +87,7 @@ namespace MyAthleticsClub.Core.Models
             return "1";
         }
 
-        public class Event
+        public class ResultEvent
         {
             public string Title { get; set; }
             public DateTime Date { get; set; }

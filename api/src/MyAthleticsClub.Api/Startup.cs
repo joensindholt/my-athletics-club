@@ -62,6 +62,7 @@ namespace MyAthleticsClub.Api
 
             services.AddHangfire(config => config.UseMemoryStorage());
 
+            services.AddMemoryCache();
             services.AddMvc(config =>
             {
                 var policy = new AuthorizationPolicyBuilder()

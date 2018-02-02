@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MyAthleticsClub.Core.Exceptions;
@@ -23,6 +24,7 @@ namespace MyAthleticsClub.Core.Services
         private readonly IEventService _eventService;
         private readonly IRegistrationRepository _registrationRepository;
         private readonly ISlackService _slackService;
+        private readonly IMemoryCache _memoryCache;
         private readonly ILogger<RegistrationService> _logger;
 
         public RegistrationService(
@@ -33,6 +35,7 @@ namespace MyAthleticsClub.Core.Services
             IEventService eventService,
             IRegistrationRepository registrationRepository,
             ISlackService slackService,
+            IMemoryCache memoryCache,
             ILogger<RegistrationService> logger)
         {
             _idGenerator = idGenerator;
@@ -42,6 +45,7 @@ namespace MyAthleticsClub.Core.Services
             _eventService = eventService;
             _registrationRepository = registrationRepository;
             _slackService = slackService;
+            _memoryCache = memoryCache;
             _logger = logger;
         }
 
@@ -60,6 +64,7 @@ namespace MyAthleticsClub.Core.Services
             try
             {
                 await _registrationRepository.CreateAsync(registration);
+                InvalidateCache(registration.EventId, registration.Id);
 
                 await SendRegistrationEmailReceiptAsync(registration, _event, cancellationToken);
 
@@ -69,25 +74,23 @@ namespace MyAthleticsClub.Core.Services
             catch (Exception)
             {
                 await _registrationRepository.DeleteRegistrationAsync(registration.EventId, registration.Id);
+                InvalidateCache(registration.EventId, registration.Id);
                 throw;
             }
 
             return registration;
         }
 
-        private void VerifyRegistrationDisciplinesCountNotAboveAllowed(Registration registration, Event _event)
+        public async Task<IEnumerable<Registration>> GetEventRegistrationsAsync(string eventId)
         {
-            var selectedDisciplinesCount = registration.Disciplines?.Count + registration.ExtraDisciplines?.Count;
-            var maxDisciplinesAllowed = _event.MaxDisciplinesAllowed;
-            if (selectedDisciplinesCount > maxDisciplinesAllowed)
+            if (!_memoryCache.TryGetValue(GetCacheKey(eventId), out IEnumerable<Registration> registrations))
             {
-                throw new BadRequestException($"The number of selected disciplines '{selectedDisciplinesCount}' is higher than the event allows, which is '{maxDisciplinesAllowed}'");
+                _logger.LogInformation($"Registrations for event '{eventId}' not found in cache. Retrieving from data store");
+                registrations = await _registrationRepository.GetRegistrationsByEventIdAsync(eventId);
+                _memoryCache.Set(GetCacheKey(eventId), registrations);
             }
-        }
 
-        public Task<IEnumerable<Registration>> GetEventRegistrationsAsync(string eventId)
-        {
-            return _registrationRepository.GetRegistrationsByEventIdAsync(eventId);
+            return registrations;
         }
 
         public async Task<byte[]> GetEventRegistrationsAsXlsxAsync(string eventId)
@@ -113,6 +116,38 @@ namespace MyAthleticsClub.Core.Services
                     Date = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")
                 },
                 cancellationToken: cancellationToken);
+        }
+
+        private void VerifyRegistrationDisciplinesCountNotAboveAllowed(Registration registration, Event _event)
+        {
+            var selectedDisciplinesCount = registration.Disciplines?.Count + registration.ExtraDisciplines?.Count;
+            var maxDisciplinesAllowed = _event.MaxDisciplinesAllowed;
+            if (selectedDisciplinesCount > maxDisciplinesAllowed)
+            {
+                throw new BadRequestException($"The number of selected disciplines '{selectedDisciplinesCount}' is higher than the event allows, which is '{maxDisciplinesAllowed}'");
+            }
+        }
+
+        private string GetCacheKey(string eventId, string id = null)
+        {
+            if (id == null)
+            {
+                return $"registrations_{eventId}";
+            }
+            else
+            {
+                return $"registrations_{eventId}_{id}";
+            }
+        }
+
+        private void InvalidateCache(string eventId, string id = null)
+        {
+            _memoryCache.Remove(GetCacheKey(eventId));
+
+            if (id != null)
+            {
+                _memoryCache.Remove(GetCacheKey(eventId, id));
+            }
         }
     }
 }

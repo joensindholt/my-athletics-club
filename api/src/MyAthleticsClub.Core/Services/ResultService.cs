@@ -1,5 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using MyAthleticsClub.Core.Models;
 using MyAthleticsClub.Core.Repositories.Interfaces;
 using MyAthleticsClub.Core.Services.Interfaces;
@@ -8,20 +10,35 @@ namespace MyAthleticsClub.Core.Services
 {
     public class ResultService : IResultService
     {
+        private const string ResultsCacheKey = "results";
+
         private readonly IResultRepository _resultRepository;
         private readonly IMarsEventRepository _marsEventRepository;
+        private readonly IMemoryCache _memoryCache;
+        private readonly ILogger<ResultService> _logger;
 
         public ResultService(
             IResultRepository resultRepository,
-            IMarsEventRepository marsEventRepository)
+            IMarsEventRepository marsEventRepository,
+            IMemoryCache memoryCache,
+            ILogger<ResultService> logger)
         {
             _resultRepository = resultRepository;
             _marsEventRepository = marsEventRepository;
+            _memoryCache = memoryCache;
+            _logger = logger;
         }
 
         public async Task<Result> GetResultsAsync(string organizationId, CancellationToken cancellationToken)
         {
-            return await _resultRepository.GetResultsAsync(organizationId, cancellationToken);
+            if (!_memoryCache.TryGetValue(ResultsCacheKey, out Result result))
+            {
+                _logger.LogInformation("Results not found in cache. Retrieving from data store");
+                result = await _resultRepository.GetResultsAsync(organizationId, cancellationToken);
+                _memoryCache.Set(ResultsCacheKey, result);
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -33,7 +50,10 @@ namespace MyAthleticsClub.Core.Services
         {
             var events = await _marsEventRepository.GetAllEventsAsync("gik", cancellationToken);
             var result = Result.FromMarsEvents(events);
+
             await _resultRepository.UpdateResultAsync("gik", result, cancellationToken);
+
+            _memoryCache.Set(ResultsCacheKey, result);
         }
     }
 }

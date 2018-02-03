@@ -1,14 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using MyAthleticsClub.Core.Models;
-using NUnit.Framework;
+using Xunit;
 
 namespace MyAthleticsClub.UnitTests.Core.Models
 {
-    [TestFixture]
     public class ResultTests
     {
-        [Test]
+        [Fact]
         public void FromMarsEvents_ReturnsFinalPosition_WhenDisciplineHasMultipleStages()
         {
             // Arrange
@@ -27,8 +26,7 @@ namespace MyAthleticsClub.UnitTests.Core.Models
             var results = Result.FromMarsEvents(marsEvents);
 
             // Assert
-            Assert.That(results.LastEvent.Results.First().Position, Is.EqualTo(3));
+            Assert.Equal(3, results.LastEvent.Results.First().Position);
         }
-
     }
 }

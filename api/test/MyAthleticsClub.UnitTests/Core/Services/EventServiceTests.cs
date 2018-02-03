@@ -3,19 +3,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using MyAthleticsClub.Core.Models;
 using MyAthleticsClub.Core.Repositories.Interfaces;
 using MyAthleticsClub.Core.Services;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MyAthleticsClub.UnitTests.Core.Services
 {
-    [TestFixture]
     public class EventServiceTests
     {
-        [Test]
+        [Fact]
         public async Task GetsEventsFromDataStoreWhenCacheIsEmpty()
         {
             // Arrange
@@ -35,10 +33,10 @@ namespace MyAthleticsClub.UnitTests.Core.Services
 
             // Assert
             await sut.eventRepository.Received(1).GetAllByPartitionKey(organizationId);
-            Assert.AreEqual(repositoryEvents.Count, events.Count());
+            Assert.Equal(repositoryEvents.Count, events.Count());
         }
 
-        [Test]
+        [Fact]
         public async Task ReturnsCachedEventsWhenCacheContainsEvents()
         {
             // Arrange
@@ -59,7 +57,7 @@ namespace MyAthleticsClub.UnitTests.Core.Services
 
             // Assert
             await sut.eventRepository.DidNotReceive().GetAllByPartitionKey(organizationId);
-            Assert.AreEqual(repositoryEvents.Count, events.Count());
+            Assert.Equal(repositoryEvents.Count, events.Count());
         }
 
         private (EventService eventService, IMemoryCache memoryCache, IEventRepository eventRepository) BuildSut()

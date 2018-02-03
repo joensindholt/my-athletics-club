@@ -7,14 +7,13 @@ using MyAthleticsClub.Core.Services;
 using MyAthleticsClub.Core.Services.Email;
 using MyAthleticsClub.Core.Services.Interfaces;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MyAthleticsClub.UnitTests.Core.Services
 {
-    [TestFixture]
     public class EnrollmentServiceTests
     {
-        [Test]
+        [Fact]
         public async Task WhenAPersonEnrolls_AnEmailIsSentToGik()
         {
             // Arrange
@@ -55,7 +54,7 @@ namespace MyAthleticsClub.UnitTests.Core.Services
                 cancellationToken: CancellationToken.None);
         }
 
-        [Test]
+        [Fact]
         public async Task WhenAPersonEnrolls_AnEmailReceiptIsSentToTheEnrollersEmailAddress()
         {
             // Arrange

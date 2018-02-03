@@ -10,14 +10,13 @@ using MyAthleticsClub.Core.Repositories.Interfaces;
 using MyAthleticsClub.Core.Services.Interfaces;
 using MyAthleticsClub.Core.Services.MarsEvents;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MyAthleticsClub.UnitTests.Core.Services.MarsEvents
 {
-    [TestFixture]
     public class MarsEventServiceTests
     {
-        [Test]
+        [Fact]
         public async Task CanUpdateEvents()
         {
             // Arrange

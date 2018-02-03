@@ -7,14 +7,13 @@ using MyAthleticsClub.Core.Models;
 using MyAthleticsClub.Core.Models.Requests;
 using MyAthleticsClub.Core.Services.Email;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MyAthleticsClub.UnitTests.Core.Services.Email
 {
-    [TestFixture]
     public class SendGridServiceTests
     {
-        [Test]
+        [Fact]
         public void WhenMergingValidEmailTemplates_TheResultIsAsExpected()
         {
             // Arrange
@@ -27,10 +26,10 @@ namespace MyAthleticsClub.UnitTests.Core.Services.Email
             var result = sendGridService.Merge(template, data);
 
             // Assert
-            Assert.That(result, Is.EqualTo("Hey, I'm a Test"));
+            Assert.Equal("Hey, I'm a Test", result);
         }
 
-        [Test]
+        [Fact]
         public void WhenMissingAFieldInATemplate_MergingStillSucceeds()
         {
             // Arrange
@@ -43,10 +42,10 @@ namespace MyAthleticsClub.UnitTests.Core.Services.Email
             var result = sendGridService.Merge(template, data);
 
             // Assert
-            Assert.That(result, Is.EqualTo("Hey, I'm a Test with a missing "));
+            Assert.Equal("Hey, I'm a Test with a missing ", result);
         }
 
-        [Test]
+        [Fact]
         public void WhenMerging_UsingPascalCamelCasedPropertiesCanBeUsedWithCamelCasedTemplateReferences()
         {
             // Arrange
@@ -59,10 +58,10 @@ namespace MyAthleticsClub.UnitTests.Core.Services.Email
             var result = sendGridService.Merge(camelCasedTemplate, pascalCamelCasedData);
 
             // Assert
-            Assert.That(result, Is.EqualTo("Hey, I'm a Test"));
+            Assert.Equal("Hey, I'm a Test", result);
         }
 
-        [Test]
+        [Fact]
         public void WhenMerging_NestedObjectsCanBeUsed()
         {
             // Arrange
@@ -81,11 +80,10 @@ namespace MyAthleticsClub.UnitTests.Core.Services.Email
             var result = sendGridService.Merge(template, data);
 
             // Assert
-            Assert.That(result, Is.EqualTo("Hey John"));
+            Assert.Equal("Hey John", result);
         }
 
-        [Test]
-        [Explicit("Sends real messages so be careful")]
+        [Fact(Skip = "Use this with caution")]
         public async Task SendRealEmail()
         {
             var username = "<NOPE>";

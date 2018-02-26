@@ -1,6 +1,5 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using MyAthleticsClub.Core.Models;
 using MyAthleticsClub.Core.Repositories.Interfaces;
@@ -17,7 +16,7 @@ namespace MyAthleticsClub.Core.Repositories
 
         public async Task<User> FindByCredentialsAsync(string username, string password)
         {
-            var users = await GetAllAsync();
+            var users = await GetAllInternalAsync();
             return users.FirstOrDefault(u => u.Username == username && u.Password == password);
         }
 

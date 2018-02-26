@@ -9,5 +9,7 @@ namespace MyAthleticsClub.Core.Services.Interfaces
         Task UpdateResultsAsync(CancellationToken cancellationToken);
 
         Task<Result> GetResultsAsync(string organizationId, CancellationToken cancellationToken);
+
+        Task<MarsResultInfo> GetOffsetResultsAsync(int offset, CancellationToken cancellation);
     }
 }

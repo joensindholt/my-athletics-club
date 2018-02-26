@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
@@ -39,6 +41,25 @@ namespace MyAthleticsClub.Core.Services
             }
 
             return result;
+        }
+
+        public async Task<MarsResultInfo> GetOffsetResultsAsync(int offset, CancellationToken cancellation)
+        {
+            var @event =
+                (await _marsEventRepository.GetAllEventsAsync("gik", cancellation))
+                    .Where(e => e.Results != null && e.Results.Any())
+                    .OrderByDescending(e => e.GetDate())
+                    .Skip(offset)
+                    .FirstOrDefault();
+
+            if (@event == null)
+            {
+                return null;
+            }
+
+            var resultInfo = MarsResultInfo.FromMarsEvent(@event);
+
+            return resultInfo;
         }
 
         /// <summary>

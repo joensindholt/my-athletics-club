@@ -16,10 +16,25 @@ namespace MyAthleticsClub.Core.Repositories
         {
         }
 
-        public override Task CreateAsync(Event _event)
+        public Task CreateAsync(Event _event)
         {
             _event.Title.VerifyNotNullOrWhiteSpace("event.Title");
-            return base.CreateAsync(_event);
+            return CreateInternalAsync(_event);
+        }
+
+        public Task<IEnumerable<Event>> GetAllByPartitionKey(string organizationId)
+        {
+            return GetAllByPartitionKeyInternalAsync(organizationId);
+        }
+
+        public Task<Event> GetAsync(string organizationId, string id)
+        {
+            return GetInternalAsync(organizationId, id);
+        }
+
+        public Task UpdateAsync(Event _event)
+        {
+            return UpdateAsync(_event);
         }
 
         protected override Event ConvertEntityToObject(EventEntity entity)
@@ -56,6 +71,11 @@ namespace MyAthleticsClub.Core.Repositories
                 _event.MaxDisciplinesAllowed);
 
             return entity;
+        }
+
+        Task IEventRepository.DeleteAsync(string organizationId, string id)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

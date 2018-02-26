@@ -17,12 +17,17 @@ namespace MyAthleticsClub.Core.Repositories
 
         public async Task<IEnumerable<Registration>> GetRegistrationsByEventIdAsync(string eventId)
         {
-            return await base.GetAllByPartitionKey(eventId);
+            return await base.GetAllByPartitionKeyInternalAsync(eventId);
         }
 
         public async Task DeleteRegistrationAsync(string eventId, string id)
         {
             await base.DeleteAsync(eventId, id);
+        }
+
+        public Task CreateAsync(Registration registration)
+        {
+            return CreateInternalAsync(registration);
         }
 
         protected override Registration ConvertEntityToObject(RegistrationEntity entity)

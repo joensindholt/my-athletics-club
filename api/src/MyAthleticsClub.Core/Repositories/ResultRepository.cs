@@ -17,22 +17,22 @@ namespace MyAthleticsClub.Core.Repositories
 
         public async Task<Result> GetResultsAsync(string organizationId, CancellationToken cancellationToken)
         {
-            if (!(await base.ExistsAsync(organizationId, "1")))
+            if (!(await base.ExistsInternalAsync(organizationId, "1")))
             {
                 return null;
             }
 
-            return await base.GetAsync(organizationId, "1");
+            return await base.GetInternalAsync(organizationId, "1");
         }
 
         public async Task UpdateResultAsync(string organizationId, Result result, CancellationToken cancellationToken)
         {
-            if (await base.ExistsAsync(result.GetPartitionKey(), result.GetRowKey()))
+            if (await base.ExistsInternalAsync(result.GetPartitionKey(), result.GetRowKey()))
             {
                 await base.DeleteAsync(result.GetPartitionKey(), result.GetRowKey());
             }
 
-            await base.CreateAsync(result);
+            await base.CreateInternalAsync(result);
         }
 
         protected override Result ConvertEntityToObject(ResultEntity entity)

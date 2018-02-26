@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.WindowsAzure.Storage;
 using MyAthleticsClub.Core.Models;
 using MyAthleticsClub.Core.Repositories.Interfaces;
@@ -12,28 +13,49 @@ namespace MyAthleticsClub.Core.Repositories
 {
     public class MarsEventRepository : AzureStorageRepository<MarsEvent, MarsEventEntity>, IMarsEventRepository
     {
-        public MarsEventRepository(CloudStorageAccount account)
+        private const string CacheKey = "events";
+
+        private readonly IMemoryCache _memoryCache;
+
+        public MarsEventRepository(
+            CloudStorageAccount account,
+            IMemoryCache memoryCache)
             : base(account, "marsevents")
         {
+            _memoryCache = memoryCache;
         }
 
-        public async Task AddEventsAsync(IEnumerable<MarsEvent> results, CancellationToken cancellationToken)
+        public async Task AddEventsAsync(IEnumerable<MarsEvent> events, CancellationToken cancellationToken)
         {
-            foreach (var result in results)
+            if (events == null || !events.Any())
             {
-                await base.CreateAsync(result);
+                return;
+            }
+
+            foreach (var @event in events)
+            {
+                await CreateInternalAsync(@event);
                 cancellationToken.ThrowIfCancellationRequested();
             }
+
+            _memoryCache.Remove(CacheKey);
+            _memoryCache.Set(CacheKey, await GetAllEventsAsync("gik", cancellationToken));
         }
 
         public async Task<IEnumerable<MarsEvent>> GetAllEventsAsync(string organizationId, CancellationToken cancellationToken)
         {
-            return await base.GetAllByPartitionKey(organizationId);
+            if (!_memoryCache.TryGetValue(CacheKey, out IEnumerable<MarsEvent> events))
+            {
+                events = await GetAllByPartitionKeyInternalAsync(organizationId);
+                _memoryCache.Set(CacheKey, @events);
+            }
+
+            return events;
         }
 
         public async Task<MarsEvent> GetLastRetrievedEventAsync(string organizationId, string parser, CancellationToken cancellationToken)
         {
-            var events = await base.GetAllByPartitionKey(organizationId);
+            var events = await GetAllEventsAsync(organizationId, cancellationToken);
 
             if (parser != null)
             {

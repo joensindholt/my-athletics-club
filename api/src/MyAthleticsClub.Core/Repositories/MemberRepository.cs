@@ -20,33 +20,33 @@ namespace MyAthleticsClub.Core.Repositories
         public async Task<IEnumerable<Member>> GetActiveMembersAsync(string organizationId)
         {
             return
-                (await base.GetAllByPartitionKey(organizationId))
+                (await base.GetAllByPartitionKeyInternalAsync(organizationId))
                     .Where(m => MemberIsActive(m));
         }
 
         public async Task<IEnumerable<Member>> GetTerminatedMembersAsync(string organizationId)
         {
             return
-                (await base.GetAllByPartitionKey(organizationId))
+                (await base.GetAllByPartitionKeyInternalAsync(organizationId))
                     .Where(m => !MemberIsActive(m));
         }
 
         public async Task<int> CountAllAsync(string organizationId)
         {
-            var all = await base.GetAllByPartitionKey(organizationId);
+            var all = await base.GetAllByPartitionKeyInternalAsync(organizationId);
             return all.Count();
         }
 
         public async Task ChargeMembersAsync(string organizationId)
         {
-            var allMembers = await base.GetAllByPartitionKey(organizationId);
+            var allMembers = await base.GetAllByPartitionKeyInternalAsync(organizationId);
 
             var membersToCharge = allMembers.Where(m => MemberIsActive(m));
 
             foreach (var member in membersToCharge)
             {
                 member.HasOutstandingMembershipPayment = true;
-                await UpdateAsync(member);
+                await UpdateInternalAsync(member);
             }
         }
 
@@ -59,7 +59,7 @@ namespace MyAthleticsClub.Core.Repositories
             var currentYear2Digit = DateTime.Now.Year.ToString().Substring(2, 2);
 
             // Get all members
-            var members = await GetAllByPartitionKey(organizationId);
+            var members = await GetAllByPartitionKeyInternalAsync(organizationId);
 
             // Find the members with member numbers from this year
             var currentYearMembers = members.Where(m => m.Number.StartsWith(currentYear2Digit));
@@ -79,7 +79,7 @@ namespace MyAthleticsClub.Core.Repositories
 
         public async Task<int> GetAvailableFamilyMembershipNumberAsync(string organizationId)
         {
-            var allMembers = await GetAllByPartitionKey(organizationId);
+            var allMembers = await GetAllByPartitionKeyInternalAsync(organizationId);
 
             var familyMembers =
                 allMembers
@@ -98,14 +98,14 @@ namespace MyAthleticsClub.Core.Repositories
 
         public async Task SetTerminationDate(string organizationId, string memberId, DateTime terminationDate)
         {
-            var member = await GetAsync(organizationId, memberId);
+            var member = await GetInternalAsync(organizationId, memberId);
             member.TerminationDate = terminationDate;
-            await UpdateAsync(member);
+            await UpdateInternalAsync(member);
         }
 
         public async Task<MemberStatistics> GetStatistics(string organizationId, DateTime date)
         {
-            var allMembers = await base.GetAllByPartitionKey(organizationId);
+            var allMembers = await base.GetAllByPartitionKeyInternalAsync(organizationId);
             var membersOnDate =
                 allMembers
                     .Where(m => m.TerminationDate == null || m.TerminationDate.Value.Date > date.Date);
@@ -138,6 +138,26 @@ namespace MyAthleticsClub.Core.Repositories
             }
 
             return statistics;
+        }
+
+        public Task<Member> GetAsync(string organizationId, string id)
+        {
+            return GetInternalAsync(organizationId, id);
+        }
+
+        public Task CreateAsync(Member member)
+        {
+            return CreateInternalAsync(member);
+        }
+
+        public Task UpdateAsync(Member member)
+        {
+            return UpdateInternalAsync(member);
+        }
+
+        public Task<bool> ExistsAsync(string organizationId, string id)
+        {
+            return ExistsInternalAsync(organizationId, id);
         }
 
         private bool MemberIsActive(Member member)

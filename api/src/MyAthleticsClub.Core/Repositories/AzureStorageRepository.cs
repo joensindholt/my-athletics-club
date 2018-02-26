@@ -45,7 +45,7 @@ namespace MyAthleticsClub.Core.Repositories
         /// NB: Use with caution. You should almost always use the GetAllByPartition... method instead
         /// </summary>
         /// <returns></returns>
-        public virtual async Task<IEnumerable<TObject>> GetAllAsync()
+        protected async Task<IEnumerable<TObject>> GetAllInternalAsync()
         {
             var query = new TableQuery<TEntity>();
 
@@ -65,7 +65,7 @@ namespace MyAthleticsClub.Core.Repositories
             return objects;
         }
 
-        public virtual async Task<IEnumerable<TObject>> GetAllByPartitionKey(string partitionKey)
+        protected async Task<IEnumerable<TObject>> GetAllByPartitionKeyInternalAsync(string partitionKey)
         {
             var query = new TableQuery<TEntity>().Where(
                 TableQuery.GenerateFilterCondition(
@@ -91,7 +91,7 @@ namespace MyAthleticsClub.Core.Repositories
             return objects;
         }
 
-        public virtual async Task CreateAsync(TObject _object)
+        protected async Task CreateInternalAsync(TObject _object)
         {
             _object.GetRowKey().VerifyNotNullOrWhiteSpace("RowKey");
             _object.GetPartitionKey().VerifyNotNullOrWhiteSpace("PartitionKey");
@@ -101,7 +101,7 @@ namespace MyAthleticsClub.Core.Repositories
             await _table.ExecuteAsync(operation);
         }
 
-        public virtual async Task DeleteAsync(string partitionKey, string rowKey)
+        protected async Task DeleteAsync(string partitionKey, string rowKey)
         {
             partitionKey.VerifyNotNullOrWhiteSpace("partitionKey");
             rowKey.VerifyNotNullOrWhiteSpace("rowKey");
@@ -119,7 +119,7 @@ namespace MyAthleticsClub.Core.Repositories
             await _table.ExecuteAsync(operation);
         }
 
-        public virtual async Task<TObject> GetAsync(string partitionKey, string rowKey)
+        protected async Task<TObject> GetInternalAsync(string partitionKey, string rowKey)
         {
             partitionKey.VerifyNotNullOrWhiteSpace("partitionKey");
             rowKey.VerifyNotNullOrWhiteSpace("rowKey");
@@ -137,7 +137,7 @@ namespace MyAthleticsClub.Core.Repositories
             return _event;
         }
 
-        public virtual async Task<TObject> TryGetAsync(string partitionKey, string rowKey)
+        protected async Task<TObject> TryGetInternalAsync(string partitionKey, string rowKey)
         {
             partitionKey.VerifyNotNullOrWhiteSpace("partitionKey");
             rowKey.VerifyNotNullOrWhiteSpace("rowKey");
@@ -155,12 +155,12 @@ namespace MyAthleticsClub.Core.Repositories
             return _event;
         }
 
-        public virtual async Task<bool> ExistsAsync(string partitionKey, string rowKey)
+        protected async Task<bool> ExistsInternalAsync(string partitionKey, string rowKey)
         {
-            return await TryGetAsync(partitionKey, rowKey) != null;
+            return await TryGetInternalAsync(partitionKey, rowKey) != null;
         }
 
-        public virtual async Task UpdateAsync(TObject _object)
+        protected async Task UpdateInternalAsync(TObject _object)
         {
             _object.GetRowKey().VerifyNotNullOrWhiteSpace("RowKey");
             _object.GetPartitionKey().VerifyNotNullOrWhiteSpace("PartitionKey");

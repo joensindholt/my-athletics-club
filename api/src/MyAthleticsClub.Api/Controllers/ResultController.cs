@@ -32,5 +32,21 @@ namespace MyAthleticsClub.Api.Controllers
 
             return Ok(results);
         }
+
+        [HttpGet("api/results/{offset}")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(IEnumerable<MarsResultInfo>), 200)]
+        [ProducesResponseType(204)]
+        public async Task<IActionResult> GetOffsetResults([FromRoute]int offset, CancellationToken cancellation)
+        {
+            var results = await _resultService.GetOffsetResultsAsync(offset, cancellation);
+
+            if (results == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(results);
+        }
     }
 }

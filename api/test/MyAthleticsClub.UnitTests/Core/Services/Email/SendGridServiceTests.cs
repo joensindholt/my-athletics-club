@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-using MyAthleticsClub.Core.Models;
-using MyAthleticsClub.Core.Models.Requests;
-using MyAthleticsClub.Core.Services.Email;
+using MyAthleticsClub.Core.Email;
+using MyAthleticsClub.Core.Enrollments;
+using MyAthleticsClub.Core.Events;
 using NSubstitute;
 using Xunit;
 

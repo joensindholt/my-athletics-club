@@ -2,10 +2,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-using MyAthleticsClub.Core.Models.Requests;
-using MyAthleticsClub.Core.Services;
-using MyAthleticsClub.Core.Services.Email;
-using MyAthleticsClub.Core.Services.Interfaces;
+using MyAthleticsClub.Core.Email;
+using MyAthleticsClub.Core.Enrollments;
 using NSubstitute;
 using Xunit;
 

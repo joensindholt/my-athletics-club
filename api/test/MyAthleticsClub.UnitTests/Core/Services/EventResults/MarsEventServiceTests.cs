@@ -4,11 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Hangfire;
 using Microsoft.Extensions.Logging;
+using MyAthleticsClub.Core.MarsEvents;
 using MyAthleticsClub.Core.Mocks;
-using MyAthleticsClub.Core.Models;
-using MyAthleticsClub.Core.Repositories.Interfaces;
-using MyAthleticsClub.Core.Services.Interfaces;
-using MyAthleticsClub.Core.Services.MarsEvents;
+using MyAthleticsClub.Core.Slack;
 using NSubstitute;
 using Xunit;
 

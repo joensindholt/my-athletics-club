@@ -3,9 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using MyAthleticsClub.Core.Models;
-using MyAthleticsClub.Core.Repositories.Interfaces;
-using MyAthleticsClub.Core.Services;
+using MyAthleticsClub.Core.Events;
 using NSubstitute;
 using Xunit;
 

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using MyAthleticsClub.Core.Models;
+using MyAthleticsClub.Core.MarsEvents;
 using Xunit;
 
 namespace MyAthleticsClub.UnitTests.Core.Models

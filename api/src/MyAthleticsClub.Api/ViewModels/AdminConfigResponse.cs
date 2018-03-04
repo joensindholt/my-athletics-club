@@ -1,10 +1,9 @@
-using AutoMapper;
 using Microsoft.Extensions.Options;
 using MyAthleticsClub.Api.Core.Authentication;
 using MyAthleticsClub.Api.Infrastructure.Authentication;
-using MyAthleticsClub.Core.Services;
-using MyAthleticsClub.Core.Services.Email;
-using Newtonsoft.Json;
+using MyAthleticsClub.Core.Email;
+using MyAthleticsClub.Core.Enrollments;
+using MyAthleticsClub.Core.Slack;
 
 namespace MyAthleticsClub.Api.ViewModels
 {

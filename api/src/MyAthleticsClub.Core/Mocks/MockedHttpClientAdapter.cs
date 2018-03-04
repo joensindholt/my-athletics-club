@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using MyAthleticsClub.Core.Mocks.HttpClientResponses;
-using MyAthleticsClub.Core.Services.Interfaces;
+using MyAthleticsClub.Core.Shared;
 
 namespace MyAthleticsClub.Core.Mocks
 {

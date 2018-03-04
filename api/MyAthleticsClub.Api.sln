@@ -1,13 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{19E364AE-D12E-4FD7-AAD7-1552A4D6A903}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DD3DB98C-99AD-48B3-84FC-B51B9EE3A982}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		..\appveyor.yml = ..\appveyor.yml
 		global.json = global.json
 	EndProjectSection
 EndProject

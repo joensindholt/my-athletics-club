@@ -2,20 +2,16 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-using MyAthleticsClub.Core.Models.Requests;
-using MyAthleticsClub.Core.Repositories.Interfaces;
-using MyAthleticsClub.Core.Services;
-using MyAthleticsClub.Core.Services.Email;
-using MyAthleticsClub.Core.Services.Interfaces;
+using MyAthleticsClub.Core.Email;
+using MyAthleticsClub.Core.Enrollments;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
 namespace MyAthleticsClub.UnitTests.Core.Services
 {
-    [TestFixture]
     public class EnrollmentServiceTests
     {
-        [Test]
+        [Fact]
         public async Task WhenAPersonEnrolls_AnEmailIsSentToGik()
         {
             // Arrange
@@ -49,7 +45,7 @@ namespace MyAthleticsClub.UnitTests.Core.Services
                 cancellationToken: CancellationToken.None);
         }
 
-        [Test]
+        [Fact]
         public async Task WhenAPersonEnrolls_AnEmailReceiptIsSentToTheEnrollersEmailAddress()
         {
             // Arrange

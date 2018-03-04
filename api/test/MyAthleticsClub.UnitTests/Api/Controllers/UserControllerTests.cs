@@ -7,20 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using MyAthleticsClub.Api.Controllers;
 using MyAthleticsClub.Api.Core.Authentication;
-using MyAthleticsClub.Core.Models;
-using MyAthleticsClub.Core.Services.Interfaces;
+using MyAthleticsClub.Api.Users;
+using MyAthleticsClub.Core.Users;
 using Newtonsoft.Json.Linq;
 using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
-namespace MyAthleticsClub.UnitTests.Api.Controllers
+namespace MyAthleticsClub.UnitTests.Api.Users
 {
-    [TestFixture]
     public class UserControllerTests
     {
-        [Test]
+        [Fact]
         public async Task WhenAUserLogsIn_AnOkResponseAndATokenIsReturned()
         {
             // Arrange
@@ -40,8 +38,8 @@ namespace MyAthleticsClub.UnitTests.Api.Controllers
             var result = await userController.Login(user);
 
             // Assert
-            Assert.That(result, Is.TypeOf<OkObjectResult>(), "An OK response was expected");
-            Assert.That(((OkObjectResult)result).Value, Is.TypeOf<string>());
+            Assert.IsType<OkObjectResult>(result);
+            Assert.IsType<string>(((OkObjectResult)result).Value);
             Assert.True(JObject.Parse(((string)((OkObjectResult)result).Value))["access_token"].Value<string>().Length > 0);
         }
 

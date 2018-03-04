@@ -1,5 +1,8 @@
 version: 1.0.{build}
-image: Previous Visual Studio 2017
+branches:
+  only:
+  - master
+image: Visual Studio 2017
 build_script:
 - cmd: >-
     cd C:\projects\my-athletics-club\api

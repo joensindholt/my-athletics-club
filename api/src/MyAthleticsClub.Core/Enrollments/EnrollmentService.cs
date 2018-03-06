@@ -2,7 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using MyAthleticsClub.Core.Email;
-using MyAthleticsClub.Core.Exceptions;
+using MyAthleticsClub.Core.Shared.Exceptions;
 
 namespace MyAthleticsClub.Core.Enrollments
 {

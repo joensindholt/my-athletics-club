@@ -1,11 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
-using MyAthleticsClub.Core.Models;
-using MyAthleticsClub.Core.Repositories.Interfaces;
-using MyAthleticsClub.Core.StorageEntities;
 
-namespace MyAthleticsClub.Core.Repositories
+namespace MyAthleticsClub.Core.Subscriptions
 {
     public class SubscriptionAccountRepository : AzureStorageRepository<SubscriptionAccountPosting, SubscriptionAccountPostingEntity>, ISubscriptionAccountRepository
     {
@@ -16,12 +13,12 @@ namespace MyAthleticsClub.Core.Repositories
 
         public async Task AddPostingAsync(string subscriptionId, decimal amount)
         {
-            await base.CreateAsync(new SubscriptionAccountPosting(subscriptionId, amount));
+            await CreateInternalAsync(new SubscriptionAccountPosting(subscriptionId, amount));
         }
 
         public async Task<IEnumerable<SubscriptionAccountPosting>> GetAllPostingsAsync()
         {
-            return await base.GetAllAsync();
+            return await GetAllInternalAsync();
         }
 
         protected override SubscriptionAccountPosting ConvertEntityToObject(SubscriptionAccountPostingEntity entity)

@@ -1,6 +1,6 @@
 using System;
 
-namespace MyAthleticsClub.Core.Models.Requests
+namespace MyAthleticsClub.Core.Members
 {
     public class TerminateMembershipRequest
     {

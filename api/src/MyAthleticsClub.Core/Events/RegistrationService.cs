@@ -6,7 +6,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MyAthleticsClub.Core.Email;
-using MyAthleticsClub.Core.Exceptions;
+using MyAthleticsClub.Core.Shared.Exceptions;
 using MyAthleticsClub.Core.Slack;
 using MyAthleticsClub.Core.Utilities;
 

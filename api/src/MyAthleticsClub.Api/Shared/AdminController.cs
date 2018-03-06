@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using MyAthleticsClub.Api.ViewModels;
 using MyAthleticsClub.Core.Email;
+using MyAthleticsClub.Shared;
 
 namespace MyAthleticsClub.Api.Shared
 {

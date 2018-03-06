@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace MyAthleticsClub.Api.ViewModels
+namespace MyAthleticsClub.Api.Users
 {
     /// <summary>
     /// https://developers.google.com/identity/sign-in/web/backend-auth

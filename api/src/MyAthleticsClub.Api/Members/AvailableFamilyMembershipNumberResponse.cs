@@ -1,4 +1,4 @@
-namespace MyAthleticsClub.Api.ViewModels
+namespace MyAthleticsClub.Api.Members
 {
     public class AvailableFamilyMembershipNumberResponse
     {

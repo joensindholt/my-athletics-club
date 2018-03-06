@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MyAthleticsClub.Core.Members;
 
-namespace MyAthleticsClub.Core.Models
+namespace MyAthleticsClub.Core.Subscriptions
 {
     public abstract class Subscription
     {

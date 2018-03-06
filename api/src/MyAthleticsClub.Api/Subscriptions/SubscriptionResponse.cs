@@ -1,7 +1,7 @@
 using System;
-using MyAthleticsClub.Core.Models;
+using MyAthleticsClub.Core.Subscriptions;
 
-namespace MyAthleticsClub.Api.ViewModels
+namespace MyAthleticsClub.Api.Subscriptions
 {
     public class SubscriptionResponse
     {

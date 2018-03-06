@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using MyAthleticsClub.Core.Exceptions;
+using MyAthleticsClub.Core.Shared.Exceptions;
 
 namespace MyAthleticsClub.Api.Infrastructure
 {

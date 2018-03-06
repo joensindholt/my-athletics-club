@@ -1,11 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
-using MyAthleticsClub.Core.Models;
-using MyAthleticsClub.Core.Repositories.Interfaces;
-using MyAthleticsClub.Core.StorageEntities;
 
-namespace MyAthleticsClub.Core.Repositories
+namespace MyAthleticsClub.Core.Subscriptions
 {
     public class SubscriptionRepository : AzureStorageRepository<SubscriptionMetaData, SubscriptionMetaDataEntity>, ISubscriptionRepository
     {
@@ -16,20 +13,20 @@ namespace MyAthleticsClub.Core.Repositories
 
         public async Task<IEnumerable<SubscriptionMetaData>> GetSubscriptionsMetaDataAsync(string organizationId)
         {
-            return await base.GetAllByPartitionKey(organizationId);
+            return await GetAllByPartitionKeyInternalAsync(organizationId);
         }
 
         public async Task UpdateSubscriptionMetaDataAsync(Subscription subscription)
         {
             var subscriptionMetaData = SubscriptionMetaData.FromSubscription(subscription);
 
-            if (await base.ExistsAsync(subscriptionMetaData.GetPartitionKey(), subscriptionMetaData.GetRowKey()))
+            if (await ExistsInternalAsync(subscriptionMetaData.GetPartitionKey(), subscriptionMetaData.GetRowKey()))
             {
-                await base.UpdateAsync(subscriptionMetaData);
+                await UpdateInternalAsync(subscriptionMetaData);
             }
             else
             {
-                await base.CreateAsync(subscriptionMetaData);
+                await CreateInternalAsync(subscriptionMetaData);
             }
         }
 

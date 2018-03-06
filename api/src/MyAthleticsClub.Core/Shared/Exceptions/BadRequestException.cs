@@ -1,6 +1,6 @@
 using System;
 
-namespace MyAthleticsClub.Core.Exceptions
+namespace MyAthleticsClub.Core.Shared.Exceptions
 {
     /// <summary>
     /// BadRequestException is used to signal when an invalid request has been made to the Core layer.

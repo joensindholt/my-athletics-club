@@ -19,7 +19,7 @@ namespace MyAthleticsClub.Core.Users
 
         public async Task<User> FindByEmailAsync(string email)
         {
-            var users = await GetAllAsync();
+            var users = await GetAllInternalAsync();
             return users.FirstOrDefault(u => u.Username == email);
         }
 

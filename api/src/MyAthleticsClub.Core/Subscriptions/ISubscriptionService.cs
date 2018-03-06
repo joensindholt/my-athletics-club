@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using MyAthleticsClub.Core.Models;
 
-namespace MyAthleticsClub.Core.Services.Interfaces
+namespace MyAthleticsClub.Core.Subscriptions
 {
     public interface ISubscriptionService
     {

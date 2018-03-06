@@ -1,7 +1,6 @@
 using System;
-using MyAthleticsClub.Core.Repositories.Interfaces;
 
-namespace MyAthleticsClub.Core.Models
+namespace MyAthleticsClub.Core.Subscriptions
 {
     public class SubscriptionMetaData : IEntityObject
     {

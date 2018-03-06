@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using MyAthleticsClub.Core.Models;
-using MyAthleticsClub.Core.Repositories.Interfaces;
-using MyAthleticsClub.Core.Services.Interfaces;
+using MyAthleticsClub.Core.Email;
+using MyAthleticsClub.Core.Members;
 
-namespace MyAthleticsClub.Core.Services
+namespace MyAthleticsClub.Core.Subscriptions
 {
     public class SubscriptionService : ISubscriptionService
     {
@@ -89,12 +88,15 @@ namespace MyAthleticsClub.Core.Services
                     case 1:
                         reminderTemplate = _emailService.Templates.SubscriptionReminderOne;
                         break;
+
                     case 2:
                         reminderTemplate = _emailService.Templates.SubscriptionReminderTwo;
                         break;
+
                     case 3:
                         reminderTemplate = _emailService.Templates.SubscriptionReminderThree;
                         break;
+
                     default:
                         throw new Exception($"Unknown email template for reminder {reminder}");
                 }

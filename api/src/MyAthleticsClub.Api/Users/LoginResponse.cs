@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace MyAthleticsClub.Api.ViewModels
+namespace MyAthleticsClub.Api.Users
 {
     public class LoginResponse
     {

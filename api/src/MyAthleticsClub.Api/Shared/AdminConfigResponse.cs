@@ -5,7 +5,7 @@ using MyAthleticsClub.Core.Email;
 using MyAthleticsClub.Core.Enrollments;
 using MyAthleticsClub.Core.Slack;
 
-namespace MyAthleticsClub.Api.ViewModels
+namespace MyAthleticsClub.Api.Shared
 {
     public class AdminConfigResponse
     {

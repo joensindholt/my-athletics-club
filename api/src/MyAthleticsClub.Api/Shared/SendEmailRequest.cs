@@ -1,4 +1,4 @@
-namespace MyAthleticsClub.Api.ViewModels
+namespace MyAthleticsClub.Shared
 {
     public class SendEmailRequest
     {

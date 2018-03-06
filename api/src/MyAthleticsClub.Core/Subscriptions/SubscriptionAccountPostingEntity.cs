@@ -1,7 +1,7 @@
 using System;
 using Microsoft.WindowsAzure.Storage.Table;
 
-namespace MyAthleticsClub.Core.StorageEntities
+namespace MyAthleticsClub.Core.Subscriptions
 {
     public class SubscriptionAccountPostingEntity : TableEntity
     {

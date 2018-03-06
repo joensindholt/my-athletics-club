@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using MyAthleticsClub.Api.ViewModels;
 using MyAthleticsClub.Core.Members;
-using MyAthleticsClub.Core.Models;
-using MyAthleticsClub.Core.Models.Requests;
+using MyAthleticsClub.Core.Subscriptions;
 
 namespace MyAthleticsClub.Api.Members
 {

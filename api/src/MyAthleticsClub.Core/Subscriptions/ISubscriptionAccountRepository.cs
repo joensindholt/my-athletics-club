@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MyAthleticsClub.Core.Models;
 
-namespace MyAthleticsClub.Core.Repositories.Interfaces
+namespace MyAthleticsClub.Core.Subscriptions
 {
     public interface ISubscriptionAccountRepository
     {

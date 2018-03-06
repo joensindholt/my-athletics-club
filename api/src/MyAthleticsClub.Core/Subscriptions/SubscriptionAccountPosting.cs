@@ -1,8 +1,6 @@
 using System;
-using MyAthleticsClub.Core.Repositories.Interfaces;
-using MyAthleticsClub.Core.StorageEntities;
 
-namespace MyAthleticsClub.Core.Models
+namespace MyAthleticsClub.Core.Subscriptions
 {
     public class SubscriptionAccountPosting : IEntityObject
     {

@@ -3,10 +3,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using MyAthleticsClub.Api.ViewModels;
-using MyAthleticsClub.Core.Services.Interfaces;
+using MyAthleticsClub.Core.Subscriptions;
 
-namespace MyAthleticsClub.Api.Controllers
+namespace MyAthleticsClub.Api.Subscriptions
 {
     public class SubscriptionController : Controller
     {

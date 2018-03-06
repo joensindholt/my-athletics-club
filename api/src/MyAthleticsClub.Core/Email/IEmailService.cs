@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using MyAthleticsClub.Core.Models;
-using MyAthleticsClub.Core.Services.Email;
 
 namespace MyAthleticsClub.Core.Email
 {

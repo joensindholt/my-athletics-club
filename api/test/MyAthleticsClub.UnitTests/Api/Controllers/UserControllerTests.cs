@@ -39,8 +39,8 @@ namespace MyAthleticsClub.UnitTests.Api.Users
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
-            Assert.IsType<string>(((OkObjectResult)result).Value);
-            Assert.True(JObject.Parse(((string)((OkObjectResult)result).Value))["access_token"].Value<string>().Length > 0);
+            Assert.IsType<LoginResponse>(((OkObjectResult)result).Value);
+            Assert.True(((LoginResponse)((OkObjectResult)result).Value).AccessToken.Length > 0);
         }
 
         private static JwtIssuerOptions GetTestJwtOptions()

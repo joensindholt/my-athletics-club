@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MyAthleticsClub.Core.Models;
-using MyAthleticsClub.Core.Models.Requests;
 using MyAthleticsClub.Core.Slug;
 
 namespace MyAthleticsClub.Core.Members

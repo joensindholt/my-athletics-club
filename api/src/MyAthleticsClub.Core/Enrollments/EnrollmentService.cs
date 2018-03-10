@@ -2,7 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using MyAthleticsClub.Core.Email;
-using MyAthleticsClub.Core.Exceptions;
+using MyAthleticsClub.Core.Shared.Exceptions;
 
 namespace MyAthleticsClub.Core.Enrollments
 {
@@ -10,17 +10,14 @@ namespace MyAthleticsClub.Core.Enrollments
     {
         private readonly EnrollmentOptions _options;
         private readonly IEmailService _emailService;
-        private readonly EmailOptions _emailOptions;
 
         public EnrollmentService(
             IOptions<EnrollmentOptions> options,
-            IEmailService emailService,
-            IOptions<EmailOptions> emailOptions
+            IEmailService emailService
             )
         {
             _options = options.Value;
             _emailService = emailService;
-            _emailOptions = emailOptions.Value;
         }
 
         public async Task EnrollAsync(EnrollmentRequest enrollment, CancellationToken cancellationToken)
@@ -38,7 +35,7 @@ namespace MyAthleticsClub.Core.Enrollments
         {
             await _emailService.SendTemplateEmailAsync(
                 to: _options.AdminEmail,
-                templateId: _emailOptions.Templates.EnrollmentAdminNotification,
+                templateId: _emailService.Templates.EnrollmentAdminNotification,
                 data: enrollment,
                 cancellationToken: cancellationToken);
         }
@@ -47,7 +44,7 @@ namespace MyAthleticsClub.Core.Enrollments
         {
             await _emailService.SendTemplateEmailAsync(
                 to: enrollment.Email,
-                templateId: _emailOptions.Templates.EnrollmentReceipt,
+                templateId: _emailService.Templates.EnrollmentReceipt,
                 data: enrollment,
                 cancellationToken: cancellationToken);
         }

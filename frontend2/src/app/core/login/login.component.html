@@ -1,0 +1,35 @@
+<div class="row justify-content-center">
+  <div class="app-login-card card text-center mt-5">
+    <div class="card-body p-4">
+      <h4 class="card-title mb-4">Log ind</h4>
+      <form (submit)="login($event)" novalidate>
+        <div class="form-group">
+          <input type="email" class="form-control" placeholder="Email" [(ngModel)]="credentials.username" name="username" required>
+          <div class="invalid-feedback">
+            Indtast venligst din e-mail adresse
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" placeholder="Adgangskode" [(ngModel)]="credentials.password"  name="password" required>
+          <div class="invalid-feedback">
+            Indtast venligst din adgangskode
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Log ind</button>
+      </form>
+      <p class="my-4">
+        <small>eller</small>
+      </p>
+      <div id="googleLogin"></div>
+
+      <!-- <google-signin
+        clientId="90031089579-ejh2po3lssvusiea848mr2h1ksg2648c.apps.googleusercontent.com"
+        longTitle="true"
+        theme="light"
+        (googleSignInSuccess)="onGoogleSignInSuccess($event)"
+        >
+      </google-signin> -->
+
+    </div>
+  </div>
+</div>

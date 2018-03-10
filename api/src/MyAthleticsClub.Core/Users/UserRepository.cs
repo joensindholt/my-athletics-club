@@ -17,6 +17,12 @@ namespace MyAthleticsClub.Core.Users
             return users.FirstOrDefault(u => u.Username == username && u.Password == password);
         }
 
+        public async Task<User> FindByEmailAsync(string email)
+        {
+            var users = await GetAllInternalAsync();
+            return users.FirstOrDefault(u => u.Username == email);
+        }
+
         protected override User ConvertEntityToObject(UserEntity entity)
         {
             var user = new User(entity.OrganizationId, entity.Username, entity.Password);

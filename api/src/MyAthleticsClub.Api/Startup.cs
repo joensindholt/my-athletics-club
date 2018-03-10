@@ -21,7 +21,6 @@ using MyAthleticsClub.Api.Core.Authentication;
 using MyAthleticsClub.Api.Infrastructure;
 using MyAthleticsClub.Api.Infrastructure.Authentication;
 using MyAthleticsClub.Api.Shared;
-using MyAthleticsClub.Api.ViewModels;
 using MyAthleticsClub.Core.BackgroundJobs;
 using MyAthleticsClub.Core.Email;
 using MyAthleticsClub.Core.Enrollments;
@@ -32,6 +31,7 @@ using MyAthleticsClub.Core.Mocks;
 using MyAthleticsClub.Core.Shared;
 using MyAthleticsClub.Core.Slack;
 using MyAthleticsClub.Core.Slug;
+using MyAthleticsClub.Core.Subscriptions;
 using MyAthleticsClub.Core.Users;
 using MyAthleticsClub.Core.Utilities;
 using Newtonsoft.Json;
@@ -194,6 +194,7 @@ namespace MyAthleticsClub.Api
 
             // Services
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IEmailTemplateProvider, SendGridService>();
             services.AddScoped<IEnrollmentService, EnrollmentService>();
             services.AddScoped<IEventRegistrationsExcelService, EventRegistrationsExcelService>();
             services.AddScoped<IEventService, EventService>();
@@ -201,8 +202,8 @@ namespace MyAthleticsClub.Api
             services.AddScoped<IMemberService, MemberService>();
             services.AddScoped<IRegistrationService, RegistrationService>();
             services.AddScoped<ISlackService, SlackService>();
+            services.AddScoped<ISubscriptionService, SubscriptionService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IEmailTemplateProvider, SendGridService>();
             services.AddScoped<ITemplateMerger, SendGridService>();
             services.AddScoped<IMarsEventService, MarsEventService>();
             services.AddScoped<IMarsParserFactory, MarsParserFactory>();
@@ -213,6 +214,8 @@ namespace MyAthleticsClub.Api
             services.AddScoped<IResultRepository, ResultRepository>();
             services.AddScoped<IMemberRepository, MemberRepository>();
             services.AddScoped<IRegistrationRepository, RegistrationRepository>();
+            services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+            services.AddScoped<ISubscriptionAccountRepository, SubscriptionAccountRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMarsEventRepository, MarsEventRepository>();
 
@@ -220,6 +223,7 @@ namespace MyAthleticsClub.Api
             services.AddScoped<IIdGenerator, IdGenerator>();
             services.AddScoped<ISlugGenerator, SlugGenerator>();
             services.AddAutoMapper();
+            services.AddSingleton(new HttpClient());
 
             // We use mocked http responses when in development to avoid relying to much on 3rd party services being up
             if (HostingEnvironment.IsDevelopment())

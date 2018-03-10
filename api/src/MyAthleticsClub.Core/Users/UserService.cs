@@ -13,6 +13,11 @@ namespace MyAthleticsClub.Core.Users
             _userRepository = userRepository;
         }
 
+        public async Task<User> FindByEmailAsync(string email)
+        {
+            return await _userRepository.FindByEmailAsync(email);
+        }
+
         public async Task<ClaimsIdentity> TryGetClaimsIdentityAsync(User user)
         {
             var matchingUser = await _userRepository.FindByCredentialsAsync(user.Username, user.Password);
@@ -23,7 +28,7 @@ namespace MyAthleticsClub.Core.Users
                     new GenericIdentity(user.Username, "Token"),
                     new[]
                     {
-                            new Claim("Role", "Admin")
+                         new Claim("Role", "Admin")
                     });
             }
 

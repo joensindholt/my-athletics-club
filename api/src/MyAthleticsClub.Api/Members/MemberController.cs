@@ -2,20 +2,23 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using MyAthleticsClub.Api.ViewModels;
 using MyAthleticsClub.Core.Members;
-using MyAthleticsClub.Core.Models;
-using MyAthleticsClub.Core.Models.Requests;
+using MyAthleticsClub.Core.Subscriptions;
 
 namespace MyAthleticsClub.Api.Members
 {
     public class MemberController : Controller
     {
         private readonly IMemberService _memberService;
+        private readonly ISubscriptionService _subscriptionService;
 
-        public MemberController(IMemberService memberService)
+        public MemberController(
+            IMemberService memberService,
+            ISubscriptionService subscriptionService
+        )
         {
             _memberService = memberService;
+            _subscriptionService = subscriptionService;
         }
 
         [HttpGet("api/members")]
@@ -75,6 +78,10 @@ namespace MyAthleticsClub.Api.Members
         public async Task<IActionResult> ChargeAllMembers()
         {
             await _memberService.ChargeMembersAsync("gik");
+
+            // new implementation
+            await _subscriptionService.ChargeAllSubscriptionsAsync();
+
             return Ok();
         }
 

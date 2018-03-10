@@ -1,0 +1,22 @@
+$app-light: #ecedf0;
+$app-dark: #1c2836;
+$app-grey: #b7beb6;
+
+.event-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+}
+
+.event-container__list {
+  border-right: 1px solid darken($app-light, 20%);
+  background: $app-dark;
+  color: $app-grey;
+}
+
+.event-container__details {
+  flex-grow: 1;
+}

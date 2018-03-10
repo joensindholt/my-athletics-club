@@ -1,0 +1,16 @@
+<div [formGroup]="formGroup">
+  <small class="text-muted">{{ label }}</small>
+  <select [formControlName]="field"
+          class="custom-select form-control-edit-inline"
+          [ngClass]="{ 'is-invalid': formGroup.get(field).invalid }">
+    <option value="">{{ placeholder }}</option>
+    <option *ngFor="let option of options"
+            value="{{ option.key }}">{{ option.value }}</option>
+  </select>
+  <div class="invalid-feedback"
+       *ngFor="let validation of validations">
+    <div *ngIf="formGroup.get(field).hasError(validation.key) && formGroup.get(field).touched">
+      {{ validation.value }}
+    </div>
+  </div>
+</div>

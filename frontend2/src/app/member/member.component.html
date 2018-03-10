@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-md-6 col-lg-4 100-wh">
+    <app-member-list (memberSelected)="onMemberSelected($event)"></app-member-list>
+  </div>
+  <div class="col-md-6 col-lg-4"
+       *ngIf="selectedMember">
+    <app-member-details [member]="selectedMember | async"></app-member-details>
+  </div>
+  <div class="col-md-6 col-lg-4"
+       *ngIf="selectedMember">
+    <div class="mt-3 mt-md-0">
+      <app-subscription-reminder-list></app-subscription-reminder-list>
+    </div>
+    <div class="mt-3">
+      <app-member-outstanding-subscription></app-member-outstanding-subscription>
+    </div>
+  </div>
+</div>

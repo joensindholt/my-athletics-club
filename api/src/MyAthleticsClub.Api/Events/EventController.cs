@@ -61,7 +61,7 @@ namespace MyAthleticsClub.Api.Events
         [ProducesResponseType(200)]
         public async Task<IActionResult> DeleteEvent(string id)
         {
-            await _eventService.DeleteAsync("gik", id);
+            await _eventService.SoftDeleteAsync("gik", id);
             return Ok();
         }
     }

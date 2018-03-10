@@ -100,7 +100,7 @@ namespace MyAthleticsClub.Core
             await _table.ExecuteAsync(operation);
         }
 
-        protected async Task DeleteAsync(string partitionKey, string rowKey)
+        protected async Task DeleteInternalAsync(string partitionKey, string rowKey)
         {
             partitionKey.VerifyNotNullOrWhiteSpace("partitionKey");
             rowKey.VerifyNotNullOrWhiteSpace("rowKey");

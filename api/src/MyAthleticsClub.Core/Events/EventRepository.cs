@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using MyAthleticsClub.Core.Utilities;
@@ -19,9 +20,9 @@ namespace MyAthleticsClub.Core.Events
             return CreateInternalAsync(_event);
         }
 
-        public Task<IEnumerable<Event>> GetAllByPartitionKey(string organizationId)
+        public async Task<IEnumerable<Event>> GetAllByPartitionKey(string organizationId)
         {
-            return GetAllByPartitionKeyInternalAsync(organizationId);
+            return (await GetAllByPartitionKeyInternalAsync(organizationId)).Where(e => !e.IsDeleted);
         }
 
         public Task<Event> GetAsync(string organizationId, string id)
@@ -31,7 +32,14 @@ namespace MyAthleticsClub.Core.Events
 
         public Task UpdateAsync(Event _event)
         {
-            return UpdateAsync(_event);
+            return UpdateInternalAsync(_event);
+        }
+
+        public async Task SoftDeleteAsync(string organizationId, string id)
+        {
+            var _event = await GetInternalAsync(organizationId, id);
+            _event.IsDeleted = true;
+            await UpdateInternalAsync(_event);
         }
 
         protected override Event ConvertEntityToObject(EventEntity entity)
@@ -47,7 +55,8 @@ namespace MyAthleticsClub.Core.Events
                 entity.RegistrationPeriodStartDate,
                 entity.RegistrationPeriodEndDate,
                 entity.Info,
-                entity.MaxDisciplinesAllowed.HasValue ? entity.MaxDisciplinesAllowed.Value : 3);
+                entity.MaxDisciplinesAllowed.HasValue ? entity.MaxDisciplinesAllowed.Value : 3,
+                entity.IsDeleted);
 
             return _event;
         }
@@ -65,14 +74,10 @@ namespace MyAthleticsClub.Core.Events
                 _event.RegistrationPeriodStartDate,
                 _event.RegistrationPeriodEndDate,
                 _event.Info,
-                _event.MaxDisciplinesAllowed);
+                _event.MaxDisciplinesAllowed,
+                _event.IsDeleted);
 
             return entity;
-        }
-
-        Task IEventRepository.DeleteAsync(string organizationId, string id)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

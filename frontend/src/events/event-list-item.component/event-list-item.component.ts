@@ -1,3 +1,5 @@
+declare var toastr: any;
+
 module events {
   'use strict';
 
@@ -73,6 +75,7 @@ module events {
       if (this.$window.confirm(`Er du sikker på at du vil slette ${event.title}?`)) {
         this.EventsService.delete(event).then(() => {
           this.$scope.$emit('event-deleted', event);
+          toastr.success('Stævnet er slettet');
         });
       }
     }

@@ -23,6 +23,8 @@ namespace MyAthleticsClub.Core.Events
 
         public int? MaxDisciplinesAllowed { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public EventEntity()
         {
             ETag = "*";
@@ -39,7 +41,8 @@ namespace MyAthleticsClub.Core.Events
             DateTime? registrationPeriodStartDate,
             DateTime? registrationPeriodEndDate,
             string info,
-            int? maxDisciplinesAllowed) : base(organizationId, id)
+            int? maxDisciplinesAllowed,
+            bool isDeleted) : base(organizationId, id)
         {
             Title = title;
             Date = date;
@@ -50,6 +53,7 @@ namespace MyAthleticsClub.Core.Events
             RegistrationPeriodEndDate = registrationPeriodEndDate;
             Info = info;
             MaxDisciplinesAllowed = maxDisciplinesAllowed;
+            IsDeleted = isDeleted;
 
             ETag = "*";
         }

@@ -26,7 +26,7 @@ namespace MyAthleticsClub.Core.MarsEvents
         {
             if (await base.ExistsInternalAsync(result.GetPartitionKey(), result.GetRowKey()))
             {
-                await base.DeleteAsync(result.GetPartitionKey(), result.GetRowKey());
+                await base.DeleteInternalAsync(result.GetPartitionKey(), result.GetRowKey());
             }
 
             await base.CreateInternalAsync(result);

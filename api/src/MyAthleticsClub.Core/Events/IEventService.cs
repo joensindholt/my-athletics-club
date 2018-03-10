@@ -13,6 +13,6 @@ namespace MyAthleticsClub.Core.Events
 
         Task UpdateAsync(Event _event);
 
-        Task DeleteAsync(string organizationId, string id);
+        Task SoftDeleteAsync(string organizationId, string id);
     }
 }

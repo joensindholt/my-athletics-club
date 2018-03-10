@@ -21,6 +21,7 @@ namespace MyAthleticsClub.Core.Events
         public string Info { get; set; }
         public bool IsOldEvent { get; set; }
         public int MaxDisciplinesAllowed { get; set; }
+        public bool IsDeleted { get; set; }
 
         public Event()
         {
@@ -38,7 +39,8 @@ namespace MyAthleticsClub.Core.Events
             DateTime? registrationPeriodStartDate,
             DateTime? registrationPeriodEndDate,
             string info,
-            int maxDisciplinesAllowed) : this()
+            int maxDisciplinesAllowed,
+            bool isDeleted) : this()
         {
             Id = id;
             OrganizationId = organizationId;
@@ -52,6 +54,7 @@ namespace MyAthleticsClub.Core.Events
             Info = info;
             IsOldEvent = date.Date < DateTime.Today.AddDays(-7);
             MaxDisciplinesAllowed = maxDisciplinesAllowed;
+            IsDeleted = isDeleted;
         }
 
         public string GetPartitionKey()

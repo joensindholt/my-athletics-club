@@ -57,9 +57,9 @@ namespace MyAthleticsClub.Core.Events
             InvalidateCache(_event.OrganizationId, _event.Id);
         }
 
-        public async Task DeleteAsync(string organizationId, string id)
+        public async Task SoftDeleteAsync(string organizationId, string id)
         {
-            await _eventRepository.DeleteAsync(organizationId, id);
+            await _eventRepository.SoftDeleteAsync(organizationId, id);
             InvalidateCache(organizationId, id);
         }
 

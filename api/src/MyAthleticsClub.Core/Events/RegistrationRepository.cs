@@ -19,7 +19,7 @@ namespace MyAthleticsClub.Core.Events
 
         public async Task DeleteRegistrationAsync(string eventId, string id)
         {
-            await base.DeleteAsync(eventId, id);
+            await base.DeleteInternalAsync(eventId, id);
         }
 
         public Task CreateAsync(Registration registration)

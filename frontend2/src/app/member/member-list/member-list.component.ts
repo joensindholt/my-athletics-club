@@ -1,4 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Router } from "@angular/router";
+
 import { ApiService } from "../../core/api.service";
 import { Member } from "../member";
 import { MemberService } from "../member.service";
@@ -13,9 +15,8 @@ export class MemberListComponent implements OnInit {
   members: Member[];
   memberFilter: any = { name: '' };
 
-  @Output() memberSelected: EventEmitter<Member> = new EventEmitter();
-
   constructor(
+    private router: Router,
     private apiService: ApiService,
     private memberService: MemberService
   ) {
@@ -24,14 +25,11 @@ export class MemberListComponent implements OnInit {
   ngOnInit() {
     this.memberService.getMembers().subscribe(members => {
       this.members = members;
-      if (this.members.length > 0) {
-        this.selectMember(this.members[0]);
-      }
     });
   }
 
   selectMember(member: Member) {
-    this.memberSelected.emit(member);
+    this.router.navigate(['members', member.id]);
   }
 
   chargeMemberships() {

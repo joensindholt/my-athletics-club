@@ -102,6 +102,16 @@ namespace MyAthleticsClub.Core.MarsEvents
             {
                 return Event.Split('-')[0].Trim();
             }
+
+            public int? GetPosition()
+            {
+                if (!IsFinal())
+                {
+                    return null;
+                }
+
+                return !string.IsNullOrWhiteSpace(Position) ? (int?)int.Parse(Position) : null;
+            }
         }
     }
 }

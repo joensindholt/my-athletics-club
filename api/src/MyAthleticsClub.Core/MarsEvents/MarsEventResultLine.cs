@@ -29,7 +29,7 @@ namespace MyAthleticsClub.Core.MarsEvents
                         Name = r.Name,
                         AgeGroup = r.Group,
                         Discipline = r.GetSanitizedEvent(),
-                        Position = !string.IsNullOrWhiteSpace(r.Position) ? (int?)int.Parse(r.Position) : null,
+                        Position = r.GetPosition(),
                         Value = r.Value
                     });
 

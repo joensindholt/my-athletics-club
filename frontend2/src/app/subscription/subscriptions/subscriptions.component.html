@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col">
+    <div class="card">
+        <div class="card-header">
+          <div class="row py-1">
+            <div class="col">
+              <h4 class="card-title ml-1 mb-0">Medlemskaber</h4>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <input type="text"
+                  class="form-control form-control-sm mb-3"
+                  name="filter"
+                  [(ngModel)]="subscriptionFilter.title"
+                  placeholder="Søg">
+          <table class="table table-sm table-hover mb-0">
+            <thead>
+              <tr>
+                <th>Medlemskab</th>
+                <th>Balance</th>
+                <th>Opkrævningsdato</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let subscription of subscriptions | filterBy: subscriptionFilter"
+                  (click)="selectSubscription(subscription)">
+                <td>{{subscription.title}}</td>
+                <td>{{subscription.balance | currency:'kr'}}</td>
+                <td>{{subscription.balance !== 0 ? subscription.latestInvoiceDate : ''}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="col-md-6 col-lg-4">
+    <div class="mt-3 mt-md-0">
+      <app-subscription-reminder-list></app-subscription-reminder-list>
+    </div>
+    <div class="mt-3">
+      <app-outstanding-subscriptions></app-outstanding-subscriptions>
+    </div>
+  </div>
+</div>

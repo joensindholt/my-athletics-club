@@ -1,4 +1,4 @@
-export interface Subscription {
+export class Subscription {
   id: string;
   title: string;
   price: number;

@@ -33,7 +33,12 @@ namespace MyAthleticsClub.Core.Slack
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                throw new Exception($"Got unexpected status code '{response.StatusCode}' when posting message to slack. Expected status code 200(OK)");
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                throw new Exception($"Got unexpected status code '{response.StatusCode}' when posting message to slack. Expected status code 200(OK)\n" +
+                    $"Message: {serializedMessage}" +
+                    $"ReasonPhrase: {response.ReasonPhrase}\n" +
+                    $"Body: {responseBody}");
             }
         }
     }

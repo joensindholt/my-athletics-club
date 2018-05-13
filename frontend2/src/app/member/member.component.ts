@@ -9,16 +9,9 @@ import { Member } from "./member";
 })
 export class MemberComponent implements OnInit {
 
-  selectedMember: BehaviorSubject<Member>;
-
   constructor() { }
 
   ngOnInit() {
-    this.selectedMember = new BehaviorSubject<Member>(null);
-  }
-
-  onMemberSelected(member: Member) {
-    this.selectedMember.next(member);
   }
 
 }

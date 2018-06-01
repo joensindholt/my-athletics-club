@@ -22,10 +22,12 @@ module events {
     isOldEvent: boolean;
     maxDisciplinesAllowed: number;
 
-    constructor(eventData: any) {
+    constructor(eventData: any, dateService: core.DateService) {
       this.id = eventData._id || eventData.id || -1;
       this.title = eventData.title || 'Nyt stævne';
-      this.date = eventData.date ? new Date(eventData.date) : new Date();
+      console.log('parsing date with explicit timezone added: ' + eventData.date);
+      this.date = eventData.date ? dateService.parseDateAsCopenhagenTime(eventData.date) : new Date();
+      console.log(this.date, this.date.toLocaleString());
       this.address = eventData.address || 'Ved Stadion 6\n2820 Gentofte';
       this.link = eventData.link;
       this.disciplines = eventData.disciplines || [];
@@ -35,12 +37,12 @@ module events {
 
       this.registrationPeriodStartDate = null;
       if (eventData.registrationPeriodStartDate) {
-        this.registrationPeriodStartDate = new Date(eventData.registrationPeriodStartDate);
+        this.registrationPeriodStartDate = dateService.parseDateAsCopenhagenTime(eventData.registrationPeriodStartDate);
       }
 
       this.registrationPeriodEndDate = null;
       if (eventData.registrationPeriodEndDate) {
-        this.registrationPeriodEndDate = new Date(eventData.registrationPeriodEndDate);
+        this.registrationPeriodEndDate = dateService.parseDateAsCopenhagenTime(eventData.registrationPeriodEndDate);
       }
 
       // reset time on dates 
@@ -67,7 +69,7 @@ module events {
     }
 
     resetTimePart(date: Date) {
-      date.setUTCHours(0, 0, 0, 0);
+      date.setHours(0, 0, 0, 0);
       return date;
     }
   }

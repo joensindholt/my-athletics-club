@@ -10,11 +10,12 @@ module events {
     private events: Array<Event>;
     private getAllPromise: ng.IPromise<{}>;
 
-    static $inject = ['$http', '$q'];
+    static $inject = ['$http', '$q', 'DateService'];
 
     constructor(
       private $http: ng.IHttpService,
-      private $q: ng.IQService
+      private $q: ng.IQService,
+      private DateService: core.DateService
     ) {
     }
 
@@ -34,7 +35,7 @@ module events {
       this.$http.get(this.API_PATH + '/events').then(response => {
         // put in cache
         this.events = _.map(<Array<any>>response.data, (eventData) => {
-          return new Event(eventData);
+          return new Event(eventData, this.DateService);
         });
         // ... and return
         deferred.resolve(this.events)
@@ -79,7 +80,7 @@ module events {
       // ... and post to server
       this.$http.post(this.API_PATH + '/events', event)
         .then(response => {
-          var newEvent = new Event(response.data);
+          var newEvent = new Event(response.data, this.DateService);
           this.events.push(newEvent);
           deferred.resolve(newEvent)
         }).catch(err => {

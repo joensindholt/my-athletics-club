@@ -18,7 +18,8 @@ module events {
       '$state',
       '$window',
       'EventsService',
-      'AuthService'
+      'AuthService',
+      'DateService'
     ];
 
     constructor(
@@ -27,7 +28,8 @@ module events {
       private $state,
       private $window: ng.IWindowService,
       private EventsService: EventsService,
-      private AuthService: users.AuthService
+      private AuthService: users.AuthService,
+      private DateService: core.DateService
     ) {
       this.updateEventLists();
       this.listenForChildEvents();
@@ -38,6 +40,9 @@ module events {
         this.EventsService.getAll()
           .then(events => {
             this.handleServerEventsReceived(events);
+            events.forEach(event => {
+              console.log('date', event.date.toLocaleString());
+            });
           })
           .catch(err => {
             throw err;
@@ -70,7 +75,7 @@ module events {
     }
 
     addEvent() {
-      this.EventsService.add(new Event({})).then(event => {
+      this.EventsService.add(new Event({}, this.DateService)).then(event => {
         this.$state.go('events_edit', { id: event.id });
       });
     }

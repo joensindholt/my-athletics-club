@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using MyAthleticsClub.Core.MarsEvents;
 using Xunit;
 
@@ -7,6 +8,13 @@ namespace MyAthleticsClub.UnitTests.Core.Models
 {
     public class ResultTests
     {
+        private readonly ILogger logger;
+
+        public ResultTests()
+        {
+            logger = NSubstitute.Substitute.For<ILogger>();
+        }
+
         [Fact]
         public void FromMarsEvents_ReturnsFinalPosition_WhenDisciplineHasMultipleStages()
         {
@@ -23,7 +31,7 @@ namespace MyAthleticsClub.UnitTests.Core.Models
             };
 
             // Act
-            var results = Result.FromMarsEvents(marsEvents);
+            var results = Result.FromMarsEvents(marsEvents, logger);
 
             // Assert
             Assert.Equal(3, results.LastEvent.Results.First().Position);

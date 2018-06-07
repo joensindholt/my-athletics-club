@@ -66,7 +66,7 @@ namespace MyAthleticsClub.Core.MarsEvents
         public async Task UpdateResultsAsync(CancellationToken cancellationToken)
         {
             var events = await _marsEventRepository.GetAllEventsAsync("gik", cancellationToken);
-            var result = Result.FromMarsEvents(events);
+            var result = Result.FromMarsEvents(events, _logger);
 
             await _resultRepository.UpdateResultAsync("gik", result, cancellationToken);
 

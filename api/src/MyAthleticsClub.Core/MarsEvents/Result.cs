@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace MyAthleticsClub.Core.MarsEvents
 {
@@ -10,23 +11,28 @@ namespace MyAthleticsClub.Core.MarsEvents
 
         public Medals MedalsThisYear { get; set; }
 
-        public static Result FromMarsEvents(IEnumerable<MarsEvent> events)
+        public static Result FromMarsEvents(IEnumerable<MarsEvent> events, ILogger logger)
         {
             var result = new Result();
 
             // We only look at the events where we actualy participated
             events = events.Where(e => e.Results != null);
 
-            // Resolve last event info
+            logger.LogInformation("Resolving last event info");
+
             var lastEvent =
                 events
                     .Where(e => e.GetDate().Date < DateTime.Today)
                     .OrderByDescending(e => e.GetDate())
                     .FirstOrDefault();
 
+            logger.LogInformation($"...found {lastEvent?.Title}");
+
             if (lastEvent != null)
             {
                 var results = MarsEventResultLine.FromEvent(lastEvent);
+
+                logger.LogInformation($"Results count: {results.Count()}");
 
                 result.LastEvent = new MarsResultInfo
                 {
@@ -34,6 +40,8 @@ namespace MyAthleticsClub.Core.MarsEvents
                     Date = lastEvent.GetDate(),
                     Results = results
                 };
+
+                logger.LogInformation($"Last event result: {result.LastEvent.Title}, {result.LastEvent.Date}");
             }
 
             // Resolve totals for the year

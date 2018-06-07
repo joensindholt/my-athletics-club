@@ -15,7 +15,7 @@ module core {
 
       // If we get a date with timezone we ignore it by removing the time zone indicator
       if (dateString[dateString.length - 1] === 'Z') {
-        dateString = dateString.substring(0, dateString.length - 2);
+        dateString = dateString.substring(0, dateString.length - 1);
       }
 
       return new Date(dateString + '+' + this.getTimezoneOffsetString());
@@ -24,7 +24,7 @@ module core {
 
     getTimezoneOffsetString() {
       var timezoneOffset = new Date().getTimezoneOffset();
-      console.log('a', timezoneOffset);
+
       if (timezoneOffset === -120) {
         return '0200';
       } else if (timezoneOffset === -60) {

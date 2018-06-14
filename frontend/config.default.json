@@ -1,5 +1,5 @@
 {
-  "port": 8000,
+  "port": 8500,
   "browsersync": true,
   "minifyCss": false,
   "uglifyJs": false,

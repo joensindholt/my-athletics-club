@@ -60,8 +60,6 @@ module members {
       member.team = this.selectedTeam ? parseInt(this.selectedTeam) : null;
       member.gender = this.selectedGender ? parseInt(this.selectedGender) : null;
 
-      console.log('adding member', member);
-
       this.MembersService.add(member).then(member => {
         toastr.info('Medlemmet er oprettet med medlemsnummer ' + member.number);
         setTimeout(() => this.$state.go('members'), 1000);

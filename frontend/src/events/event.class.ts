@@ -4,6 +4,7 @@ module events {
     id: string;
     title: string;
     date: Date;
+    endDate;
     address: string;
     link: string;
     disciplines: Array<{
@@ -25,9 +26,8 @@ module events {
     constructor(eventData: any, dateService: core.DateService) {
       this.id = eventData._id || eventData.id || -1;
       this.title = eventData.title || 'Nyt stævne';
-      console.log('parsing date with explicit timezone added: ' + eventData.date);
-      this.date = eventData.date ? dateService.parseDateAsCopenhagenTime(eventData.date) : new Date();
-      console.log(this.date, this.date.toLocaleString());
+      this.date = eventData.date ? dateService.parseServerDate(eventData.date) : new Date();
+      this.endDate = eventData.endDate ? dateService.parseServerDate(eventData.endDate) : null;
       this.address = eventData.address || 'Ved Stadion 6\n2820 Gentofte';
       this.link = eventData.link;
       this.disciplines = eventData.disciplines || [];
@@ -37,17 +37,20 @@ module events {
 
       this.registrationPeriodStartDate = null;
       if (eventData.registrationPeriodStartDate) {
-        this.registrationPeriodStartDate = dateService.parseDateAsCopenhagenTime(eventData.registrationPeriodStartDate);
+        this.registrationPeriodStartDate = dateService.parseServerDate(eventData.registrationPeriodStartDate);
       }
 
       this.registrationPeriodEndDate = null;
       if (eventData.registrationPeriodEndDate) {
-        this.registrationPeriodEndDate = dateService.parseDateAsCopenhagenTime(eventData.registrationPeriodEndDate);
+        this.registrationPeriodEndDate = dateService.parseServerDate(eventData.registrationPeriodEndDate);
       }
 
       // reset time on dates 
       if (this.date) {
         this.date = this.resetTimePart(this.date);
+      }
+      if (this.endDate) {
+        this.endDate = this.resetTimePart(this.endDate);
       }
       if (this.registrationPeriodStartDate) {
         this.registrationPeriodStartDate = this.resetTimePart(this.registrationPeriodStartDate);

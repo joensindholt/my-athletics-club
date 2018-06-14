@@ -36,7 +36,6 @@ module users {
         .success((data: { access_token: string, expires: number }) => {
           localStorage.setItem('access_token', data.access_token);
           localStorage.setItem('expires', data.expires.toString());
-          console.log('local storage updated');
 
           (<any>this.$rootScope).isAuthenticated = true;
           deferred.resolve();

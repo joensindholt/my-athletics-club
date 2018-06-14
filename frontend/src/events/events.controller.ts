@@ -40,9 +40,6 @@ module events {
         this.EventsService.getAll()
           .then(events => {
             this.handleServerEventsReceived(events);
-            events.forEach(event => {
-              console.log('date', event.date.toLocaleString());
-            });
           })
           .catch(err => {
             throw err;

@@ -7,12 +7,15 @@ module core {
 
     constructor() { }
 
-    /* Parses a ISO8601 date string to  */
-    parseDateAsCopenhagenTime(dateString) {
+    parseServerDate(dateString) {
       if (!dateString) {
         return null;
       }
 
+      return new Date(dateString);
+    }
+
+    parseAsCopenhagenDate(dateString) {
       // If we get a date with timezone we ignore it by removing the time zone indicator
       if (dateString[dateString.length - 1] === 'Z') {
         dateString = dateString.substring(0, dateString.length - 1);

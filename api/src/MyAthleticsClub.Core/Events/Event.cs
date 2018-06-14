@@ -13,6 +13,7 @@ namespace MyAthleticsClub.Core.Events
         public string Title { get; set; }
 
         public DateTime Date { get; set; }
+        public DateTime? EndDate { get; set; }
         public string Address { get; set; }
         public string Link { get; set; }
         public List<EventDiscipline> Disciplines { get; set; }
@@ -33,6 +34,7 @@ namespace MyAthleticsClub.Core.Events
             string organizationId,
             string title,
             DateTime date,
+            DateTime? endDate,
             string address,
             string link,
             List<EventDiscipline> disciplines,
@@ -46,6 +48,7 @@ namespace MyAthleticsClub.Core.Events
             OrganizationId = organizationId;
             Title = title;
             Date = date;
+            EndDate = endDate;
             Address = address;
             Link = link;
             Disciplines = disciplines ?? new List<EventDiscipline>();

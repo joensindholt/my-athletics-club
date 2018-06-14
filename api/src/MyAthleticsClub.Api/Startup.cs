@@ -74,12 +74,6 @@ namespace MyAthleticsClub.Api
 
                 config.Filters.Add(new AuthorizeFilter(policy));
                 config.Filters.Add(new BadRequestExceptionFilter());
-            }).AddJsonOptions(opt =>
-            {
-                // Since dates are actually copenhagen time but we have had bad handling of that
-                // we return dates to the client without specifying the timezone
-                // Clients now must parse the dates as copenhagen dates.
-                opt.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Unspecified;
             });
 
             services.AddSwaggerGen(c =>

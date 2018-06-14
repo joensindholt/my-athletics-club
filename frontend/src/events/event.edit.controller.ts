@@ -139,9 +139,6 @@ module events {
     }
 
     saveNow(event: Event) {
-      this.event.registrationPeriodStartDate.setUTCHours(0, 0, 0, 0);
-      this.event.registrationPeriodEndDate.setUTCHours(0, 0, 0, 0);
-
       this.EventsService.update(event).then(() => {
         this.showSave = false;
         toastr.info('Dine ændringer er gemt');

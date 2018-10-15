@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <DebugType>full</DebugType>
+    <UserSecretsId>6010f2da-306f-4c2c-8b44-287d285d5aff</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

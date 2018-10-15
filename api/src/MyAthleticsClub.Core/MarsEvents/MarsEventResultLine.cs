@@ -34,7 +34,7 @@ namespace MyAthleticsClub.Core.MarsEvents
                     });
 
             results = results
-                .GroupBy(r => r.Name + r.Discipline)
+                .GroupBy(r => r.Name + r.Discipline + r.AgeGroup)
                 .Select(g => g.First());
 
             // We order the results by position so that the best positions are shown first

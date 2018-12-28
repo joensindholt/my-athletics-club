@@ -207,7 +207,15 @@ namespace MyAthleticsClub.Api
             services.AddScoped<ITemplateMerger, SendGridService>();
             services.AddScoped<IMarsEventService, MarsEventService>();
             services.AddScoped<IMarsParserFactory, MarsParserFactory>();
-            services.AddScoped<IBackgroundJobService, BackgroundJobService>();
+
+            if (HostingEnvironment.IsDevelopment())
+            {
+                services.AddScoped<IBackgroundJobService, BackgroundJobServiceMock>();
+            }
+            else
+            {
+                services.AddScoped<IBackgroundJobService, BackgroundJobService>();
+            }
 
             // Repositories
             services.AddScoped<IEventRepository, EventRepository>();

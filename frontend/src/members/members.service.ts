@@ -132,7 +132,8 @@ module members {
       return [
         { id: 1, label: 'Miniholdet' },
         { id: 2, label: 'Mellemholdet' },
-        { id: 3, label: 'Storeholdet' }
+        { id: 3, label: 'Storeholdet' },
+        { id: 4, label: 'Voksenatletik' }
       ];
     }
 

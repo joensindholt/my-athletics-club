@@ -8,7 +8,9 @@
     "start": "gulp serve",
     "test": "npm test",
     "htmlhint": "htmlhint src/**/*.html --config .htmlhintrc",
-    "htmllint": "htmllint src/**/*.html"
+    "htmllint": "htmllint src/**/*.html",
+    "tsd": "tsd",
+    "bower": "bower"
   },
   "repository": {
     "type": "git",
@@ -17,6 +19,7 @@
   "author": "Joen Sindholt",
   "license": "ISC",
   "devDependencies": {
+    "bower": "^1.8.8",
     "cli-table": "^0.3.1",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
@@ -35,6 +38,7 @@
     "karma-jasmine": "^1.1.2",
     "lodash": "^4.17.10",
     "path": "^0.12.7",
+    "tsd": "^0.7.2",
     "yargs": "^4.7.1"
   },
   "dependencies": {

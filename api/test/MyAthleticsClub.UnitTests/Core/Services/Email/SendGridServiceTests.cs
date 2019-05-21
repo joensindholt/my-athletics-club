@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MyAthleticsClub.Core.Email;
 using MyAthleticsClub.Core.Enrollments;
@@ -128,7 +129,9 @@ namespace MyAthleticsClub.UnitTests.Core.Services.Email
                 Host = "smtp.sendgrid.net"
             });
 
-            var emailService = new EmailService(emailOptions, new SendGridService(emailOptions), new SendGridService(emailOptions));
+            var logger = Substitute.For<ILogger<EmailService>>();
+
+            var emailService = new EmailService(emailOptions, new SendGridService(emailOptions), new SendGridService(emailOptions), logger);
 
             await emailService.SendTemplateEmailAsync(
                 to: receiverEmail,

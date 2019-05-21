@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using MimeKit.Text;
@@ -17,29 +18,40 @@ namespace MyAthleticsClub.Core.Email
         private readonly EmailOptions _options;
         private readonly IEmailTemplateProvider _emailTemplateProvider;
         private readonly ITemplateMerger _templateMerger;
+        private readonly ILogger<EmailService> _logger;
 
         public EmailTemplates Templates => _options.Templates;
 
         public EmailService(
             IOptions<EmailOptions> options,
             IEmailTemplateProvider emailTemplateProvider,
-            ITemplateMerger templateMerger)
+            ITemplateMerger templateMerger,
+            ILogger<EmailService> logger)
         {
             _options = options.Value;
             _emailTemplateProvider = emailTemplateProvider;
             _templateMerger = templateMerger;
+            _logger = logger;
         }
 
         public async Task SendTemplateEmailAsync(string to, string templateId, object data, CancellationToken cancellationToken)
         {
-            if (!_options.Enabled) return;
+            if (!_options.Enabled)
+            {
+                _logger.LogInformation("Email sending is disabled. No email is sent");
+                return;
+            }
 
             await SendTemplateEmailAsync(new List<string> { to }, templateId, data, cancellationToken);
         }
 
         public async Task SendTemplateEmailAsync(IEnumerable<string> to, string templateId, object data, CancellationToken cancellationToken)
         {
-            if (!_options.Enabled) return;
+            if (!_options.Enabled)
+            {
+                _logger.LogInformation("Email sending is disabled. No email is sent");
+                return;
+            }
 
             var template = await _emailTemplateProvider.GetTemplateAsync(templateId, cancellationToken);
             var subject = _templateMerger.Merge(template.GetSubject(), data);
@@ -49,7 +61,11 @@ namespace MyAthleticsClub.Core.Email
 
         private async Task SendEmailAsync(IEnumerable<string> to, string subject, string body, CancellationToken cancellationToken)
         {
-            if (!_options.Enabled) return;
+            if (!_options.Enabled)
+            {
+                _logger.LogInformation("Email sending is disabled. No email is sent");
+                return;
+            }
 
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(_options.FromName, _options.FromEmail));

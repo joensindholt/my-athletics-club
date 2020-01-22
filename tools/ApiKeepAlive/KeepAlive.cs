@@ -12,23 +12,21 @@ namespace ApiKeepAlive
     public class KeepAlive
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly ILogger<KeepAlive> _logger;
 
-        public KeepAlive(IHttpClientFactory httpClientFactory, ILogger<KeepAlive> logger)
+        public KeepAlive(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
-            _logger = logger;
         }
 
         [FunctionName("KeepAlive")]
-        public async Task Run([TimerTrigger("0 */15 * * * *")]TimerInfo myTimer)
+        public async Task Run([TimerTrigger("0 */15 * * * *")]TimerInfo myTimer, ILogger logger)
         {
-            _logger.LogInformation($"Invoking API health endpoint");
-            
+            logger.LogInformation($"Invoking API health endpoint");
+
             var client = _httpClientFactory.CreateClient();
             var response = await client.GetAsync("https://myathleticsclubapi.azurewebsites.net/api/health");
-            
-            _logger.LogInformation("Got response: {@StatusCode}", response.StatusCode);
+
+            logger.LogInformation($"Got {response.StatusCode} response");
         }
     }
 }

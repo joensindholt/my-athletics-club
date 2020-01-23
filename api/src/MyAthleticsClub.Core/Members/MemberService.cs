@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MyAthleticsClub.Core.Slug;
 
@@ -63,6 +64,45 @@ namespace MyAthleticsClub.Core.Members
             return await _memberRepository.GetStatistics(organizationId, date);
         }
 
+        public async Task<MemberStatistics> GetStatisticsCfr(string organizationId, int year)
+        {
+            var allMembers = await _memberRepository.GetAllAsync(organizationId);
+
+            var yearStart = new DateTime(year, 1, 1);
+            var yearEnd = new DateTime(year + 1, 1, 1).AddDays(-1);
+            
+            var threeMonthMembers = allMembers.Where(m => m.GetMonthsMembershipInYear(year) >= 3);
+            
+            var membersByAge =
+                threeMonthMembers
+                    .Where(m => m.BirthDate.HasValue)
+                    .GroupBy(m => m.GetAge(DateTime.Now))
+                    .ToDictionary(
+                        i => i.Key,
+                        i => i
+                    );
+
+            var minAge = membersByAge.Min(m => m.Key);
+            var maxAge = membersByAge.Max(m => m.Key);
+
+            var statistics = new MemberStatistics();
+            for (var age = minAge; age <= maxAge; age++)
+            {
+                int females = 0;
+                int males = 0;
+
+                if (membersByAge.ContainsKey(age))
+                {
+                    females = membersByAge[age].Count(m => m.Gender == Gender.Female);
+                    males = membersByAge[age].Count(m => m.Gender == Gender.Male);
+                }
+
+                statistics.Add(new MemberStatisticsEntry(age, females, males));
+            }
+
+            return statistics;
+        }
+        
         public async Task<int> GetAvailableFamilyMembershipNumberAsync(string organizationId)
         {
             return await _memberRepository.GetAvailableFamilyMembershipNumberAsync(organizationId);

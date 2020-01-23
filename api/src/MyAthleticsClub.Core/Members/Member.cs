@@ -80,5 +80,36 @@ namespace MyAthleticsClub.Core.Members
     {
       return Id;
     }
+
+    public int GetAge(DateTime reference)
+    {
+      if (!BirthDate.HasValue)
+      {
+        throw new Exception($"No birthdate registered for member '${Name}'");
+      }
+
+      int age = reference.Year - BirthDate.Value.Year;
+      if (reference < BirthDate.Value.AddYears(age)) age--;
+
+      return age;
+    }
+
+    public int GetMonthsMembershipInYear(int year)
+    {
+      int monthsMembership = 0;
+
+      for (var month = 1; month <= 12; month++)
+      {
+        var monthStart = new DateTime(year, month, 1);
+        var monthEnd = new DateTime(year, month + 1, 1).AddDays(-1);
+
+        if (StartDate <= monthStart && (TerminationDate == null || TerminationDate >= monthEnd))
+        {
+          monthsMembership++;
+        }
+      }
+
+      return monthsMembership;
+    }
   }
 }

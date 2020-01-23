@@ -49,7 +49,7 @@ namespace MyAthleticsClub.Api
     public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
     {
       Console.WriteLine($"Hosting Environment: {hostingEnvironment.EnvironmentName}");
-      
+
       Configuration = configuration;
       HostingEnvironment = hostingEnvironment;
     }
@@ -65,6 +65,10 @@ namespace MyAthleticsClub.Api
         {
           options.AddPolicy("Admin", policy => policy.RequireClaim("Role", "Admin"));
         });
+      }
+      else 
+      {
+          
       }
 
       services.AddHangfire(config => config.UseMemoryStorage());

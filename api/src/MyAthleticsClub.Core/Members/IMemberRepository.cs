@@ -6,6 +6,8 @@ namespace MyAthleticsClub.Core.Members
 {
     public interface IMemberRepository
     {
+        Task<IEnumerable<Member>> GetAllAsync(string organizationId);
+
         Task<IEnumerable<Member>> GetActiveMembersAsync(string organizationId);
 
         Task<IEnumerable<Member>> GetTerminatedMembersAsync(string organizationId);

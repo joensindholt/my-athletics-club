@@ -136,7 +136,7 @@ namespace MyAthleticsClub.Core.Members
                     males = membersByAge[age].Count(m => m.Gender == Gender.Male);
                 }
 
-                statistics.Add(new MemberStatisticsEntry(age, females, males));
+                statistics.AddEntry(new MemberStatisticsEntry(age, females, males));
             }
 
             return statistics;

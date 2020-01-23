@@ -82,10 +82,15 @@ namespace MyAthleticsClub.Core.Members
                         i => i
                     );
 
+            if (!membersByAge.Any())
+            {
+                return new MemberStatistics();
+            }
+
             var minAge = membersByAge.Min(m => m.Key);
             var maxAge = membersByAge.Max(m => m.Key);
 
-            var statistics = new MemberStatistics();
+            var statistics = new MemberStatistics(threeMonthMembers);
             for (var age = minAge; age <= maxAge; age++)
             {
                 int females = 0;
@@ -97,7 +102,7 @@ namespace MyAthleticsClub.Core.Members
                     males = membersByAge[age].Count(m => m.Gender == Gender.Male);
                 }
 
-                statistics.Add(new MemberStatisticsEntry(age, females, males));
+                statistics.AddEntry(new MemberStatisticsEntry(age, females, males));
             }
 
             return statistics;

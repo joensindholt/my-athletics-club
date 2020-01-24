@@ -106,13 +106,13 @@ namespace MyAthleticsClub.Api.Members
             return Ok(statistics);
         }
 
-        /// Get member statistics for CFR (Centrale Forenings Register)
-        [HttpGet("api/members/statistics/cfr")]
+        /// Get member statistics for CFR (Centrale Forenings Register) either as json or csv
+        [HttpGet("api/members/statistics/cfr.{format}"), FormatFilter]
         [ProducesResponseType(typeof(MemberStatistics), 200)]
-        public async Task<IActionResult> StatisticsCfr([FromQuery]int year)
+        public async Task<IActionResult> StatisticsCfr([FromQuery]int year, string format)
         {
             var statistics = await _memberService.GetStatisticsCfr("gik", year);
-            return Ok(statistics);
+            return Ok(statistics.Statistics);
         }
 
         [HttpGet("api/members/available-family-membership-number")]

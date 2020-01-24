@@ -12,7 +12,7 @@ namespace MyAthleticsClub.Core.Members
             Statistics = new List<MemberStatisticsEntry>();      
         }
 
-        public MemberStatistics(IEnumerable<Member> members)
+        public MemberStatistics(IEnumerable<Member> members) : this()
         {
             Members = members.Select(m => new MemberStatisticsMember(m));            
         }
@@ -34,6 +34,8 @@ namespace MyAthleticsClub.Core.Members
             Name = member.Name;
             StartDate = member.StartDate;
             TerminationDate = member.TerminationDate;
+            BirthDate = member.BirthDate;
+            Age = member.GetAge(DateTime.Now);
         }
 
         public string Name { get; }
@@ -41,31 +43,25 @@ namespace MyAthleticsClub.Core.Members
         public DateTime? StartDate { get; }
 
         public DateTime? TerminationDate { get; }
+
+        public DateTime? BirthDate { get; }
+
+        public int Age { get; }
     }
 
     public class MemberStatisticsEntry
     {
         public int Age { get; private set; }
 
-        public MemberStatisticsGenders Genders { get; private set; }
+        public int Males { get; }
+
+        public int Females { get; }
 
         public MemberStatisticsEntry(int age, int females, int males)
         {
             Age = age;
-            Genders = new MemberStatisticsGenders(females, males);
-        }
-    }
-
-    public class MemberStatisticsGenders
-    {
-        public int Females { get; private set; }
-
-        public int Males { get; private set; }
-
-        public MemberStatisticsGenders(int females, int males)
-        {
-            Females = females;
             Males = males;
+            Females = females;
         }
     }
 }

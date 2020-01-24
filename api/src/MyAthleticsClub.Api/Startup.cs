@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 using Microsoft.WindowsAzure.Storage;
 using MyAthleticsClub.Api.Core.Authentication;
 using MyAthleticsClub.Api.Infrastructure;
@@ -37,6 +38,7 @@ using MyAthleticsClub.Core.Utilities;
 using Newtonsoft.Json;
 using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
+using WebApiContrib.Core.Formatter.Csv;
 
 namespace MyAthleticsClub.Api
 {
@@ -68,15 +70,20 @@ namespace MyAthleticsClub.Api
 
             if (!HostingEnvironment.IsDevelopment())
             {
-                services.AddMvc(config =>
-                {
-                    var policy = new AuthorizationPolicyBuilder()
-                         .RequireAuthenticatedUser()
-                         .Build();
+                services
+                    .AddMvc(config =>
+                    {
+                        var policy = new AuthorizationPolicyBuilder()
+                             .RequireAuthenticatedUser()
+                             .Build();
 
-                    config.Filters.Add(new AuthorizeFilter(policy));
-                    config.Filters.Add(new BadRequestExceptionFilter());
-                });
+                        config.Filters.Add(new AuthorizeFilter(policy));
+                        config.Filters.Add(new BadRequestExceptionFilter());
+
+                        //config.OutputFormatters.Add(new CsvOutputFormatter(new CsvFormatterOptions()));
+                        //config.FormatterMappings.SetMediaTypeMappingForFormat("csv", MediaTypeHeaderValue.Parse("text/csv"));
+                    })
+                    .AddCsvSerializerFormatters();
             }
             else
             {

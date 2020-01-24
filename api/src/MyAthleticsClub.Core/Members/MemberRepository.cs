@@ -14,6 +14,11 @@ namespace MyAthleticsClub.Core.Members
         {
         }
 
+        public async Task<IEnumerable<Member>> GetAllAsync(string organizationId)
+        {
+            return await base.GetAllByPartitionKeyInternalAsync(organizationId);
+        }
+
         public async Task<IEnumerable<Member>> GetActiveMembersAsync(string organizationId)
         {
             return
@@ -110,7 +115,7 @@ namespace MyAthleticsClub.Core.Members
             var membersByAge =
                 membersOnDate
                     .Where(m => m.BirthDate.HasValue)
-                    .GroupBy(m => GetAge(date, m.BirthDate.Value))
+                    .GroupBy(m => m.GetAge(date))
                     .ToDictionary(
                         i => i.Key,
                         i => i
@@ -131,7 +136,7 @@ namespace MyAthleticsClub.Core.Members
                     males = membersByAge[age].Count(m => m.Gender == Gender.Male);
                 }
 
-                statistics.Add(new MemberStatisticsEntry(age, females, males));
+                statistics.AddEntry(new MemberStatisticsEntry(age, females, males));
             }
 
             return statistics;
@@ -160,14 +165,6 @@ namespace MyAthleticsClub.Core.Members
         private bool MemberIsActive(Member member)
         {
             return member.TerminationDate == null || member.TerminationDate > DateTime.Today;
-        }
-
-        private int GetAge(DateTime reference, DateTime birthday)
-        {
-            int age = reference.Year - birthday.Year;
-            if (reference < birthday.AddYears(age)) age--;
-
-            return age;
         }
 
         protected override Member ConvertEntityToObject(MemberEntity entity)

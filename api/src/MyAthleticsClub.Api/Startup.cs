@@ -57,7 +57,6 @@ namespace MyAthleticsClub.Api
             services.AddOptions();
 
             ConfigureAuthentication(services);
-
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Admin", policy => policy.RequireClaim("Role", "Admin"));
@@ -66,15 +65,26 @@ namespace MyAthleticsClub.Api
             services.AddHangfire(config => config.UseMemoryStorage());
 
             services.AddMemoryCache();
-            services.AddMvc(config =>
-            {
-                var policy = new AuthorizationPolicyBuilder()
-                     .RequireAuthenticatedUser()
-                     .Build();
 
-                config.Filters.Add(new AuthorizeFilter(policy));
-                config.Filters.Add(new BadRequestExceptionFilter());
-            });
+            if (!HostingEnvironment.IsDevelopment())
+            {
+                services.AddMvc(config =>
+                {
+                    var policy = new AuthorizationPolicyBuilder()
+                         .RequireAuthenticatedUser()
+                         .Build();
+
+                    config.Filters.Add(new AuthorizeFilter(policy));
+                    config.Filters.Add(new BadRequestExceptionFilter());
+                });
+            }
+            else
+            {
+                services.AddMvc(config =>
+                {
+                    config.Filters.Add(new AllowAnonymousFilter());
+                });
+            }
 
             services.AddSwaggerGen(c =>
             {
@@ -127,6 +137,7 @@ namespace MyAthleticsClub.Api
             app.UseHangfireServer(storage: new MemoryStorage());
 
             app.UseAuthentication();
+
             app.UseMvc();
 
             app.UseSwagger();
@@ -144,7 +155,7 @@ namespace MyAthleticsClub.Api
             // Configure recurring background event result parsing
             appLifetime.ApplicationStarted.Register(backgroundJobService.Initialize);
 
-            LogStartupInformation(app.ApplicationServices);
+            LogStartupInformation(app.ApplicationServices, env);
         }
 
         private void ConfigureAuthentication(IServiceCollection services)
@@ -190,7 +201,7 @@ namespace MyAthleticsClub.Api
         private void ConfigureDepencyInjection(IServiceCollection services)
         {
             services.AddSingleton(Configuration);
-            services.AddSingleton(CloudStorageAccount.Parse(Configuration.GetConnectionString("AzureTableStorage")));
+                services.AddSingleton(CloudStorageAccount.Parse(Configuration.GetConnectionString("AzureTableStorage")));
 
             // Services
             services.AddScoped<IEmailService, EmailService>();
@@ -252,7 +263,7 @@ namespace MyAthleticsClub.Api
             services.Configure<SlackOptions>(Configuration.GetSection(nameof(SlackOptions)));
         }
 
-        private void LogStartupInformation(IServiceProvider serviceProvider)
+        private void LogStartupInformation(IServiceProvider serviceProvider, IHostingEnvironment env)
         {
             var scopeFactory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
             using (var scope = scopeFactory.CreateScope())
@@ -260,6 +271,8 @@ namespace MyAthleticsClub.Api
                 Log.Logger.Information("-----------------------------");
                 Log.Logger.Information("Application started");
                 Log.Logger.Information("-----------------------------");
+
+                Log.Logger.Information($"Hosting Environment: {env.EnvironmentName}");
 
                 Log.Logger.Information("Storage connectionstring: {ConnectionString}", Configuration.GetConnectionString("AzureTableStorage"));
 

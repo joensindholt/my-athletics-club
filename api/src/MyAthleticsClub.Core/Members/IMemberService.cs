@@ -22,6 +22,8 @@ namespace MyAthleticsClub.Core.Members
 
         Task<MemberStatistics> GetStatistics(string organizationId, DateTime date);
 
+        Task<MemberStatistics> GetStatisticsCfr(string organizationId, int year);
+
         Task<int> GetAvailableFamilyMembershipNumberAsync(string organizationId);
     }
 }

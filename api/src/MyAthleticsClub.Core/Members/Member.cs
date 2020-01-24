@@ -94,22 +94,23 @@ namespace MyAthleticsClub.Core.Members
       return age;
     }
 
-    public int GetMonthsMembershipInYear(int year)
+    public bool HasMonthsOfMembershipInYear(int year, int months)
     {
-      int monthsMembership = 0;
-
-      for (var month = 1; month <= 12; month++)
+      if (!StartDate.HasValue)
       {
-        var monthStart = new DateTime(year, month, 1);
-        var monthEnd = new DateTime(year, month + 1, 1).AddDays(-1);
-
-        if (StartDate <= monthStart && (TerminationDate == null || TerminationDate >= monthEnd))
-        {
-          monthsMembership++;
-        }
+        return false;
       }
 
-      return monthsMembership;
+      var yearStart = new DateTime(year, 1, 1);
+      var yearEnd = new DateTime(year + 1, 1, 1).AddDays(-1);
+
+      var from = new DateTime(Math.Max(yearStart.Ticks, StartDate.Value.Ticks)).Date;
+      var to =
+        !TerminationDate.HasValue ?
+        yearEnd :
+        new DateTime(Math.Min(yearEnd.Ticks, TerminationDate.Value.Date.Ticks)).Date;
+
+      return from.AddMonths(months) <= to;
     }
   }
 }

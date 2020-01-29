@@ -38,7 +38,7 @@
     "karma-jasmine": "^1.1.2",
     "lodash": "^4.17.13",
     "path": "^0.12.7",
-    "tsd": "^0.7.2",
+    "tsd": "^0.6.5",
     "yargs": "^4.7.1"
   },
   "dependencies": {

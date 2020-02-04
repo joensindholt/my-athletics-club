@@ -4,7 +4,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ApiKeepAlive
+namespace MyAthleticsClub.Server
 {
     public class Startup : IWebJobsStartup
     {

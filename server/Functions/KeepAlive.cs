@@ -1,13 +1,12 @@
 using System.Net.Http;
 using System.Threading.Tasks;
-using ApiKeepAlive;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Logging;
 
-[assembly: WebJobsStartup(typeof(Startup))]
+[assembly: WebJobsStartup(typeof(MyAthleticsClub.Server.Startup))]
 
-namespace ApiKeepAlive
+namespace MyAthleticsClub.Server.Functions
 {
     public class KeepAlive
     {

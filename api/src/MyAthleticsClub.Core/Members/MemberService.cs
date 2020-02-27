@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using MyAthleticsClub.Core.Slack;
 using MyAthleticsClub.Core.Slug;
 
 namespace MyAthleticsClub.Core.Members
@@ -10,12 +12,18 @@ namespace MyAthleticsClub.Core.Members
     public class MemberService : IMemberService
     {
         private readonly IMemberRepository _memberRepository;
+        private readonly ISlackService _slackService;
         private readonly ISlugGenerator _slugGenerator;
         private readonly ILogger<MemberService> _logger;
 
-        public MemberService(IMemberRepository memberRepository, ISlugGenerator slugGenerator, ILogger<MemberService> logger)
+        public MemberService(
+            IMemberRepository memberRepository,
+            ISlackService slackService,
+            ISlugGenerator slugGenerator,
+            ILogger<MemberService> logger)
         {
             _memberRepository = memberRepository;
+            _slackService = slackService;
             _slugGenerator = slugGenerator;
             _logger = logger;
         }
@@ -116,6 +124,31 @@ namespace MyAthleticsClub.Core.Members
         public async Task<int> GetAvailableFamilyMembershipNumberAsync(string organizationId)
         {
             return await _memberRepository.GetAvailableFamilyMembershipNumberAsync(organizationId);
+        }
+
+        public async Task NotifyFourteenDayMembers(CancellationToken cancellationToken)
+        {
+            _logger.LogInformation($"Notifying Glennie about new members");
+
+            var days = 14;
+            var fourteenDaysAgo = DateTime.UtcNow.Date.AddDays(-days);
+
+            var members = await _memberRepository.GetActiveMembersByStartDateAsync(fourteenDaysAgo);
+
+            _logger.LogInformation($"Found {members.Count()} members");
+
+            if (members.Any())
+            {
+                var message = new
+                {
+                    channel = "@glenniesindholt",
+                    text = $"Følgende medlemmer blev indmeldt for {days} dage siden\n\n" +
+                        string.Join("\n", members.OrderBy(n => n.Name).Select(m => m.Name)) + "\n\n" +
+                        "Med venlig hilsen\nGIK's medlemssystem"
+                };
+
+                await _slackService.SendMessageAsync(message, cancellationToken);
+            }
         }
     }
 }

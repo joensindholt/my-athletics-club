@@ -1,18 +1,10 @@
 {
   "name": "my-athletics-club-frontend",
   "description": "frontend for the my athletics club project",
-  "authors": [
-    "Joen Sindholt"
-  ],
+  "authors": ["Joen Sindholt"],
   "license": "ISC",
   "homepage": "https://github.com/joensindholt/myathleticsclub",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
+  "ignore": ["**/.*", "node_modules", "bower_components", "test", "tests"],
   "dependencies": {
     "angular": "1.5.6",
     "angular-route": "1.5.6",

@@ -2,14 +2,20 @@
 
 <div ng-show="isAuthenticated && vm.statistics">
   <!-- header -->
-  <h1 class="center">Medlemmer</h1>
+  <h1 class="center">Medlems-statistik</h1>
   <!-- date picker -->
   <div class="spacy-m3-v">
     <div class="row">
       <div class="col-sm-6 col-sm-offset-3">
         <div class="input-group box-center">
-          <span class="input-group-addon">Per dato</span>
-          <input type="text" ng-model="vm.date" class="form-control center" aria-label="Statistics date" aria-describedby="basic-addon2">
+          <span class="input-group-addon">For år</span>
+          <input
+            type="text"
+            ng-model="vm.year"
+            class="form-control center"
+            aria-label="Statistics year"
+            aria-describedby="basic-addon2"
+          />
           <span class="input-group-addon" id="basic-addon2" ng-click="vm.update()">Opdater</span>
         </div>
       </div>
@@ -30,9 +36,9 @@
         <tbody>
           <tr ng-repeat="item in vm.statistics">
             <td>{{ item.age }} år</td>
-            <td>{{ item.genders.females }}</td>
-            <td>{{ item.genders.males }}</td>
-            <td>{{ item.genders.males + item.genders.females }}</td>
+            <td>{{ item.females }}</td>
+            <td>{{ item.males }}</td>
+            <td>{{ item.males + item.females }}</td>
           </tr>
         </tbody>
         <tfoot>
@@ -49,7 +55,13 @@
   <!-- chart -->
   <div class="spacy-m3-v chart-container">
     <div>
-      <canvas id="bar" class="chart chart-bar" chart-data="vm.data" chart-labels="vm.labels" chart-series="vm.series"></canvas>
+      <canvas
+        id="bar"
+        class="chart chart-bar"
+        chart-data="vm.data"
+        chart-labels="vm.labels"
+        chart-series="vm.series"
+      ></canvas>
     </div>
   </div>
 </div>

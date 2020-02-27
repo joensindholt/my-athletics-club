@@ -9,32 +9,34 @@ new SentryConfig().configure();
 module app {
   'use strict';
 
-  angular.module('app', [
-    // External modules
-    'ngRoute',
-    'ui.router',
-    // App modules
-    'core',
-    'events',
-    'featuretoggles',
-    'members',
-    'Registrations',
-    'users',
-    // Third party modules
-    'ngRaven',
-    'momentjs',
-    'checklist-model',
-    'ui.bootstrap',
-    'ui.bootstrap.tpls',
-    'ui.bootstrap.datepickerPopup',
-    'vcRecaptcha',
-    'angular-autogrow',
-    'multipleSelect',
-    'cfp.hotkeys',
-    'ngCsv',
-    'chart.js'
-  ]).config(['$stateProvider', '$httpProvider', config])
-    .run(['AuthService', run])
+  angular
+    .module('app', [
+      // External modules
+      'ngRoute',
+      'ui.router',
+      // App modules
+      'core',
+      'events',
+      'featuretoggles',
+      'members',
+      'Registrations',
+      'users',
+      // Third party modules
+      'ngRaven',
+      'momentjs',
+      'checklist-model',
+      'ui.bootstrap',
+      'ui.bootstrap.tpls',
+      'ui.bootstrap.datepickerPopup',
+      'vcRecaptcha',
+      'angular-autogrow',
+      'multipleSelect',
+      'cfp.hotkeys',
+      'ngCsv',
+      'chart.js'
+    ])
+    .config(['$stateProvider', '$httpProvider', config])
+    .run(['AuthService', run]);
 
   angular.module('core', ['ngSanitize']);
   angular.module('events', []);
@@ -43,11 +45,7 @@ module app {
   angular.module('users', []);
   angular.module('featuretoggles', []);
 
-  function config(
-    $stateProvider: angular.ui.IStateProvider,
-    $httpProvider: ng.IHttpProvider
-  ) {
-
+  function config($stateProvider: angular.ui.IStateProvider, $httpProvider: ng.IHttpProvider) {
     $stateProvider
       .state('home', {
         url: '',

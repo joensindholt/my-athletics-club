@@ -32,7 +32,7 @@ namespace MyAthleticsClub.Api.Shared
         [ProducesResponseType(typeof(string), 200)]
         public IActionResult GetHealth()
         {
-            return Ok("health");
+            return Ok("health - v1");
         }
 
         [HttpGet("api/admin/config")]

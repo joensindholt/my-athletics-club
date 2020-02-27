@@ -1,5 +1,10 @@
 // Place your settings in this file to overwrite default and user settings.
 {
   "editor.detectIndentation": false,
-  "editor.tabSize": 4
+"editor.tabSize": 4,
+"azureFunctions.deploySubpath": "server/bin/Release/netcoreapp3.1/publish",
+"azureFunctions.projectLanguage": "C#",
+"azureFunctions.projectRuntime": "~2",
+"debug.internalConsoleOptions": "neverOpen",
+"azureFunctions.preDeployTask": "publish"
 }

@@ -33,6 +33,13 @@ namespace MyAthleticsClub.Core.Members
                     .Where(m => !MemberIsActive(m));
         }
 
+        public async Task<IEnumerable<Member>> GetActiveMembersByStartDateAsync(DateTime date)
+        {
+            return
+                (await base.GetAllByPartitionKeyInternalAsync("gik"))
+                    .Where(m => m.StartDate.HasValue && m.StartDate.Value.Date == date.Date);
+        }
+
         public async Task<int> CountAllAsync(string organizationId)
         {
             var all = await base.GetAllByPartitionKeyInternalAsync(organizationId);

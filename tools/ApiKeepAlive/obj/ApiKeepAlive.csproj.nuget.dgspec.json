@@ -1,0 +1,74 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/joen/dev/my-athletics-club/tools/ApiKeepAlive/ApiKeepAlive.csproj": {}
+  },
+  "projects": {
+    "/home/joen/dev/my-athletics-club/tools/ApiKeepAlive/ApiKeepAlive.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/joen/dev/my-athletics-club/tools/ApiKeepAlive/ApiKeepAlive.csproj",
+        "projectName": "ApiKeepAlive",
+        "projectPath": "/home/joen/dev/my-athletics-club/tools/ApiKeepAlive/ApiKeepAlive.csproj",
+        "packagesPath": "/home/joen/.nuget/packages/",
+        "outputPath": "/home/joen/dev/my-athletics-club/tools/ApiKeepAlive/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/home/joen/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "Microsoft.Azure.WebJobs": {
+              "target": "Package",
+              "version": "[3.0.14, )"
+            },
+            "Microsoft.Azure.WebJobs.Extensions": {
+              "target": "Package",
+              "version": "[3.0.5, )"
+            },
+            "Microsoft.Extensions.Http": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.NET.Sdk.Functions": {
+              "target": "Package",
+              "version": "[3.0.2, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}

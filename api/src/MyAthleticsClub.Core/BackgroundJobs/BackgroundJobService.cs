@@ -2,44 +2,37 @@ using System;
 using Hangfire;
 using Hangfire.Common;
 using Microsoft.Extensions.Logging;
-using MyAthleticsClub.Core.MarsEvents;
+using MyAthleticsClub.Core.Members;
 
 namespace MyAthleticsClub.Core.BackgroundJobs
 {
     public class BackgroundJobService : IBackgroundJobService
     {
-        private readonly IBackgroundJobClient _backgroundJobClient;
         private readonly IRecurringJobManager _recurringJobManager;
-        private readonly IMarsEventService _marsEventService;
+        private readonly IMemberService _memberService;
         private readonly ILogger<BackgroundJobService> _logger;
 
         public BackgroundJobService(
-            IBackgroundJobClient backgroundJobClient,
             IRecurringJobManager recurringJobManager,
-            IMarsEventService marsEventService,
+            IMemberService memberService,
             ILogger<BackgroundJobService> logger)
         {
-            _backgroundJobClient = backgroundJobClient;
             _recurringJobManager = recurringJobManager;
-            _marsEventService = marsEventService;
+            _memberService = memberService;
             _logger = logger;
         }
 
         public void Initialize()
         {
-            var atMidnightAndNoonEveryDay = "0 0,12 * * *";
+            _logger.LogInformation("Adding recurring job notifying about fourteen day members");
 
-            // Run the event result parsing one minute after server start
-            _backgroundJobClient.Schedule(() => _marsEventService.UpdateEventsAsync(JobCancellationToken.Null), TimeSpan.FromMinutes(1));
+            var atTenAmEveryDay = "0 10 * * *";
 
-            // ...then run the parsing recurringly at noon and midnight
             _recurringJobManager.AddOrUpdate(
-                recurringJobId: "MarsEvents",
-                job: Job.FromExpression(() => _marsEventService.UpdateEventsAsync(JobCancellationToken.Null)),
-                cronExpression: atMidnightAndNoonEveryDay,
+                recurringJobId: "14DayMemberNotification",
+                job: Job.FromExpression(() => _memberService.NotifyFourteenDayMembers(JobCancellationToken.Null.ShutdownToken)),
+                cronExpression: atTenAmEveryDay,
                 timeZone: TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time"));
-
-            _logger.LogInformation("Configured event result parsing to run recurringly using cron expression: {Cron}", atMidnightAndNoonEveryDay);
         }
     }
 }

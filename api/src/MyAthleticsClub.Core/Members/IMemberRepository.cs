@@ -12,6 +12,8 @@ namespace MyAthleticsClub.Core.Members
 
         Task<IEnumerable<Member>> GetTerminatedMembersAsync(string organizationId);
 
+        Task<IEnumerable<Member>> GetActiveMembersByStartDateAsync(DateTime date);
+
         Task<Member> GetAsync(string organizationId, string id);
 
         Task CreateAsync(Member member);

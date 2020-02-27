@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MyAthleticsClub.Core.Members
@@ -25,5 +26,7 @@ namespace MyAthleticsClub.Core.Members
         Task<MemberStatistics> GetStatisticsCfr(string organizationId, int year);
 
         Task<int> GetAvailableFamilyMembershipNumberAsync(string organizationId);
+
+        Task NotifyFourteenDayMembers(CancellationToken cancellationToken);
     }
 }

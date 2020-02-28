@@ -27,6 +27,6 @@ namespace MyAthleticsClub.Core.Members
 
         Task<int> GetAvailableFamilyMembershipNumberAsync(string organizationId);
 
-        Task NotifyFourteenDayMembers(CancellationToken cancellationToken);
+        Task NotifyFourteenDayMembers();
     }
 }

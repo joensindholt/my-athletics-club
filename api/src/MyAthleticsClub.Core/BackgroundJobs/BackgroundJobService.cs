@@ -30,7 +30,7 @@ namespace MyAthleticsClub.Core.BackgroundJobs
 
             _recurringJobManager.AddOrUpdate(
                 recurringJobId: "14DayMemberNotification",
-                job: Job.FromExpression(() => _memberService.NotifyFourteenDayMembers(JobCancellationToken.Null.ShutdownToken)),
+                job: Job.FromExpression(() => _memberService.NotifyFourteenDayMembers()),
                 cronExpression: atTenAmEveryDay,
                 timeZone: TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time"));
         }

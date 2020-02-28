@@ -126,7 +126,7 @@ namespace MyAthleticsClub.Core.Members
             return await _memberRepository.GetAvailableFamilyMembershipNumberAsync(organizationId);
         }
 
-        public async Task NotifyFourteenDayMembers(CancellationToken cancellationToken)
+        public async Task NotifyFourteenDayMembers()
         {
             _logger.LogInformation($"Notifying Glennie about new members");
 
@@ -147,7 +147,7 @@ namespace MyAthleticsClub.Core.Members
                         "Med venlig hilsen\nGIK's medlemssystem"
                 };
 
-                await _slackService.SendMessageAsync(message, cancellationToken);
+                await _slackService.SendMessageAsync(message);
             }
         }
     }

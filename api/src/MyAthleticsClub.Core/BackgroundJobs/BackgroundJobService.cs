@@ -17,9 +17,9 @@ namespace MyAthleticsClub.Core.BackgroundJobs
             IMemberService memberService,
             ILogger<BackgroundJobService> logger)
         {
-            _recurringJobManager = recurringJobManager;
-            _memberService = memberService;
-            _logger = logger;
+            _recurringJobManager = recurringJobManager ?? throw new ArgumentException("Missing dependency", nameof(recurringJobManager));
+            _memberService = memberService ?? throw new ArgumentException("Missing dependency", nameof(memberService));
+            _logger = logger ?? throw new ArgumentException("Missing dependency", nameof(logger));
         }
 
         public void Initialize()

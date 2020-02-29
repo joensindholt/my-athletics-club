@@ -7,7 +7,10 @@ namespace MyAthleticsClub.Api.WebApi.Features.OpenApi
     {
         public static void AddOpenApiWithUI(this IServiceCollection services)
         {
-            services.AddOpenApiDocument();
+            services.AddOpenApiDocument(settings =>
+            {
+                settings.Title = "My Athletics Club";
+            });
         }
 
         public static void UseOpenApiWithUI(this IApplicationBuilder builder)

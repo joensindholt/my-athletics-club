@@ -11,7 +11,7 @@ namespace MyAthleticsClub.Api.WebApi
         [HttpGet]
         public async Task<ActionResult<GetMembersResponse>> Get(CancellationToken cancellationToken)
         {
-            return await Mediator.Send(new GetMembersQuery(), cancellationToken);
+            return await Mediator.Send(new GetMembersRequest(), cancellationToken);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace MyAthleticsClub.Api.Application.Features.Members.GetMembers
         {
             var members =
                 _context.Members
-                    .Where(Member.IsActive)
+                    .Where(Member.IsActiveExpr)
                     .Select(m => new GetMembersResponse.Member
                     {
                         Name = m.Name

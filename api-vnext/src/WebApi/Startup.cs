@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MyAthleticsClub.Api.Application;
 using MyAthleticsClub.Api.Infrastructure;
+using MyAthleticsClub.Api.WebApi.Features.OpenApi;
 
 namespace WebApi
 {
@@ -29,7 +30,7 @@ namespace WebApi
         {
             services.AddApplication();
             services.AddInfrastructure();
-
+            services.AddOpenApiWithUI();
             services.AddControllers();
         }
 
@@ -42,6 +43,8 @@ namespace WebApi
             }
 
             app.UseHttpsRedirection();
+
+            app.UseOpenApiWithUI();
 
             app.UseRouting();
 

@@ -1,9 +1,11 @@
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyAthleticsClub.Api.Application;
+using MyAthleticsClub.Api.Application.Common.Interfaces;
 using MyAthleticsClub.Api.Infrastructure;
 using MyAthleticsClub.Api.WebApi.Features.OpenApi;
 
@@ -23,7 +25,8 @@ namespace WebApi
             services.AddApplication();
             services.AddInfrastructure();
             services.AddOpenApiWithUI();
-            services.AddControllers();
+            services.AddControllers()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IApplicationDbContext>());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

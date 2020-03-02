@@ -17,12 +17,10 @@ namespace MyAthleticsClub.Api.Application.Features.Members.CreateMember
 
         public async Task<CreateMemberResponse> Handle(CreateMemberRequest request, CancellationToken cancellationToken)
         {
-            var member = new Member
-            {
-                Name = request.Name
-            };
+            var member = new Member(name: request.Name);
 
-            //_context.Members.Add(member);
+            _context.Members.Add(member);
+
             await _context.SaveChangesAsync(cancellationToken);
 
             return await Task.FromResult(new CreateMemberResponse(member.Id));

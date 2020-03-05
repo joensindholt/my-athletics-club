@@ -1,14 +1,16 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using Microsoft.WindowsAzure.Storage;
+using MyAthleticsClub.Core.Options;
 using Newtonsoft.Json;
 
 namespace MyAthleticsClub.Core.Events
 {
     public class RegistrationRepository : AzureStorageRepository<Registration, RegistrationEntity>, IRegistrationRepository
     {
-        public RegistrationRepository(CloudStorageAccount account)
-            : base(account, "registrations")
+        public RegistrationRepository(CloudStorageAccount account, IOptions<StorageOptions> storageOptions)
+            : base(account, "registrations", storageOptions)
         {
         }
 

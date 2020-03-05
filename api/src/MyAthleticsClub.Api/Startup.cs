@@ -28,6 +28,7 @@ using MyAthleticsClub.Core.Events;
 using MyAthleticsClub.Core.MarsEvents;
 using MyAthleticsClub.Core.Members;
 using MyAthleticsClub.Core.Mocks;
+using MyAthleticsClub.Core.Options;
 using MyAthleticsClub.Core.Shared;
 using MyAthleticsClub.Core.Slack;
 using MyAthleticsClub.Core.Slug;
@@ -154,6 +155,7 @@ namespace MyAthleticsClub.Api
 
             // Check that options have been properly initialized
             app.ApplicationServices.GetRequiredService<IOptions<EmailOptions>>().Value.Verify();
+            app.ApplicationServices.GetRequiredService<IOptions<StorageOptions>>().Value.Verify();
 
             // Serilog: Ensure any buffered events are sent at shutdown
             appLifetime.ApplicationStopped.Register(Log.CloseAndFlush);
@@ -265,6 +267,7 @@ namespace MyAthleticsClub.Api
             services.AddScoped<AdminConfigResponse, AdminConfigResponse>();
             services.Configure<AdminOptions>(Configuration.GetSection(nameof(AdminOptions)));
             services.Configure<EmailOptions>(Configuration.GetSection(nameof(EmailOptions)));
+            services.Configure<StorageOptions>(Configuration.GetSection(nameof(StorageOptions)));
             services.Configure<EnrollmentOptions>(Configuration.GetSection(nameof(EnrollmentOptions)));
             services.Configure<JwtOptions>(Configuration.GetSection(nameof(JwtOptions)));
             services.Configure<SlackOptions>(Configuration.GetSection(nameof(SlackOptions)));

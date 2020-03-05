@@ -1,14 +1,16 @@
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using Microsoft.WindowsAzure.Storage;
+using MyAthleticsClub.Core.Options;
 using Newtonsoft.Json;
 
 namespace MyAthleticsClub.Core.MarsEvents
 {
     public class ResultRepository : AzureStorageRepository<Result, ResultEntity>, IResultRepository
     {
-        public ResultRepository(CloudStorageAccount account)
-            : base(account, "results")
+        public ResultRepository(CloudStorageAccount account, IOptions<StorageOptions> storageOptions)
+            : base(account, "results", storageOptions)
         {
         }
 

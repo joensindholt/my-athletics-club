@@ -3,7 +3,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
 using Microsoft.WindowsAzure.Storage;
+using MyAthleticsClub.Core.Options;
 using Newtonsoft.Json;
 
 namespace MyAthleticsClub.Core.MarsEvents
@@ -16,8 +18,9 @@ namespace MyAthleticsClub.Core.MarsEvents
 
         public MarsEventRepository(
             CloudStorageAccount account,
-            IMemoryCache memoryCache)
-            : base(account, "marsevents")
+            IMemoryCache memoryCache,
+            IOptions<StorageOptions> storageOptions)
+            : base(account, "marsevents", storageOptions)
         {
             _memoryCache = memoryCache;
         }

@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using Microsoft.WindowsAzure.Storage;
+using MyAthleticsClub.Core.Options;
 
 namespace MyAthleticsClub.Core.Members
 {
@@ -10,8 +12,8 @@ namespace MyAthleticsClub.Core.Members
         AzureStorageRepository<MemberMessage, MemberMessageEntity>,
         IMemberMessageRepository
     {
-        public MemberMessageRepository(CloudStorageAccount account)
-            : base(account, "membermessages")
+        public MemberMessageRepository(CloudStorageAccount account, IOptions<StorageOptions> storageOptions)
+            : base(account, "membermessages", storageOptions)
         {
         }
 

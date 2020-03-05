@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using MarkdownSharp;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
@@ -19,6 +20,7 @@ namespace MyAthleticsClub.Core.Email
         private readonly IEmailTemplateProvider _emailTemplateProvider;
         private readonly ITemplateMerger _templateMerger;
         private readonly ILogger<EmailService> _logger;
+        private readonly Markdown _markdown = new Markdown();
 
         public EmailTemplates Templates => _options.Templates;
 
@@ -34,37 +36,36 @@ namespace MyAthleticsClub.Core.Email
             _logger = logger;
         }
 
-        public async Task SendTemplateEmailAsync(string to, string templateId, object data, CancellationToken cancellationToken)
+        public async Task<SentEmail> SendTemplateEmailAsync(string to, string templateId, object data, CancellationToken cancellationToken)
         {
-            if (!_options.Enabled)
-            {
-                _logger.LogInformation("Email sending is disabled. No email is sent");
-                return;
-            }
-
-            await SendTemplateEmailAsync(new List<string> { to }, templateId, data, cancellationToken);
+            return await SendTemplateEmailAsync(new List<string> { to }, templateId, data, cancellationToken);
         }
 
-        public async Task SendTemplateEmailAsync(IEnumerable<string> to, string templateId, object data, CancellationToken cancellationToken)
+        public async Task<SentEmail> SendTemplateEmailAsync(IEnumerable<string> to, string templateId, object data, CancellationToken cancellationToken)
         {
-            if (!_options.Enabled)
-            {
-                _logger.LogInformation("Email sending is disabled. No email is sent");
-                return;
-            }
-
             var template = await _emailTemplateProvider.GetTemplateAsync(templateId, cancellationToken);
             var subject = _templateMerger.Merge(template.GetSubject(), data);
             var htmlContent = _templateMerger.Merge(template.GetHtmlContent(), data);
-            await SendEmailAsync(to, subject, htmlContent, cancellationToken);
+            return await SendEmailAsync(to, subject, htmlContent, cancellationToken);
         }
 
-        private async Task SendEmailAsync(IEnumerable<string> to, string subject, string body, CancellationToken cancellationToken)
+        public async Task<SentEmail> SendMarkdownEmail(string to, string subject, string template, object data, CancellationToken cancellation)
+        {
+            var mergedContent = _templateMerger.Merge(template, data);
+            var htmlContent = _markdown.Transform(mergedContent);
+            return await SendEmailAsync(new List<string> { to }, subject, htmlContent, cancellation);
+        }
+
+        private async Task<SentEmail> SendEmailAsync(IEnumerable<string> to, string subject, string body, CancellationToken cancellationToken)
         {
             if (!_options.Enabled)
             {
-                _logger.LogInformation("Email sending is disabled. No email is sent");
-                return;
+                _logger.LogInformation($"Email sending is disabled. No email was sent. Would have sent:\n" +
+                    $"To: {string.Join(", ", to)}\n" +
+                    $"Subject: {subject}\n" +
+                    $"{body}");
+
+                return new SentEmail(to, subject + " (EMAIL DISABLED - NOT REALLY SENT)", body, sent: DateTime.UtcNow);
             }
 
             var message = new MimeMessage();
@@ -90,6 +91,8 @@ namespace MyAthleticsClub.Core.Email
                 await client.SendAsync(message, cancellationToken);
                 await client.DisconnectAsync(true, cancellationToken);
             }
+
+            return new SentEmail(to, subject, body, sent: DateTime.UtcNow);
         }
     }
 

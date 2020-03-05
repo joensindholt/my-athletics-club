@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "npm install && bower install && tsd reinstall -so",
-    "start": "gulp serve",
+    "start": "gulp watch",
     "test": "npm run htmlhint",
     "deploy": "gulp --settings=production",
     "htmlhint": "htmlhint src/**/*.html --config .htmlhintrc",

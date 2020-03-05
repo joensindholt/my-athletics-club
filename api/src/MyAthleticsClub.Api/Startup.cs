@@ -207,7 +207,7 @@ namespace MyAthleticsClub.Api
         private void ConfigureDepencyInjection(IServiceCollection services)
         {
             services.AddSingleton(Configuration);
-                services.AddSingleton(CloudStorageAccount.Parse(Configuration.GetConnectionString("AzureTableStorage")));
+            services.AddSingleton(CloudStorageAccount.Parse(Configuration.GetConnectionString("AzureTableStorage")));
 
             // Services
             services.AddScoped<IEmailService, EmailService>();
@@ -238,6 +238,7 @@ namespace MyAthleticsClub.Api
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<IResultRepository, ResultRepository>();
             services.AddScoped<IMemberRepository, MemberRepository>();
+            services.AddScoped<IMemberMessageRepository, MemberMessageRepository>();
             services.AddScoped<IRegistrationRepository, RegistrationRepository>();
             services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
             services.AddScoped<ISubscriptionAccountRepository, SubscriptionAccountRepository>();

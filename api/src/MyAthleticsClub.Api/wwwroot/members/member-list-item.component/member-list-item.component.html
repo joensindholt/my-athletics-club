@@ -1,0 +1,52 @@
+<div class="o-details-list-card">
+  <!-- header -->
+  <div class="o-details-list-card__header">
+    <div class="o-details-list-card__avatar">
+      {{ $ctrl.member.name | limitTo:1 }}
+    </div>
+    <div class="o-details-list-card__header-content">
+      <div class="o-details-list-card__title">{{ $ctrl.member.name }}</div>
+      <div class="o-details-list-card__subtitle">{{ $ctrl.member.number }}</div>
+    </div>
+  </div>
+  <!-- termination info -->
+  <div ng-if="$ctrl.member.terminationDate" class="o-details-list-card__info">
+    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+    <span>Udmeldt per {{ $ctrl.member.terminationDate | limitTo:10 }}</span>
+  </div>
+  <!-- fields -->
+  <div class="o-details-list-card__body">
+    <div>
+      <label>køn</label>
+      <div>{{ $ctrl.getMemberGender() || '-' }} &nbsp;</div>
+    </div>
+    <div>
+      <label>hold</label>
+      <div>{{ $ctrl.getMemberTeam() || '-' }} &nbsp;</div>
+    </div>
+    <div>
+      <label>email</label>
+      <div>{{ $ctrl.member.email }} &nbsp;</div>
+    </div>
+    <div>
+      <label>email 2</label>
+      <div>{{ $ctrl.member.email2 || '-' }} &nbsp;</div>
+    </div>
+    <div>
+      <label>fødselsdato</label>
+      <div>{{ $ctrl.member.birthDate | limitTo:10 || '-' }} &nbsp;</div>
+    </div>
+    <div>
+      <label>fam. medl. nummer</label>
+      <div>{{ $ctrl.member.familyMembershipNumber || '-' }} &nbsp;</div>
+    </div>
+    <div>
+      <label>indmeldt</label>
+      <div>{{ ($ctrl.member.startDate | limitTo:10) || '-' }} &nbsp;</div>
+    </div>
+    <div>
+      <label>udest. kont.</label>
+      <div>{{ $ctrl.member.hasOutstandingMembershipPayment ? 'Ja' : 'Nej' }} &nbsp;</div>
+    </div>
+  </div>
+</div>

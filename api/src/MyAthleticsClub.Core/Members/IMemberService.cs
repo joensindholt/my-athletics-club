@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using MyAthleticsClub.Core.Members.AddMember;
+using MyAthleticsClub.Core.Members.GetMember;
 
 namespace MyAthleticsClub.Core.Members
 {
@@ -11,9 +13,9 @@ namespace MyAthleticsClub.Core.Members
 
         Task<IEnumerable<Member>> GetTerminatedMembersAsync(string organizationId);
 
-        Task<Member> GetAsync(string organizationId, string id);
+        Task<GetMemberResponse> GetAsync(string organizationId, string id);
 
-        Task CreateAsync(string organizationId, Member member);
+        Task<AddMemberResponse> CreateAsync(AddMemberRequest request, CancellationToken cancellationToken);
 
         Task UpdateAsync(Member member);
 

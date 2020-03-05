@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MyAthleticsClub.Core.Members;
+using MyAthleticsClub.Core.Members.AddMember;
+using MyAthleticsClub.Core.Members.GetMember;
 using MyAthleticsClub.Core.Subscriptions;
 
 namespace MyAthleticsClub.Api.Members
@@ -38,25 +41,29 @@ namespace MyAthleticsClub.Api.Members
         }
 
         [HttpGet("api/members/{id}")]
-        [ProducesResponseType(typeof(Member), 200)]
+        [ProducesResponseType(typeof(GetMemberResponse), 200)]
         public async Task<IActionResult> GetMember([FromRoute]string id)
         {
-            var member = await _memberService.GetAsync("gik", id);
-            return Ok(member);
+            var response = await _memberService.GetAsync("gik", id);
+            return Ok(response);
         }
 
         [HttpPost("api/members")]
-        [ProducesResponseType(typeof(Member), 200)]
-        public async Task<IActionResult> CreateMember([FromBody]Member member)
+        [ProducesResponseType(typeof(AddMemberResponse), 200)]
+        public async Task<IActionResult> CreateMember(
+            [FromBody]AddMemberRequest request,
+            CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            member.OrganizationId = "gik";
-            await _memberService.CreateAsync("gik", member);
-            return Ok(member);
+            request.Member.OrganizationId = "gik";
+
+            var response = await _memberService.CreateAsync(request, cancellationToken);
+
+            return Ok(response);
         }
 
         [HttpPut("api/members/{id}")]
@@ -123,4 +130,5 @@ namespace MyAthleticsClub.Api.Members
             return Ok(new AvailableFamilyMembershipNumberResponse(number));
         }
     }
+
 }

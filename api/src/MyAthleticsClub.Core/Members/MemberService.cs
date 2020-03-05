@@ -4,6 +4,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using MyAthleticsClub.Core.Email;
+using MyAthleticsClub.Core.Members.AddMember;
+using MyAthleticsClub.Core.Members.GetMember;
+using MyAthleticsClub.Core.Shared.Exceptions;
 using MyAthleticsClub.Core.Slack;
 using MyAthleticsClub.Core.Slug;
 
@@ -12,19 +16,25 @@ namespace MyAthleticsClub.Core.Members
     public class MemberService : IMemberService
     {
         private readonly IMemberRepository _memberRepository;
+        private readonly IMemberMessageRepository _memberMessageRepository;
         private readonly ISlackService _slackService;
         private readonly ISlugGenerator _slugGenerator;
+        private readonly IEmailService _emailService;
         private readonly ILogger<MemberService> _logger;
 
         public MemberService(
             IMemberRepository memberRepository,
+            IMemberMessageRepository memberMessageRepository,
             ISlackService slackService,
             ISlugGenerator slugGenerator,
+            IEmailService emailService,
             ILogger<MemberService> logger)
         {
             _memberRepository = memberRepository;
+            _memberMessageRepository = memberMessageRepository;
             _slackService = slackService;
             _slugGenerator = slugGenerator;
+            _emailService = emailService;
             _logger = logger;
         }
 
@@ -38,16 +48,52 @@ namespace MyAthleticsClub.Core.Members
             return await _memberRepository.GetTerminatedMembersAsync(organizationId);
         }
 
-        public async Task<Member> GetAsync(string organizationId, string id)
+        public async Task<GetMemberResponse> GetAsync(string organizationId, string id)
         {
-            return await _memberRepository.GetAsync(organizationId, id);
+            var member = await _memberRepository.GetAsync(organizationId, id);
+            var messages = await _memberMessageRepository.GetMemberMessages(member.Id);
+            return new GetMemberResponse(member, messages);
         }
 
-        public async Task CreateAsync(string organizationId, Member member)
+        public async Task<AddMemberResponse> CreateAsync(AddMemberRequest request, CancellationToken cancellationToken)
         {
-            member.Id = Guid.NewGuid().ToString();
-            member.Number = await GetNextMemberNumberAsync(organizationId);
-            await _memberRepository.CreateAsync(member);
+            if (request.WelcomeMessage.Send && string.IsNullOrWhiteSpace(request.Member.Email))
+            {
+                throw new BadRequestException("Sending a welcome message to a member without an email is not possible");
+            }
+
+            request.Member.Id = Guid.NewGuid().ToString();
+            request.Member.Number = await GetNextMemberNumberAsync(request.Member.OrganizationId);
+
+            var welcomeMessageMergeData = new
+            {
+                member_name = request.Member.Name,
+                latest_payment_date = DateTime.Now.Date.AddDays(14)
+            };
+
+            await _memberRepository.CreateAsync(request.Member);
+
+            if (request.WelcomeMessage.Send)
+            {
+                // Send the welcome message
+                var message = await _emailService.SendMarkdownEmail(
+                    to: request.Member.Email,
+                    subject: request.WelcomeMessage.Subject,
+                    template: request.WelcomeMessage.Template,
+                    data: welcomeMessageMergeData,
+                    cancellationToken);
+
+                // Register the sent mail on the member for showing it in "Sent messages" on the member
+                await _memberMessageRepository.CreateAsync(new MemberMessage(
+                    memberId: request.Member.Id,
+                    to: string.Join(", ", message.To),
+                    subject: message.Subject,
+                    htmlContent: message.HtmlContent,
+                    sent: message.Sent),
+                    cancellationToken);
+            }
+
+            return new AddMemberResponse(request.Member);
         }
 
         public async Task UpdateAsync(Member member)

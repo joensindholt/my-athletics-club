@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -40,23 +41,25 @@ namespace MyAthleticsClub.Api.Infrastructure.Persistence
 
             foreach (var entry in changedEntries)
             {
-                var persister = GetPersisterForType(entry.Metadata.ClrType);
+                // TODO: Implement Azure Table Storage 
+                // var persister = GetPersisterForType(entry.Metadata.ClrType);
 
-                switch (entry.State)
-                {
-                    case EntityState.Added:
-                        persister.Add(entry.Member);
-                        break;
-                    case EntityState.Deleted:
-                        persister.Delete(entry.Member);
-                        break;
-                    case EntityState.Modified:
-                        persister.Update(entry.Member);
-                        break;
-                    default:
-                        break;
-                }
+                // switch (entry.State)
+                // {
+                //     case EntityState.Added:
+                //         persister.Add(entry.Member);
+                //         break;
+                //     case EntityState.Deleted:
+                //         persister.Delete(entry.Member);
+                //         break;
+                //     case EntityState.Modified:
+                //         persister.Update(entry.Member);
+                //         break;
+                //     default:
+                //         break;
+                // }
             }
+
             // Do nothing for now
             return Task.FromResult(0);
         }

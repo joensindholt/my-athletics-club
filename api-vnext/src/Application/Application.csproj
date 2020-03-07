@@ -3,13 +3,14 @@
         <TargetFramework>netstandard2.1</TargetFramework>
         <RootNamespace>MyAthleticsClub.Api.Application</RootNamespace>
         <AssemblyName>MyAthleticsClub.Api.Application</AssemblyName>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>
-      <PackageReference Include="FluentValidation" Version="8.6.2" />
-      <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
+        <ProjectReference Include="..\Domain\Domain.csproj" />
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\Domain\Domain.csproj" />
+        <PackageReference Include="FluentValidation" Version="8.6.2" />
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
     </ItemGroup>
 </Project>

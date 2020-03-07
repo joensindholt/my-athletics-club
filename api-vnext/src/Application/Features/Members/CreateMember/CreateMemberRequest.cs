@@ -4,6 +4,11 @@ namespace MyAthleticsClub.Api.Application.Features.Members.CreateMember
 {
     public class CreateMemberRequest : IRequest<CreateMemberResponse>
     {
-        public string Name { get; set; }
+        public CreateMemberRequest(string name)
+        {
+            Name = name;
+        }
+
+        public string Name { get; }
     }
 }

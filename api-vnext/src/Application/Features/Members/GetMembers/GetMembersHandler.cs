@@ -21,16 +21,14 @@ namespace MyAthleticsClub.Api.Application.Features.Members.GetMembers
             var members =
                 _context.Members
                     .Where(Member.IsActiveExpr)
-                    .Select(m => new GetMembersResponse.Member
+                    .Select(m => new
                     {
-                        Name = m.Name
+                        m.Name
                     })
-                    .ToList();
+                    .ToList()
+                    .Select(m => new GetMembersResponse.Member(m.Name));
 
-            return await Task.FromResult(new GetMembersResponse
-            {
-                Members = members
-            });
+            return await Task.FromResult(new GetMembersResponse(members));
         }
     }
 }

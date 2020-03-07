@@ -15,7 +15,7 @@ namespace MyAthleticsClub.Api.Infrastructure.Persistence
         {
         }
 
-        public DbSet<Member> Members { get; set; }
+        public DbSet<Member> Members { get; set; } = null!;
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {

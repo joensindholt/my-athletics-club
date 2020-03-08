@@ -14,12 +14,7 @@ namespace MyAthleticsClub.Api.Application.Features.Members.GetMembers
 
         public class Member
         {
-            public Member(string name)
-            {
-                Name = name;
-            }
-
-            public string Name { get; }
+            public string Name { get; set; } = null!;
         }
     }
 }

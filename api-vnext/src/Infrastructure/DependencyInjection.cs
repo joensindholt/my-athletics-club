@@ -2,6 +2,8 @@ using Microsoft.Extensions.DependencyInjection;
 using MyAthleticsClub.Api.Application.Common.Interfaces;
 using MyAthleticsClub.Api.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using MyAthleticsClub.Api.Infrastructure.AzureTableStorage;
+using Microsoft.WindowsAzure.Storage;
 
 namespace MyAthleticsClub.Api.Infrastructure
 {
@@ -9,12 +11,23 @@ namespace MyAthleticsClub.Api.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    @"Server=(localdb)\mssqllocaldb;Database=EFProviders.InMemory;Trusted_Connection=True;ConnectRetryCount=0",
-                    b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+            services.AddSingleton<CloudStorageAccount>(provider =>
+                CloudStorageAccount.Parse("UseDevelopmentStorage=true"));
 
-            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+            services.AddSingleton<IAzureTableStorageRepository, AzureTableStorageRepository>();
+
+            services.AddSingleton<IApplicationDbContext>(provider =>
+            {
+                var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase("Fake");
+
+                var dbContext = new ApplicationDbContext(
+                    optionsBuilder.Options,
+                    provider.GetService<IAzureTableStorageRepository>());
+
+                dbContext.Initialize().Wait();
+
+                return dbContext;
+            });
 
             return services;
         }

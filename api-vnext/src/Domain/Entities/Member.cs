@@ -5,15 +5,20 @@ namespace MyAthleticsClub.Api.Domain.Entities
 {
     public class Member
     {
-        public Member(string name)
+        private Member()
         {
             Id = Guid.NewGuid().ToString();
+            IsActive = true;
+        }
+
+        public Member(string name) : this()
+        {
             Name = name;
         }
 
         public string Id { get; private set; }
 
-        public string Name { get; private set; }
+        public string Name { get; private set; } = null!;
 
         public bool IsActive { get; private set; }
 

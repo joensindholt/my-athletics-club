@@ -17,7 +17,7 @@ namespace MyAthleticsClub.Api.Application.Features.Members.CreateMember
 
         public async Task<CreateMemberResponse> Handle(CreateMemberRequest request, CancellationToken cancellationToken)
         {
-            var member = new Member(name: request.Name);
+            var member = new Member(request.Name);
 
             _context.Members.Add(member);
 

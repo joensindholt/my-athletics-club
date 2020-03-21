@@ -1,15 +1,12 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.WindowsAzure.Storage.Table;
 using Moq;
 using MyAthleticsClub.Api.Domain.Entities;
-using MyAthleticsClub.Api.Infrastructure.AzureTableStorage;
 using MyAthleticsClub.Api.Infrastructure.Persistence;
 using Xunit;
 
-namespace MyAthleticsClub.Api.UnitTests.InfrastructureTests.PersistenceTests
+namespace MyAthleticsClub.Api.Tests.UnitTests.InfrastructureTests.PersistenceTests
 {
     public class ApplicationDbContextTests
     {

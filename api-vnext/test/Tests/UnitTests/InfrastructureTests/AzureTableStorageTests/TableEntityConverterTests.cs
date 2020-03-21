@@ -4,7 +4,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 using MyAthleticsClub.Api.Infrastructure.AzureTableStorage;
 using Xunit;
 
-namespace MyAthleticsClub.Api.UnitTests.InfrastructureTests.AzureTableStorageTests
+namespace MyAthleticsClub.Api.Tests.UnitTests.InfrastructureTests.AzureTableStorageTests
 {
     public class TableEntityConverterTests
     {

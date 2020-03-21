@@ -2,8 +2,8 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <IsPackable>false</IsPackable>
-        <RootNamespace>MyAthleticsClub.Api.UnitTests</RootNamespace>
-        <AssemblyName>MyAthleticsClub.Api.UnitTests</AssemblyName>
+        <RootNamespace>MyAthleticsClub.Api.Tests</RootNamespace>
+        <AssemblyName>MyAthleticsClub.Api.Tests</AssemblyName>
         <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>

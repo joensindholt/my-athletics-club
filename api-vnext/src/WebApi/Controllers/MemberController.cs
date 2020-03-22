@@ -21,7 +21,7 @@ namespace MyAthleticsClub.Api.WebApi
             CancellationToken cancellationToken)
             => await Mediator.Send(request, cancellationToken);
 
-        [HttpPost("{id}")]
+        [HttpPut("{id}")]
         public async Task<ActionResult<UpdateMemberResponse>> UpdateMember(
             UpdateMemberRequest request,
             CancellationToken cancellationToken)

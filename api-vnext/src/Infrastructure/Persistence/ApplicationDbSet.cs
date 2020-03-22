@@ -13,10 +13,12 @@ namespace MyAthleticsClub.Api.Infrastructure.Persistence
     public class ApplicationDbSet<T> : DbSet<T>, IQueryable<T> where T : AggregateRoot
     {
         private List<T> _cache;
+        private readonly DbContext _dbContext;
 
-        public ApplicationDbSet(IEnumerable<T> entities)
+        public ApplicationDbSet(IEnumerable<T> entities, DbContext dbContext)
         {
             _cache = entities.ToList();
+            _dbContext = dbContext;
         }
 
         public IEnumerator<T> GetEnumerator() => _cache.GetEnumerator();
@@ -32,37 +34,37 @@ namespace MyAthleticsClub.Api.Infrastructure.Persistence
         public override EntityEntry<T> Add(T entity)
         {
             _cache.Add(entity);
-            return base.Add(entity);
+            return _dbContext.Add(entity);
         }
 
         public override ValueTask<EntityEntry<T>> AddAsync(T entity, CancellationToken cancellationToken = default)
         {
             _cache.Add(entity);
-            return base.AddAsync(entity, cancellationToken);
+            return _dbContext.AddAsync(entity, cancellationToken);
         }
 
         public override void AddRange(params T[] entities)
         {
             _cache.AddRange(entities);
-            base.AddRange(entities);
+            _dbContext.AddRange(entities);
         }
 
         public override void AddRange(IEnumerable<T> entities)
         {
             _cache.AddRange(entities);
-            base.AddRange(entities);
+            _dbContext.AddRange(entities);
         }
 
         public override Task AddRangeAsync(params T[] entities)
         {
             _cache.AddRange(entities);
-            return base.AddRangeAsync(entities);
+            return _dbContext.AddRangeAsync(entities);
         }
 
         public override Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
         {
             _cache.AddRange(entities);
-            return base.AddRangeAsync(entities, cancellationToken);
+            return _dbContext.AddRangeAsync(entities, cancellationToken);
         }
 
         public override IAsyncEnumerable<T> AsAsyncEnumerable()
@@ -77,17 +79,17 @@ namespace MyAthleticsClub.Api.Infrastructure.Persistence
 
         public override EntityEntry<T> Attach(T entity)
         {
-            return base.Attach(entity);
+            return _dbContext.Attach(entity);
         }
 
         public override void AttachRange(params T[] entities)
         {
-            base.AttachRange(entities);
+            _dbContext.AttachRange(entities);
         }
 
         public override void AttachRange(IEnumerable<T> entities)
         {
-            base.AttachRange(entities);
+            _dbContext.AttachRange(entities);
         }
 
         public override bool Equals(object obj)
@@ -146,7 +148,7 @@ namespace MyAthleticsClub.Api.Infrastructure.Persistence
                 _cache[_cache.IndexOf(entity)] = entity;
             }
 
-            return base.Update(entity);
+            return _dbContext.Update(entity);
         }
 
         public override void UpdateRange(params T[] entities)

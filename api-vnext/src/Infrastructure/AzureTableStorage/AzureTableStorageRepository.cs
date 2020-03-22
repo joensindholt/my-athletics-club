@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
@@ -48,14 +47,20 @@ namespace MyAthleticsClub.Api.Infrastructure.AzureTableStorage
             await table.ExecuteAsync(operation);
         }
 
-        public Task Update(object entity)
+        public async Task Update(object entity)
         {
-            throw new NotImplementedException();
+            var tableEntity = _tableEntityConverter.ConvertToDynamicEntity(entity);
+            var operation = TableOperation.Replace(tableEntity);
+            var table = _tableClient.GetTableReference(GetTableName(entity.GetType()));
+            await table.ExecuteAsync(operation);
         }
 
-        public Task Delete(object entity)
+        public async Task Delete(object entity)
         {
-            throw new NotImplementedException();
+            var tableEntity = _tableEntityConverter.ConvertToDynamicEntity(entity);
+            var operation = TableOperation.Delete(tableEntity);
+            var table = _tableClient.GetTableReference(GetTableName(entity.GetType()));
+            await table.ExecuteAsync(operation);
         }
 
         /// Get table name by doing simple pluralization of entity name

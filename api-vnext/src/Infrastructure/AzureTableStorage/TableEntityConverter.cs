@@ -83,6 +83,9 @@ namespace MyAthleticsClub.Api.Infrastructure.AzureTableStorage
                         EntityProperty.CreateEntityPropertyFromObject(targetProperty.GetValue(entity)));
                 });
 
+            // Set default ETag of *
+            tableEntity.ETag = "*";
+
             return tableEntity;
         }
     }

@@ -29,6 +29,7 @@ namespace MyAthleticsClub.Api.Application.Features.Members.UpdateMember
             if (member.Name != request.Name)
             {
                 member.UpdateName(request.Name);
+                _context.Members.Update(member);
             }
 
             await _context.SaveChangesAsync(cancellationToken);

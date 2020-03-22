@@ -47,7 +47,7 @@ namespace MyAthleticsClub.Api.Infrastructure.Persistence
         public async Task Initialize()
         {
             var members = (await _azureRepository.GetAll(typeof(Member))).Cast<Member>();
-            this.Members = new ApplicationDbSet<Member>(members);
+            this.Members = new ApplicationDbSet<Member>(members, this);
         }
     }
 }

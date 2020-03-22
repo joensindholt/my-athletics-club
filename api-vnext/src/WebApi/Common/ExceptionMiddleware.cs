@@ -39,8 +39,7 @@ namespace MyAthleticsClub.Api.WebApi.Common
 
                 if (_isDevelopment)
                 {
-                    await context.Response.WriteAsync(ex.Message);
-                    await context.Response.WriteAsync(ex.StackTrace);
+                    await context.Response.WriteAsync(ex.ToString());
                 }
                 else
                 {

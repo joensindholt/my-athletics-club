@@ -1,12 +1,14 @@
+using MyAthleticsClub.Api.Application.Features.Members.DataTansferObjects;
+
 namespace MyAthleticsClub.Api.Application.Features.Members.CreateMember
 {
     public class CreateMemberResponse
     {
-        public CreateMemberResponse(string id)
+        public CreateMemberResponse(MemberDto member)
         {
-            Id = id;
+            Member = member;
         }
 
-        public string Id { get; }
+        public MemberDto Member { get; }
     }
 }

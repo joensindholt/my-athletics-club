@@ -1,15 +1,14 @@
+using MyAthleticsClub.Api.Application.Features.Members.DataTansferObjects;
+
 namespace MyAthleticsClub.Api.Application.Features.Members.UpdateMember
 {
-    public class UpdateMemberResponse
+    public partial class UpdateMemberResponse
     {
-        public UpdateMemberResponse(string id, string name)
+        public UpdateMemberResponse(MemberDto member)
         {
-            Id = id;
-            Name = name;
+            Member = member;
         }
 
-        public string Id { get; }
-
-        public string Name { get; }
+        public MemberDto Member { get; }
     }
 }

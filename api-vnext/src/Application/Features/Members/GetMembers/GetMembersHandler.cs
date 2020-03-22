@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using MyAthleticsClub.Api.Application.Common.Interfaces;
+using MyAthleticsClub.Api.Application.Features.Members.DataTansferObjects;
 using MyAthleticsClub.Api.Domain.Entities;
 
 namespace MyAthleticsClub.Api.Application.Features.Members.GetMembers
@@ -21,10 +22,13 @@ namespace MyAthleticsClub.Api.Application.Features.Members.GetMembers
             var members =
                 _context.Members
                     .Where(Member.IsActiveExpr)
-                    .Select(m => new GetMembersResponse.Member
+                    .Select(m => new
                     {
-                        Name = m.Name
+                        m.Id,
+                        m.Name
                     })
+                    .ToList()
+                    .Select(m => new MemberDto(id: m.Id, name: m.Name))
                     .ToList();
 
             return await Task.FromResult(new GetMembersResponse(members));

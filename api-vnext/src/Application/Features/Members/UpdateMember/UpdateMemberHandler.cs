@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using MyAthleticsClub.Api.Application.Common.Exceptions;
 using MyAthleticsClub.Api.Application.Common.Interfaces;
+using MyAthleticsClub.Api.Application.Features.Members.DataTansferObjects;
 
 namespace MyAthleticsClub.Api.Application.Features.Members.UpdateMember
 {
@@ -32,7 +33,10 @@ namespace MyAthleticsClub.Api.Application.Features.Members.UpdateMember
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return await Task.FromResult(new UpdateMemberResponse(member.Id, member.Name));
+            return await Task.FromResult(new UpdateMemberResponse(new MemberDto(
+                id: member.Id,
+                name: member.Name
+            )));
         }
     }
 }

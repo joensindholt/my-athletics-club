@@ -8,7 +8,7 @@ using MyAthleticsClub.Api.Application.Features.Members.UpdateMember;
 namespace MyAthleticsClub.Api.WebApi
 {
     [Route("members")]
-    public class MembersController : ApiController
+    public class MemberController : ApiController
     {
         [HttpGet]
         public async Task<ActionResult<GetMembersResponse>> GetMembers(

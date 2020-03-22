@@ -2,6 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using MyAthleticsClub.Api.Application.Common.Interfaces;
+using MyAthleticsClub.Api.Application.Features.Members.DataTansferObjects;
 using MyAthleticsClub.Api.Domain.Entities;
 
 namespace MyAthleticsClub.Api.Application.Features.Members.CreateMember
@@ -23,7 +24,10 @@ namespace MyAthleticsClub.Api.Application.Features.Members.CreateMember
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return await Task.FromResult(new CreateMemberResponse(member.Id));
+            return await Task.FromResult(new CreateMemberResponse(new MemberDto(
+                id: member.Id,
+                name: member.Name
+            )));
         }
     }
 }

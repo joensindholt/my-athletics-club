@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace MyAthleticsClub.Api.Infrastructure.AzureTableStorage
@@ -16,7 +17,12 @@ namespace MyAthleticsClub.Api.Infrastructure.AzureTableStorage
         {
             var entity = Activator.CreateInstance(targetType, true);
 
-            var entityProperties = targetType.GetProperties().Where(p => p.CanWrite).ToList();
+            var entityProperties = targetType
+                .GetProperties(
+                    BindingFlags.Instance | BindingFlags.Public
+                )
+                .Where(p => p.CanWrite)
+                .ToList();
 
             // Set Id on entity equal to RowKey from the table entity
             var idProperty = entityProperties.First(p => p.Name == "Id");

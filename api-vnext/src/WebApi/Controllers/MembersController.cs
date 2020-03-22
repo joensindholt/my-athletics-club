@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MyAthleticsClub.Api.Application.Features.Members.CreateMember;
 using MyAthleticsClub.Api.Application.Features.Members.GetMembers;
+using MyAthleticsClub.Api.Application.Features.Members.UpdateMember;
 
 namespace MyAthleticsClub.Api.WebApi
 {
@@ -17,6 +18,12 @@ namespace MyAthleticsClub.Api.WebApi
         [HttpPost]
         public async Task<ActionResult<CreateMemberResponse>> CreateMember(
             CreateMemberRequest request,
+            CancellationToken cancellationToken)
+            => await Mediator.Send(request, cancellationToken);
+
+        [HttpPost("{id}")]
+        public async Task<ActionResult<UpdateMemberResponse>> UpdateMember(
+            UpdateMemberRequest request,
             CancellationToken cancellationToken)
             => await Mediator.Send(request, cancellationToken);
     }

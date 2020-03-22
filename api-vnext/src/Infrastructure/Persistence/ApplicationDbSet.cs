@@ -6,10 +6,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using MyAthleticsClub.Api.Domain.Common;
 
 namespace MyAthleticsClub.Api.Infrastructure.Persistence
 {
-    public class ApplicationDbSet<T> : DbSet<T>, IQueryable<T> where T : class
+    public class ApplicationDbSet<T> : DbSet<T>, IQueryable<T> where T : AggregateRoot
     {
         private List<T> _cache;
 
@@ -101,7 +102,8 @@ namespace MyAthleticsClub.Api.Infrastructure.Persistence
 
         public override ValueTask<T> FindAsync(params object[] keyValues)
         {
-            return base.FindAsync(keyValues);
+            var entity = _cache.FirstOrDefault(e => e.Id == keyValues[0].ToString());
+            return new ValueTask<T>(Task.FromResult(entity));
         }
 
         public override ValueTask<T> FindAsync(object[] keyValues, CancellationToken cancellationToken)

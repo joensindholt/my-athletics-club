@@ -6,8 +6,6 @@ using MyAthleticsClub.Api.Application;
 using MyAthleticsClub.Api.Application.Common.Interfaces;
 using MyAthleticsClub.Api.Application.Features.Members.CreateMember;
 using MyAthleticsClub.Api.Infrastructure.Persistence;
-using MyAthleticsClub.Api.Domain.Entities;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
 namespace MyAthleticsClub.Api.Tests.IntegrationTests

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using MyAthleticsClub.Api.Application;
 using MyAthleticsClub.Api.Application.Common.Interfaces;
 using MyAthleticsClub.Api.Infrastructure;
+using MyAthleticsClub.Api.WebApi.Common;
 using MyAthleticsClub.Api.WebApi.Features.OpenApi;
 
 namespace WebApi
@@ -31,11 +32,7 @@ namespace WebApi
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
+            app.UseMiddleware<ExceptionMiddleware>(env.IsDevelopment());
             app.UseHttpsRedirection();
             app.UseOpenApiWithUI();
             app.UseRouting();

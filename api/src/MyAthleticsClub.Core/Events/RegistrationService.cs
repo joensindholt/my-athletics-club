@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MyAthleticsClub.Core.Email;
+using MyAthleticsClub.Core.Members;
 using MyAthleticsClub.Core.Shared.Exceptions;
 using MyAthleticsClub.Core.Slack;
 using MyAthleticsClub.Core.Utilities;
@@ -20,6 +22,7 @@ namespace MyAthleticsClub.Core.Events
         private readonly IEventRegistrationsExcelService _eventRegistrationsExcelService;
         private readonly IEventService _eventService;
         private readonly IRegistrationRepository _registrationRepository;
+        private readonly IMemberRepository _memberRepository;
         private readonly ISlackService _slackService;
         private readonly IMemoryCache _memoryCache;
         private readonly ILogger<RegistrationService> _logger;
@@ -31,6 +34,7 @@ namespace MyAthleticsClub.Core.Events
             IEventRegistrationsExcelService eventRegistrationsExcelService,
             IEventService eventService,
             IRegistrationRepository registrationRepository,
+            IMemberRepository memberRepository,
             ISlackService slackService,
             IMemoryCache memoryCache,
             ILogger<RegistrationService> logger)
@@ -41,6 +45,7 @@ namespace MyAthleticsClub.Core.Events
             _eventRegistrationsExcelService = eventRegistrationsExcelService;
             _eventService = eventService;
             _registrationRepository = registrationRepository;
+            _memberRepository = memberRepository;
             _slackService = slackService;
             _memoryCache = memoryCache;
             _logger = logger;
@@ -64,6 +69,11 @@ namespace MyAthleticsClub.Core.Events
                 InvalidateCache(registration.EventId, registration.Id);
 
                 await SendRegistrationEmailReceiptAsync(registration, _event, cancellationToken);
+
+                if (!(await MemberWithNameExists(registration.Name)))
+                {
+                    await SendRegistrationByUnknownMemberNotificationAsync(registration, _event, cancellationToken);
+                }
 
                 var message = new RegistrationSlackMessageBuilder().BuildAdvancedMessage(_event, registration);
                 await _slackService.SendMessageAsync(message);
@@ -145,6 +155,37 @@ namespace MyAthleticsClub.Core.Events
             {
                 _memoryCache.Remove(GetCacheKey(eventId, id));
             }
+        }
+
+        private async Task<bool> MemberWithNameExists(string name)
+        {
+            var members = await _memberRepository.GetActiveMembersAsync("gik");
+            return members.Any(m => string.Equals(m.Name, name, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        private async Task SendRegistrationByUnknownMemberNotificationAsync(
+            Registration registration,
+            Event _event,
+            CancellationToken cancellationToken)
+        {
+            var data = new
+            {
+                member_name = registration.Name,
+                event_title = _event.Title
+            };
+
+            await _emailService.SendMarkdownEmail(
+                to: "joensindholt@gmail.com", //"gik.atletik+regnskab@gmail.com ",
+                subject: "Mulig mistænkelig tilmelding",
+                template:
+@"En person ved navn '{{member_name}}' har tilmeldt sig til stævnet '{{event_title}}' via hjemmesiden.
+
+Der er imidlertid ikke noget aktivt medlem med dette navn?!
+
+Med venlig hilsen
+GIK's medlemssystem",
+                 data: data,
+                 cancellationToken);
         }
     }
 }

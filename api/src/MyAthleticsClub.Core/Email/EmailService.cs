@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using MarkdownSharp;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
@@ -19,6 +20,7 @@ namespace MyAthleticsClub.Core.Email
         private readonly IEmailTemplateProvider _emailTemplateProvider;
         private readonly ITemplateMerger _templateMerger;
         private readonly ILogger<EmailService> _logger;
+        private readonly Markdown _markdown = new Markdown();
 
         public EmailTemplates Templates => _options.Templates;
 
@@ -36,12 +38,6 @@ namespace MyAthleticsClub.Core.Email
 
         public async Task SendTemplateEmailAsync(string to, string templateId, object data, CancellationToken cancellationToken)
         {
-            if (!_options.Enabled)
-            {
-                _logger.LogInformation("Email sending is disabled. No email is sent");
-                return;
-            }
-
             await SendTemplateEmailAsync(new List<string> { to }, templateId, data, cancellationToken);
         }
 
@@ -57,6 +53,13 @@ namespace MyAthleticsClub.Core.Email
             var subject = _templateMerger.Merge(template.GetSubject(), data);
             var htmlContent = _templateMerger.Merge(template.GetHtmlContent(), data);
             await SendEmailAsync(to, subject, htmlContent, cancellationToken);
+        }
+
+        public async Task SendMarkdownEmail(string to, string subject, string template, object data, CancellationToken cancellation)
+        {
+            var mergedContent = _templateMerger.Merge(template, data);
+            var htmlContent = _markdown.Transform(mergedContent);
+            await SendEmailAsync(new List<string> { to }, subject, htmlContent, cancellation);
         }
 
         private async Task SendEmailAsync(IEnumerable<string> to, string subject, string body, CancellationToken cancellationToken)

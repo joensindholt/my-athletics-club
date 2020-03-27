@@ -70,9 +70,16 @@ namespace MyAthleticsClub.Core.Events
 
                 await SendRegistrationEmailReceiptAsync(registration, _event, cancellationToken);
 
-                if (!(await MemberWithNameExists(registration.Name)))
+                try
                 {
-                    await SendRegistrationByUnknownMemberNotificationAsync(registration, _event, cancellationToken);
+                    if (!(await MemberWithNameExists(registration.Name)))
+                    {
+                        await SendRegistrationByUnknownMemberNotificationAsync(registration, _event, cancellationToken);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "An error occured doing suspicious registration check");
                 }
 
                 var message = new RegistrationSlackMessageBuilder().BuildAdvancedMessage(_event, registration);

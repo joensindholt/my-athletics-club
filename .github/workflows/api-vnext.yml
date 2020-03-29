@@ -2,9 +2,11 @@ name: .NET Core
 
 on:
   push:
-    branches: [feature/api-vnext]
+    branches:
+      - feature/api-vnext
   pull_request:
-    branches: [master]
+    branches:
+      - master
 
 jobs:
   build:

@@ -79,7 +79,8 @@ namespace MyAthleticsClub.Core.Events
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "An error occured doing suspicious registration check");
+                    _logger.LogError(ex, "An error occured doing suspicious registration check." +
+                        " The registration completed, but you should look into why this is failing");
                 }
 
                 var message = new RegistrationSlackMessageBuilder().BuildAdvancedMessage(_event, registration);

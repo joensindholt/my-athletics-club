@@ -1,0 +1,29 @@
+name: .NET Core
+
+on:
+  push:
+    branches: [*]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 2.1.803
+      - name: Build
+        run: |
+          pushd api
+          dotnet restore
+          dotnet build
+          popd
+      - name: Test
+        run: |
+          pushd api
+          dotnet test
+          popd

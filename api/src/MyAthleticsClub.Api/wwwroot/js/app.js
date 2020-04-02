@@ -1495,7 +1495,7 @@ var members;
             this.AuthService = AuthService;
             this.member = new members.Member({});
             this.sendWelcomeMessageOnCreation = true;
-            this.welcomeMessageSubject = 'Velkommen til Gentofte Atletik';
+            this.welcomeMessageSubject = 'Velkommen til GIK Atletik';
             this.birthYears = this.MembersService.getAllowedBirthYears();
             this.selectableTeams = this.MembersService.getTeamInfos();
             this.selectableGenders = this.MembersService.getGenderInfos();
@@ -1529,9 +1529,23 @@ var members;
                     template: this.welcomeMessageTemplate
                 }
             };
-            this.MembersService.add(request).then(function (response) {
-                toastr.info('Medlemmet er oprettet med medlemsnummer ' + response.member.number);
+            this.MembersService.add(request)
+                .then(function (response) {
+                if (request.welcomeMessage.send) {
+                    if (!response.welcomeMessageSent) {
+                        toastr.warning('Der blev ikke sendt en velkomstmail til medlemmet pga. en fejl');
+                    }
+                    else if (!response.welcomeMessageRegistered) {
+                        toastr.warning('Det blev, pga. en fejl, ikke registreret i systemet, at medlemmet fik tilsendt ' +
+                            'en velkomstmail og vil derfor ikke fremgå af medlemmets udbakke');
+                    }
+                }
+                var message = 'Medlemmet er oprettet med medlemsnummer ' + response.member.number;
+                toastr.success(message);
                 setTimeout(function () { return _this.$state.go('members'); }, 1000);
+            })
+                .catch(function (err) {
+                toastr.error(err);
             });
         };
         MemberAddController.prototype.handleSelectedTeamChanged = function (team) {
@@ -1564,18 +1578,14 @@ var members;
         };
         MemberAddController.prototype.getWelcomeMessageTemplate = function (team) {
             switch (team) {
-                case '1':
-                    return ('**Kære {{member_name}}**\n\n' +
-                        'Velkommen til Gentofte Atletik.\n\n' +
-                        'Du skal betale kontingent senest den {{latest_payment_date}}.\n\n' +
-                        'Med venlig hilsen\n' +
-                        'Gentofte Atletik');
+                case '2':
+                    return "**Velkommen til GIK Atletik :)**\n            \n{{member_name}} er nu indmeldt i klubben p\u00E5 Mellemholdet, der tr\u00E6ner onsdag fra 17-18:30. For atleter i \nalderen 9+ \u00E5r, tr\u00E6nes der endvidere mandag fra 18-19:30. Tr\u00E6ningen foreg\u00E5r begge dage p\u00E5 atletikbanen \nved Stadion.\n\nKontingentet for medlemsskabet lyder p\u00E5 1300 kr for en s\u00E6son, og det bedes indbetalt senest \n{{latest_payment_date}} p\u00E5 vores konto:\n\nregnr.: 1551<br/>\nkontonr.: 0004062434\n\nAngiv venligst medlemsnummer {{member_number}} p\u00E5 indbetalingen, s\u00E5 indbetalingen bliver \nregistreret korrekt.\n\nHvis I har nogle sp\u00F8rgsm\u00E5l, er I velkommen til at kontakte GIK p\u00E5 denne mail, s\u00E5 vil vi hj\u00E6lpe efter \nbedste evne :)\n\nMvh<br/>\nGIK Atletik";
+                case '3':
+                    return "**Velkommen til GIK Atletik :)**\n\n{{member_name}} er nu indmeldt i klubben p\u00E5 Storeholdet, der tr\u00E6ner mandag, onsdag og torsdag fra 18-19:30. \nTr\u00E6ningen foreg\u00E5r alle dage p\u00E5 atletikbanen ved Stadion.\n\nKontingentet for medlemsskabet lyder p\u00E5 1500 kr for en s\u00E6son, og det bedes indbetalt senest \n{{latest_payment_date}} p\u00E5 vores konto:\n\nregnr.: 1551<br/>\nkontonr.: 0004062434\n\nAngiv venligst medlemsnummer {{member_number}} p\u00E5 indbetalingen, s\u00E5 indbetalingen bliver registreret korrekt.\n\nHvis I har nogle sp\u00F8rgsm\u00E5l, er I velkommen til at kontakte GIK p\u00E5 denne mail, s\u00E5 vil vi hj\u00E6lpe efter bedste evne :)\n\nMvh<br/>\nGIK Atletik";
+                case '4':
+                    return "**Velkommen til GIK Atletik :)**\n\nDu er nu indmeldt i klubben og kan deltage i Voksenatletik.\n\nKontingentet for medlemsskabet lyder p\u00E5 600 kr for en s\u00E6son, og det bedes indbetalt senest {{latest_payment_date}} \np\u00E5 vores konto:\n\nregnr.: 1551<br/>\nkontonr.: 0004062434\n\nAngiv venligst medlemsnummer {{member_number}} p\u00E5 indbetalingen, s\u00E5 indbetalingen bliver registreret korrekt.\n\nHvis du har nogle sp\u00F8rgsm\u00E5l, er du velkommen til at kontakte GIK p\u00E5 denne mail, s\u00E5 vil vi hj\u00E6lpe efter bedste evne :)\n\nMvh<br/>\nGIK Atletik";
                 default:
-                    return ('**Default Kære {{member_name}}**\n\n' +
-                        'Velkommen til Gentofte Atletik.\n\n' +
-                        'Du skal betale kontingent senest den {{latest_payment_date}}.\n\n' +
-                        'Med venlig hilsen\n' +
-                        'Gentofte Atletik');
+                    return "**Velkommen til GIK Atletik :)**\n\nDu er nu indmeldt i klubben.\n\nKontingentet for medlemsskabet bedes indbetalt senest {{latest_payment_date}} p\u00E5 vores konto:\n\nregnr.: 1551<br/>\nkontonr.: 0004062434\n\nAngiv venligst medlemsnummer {{member_number}} p\u00E5 indbetalingen, s\u00E5 indbetalingen bliver registreret korrekt.\n\nHvis du har nogle sp\u00F8rgsm\u00E5l, er du velkommen til at kontakte GIK p\u00E5 denne mail, s\u00E5 vil vi hj\u00E6lpe efter bedste evne :)\n\nMvh<br/>\nGIK Atletik";
             }
         };
         MemberAddController.$inject = ['$scope', '$state', '$window', '$q', 'moment', '$uibModal', 'MembersService', 'AuthService'];

@@ -15,7 +15,7 @@ module members {
     selectedGender: string;
 
     sendWelcomeMessageOnCreation: boolean = true;
-    welcomeMessageSubject: string = 'Velkommen til Gentofte Atletik';
+    welcomeMessageSubject: string = 'Velkommen til GIK Atletik';
     welcomeMessageTemplate: string;
     welcomeMessageChangedByUser: boolean;
 
@@ -72,10 +72,27 @@ module members {
         }
       };
 
-      this.MembersService.add(request).then(response => {
-        toastr.info('Medlemmet er oprettet med medlemsnummer ' + response.member.number);
-        setTimeout(() => this.$state.go('members'), 1000);
-      });
+      this.MembersService.add(request)
+        .then(response => {
+          if (request.welcomeMessage.send) {
+            if (!response.welcomeMessageSent) {
+              toastr.warning('Der blev ikke sendt en velkomstmail til medlemmet pga. en fejl');
+            } else if (!response.welcomeMessageRegistered) {
+              toastr.warning(
+                'Det blev, pga. en fejl, ikke registreret i systemet, at medlemmet fik tilsendt ' +
+                  'en velkomstmail og vil derfor ikke fremgå af medlemmets udbakke'
+              );
+            }
+          }
+
+          const message = 'Medlemmet er oprettet med medlemsnummer ' + response.member.number;
+          toastr.success(message);
+
+          setTimeout(() => this.$state.go('members'), 1000);
+        })
+        .catch(err => {
+          toastr.error(err);
+        });
     }
 
     handleSelectedTeamChanged(team: string) {
@@ -107,22 +124,78 @@ module members {
 
     getWelcomeMessageTemplate(team: string) {
       switch (team) {
-        case '1': // Miniholdet
-          return (
-            '**Kære {{member_name}}**\n\n' +
-            'Velkommen til Gentofte Atletik.\n\n' +
-            'Du skal betale kontingent senest den {{latest_payment_date}}.\n\n' +
-            'Med venlig hilsen\n' +
-            'Gentofte Atletik'
-          );
+        case '2': // Mellemholdet
+          return `**Velkommen til GIK Atletik :)**
+            
+{{member_name}} er nu indmeldt i klubben på Mellemholdet, der træner onsdag fra 17-18:30. For atleter i 
+alderen 9+ år, trænes der endvidere mandag fra 18-19:30. Træningen foregår begge dage på atletikbanen 
+ved Stadion.
+
+Kontingentet for medlemsskabet lyder på 1300 kr for en sæson, og det bedes indbetalt senest 
+{{latest_payment_date}} på vores konto:
+
+regnr.: 1551<br/>
+kontonr.: 0004062434
+
+Angiv venligst medlemsnummer {{member_number}} på indbetalingen, så indbetalingen bliver 
+registreret korrekt.
+
+Hvis I har nogle spørgsmål, er I velkommen til at kontakte GIK på denne mail, så vil vi hjælpe efter 
+bedste evne :)
+
+Mvh<br/>
+GIK Atletik`;
+        case '3': // Storeholdet
+          return `**Velkommen til GIK Atletik :)**
+
+{{member_name}} er nu indmeldt i klubben på Storeholdet, der træner mandag, onsdag og torsdag fra 18-19:30. 
+Træningen foregår alle dage på atletikbanen ved Stadion.
+
+Kontingentet for medlemsskabet lyder på 1500 kr for en sæson, og det bedes indbetalt senest 
+{{latest_payment_date}} på vores konto:
+
+regnr.: 1551<br/>
+kontonr.: 0004062434
+
+Angiv venligst medlemsnummer {{member_number}} på indbetalingen, så indbetalingen bliver registreret korrekt.
+
+Hvis I har nogle spørgsmål, er I velkommen til at kontakte GIK på denne mail, så vil vi hjælpe efter bedste evne :)
+
+Mvh<br/>
+GIK Atletik`;
+        case '4': // Voksenatletik
+          return `**Velkommen til GIK Atletik :)**
+
+Du er nu indmeldt i klubben og kan deltage i Voksenatletik.
+
+Kontingentet for medlemsskabet lyder på 600 kr for en sæson, og det bedes indbetalt senest {{latest_payment_date}} 
+på vores konto:
+
+regnr.: 1551<br/>
+kontonr.: 0004062434
+
+Angiv venligst medlemsnummer {{member_number}} på indbetalingen, så indbetalingen bliver registreret korrekt.
+
+Hvis du har nogle spørgsmål, er du velkommen til at kontakte GIK på denne mail, så vil vi hjælpe efter bedste evne :)
+
+Mvh<br/>
+GIK Atletik`;
         default:
-          return (
-            '**Default Kære {{member_name}}**\n\n' +
-            'Velkommen til Gentofte Atletik.\n\n' +
-            'Du skal betale kontingent senest den {{latest_payment_date}}.\n\n' +
-            'Med venlig hilsen\n' +
-            'Gentofte Atletik'
-          );
+          return `**Velkommen til GIK Atletik :)**
+
+Du er nu indmeldt i klubben.
+
+Kontingentet for medlemsskabet bedes indbetalt senest {{latest_payment_date}} på vores konto:
+
+regnr.: 1551<br/>
+kontonr.: 0004062434
+
+Angiv venligst medlemsnummer {{member_number}} på indbetalingen, så indbetalingen bliver registreret korrekt.
+
+Hvis du har nogle spørgsmål, er du velkommen til at kontakte GIK på denne mail, så vil vi hjælpe efter bedste evne :)
+
+Mvh<br/>
+GIK Atletik`;
       }
     }
   }

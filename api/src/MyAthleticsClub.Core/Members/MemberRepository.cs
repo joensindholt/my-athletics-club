@@ -166,6 +166,15 @@ namespace MyAthleticsClub.Core.Members
             return UpdateInternalAsync(member);
         }
 
+        /// <summary>
+        /// Deletes a member from the database
+        /// NB. Do not use this to termination members. Use TerminateMember
+        /// </summary>
+        public Task DeleteAsync(Member member)
+        {
+            return DeleteInternalAsync("gik", member.Id);
+        }
+
         public Task<bool> ExistsAsync(string organizationId, string id)
         {
             return ExistsInternalAsync(organizationId, id);

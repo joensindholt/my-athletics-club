@@ -20,6 +20,8 @@ namespace MyAthleticsClub.Core.Members
 
         Task UpdateAsync(Member member);
 
+        Task DeleteAsync(Member member);
+
         Task<bool> ExistsAsync(string organizationId, string id);
 
         Task<int> CountAllAsync(string organizationId);

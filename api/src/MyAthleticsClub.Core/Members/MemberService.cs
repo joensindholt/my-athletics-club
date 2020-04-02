@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -65,35 +66,51 @@ namespace MyAthleticsClub.Core.Members
             request.Member.Id = Guid.NewGuid().ToString();
             request.Member.Number = await GetNextMemberNumberAsync(request.Member.OrganizationId);
 
-            var welcomeMessageMergeData = new
-            {
-                member_name = request.Member.Name,
-                latest_payment_date = DateTime.Now.Date.AddDays(14)
-            };
-
             await _memberRepository.CreateAsync(request.Member);
 
+            bool welcomeMessageSent = false;
+            bool welcomeMessageRegistered = false;
             if (request.WelcomeMessage.Send)
             {
-                // Send the welcome message
-                var message = await _emailService.SendMarkdownEmail(
-                    to: request.Member.Email,
-                    subject: request.WelcomeMessage.Subject,
-                    template: request.WelcomeMessage.Template,
-                    data: welcomeMessageMergeData,
-                    cancellationToken);
+                try
+                {
+                    var welcomeMessageMergeData = new
+                    {
+                        member_name = request.Member.Name,
+                        member_number = request.Member.Number,
+                        latest_payment_date = DateTime.Now.Date.AddDays(14).ToString(
+                            "dddd \\den d\\/M",
+                            CultureInfo.GetCultureInfo("da-DK"))
+                    };
 
-                // Register the sent mail on the member for showing it in "Sent messages" on the member
-                await _memberMessageRepository.CreateAsync(new MemberMessage(
-                    memberId: request.Member.Id,
-                    to: string.Join(", ", message.To),
-                    subject: message.Subject,
-                    htmlContent: message.HtmlContent,
-                    sent: message.Sent),
-                    cancellationToken);
+                    // Send the welcome message
+                    var message = await _emailService.SendMarkdownEmail(
+                        to: request.Member.Email,
+                        subject: request.WelcomeMessage.Subject,
+                        template: request.WelcomeMessage.Template,
+                        data: welcomeMessageMergeData,
+                        cancellationToken);
+
+                    welcomeMessageSent = true;
+
+                    // Register the sent mail on the member for showing it in "Sent messages" on the member
+                    await _memberMessageRepository.CreateAsync(new MemberMessage(
+                        memberId: request.Member.Id,
+                        to: string.Join(", ", message.To),
+                        subject: message.Subject,
+                        htmlContent: message.HtmlContent,
+                        sent: message.Sent),
+                        cancellationToken);
+
+                    welcomeMessageRegistered = true;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "An error occured sending welcome message to user");
+                }
             }
 
-            return new AddMemberResponse(request.Member);
+            return new AddMemberResponse(request.Member, welcomeMessageSent, welcomeMessageRegistered);
         }
 
         public async Task UpdateAsync(Member member)

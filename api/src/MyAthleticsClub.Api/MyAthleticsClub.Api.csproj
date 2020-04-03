@@ -1,40 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-    <DebugType>full</DebugType>
-    <UserSecretsId>6010f2da-306f-4c2c-8b44-287d285d5aff</UserSecretsId>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <None Update="wwwroot\**\*">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\MyAthleticsClub.Core\MyAthleticsClub.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
-    <PackageReference Include="Hangfire.AspNetCore" Version="1.6.17" />
-    <PackageReference Include="Hangfire.MemoryStorage" Version="1.5.2" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
-    <PackageReference Include="AutoMapper" Version="6.2.1" />
-    <PackageReference Include="EPPlus.Core" Version="1.5.2" />
-    <PackageReference Include="Serilog.AspNetCore" Version="2.1.0" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
-    <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
-    <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
-    <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
-    <PackageReference Include="Serilog.Sinks.Slack" Version="1.2.63" />
-    <PackageReference Include="WebApiContrib.Core.Formatter.Csv" Version="3.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
-  </ItemGroup>
-
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <DebugType>full</DebugType>
+        <UserSecretsId>6010f2da-306f-4c2c-8b44-287d285d5aff</UserSecretsId>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Update="wwwroot\**\*">
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\MyAthleticsClub.Core\MyAthleticsClub.Core.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
+        <PackageReference Include="Hangfire.AspNetCore" Version="1.6.17" />
+        <PackageReference Include="Hangfire.MemoryStorage" Version="1.5.2" />
+        <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+        <PackageReference Include="AutoMapper" Version="6.2.1" />
+        <PackageReference Include="EPPlus.Core" Version="1.5.2" />
+        <PackageReference Include="Serilog.AspNetCore" Version="2.1.0" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+        <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
+        <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
+        <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
+        <PackageReference Include="Serilog.Sinks.Slack" Version="1.2.63" />
+        <PackageReference Include="WebApiContrib.Core.Formatter.Csv" Version="3.0.0" />
+    </ItemGroup>
 </Project>

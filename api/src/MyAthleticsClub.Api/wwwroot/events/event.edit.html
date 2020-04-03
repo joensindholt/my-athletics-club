@@ -1,0 +1,144 @@
+<topbar></topbar>
+
+<div class="center">
+  <input type="text" class="o-editable-field o-editable-field--xl" ng-model="vm.event.title" ng-change="vm.showSave = true" />
+
+  <div class="center">
+    <div class="c-date-badge">
+      <input type="text" ng-model="vm.event.date" uib-datepicker-popup="dd-MM-yyyy" ng-change="vm.showSave = true" is-open="vm.isOpen" datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk" alt-input-formats="{}" class="hide" />
+      <input type="text" ng-model="vm.event.endDate" uib-datepicker-popup="dd-MM-yyyy" ng-change="vm.showSave = true" is-open="vm.isEndDateOpen" datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk" alt-input-formats="{}" class="hide"
+      />
+      <div class="c-date-badge__header" ng-click="vm.isOpen = true">
+        {{ vm.event.date | formatdate: 'MMM' }}
+      </div>
+      <div class="c-date-badge__body" ng-click="vm.isOpen = true">
+        {{ vm.event.date | formatdate: 'D' }}<span ng-show="vm.event.endDate" ng-click="vm.isEndDateOpen = true">-{{ vm.event.endDate | formatdate: 'D' }}</span>
+      </div>
+      <p class="c-date-badge__more-days" ng-hide="vm.event.endDate" ng-click="vm.isEndDateOpen = true">Stævnet varer flere dage</p>
+      <p class="c-date-badge__more-days" ng-show="vm.event.endDate" ng-click="vm.event.endDate = null">Stævnet er én-dags</p>
+    </div>
+  </div>
+  <event-address address="vm.event.address" editable="true" on-change="vm.event.address = address; vm.showSave = true"></event-address>
+</div>
+
+<h4>Link til stævneside</h4>
+<div class="row">
+  <div class="col-sm-12">
+    <input type="text" ng-model="vm.event.link" ng-change="vm.showSave = true" class="c-formular-input c-formular-input--large" />
+  </div>
+</div>
+
+<h4>Stævneinfo</h4>
+<div class="row">
+  <div class="col-sm-12">
+    <textarea ng-model="vm.event.info" ng-change="vm.showSave = true" class="c-formular-input c-formular-input--large" rows="6"></textarea>
+  </div>
+</div>
+
+<h4>Tilmeldingsperiode</h4>
+<div>
+  <p class="center">
+    <div class="row">
+      <div class="col-md-2 col-md-offset-4 col-xs-4 col-xs-offset-2">
+        <p class="center">FRA</p>
+        <div class="c-date-badge c-date-badge--small">
+          <input type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="vm.event.registrationPeriodStartDate" ng-change="vm.showSave = true" is-open="vm.registrationStartDateIsOpen" datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk"
+            alt-input-formats="{}" style="display: none;" />
+          <div class="c-date-badge__header" ng-click="vm.registrationStartDateIsOpen = true">
+            {{ vm.event.registrationPeriodStartDate | formatdate: 'MMM' }}
+          </div>
+          <div class="c-date-badge__body" ng-click="vm.registrationStartDateIsOpen = true">
+            {{ vm.event.registrationPeriodStartDate | formatdate: 'DD' }}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2 col-xs-4">
+        <p class="center">TIL</p>
+        <div class="c-date-badge c-date-badge--small">
+          <input type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="vm.event.registrationPeriodEndDate" ng-change="vm.showSave = true" is-open="vm.registrationEndDateIsOpen" datepicker-options="vm.datePickerOptions" ng-required="true" close-text="Luk" alt-input-formats="{}"
+            style="display: none;" />
+          <div class="c-date-badge__header" ng-click="vm.registrationEndDateIsOpen = true">
+            {{ vm.event.registrationPeriodEndDate | formatdate: 'MMM' }}
+          </div>
+          <div class="c-date-badge__body" ng-click="vm.registrationEndDateIsOpen = true">
+            {{ vm.event.registrationPeriodEndDate | formatdate: 'DD' }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </p>
+</div>
+
+<h4>Max antal discipliner</h4>
+<div class="row">
+  <div class="col-sm-2 col-sm-offset-5">
+    <input type="text" ng-model="vm.event.maxDisciplinesAllowed" ng-change="vm.showSave = true" class="c-formular-input center" />
+  </div>
+</div>
+
+<h4>Discipliner</h4>
+<div>
+  <div ng-repeat="ageGroup in vm.ageGroups" class="cozy">
+    <div class="row flex flex--center-vertically">
+      <div class="col-xs-3 col-sm-2 text-center larger-text ">
+        {{ ageGroup }} {{ ageGroup !== 'K' && ageGroup !== 'M' ? 'år' : '' }}
+      </div>
+      <div class="col-xs-8 col-sm-11">
+        <multiple-autocomplete ng-model="vm.event.disciplines[$index].disciplines" object-property="name" suggestions-arr="vm.availableDisciplines" after-select-item="vm.showSave = true" after-remove-item="vm.showSave = true" on-directive-focus="vm.onDisciplineSelectFocus(disciplines)"
+          clipboard-disciplines="vm.copiedDisciplines">
+        </multiple-autocomplete>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h4>Deltagere</h4>
+<p class="center"><a class="larger-text center" ng-href="{{ vm.excelDownloadUrl }}">Download deltagerliste</a></p>
+
+<p class="center" ng-show="!vm.showParticipantEmailList"><a class="larger-text center" ng-click="vm.toggleParticipantEmailList()">Vis email liste</a></p>
+<div id="showParticipantEmailListElement" ng-show="vm.showParticipantEmailList" class="spacy--more">
+  <div class="spacy"><input type="text" id="participanEmailListInput" ng-model="vm.participanEmailList" class="c-formular-input center" /></div>
+  <div class="center"><button ng-click="vm.copyParticipantEmailListToClipboard()" class="btn btn-primary">Kopiér til udklipsholder</button></div>
+  <div class="smaller-text dimmed center spacy">Du kan herefter indsætte de kopierede adresser i dit e-mail program</div>
+</div>
+
+<div class="row" ng-show="vm.registrations.length > 0">
+  <div class="col-sm-8 col-sm-offset-2" ng-repeat="registration in vm.registrations">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ registration.name }}</h3>
+      </div>
+      <div class="panel-body">
+        <p ng-show="registration.birthYear">Årgang: {{ registration.birthYear }}</p>
+        <p ng-show="registration.ageClass">Klasse: {{ registration.ageClass }}</p>
+        <p ng-show="registration.email">Email: {{ registration.email }}</p>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Klasse</th>
+            <th>Disciplin</th>
+            <th>Personlig rekord</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="discipline in registration.disciplines">
+            <td>{{ registration.ageClass }}</td>
+            <td>{{ discipline.name }}</td>
+            <td>{{ discipline.personalRecord }}</td>
+          </tr>
+          <tr ng-repeat="discipline in registration.extraDisciplines">
+            <td>{{ discipline.ageClass }}</td>
+            <td>{{ discipline.name }}</td>
+            <td>{{ discipline.personalRecord }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<p class="center" ng-show="!vm.registrations || vm.registrations.length === 0">Der er endnu ingen deltagere</p>
+
+<div class="c-action-bar" ng-class="{'c-action-bar--show': vm.showSave}">
+  <button class="o-button o-button--primary" ng-click="vm.saveNow(vm.event)">Gem ændringer</button>
+</div>

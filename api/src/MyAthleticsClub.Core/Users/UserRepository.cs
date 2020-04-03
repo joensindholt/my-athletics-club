@@ -1,13 +1,15 @@
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using Microsoft.WindowsAzure.Storage;
+using MyAthleticsClub.Core.Options;
 
 namespace MyAthleticsClub.Core.Users
 {
     public class UserRepository : AzureStorageRepository<User, UserEntity>, IUserRepository
     {
-        public UserRepository(CloudStorageAccount account)
-            : base(account, "users")
+        public UserRepository(CloudStorageAccount account, IOptions<StorageOptions> storageOptions)
+            : base(account, "users", storageOptions)
         {
         }
 

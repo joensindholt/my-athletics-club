@@ -8,8 +8,23 @@ namespace MyAthleticsClub.Core.Email
     {
         EmailTemplates Templates { get; }
 
-        Task SendTemplateEmailAsync(string to, string templateId, object data, CancellationToken cancellationToken);
+        Task<SentEmail> SendTemplateEmailAsync(
+            string to,
+            string templateId,
+            object data,
+            CancellationToken cancellationToken);
 
-        Task SendTemplateEmailAsync(IEnumerable<string> to, string templateId, object data, CancellationToken cancellationToken);
+        Task<SentEmail> SendTemplateEmailAsync(
+            IEnumerable<string> to,
+            string templateId,
+            object data,
+            CancellationToken cancellationToken);
+
+        Task<SentEmail> SendMarkdownEmail(
+            string to,
+            string subject,
+            string template,
+            object data,
+            CancellationToken cancellation);
     }
 }

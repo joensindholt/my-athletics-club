@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using Microsoft.WindowsAzure.Storage;
+using MyAthleticsClub.Core.Options;
 
 namespace MyAthleticsClub.Core.Members
 {
     public class MemberRepository : AzureStorageRepository<Member, MemberEntity>, IMemberRepository
     {
-        public MemberRepository(CloudStorageAccount account)
-            : base(account, "members")
+        public MemberRepository(CloudStorageAccount account, IOptions<StorageOptions> storageOptions)
+            : base(account, "members", storageOptions)
         {
         }
 

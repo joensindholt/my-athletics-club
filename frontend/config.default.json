@@ -4,7 +4,7 @@
   "minifyCss": false,
   "uglifyJs": false,
   "sourcemaps": true,
-  "apiUrl": "https://myathleticsclubapi.azurewebsites.net/api",
+  "apiUrl": "http://localhost:5000/api",
   "apiDomain": "localhost",
   "sentryErrors": false
 }

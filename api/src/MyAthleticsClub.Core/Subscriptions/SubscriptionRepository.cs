@@ -1,13 +1,15 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using Microsoft.WindowsAzure.Storage;
+using MyAthleticsClub.Core.Options;
 
 namespace MyAthleticsClub.Core.Subscriptions
 {
     public class SubscriptionRepository : AzureStorageRepository<SubscriptionMetaData, SubscriptionMetaDataEntity>, ISubscriptionRepository
     {
-        public SubscriptionRepository(CloudStorageAccount account)
-            : base(account, "subscriptions")
+        public SubscriptionRepository(CloudStorageAccount account, IOptions<StorageOptions> storageOptions)
+            : base(account, "subscriptions", storageOptions)
         {
         }
 

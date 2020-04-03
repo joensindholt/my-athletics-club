@@ -15,14 +15,13 @@ require('./gulp_tasks/gulp.ts')(gulp, settings, config);
 
 require('./gulp_tasks/gulp.serve')(gulp, settings, config, browserSync);
 
-
 // define tasks here
-gulp.task('default', ['ts', 'libs.script', 'libs.css', 'libs.fonts', 'app.css', 'copy'], function (done) {
+gulp.task('default', ['ts', 'libs.script', 'libs.css', 'libs.fonts', 'app.css', 'copy'], function(done) {
   done();
 });
 
-gulp.task('watch', function () {
-  gulpSequence('default', 'serve', 'karma', function () {
+gulp.task('watch', function() {
+  gulpSequence('default', 'serve', 'karma', function() {
     gulp.watch('src/**/*.ts', ['ts']);
     gulp.watch('src/**/*.html', ['copy']);
     gulp.watch(config.app.sass, ['app.css']);

@@ -2,8 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
+using MyAthleticsClub.Core.Options;
 using MyAthleticsClub.Core.Utilities;
 
 namespace MyAthleticsClub.Core
@@ -18,19 +21,25 @@ namespace MyAthleticsClub.Core
         protected CloudStorageAccount _storageAccount;
         protected CloudTable _table;
         protected CloudTableClient _tableClient;
+        private readonly StorageOptions _storageOptions;
 
-        public AzureStorageRepository(CloudStorageAccount account, string tableName)
+        public AzureStorageRepository(CloudStorageAccount account, string tableName, IOptions<StorageOptions> storageOptions)
         {
+            _storageOptions = storageOptions.Value;
+
             _storageAccount = account;
             _tableClient = _storageAccount.CreateCloudTableClient();
             _table = _tableClient.GetTableReference(tableName);
 
-            lock (locker)
+            if (_storageOptions.CreateTables.Value)
             {
-                if (!_checkedTables.Contains(tableName))
+                lock (locker)
                 {
-                    EnsureTableExists().Wait();
-                    _checkedTables.Add(tableName);
+                    if (!_checkedTables.Contains(tableName))
+                    {
+                        EnsureTableExists().Wait();
+                        _checkedTables.Add(tableName);
+                    }
                 }
             }
         }

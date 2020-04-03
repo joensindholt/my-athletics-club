@@ -1,0 +1,11 @@
+<div class="c-discipline-batch">
+    <div class="c-discipline-batch__element">
+        <div class="svg-icon svg-icon-discipline" ng-class="'svg-icon-discipline-' + $ctrl.discipline.id" />
+    </div>
+    <div class="c-discipline-batch__element">
+        {{ $ctrl.discipline.name }}
+    </div>
+    <div class="c-discipline-batch__element">
+        {{ $ctrl.getAgeClass() }}
+    </div>
+</div>

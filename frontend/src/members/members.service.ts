@@ -46,17 +46,18 @@ module members {
       return deferred.promise;
     }
 
-    add(member: Member): ng.IPromise<Member> {
-      var deferred = this.$q.defer<Member>();
+    add(request: AddMemberRequest): ng.IPromise<AddMemberResponse> {
+      var deferred = this.$q.defer<AddMemberResponse>();
+
       // give it a temporary id
-      member.id = '-1';
+      request.member.id = '-1';
 
       // ... and post to server
       this.$http
-        .post(this.API_PATH + '/members', member)
+        .post(this.API_PATH + '/members', request)
         .then(response => {
-          var newMember = new Member(response.data);
-          deferred.resolve(newMember);
+          var responseData = response.data as AddMemberResponse;
+          deferred.resolve(responseData);
         })
         .catch(err => {
           deferred.reject(err);
@@ -65,14 +66,14 @@ module members {
       return deferred.promise;
     }
 
-    get(id: string): ng.IPromise<Member> {
-      var deferred = this.$q.defer<Member>();
+    get(id: string): ng.IPromise<GetMemberResponse> {
+      var deferred = this.$q.defer<GetMemberResponse>();
 
       this.$http
         .get(this.API_PATH + '/members/' + id)
         .then((response: any) => {
-          var member = new Member(response.data);
-          deferred.resolve(member);
+          var responseData = new GetMemberResponse(response.data);
+          deferred.resolve(responseData);
         })
         .catch(err => {
           deferred.reject(err);

@@ -1,0 +1,31 @@
+name: Api vNext - Build and Test
+
+on:
+  push:
+    branches:
+      - feature/api-vnext
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.101
+      - name: Build
+        run: |
+          pushd api-vnext
+          dotnet restore
+          dotnet build
+          popd
+      - name: Test
+        run: |
+          pushd api-vnext
+          dotnet test
+          popd

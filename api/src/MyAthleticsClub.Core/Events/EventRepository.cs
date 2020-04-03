@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using Microsoft.WindowsAzure.Storage;
+using MyAthleticsClub.Core.Options;
 using MyAthleticsClub.Core.Utilities;
 using Newtonsoft.Json;
 
@@ -9,8 +11,8 @@ namespace MyAthleticsClub.Core.Events
 {
     public class EventRepository : AzureStorageRepository<Event, EventEntity>, IEventRepository
     {
-        public EventRepository(CloudStorageAccount account)
-            : base(account, "events")
+        public EventRepository(CloudStorageAccount account, IOptions<StorageOptions> storageOptions)
+            : base(account, "events", storageOptions)
         {
         }
 

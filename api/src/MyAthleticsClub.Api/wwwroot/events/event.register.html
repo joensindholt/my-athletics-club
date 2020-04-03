@@ -1,0 +1,272 @@
+<div class="center" ng-show="vm.event">
+  <div class="event-register__form" ng-class="{'hide' : vm.registrationComplete}">
+    <p class="text-center">Tilmelding til:</p>
+    <h1>{{vm.event.title}}</h1>
+
+    <div class="center">
+      <div class="c-date-badge">
+        <div class="c-date-badge__header">
+          {{ vm.event.date | formatdate: 'MMM' }}
+        </div>
+        <div class="c-date-badge__body">
+          {{ vm.event.date | formatdate: 'D' }}<span ng-show="vm.event.endDate"
+            >-{{ vm.event.endDate | formatdate: 'D' }}</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <event-address address="vm.event.address"></event-address>
+
+    <h3 ng-show="vm.event.link" class="spacy">
+      <a ng-href="{{ vm.event.link }}" target="_blank">Se stævneinfo her</a>
+    </h3>
+
+    <h2 class="center standout">Hvem vil du gerne tilmelde?</h2>
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+        <input
+          type="text"
+          ng-model="vm.registrationData.name"
+          ng-change="vm.onDataChange(vm.registrationData)"
+          class="c-formular-input c-formular-input--large"
+          autofocus
+        />
+      </div>
+    </div>
+
+    <h4 class="center standout">Er {{ vm.registrationData.name || 'han/hun' }} en pige eller en dreng?</h4>
+    <div class="row">
+      <div class="col-sm-2 col-sm-offset-4">
+        <button
+          ng-click="vm.registrationData.gender = 'female'; vm.onDataChange(vm.registrationData); vm.updateDisciplines()"
+          class="o-button o-button--large o-button--large-icon"
+          ng-class="vm.registrationData.gender === 'female' ? 'o-button--success ' : 'o-button--default '"
+        >
+          <i class="fa fa-female"></i>
+          <div>Pige</div>
+        </button>
+      </div>
+      <div class="col-sm-2">
+        <button
+          ng-click="vm.registrationData.gender = 'male'; vm.onDataChange(vm.registrationData); vm.updateDisciplines()"
+          class="o-button o-button--large o-button--large-icon"
+          ng-class="vm.registrationData.gender === 'male' ? 'o-button--success ' : 'o-button--default '"
+        >
+          <i class="fa fa-male"></i>
+          <div>Dreng</div>
+        </button>
+      </div>
+    </div>
+
+    <h4 class="center standout">
+      ...og hvad er {{ vm.registrationData.gender === 'female' ? "hendes" : vm.registrationData.gender === 'male' ?
+      "hans" : "hans/hendes" }} fødselsår?
+    </h4>
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+        <select
+          ng-model="vm.registrationData.birthYear"
+          ng-change="vm.onDataChange(vm.registrationData); vm.updateDisciplines()"
+          class="c-formular-input c-formular-input--large c-formular-input--select"
+        >
+          <option ng-repeat="year in vm.birthYears" value="{{year}}">{{year}}</option>
+        </select>
+      </div>
+    </div>
+
+    <h4 class="center standout">Hvad er din email-adresse?</h4>
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+        <input
+          type="text"
+          ng-model="vm.registrationData.email"
+          ng-change="vm.onDataChange(vm.registrationData)"
+          class="c-formular-input c-formular-input--large"
+        />
+      </div>
+    </div>
+
+    <div ng-if="vm.registrationData.name && vm.registrationData.birthYear">
+      <div ng-if="vm.eventHasDisciplines">
+        <h2 class="center standout">
+          Hvilke discipliner vil {{ vm.registrationData.name || 'Deltageren' }} stille op i?
+        </h2>
+        <div ng-show="vm.registrationData.disciplines.length > 0">
+          <p class="center">
+            {{ vm.registrationData.name || 'Deltageren' }} bør deltage i klassen
+            <i>{{ vm.registrationData.ageGroup }}</i>, hvor {{ vm.registrationData.gender === 'male' ? 'han' : 'hun' }}
+            kan stille op i følgende discipliner.
+          </p>
+          <p class="center">
+            Vælg discipliner og angiv {{ vm.registrationData.name }}'s personlige rekord, hvis du kender den.
+          </p>
+          <div class="row" ng-repeat="discipline in vm.registrationData.disciplines">
+            <div class="col-sm-3 col-sm-offset-3 col-xs-6">
+              <button
+                class="o-button o-button--default o-button--flow-list full-width"
+                ng-class="discipline.selected ? 'o-button--success' : 'o-button--default'"
+                ng-click="vm.toggleDiscipline(discipline); vm.onDataChange(vm.registrationData);"
+                ng-disabled="!vm.canSelectMoreDisciplines && !discipline.selected"
+                ng-attr-title="{{!vm.canSelectMoreDisciplines && !discipline.selected ? 'Du kan maksimalt vælge ' + vm.event.maxDisciplinesAllowed + ' ' + (vm.event.maxDisciplinesAllowed === 1 ? 'disciplin' : 'discipliner') + ' ved dette stævne' : ''}}"
+              >
+                {{ discipline.name }}
+              </button>
+            </div>
+            <div class="col-sm-3 col-xs-6">
+              <input
+                type="text"
+                ng-model="discipline.personalRecord"
+                class="c-formular-input"
+                placeholder="Personlig rekord"
+                ng-disabled="!discipline.selected"
+              />
+            </div>
+          </div>
+        </div>
+        <div ng-show="!vm.registrationData.disciplines || vm.registrationData.disciplines.length === 0">
+          <p class="center larger-text">
+            Stævnet har desværre ingen discipliner i {{ vm.registrationData.name + 's' || 'deltagerens' }} aldersgruppe
+          </p>
+        </div>
+
+        <div class="center spacy">
+          <div ng-show="vm.canSelectMoreDisciplines">
+            <a ng-click="vm.addExtraDiscipline()">Klik her</a> hvis du ønsker at tilmelde {{ vm.registrationData.name ||
+            'deltageren' }} til en disciplin i en anden aldersgruppe end {{ vm.registrationData.gender === 'male' ?
+            'hans' : 'hendes' }} egen
+          </div>
+          <div ng-show="!vm.canSelectMoreDisciplines && vm.registrationData.extraDisciplines.length > 0">
+            Discipliner i andre aldersgrupper
+          </div>
+        </div>
+        <div ng-show="vm.registrationData.extraDisciplines && vm.registrationData.extraDisciplines.length > 0">
+          <div class="row">
+            <div class="col-sm-2 col-sm-offset-2">
+              <div class="text-center spacy">Aldersgruppe</div>
+            </div>
+            <div class="col-sm-3">
+              <div class="text-center spacy">Disciplin</div>
+            </div>
+            <div class="col-sm-3">
+              <div class="text-center spacy">Personlig rekord</div>
+            </div>
+          </div>
+          <div
+            class="row flex flex--center-vertically"
+            ng-repeat="extraDiscipline in vm.registrationData.extraDisciplines"
+          >
+            <div class="col-sm-2 col-sm-offset-2 cozy">
+              <select
+                ng-model="extraDiscipline.ageGroup"
+                ng-change="vm.onDataChange(vm.registrationData)"
+                class="c-formular-input c-formular-input--select"
+                placeholder="asd"
+              >
+                <option ng-repeat="ageGroup in vm.ageGroups" value="{{ ageGroup }}">{{ageGroup}}</option>
+              </select>
+            </div>
+            <div class="col-sm-3 cozy">
+              <select
+                ng-model="extraDiscipline.name"
+                ng-change="vm.onDataChange(vm.registrationData)"
+                class="c-formular-input c-formular-input--select"
+              >
+                <option
+                  ng-repeat="discipline in vm.getAgeGroupDisciplines(extraDiscipline.ageGroup)"
+                  value="{{discipline.name}}"
+                  >{{discipline.name}}</option
+                >
+              </select>
+            </div>
+            <div class="col-sm-3 cozy">
+              <input type="text" ng-model="extraDiscipline.personalRecord" class="c-formular-input" />
+            </div>
+            <div class="col-sm-1 cozy">
+              <i class="fa fa-remove spacy" title="Fjern disciplin" ng-click="vm.removeExtraDiscipline($index)"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="center standout">De sidste detaljer</h2>
+      <p class="center">
+        Vi vil gerne undgå falske tilmeldinger. Derfor skal du lige sætte kryds i boksen nedenfor inden du kan tilmelde
+        {{ vm.registrationData.name }}.
+      </p>
+      <div class="standout c-recaptcha">
+        <div
+          vc-recaptcha
+          ng-model="vm.registrationData.recaptcha"
+          on-success="vm.validateDelayed()"
+          on-expire="vm.registrationData.recaptcha = null; vm.validateDelayed()"
+          key="'6Ldb1ykTAAAAAHJ3QFSnyGtky1WaCZu4ESJ1xx4H'"
+        ></div>
+      </div>
+
+      <div class="row standout">
+        <div class="col-sm-6 col-sm-offset-3">
+          <div
+            uib-alert
+            ng-repeat="alert in vm.alerts"
+            class="c-alert"
+            ng-class="'alert-' + (alert.type || 'warning')"
+            close="vm.alerts = []"
+          >
+            {{alert.msg}}
+          </div>
+          <div class="c-alert alert-warning" ng-show="!vm.registrationIsValid">
+            <p><strong>Du mangler at...</strong></p>
+            <div ng-repeat="validationError in vm.validationErrors">
+              {{validationError}}
+            </div>
+          </div>
+          <button
+            class="o-button o-button--primary o-button--large"
+            ng-disabled="!vm.registrationIsValid || vm.registering"
+            ng-click="vm.register(vm.registrationData)"
+          >
+            {{ vm.registering ? "sender tilmelding..." : "Tilmeld" }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="event-register__receipt" ng-class="{'show' : vm.registrationComplete}">
+  <div class="center standout">
+    <h2>Vi har modtaget din tilmelding</h2>
+    <h4>Du bør inden for få minutter modtage en bekræftelses-mail. Modtager du ikke denne bør du kontakte os.</h4>
+    <div class="c-receipt">
+      <div class="c-receipt__contents">
+        <div class="c-receipt__label c-receipt__label--first">Navn</div>
+        <div class="c-receipt__value">
+          {{ vm.registration.name }}
+        </div>
+        <div class="c-receipt__label">Klasse</div>
+        <div class="c-receipt__value">
+          {{ vm.registration.ageClass }}
+        </div>
+        <div class="c-receipt__label">Discipliner</div>
+        <div class="c-receipt__value">
+          <div ng-repeat="discipline in vm.registration.disciplines">
+            {{ discipline.name }}{{ discipline.personalRecord ? ' (' + discipline.personalRecord + ')' : '' }}
+          </div>
+        </div>
+        <div ng-show="vm.registration.extraDisciplines && vm.registration.extraDisciplines.length > 0">
+          <div class="c-receipt__label">Discipliner i andre aldersgrupper</div>
+          <div class="c-receipt__value">
+            <div ng-repeat="discipline in vm.registration.extraDisciplines">
+              {{ discipline.ageClass }}: {{ discipline.name }}{{ discipline.personalRecord ? ' (' +
+              discipline.personalRecord + ')' : '' }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="standout">
+      <a ui-sref="events" class="larger-text">Gå tilbage til stævnelisten her</a>
+    </p>
+  </div>
+</div>

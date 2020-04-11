@@ -1,0 +1,125 @@
+<form [formGroup]="memberForm" novalidate (ngSubmit)="onSubmit()">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Tilføj medlem</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-vertical-stepper formArrayName="formArray">
+        <mat-step label="Medlem" formGroupName="0" [stepControl]="formArray.get([0])">
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <input matInput placeholder="Navn" formControlName="name" />
+                <mat-error *ngIf="formArray.controls[0].get('name').hasError('required')">
+                  Navn er <strong>obligatorisk</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <input matInput placeholder="E-mail" formControlName="email" />
+                <mat-error *ngIf="formArray.controls[0].get('email').hasError('required')">
+                  E-mail er <strong>obligatorisk</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <input matInput placeholder="E-mail 2" formControlName="email2" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <mat-select placeholder="Køn" formControlName="gender">
+                  <mat-option *ngFor="let gender of genders" [value]="gender.value">
+                    {{ gender.name }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formArray.controls[0].get('gender').hasError('required')">
+                  Køn er <strong>obligatorisk</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field class="full-width">
+                <mat-label>Fødselsdato</mat-label>
+                <input matInput [matDatepicker]="birthDatePicker" formControlName="birthDate" />
+                <mat-datepicker-toggle matSuffix [for]="birthDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #birthDatePicker></mat-datepicker>
+                <mat-error *ngIf="formArray.controls[0].get('birthDate').hasError('required')">
+                  Fødselsdato er <strong>obligatorisk</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <mat-label>Indmeldelsesdato</mat-label>
+                <input matInput [matDatepicker]="startDatePicker" formControlName="startDate" />
+                <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #startDatePicker></mat-datepicker>
+                <mat-error *ngIf="formArray.controls[0].get('startDate').hasError('required')">
+                  Indmeldelsesdato is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field class="full-width">
+                <mat-select placeholder="Hold" formControlName="team">
+                  <mat-option *ngFor="let team of teams" [value]="team.value">
+                    {{ team.name }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formArray.controls[0].get('team').hasError('required')">
+                  Hold er <strong>obligatorisk</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div>
+            <button mat-raised-button matStepperNext type="button">NÆSTE</button>
+          </div>
+        </mat-step>
+        <mat-step label="Velkomstbesked" formGroupName="1" [stepControl]="formArray.get([1])">
+          <div class="row">
+            <div class="col">
+              <div class="mat-checkbox-wrapper">
+                <mat-checkbox formControlName="welcomeNotificationEnabled">
+                  Ja tak, send en velkomstmail til medlemmet
+                </mat-checkbox>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <input matInput placeholder="Emne" formControlName="welcomeNotificationSubject" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <textarea matInput placeholder="Tekst" formControlName="welcomeNotificationText" rows="16"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+          <div>
+            <button mat-raised-button matStepperPrevious type="button">FORRIGE</button>
+          </div>
+        </mat-step>
+      </mat-vertical-stepper>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit">TILFØJ</button>
+      <a mat-button color="warn" [routerLink]="['/members']">FORTRYD</a>
+    </mat-card-actions>
+  </mat-card>
+</form>

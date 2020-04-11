@@ -1,0 +1,39 @@
+mat-card {
+  max-width: 700px;
+}
+
+.mat-card-actions,
+.mat-card > .mat-card-actions:last-child {
+  margin: 0;
+}
+
+.mat-checkbox-wrapper {
+  margin: 1rem 0;
+}
+
+.full-width {
+  width: 100%;
+}
+
+// .mat-radio-button {
+//   display: block;
+//   margin: 5px 0;
+// }
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.col {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.col:last-child {
+  margin-right: 0;
+}
+
+.divider-container {
+  padding: 1rem 0;
+}

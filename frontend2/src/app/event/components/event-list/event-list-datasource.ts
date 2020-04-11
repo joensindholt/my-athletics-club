@@ -1,8 +1,8 @@
-import { DataSource } from '@angular/cdk/collections';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { map } from 'rxjs/operators';
-import { Observable, of as observableOf, merge } from 'rxjs';
+import { DataSource } from "@angular/cdk/collections";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { merge, Observable, of as observableOf } from "rxjs";
+import { map } from "rxjs/operators";
 
 // TODO: Replace this with your own data model type
 export interface EventListItem {
@@ -12,26 +12,26 @@ export interface EventListItem {
 
 // TODO: replace this with real data from your application
 const EXAMPLE_DATA: EventListItem[] = [
-  {id: 1, name: 'Hydrogen'},
-  {id: 2, name: 'Helium'},
-  {id: 3, name: 'Lithium'},
-  {id: 4, name: 'Beryllium'},
-  {id: 5, name: 'Boron'},
-  {id: 6, name: 'Carbon'},
-  {id: 7, name: 'Nitrogen'},
-  {id: 8, name: 'Oxygen'},
-  {id: 9, name: 'Fluorine'},
-  {id: 10, name: 'Neon'},
-  {id: 11, name: 'Sodium'},
-  {id: 12, name: 'Magnesium'},
-  {id: 13, name: 'Aluminum'},
-  {id: 14, name: 'Silicon'},
-  {id: 15, name: 'Phosphorus'},
-  {id: 16, name: 'Sulfur'},
-  {id: 17, name: 'Chlorine'},
-  {id: 18, name: 'Argon'},
-  {id: 19, name: 'Potassium'},
-  {id: 20, name: 'Calcium'},
+  { id: 1, name: "Hydrogen Event " },
+  { id: 2, name: "Helium Event" },
+  { id: 3, name: "Lithium Event" },
+  { id: 4, name: "Beryllium Event" },
+  { id: 5, name: "Boron Event" },
+  { id: 6, name: "Carbon Event" },
+  { id: 7, name: "Nitrogen Event" },
+  { id: 8, name: "Oxygen Event" },
+  { id: 9, name: "Fluorine Event" },
+  { id: 10, name: "Neon Event" },
+  { id: 11, name: "Sodium Event" },
+  { id: 12, name: "Magnesium Event" },
+  { id: 13, name: "Aluminum Event" },
+  { id: 14, name: "Silicon Event" },
+  { id: 15, name: "Phosphorus Event" },
+  { id: 16, name: "Sulfur Event" },
+  { id: 17, name: "Chlorine Event" },
+  { id: 18, name: "Argon Event" },
+  { id: 19, name: "Potassium Event" },
+  { id: 20, name: "Calcium Event" },
 ];
 
 /**
@@ -59,12 +59,14 @@ export class EventListDataSource extends DataSource<EventListItem> {
     const dataMutations = [
       observableOf(this.data),
       this.paginator.page,
-      this.sort.sortChange
+      this.sort.sortChange,
     ];
 
-    return merge(...dataMutations).pipe(map(() => {
-      return this.getPagedData(this.getSortedData([...this.data]));
-    }));
+    return merge(...dataMutations).pipe(
+      map(() => {
+        return this.getPagedData(this.getSortedData([...this.data]));
+      })
+    );
   }
 
   /**
@@ -87,16 +89,19 @@ export class EventListDataSource extends DataSource<EventListItem> {
    * this would be replaced by requesting the appropriate data from the server.
    */
   private getSortedData(data: EventListItem[]) {
-    if (!this.sort.active || this.sort.direction === '') {
+    if (!this.sort.active || this.sort.direction === "") {
       return data;
     }
 
     return data.sort((a, b) => {
-      const isAsc = this.sort.direction === 'asc';
+      const isAsc = this.sort.direction === "asc";
       switch (this.sort.active) {
-        case 'name': return compare(a.name, b.name, isAsc);
-        case 'id': return compare(+a.id, +b.id, isAsc);
-        default: return 0;
+        case "name":
+          return compare(a.name, b.name, isAsc);
+        case "id":
+          return compare(+a.id, +b.id, isAsc);
+        default:
+          return 0;
       }
     });
   }

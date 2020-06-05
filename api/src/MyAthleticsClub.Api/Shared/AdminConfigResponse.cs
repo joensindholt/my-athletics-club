@@ -33,7 +33,7 @@ namespace MyAthleticsClub.Api.Shared
                 Password = emailOptions.Value.Password.TakeFirstCharacters(5),
                 emailOptions.Value.Enabled,
                 emailOptions.Value.Templates,
-                ApiKey = emailOptions.Value.ApiKey.TakeFirstCharacters(5)
+                TemplateProviderApiKey = emailOptions.Value.TemplateProviderApiKey.TakeFirstCharacters(5)
             };
 
             EnrollmentOptions = new

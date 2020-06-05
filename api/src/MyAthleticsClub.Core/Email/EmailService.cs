@@ -116,10 +116,7 @@ namespace MyAthleticsClub.Core.Email
 
         public EmailTemplates Templates { get; set; }
 
-        public string ApiKey
-        {
-            get { return Password; }
-        }
+        public string TemplateProviderApiKey { get; set; }
 
         public EmailOptions()
         {
@@ -139,6 +136,7 @@ namespace MyAthleticsClub.Core.Email
             if (Username == null) throw new ArgumentException("Invalid EmailOptions", nameof(Username));
             if (Password == null) throw new ArgumentException("Invalid EmailOptions", nameof(Password));
             if (Templates == null) throw new ArgumentException("Invalid EmailOptions", nameof(Templates));
+            if (TemplateProviderApiKey == null) throw new ArgumentException("Invalid EmailOptions", nameof(TemplateProviderApiKey));
 
             Templates.Verify();
         }

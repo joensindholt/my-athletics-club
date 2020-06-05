@@ -10,16 +10,16 @@ namespace MyAthleticsClub.Core.Email
 {
     public class SendGridService : IEmailTemplateProvider, ITemplateMerger
     {
-        private readonly EmailOptions _options;
+        private readonly string _templateProviderApiKey;
 
         public SendGridService(IOptions<EmailOptions> options)
         {
-            _options = options.Value;
+            _templateProviderApiKey = options.Value.TemplateProviderApiKey;
         }
 
         public async Task<IEmailTemplate> GetTemplateAsync(string id, CancellationToken cancellationToken)
         {
-            var client = new SendGridClient(_options.ApiKey);
+            var client = new SendGridClient(_templateProviderApiKey);
 
             var response =
                 await client.RequestAsync(
@@ -29,7 +29,7 @@ namespace MyAthleticsClub.Core.Email
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                throw new Exception($"Got unexpected status code '{response.StatusCode}' getting template with id '{id}' using api key '{_options.ApiKey}'");
+                throw new Exception($"Got unexpected status code '{response.StatusCode}' getting template with id '{id}' using api key '{_templateProviderApiKey}'");
             }
 
             var template = SendGridTemplate.FromJson(await response.Body.ReadAsStringAsync());

@@ -14,7 +14,7 @@ namespace MyAthleticsClub.Core.Email
 
         public SendGridService(IOptions<EmailOptions> options)
         {
-            _templateProviderApiKey = options.Value.TemplateProviderApiKey;
+            _templateProviderApiKey = options.Value?.TemplateProviderApiKey;
         }
 
         public async Task<IEmailTemplate> GetTemplateAsync(string id, CancellationToken cancellationToken)

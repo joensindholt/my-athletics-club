@@ -32,7 +32,7 @@ namespace MyAthleticsClub.Core.BackgroundJobs
                 recurringJobId: "14DayMemberNotification",
                 job: Job.FromExpression(() => _memberService.NotifyFourteenDayMembers()),
                 cronExpression: atTenAmEveryDay,
-                timeZone: TimeZoneInfo.FindSystemTimeZoneById("CET"));
+                timeZone: TimeZoneInfo.FindSystemTimeZoneById("Romance Standard Time"));
         }
     }
 }

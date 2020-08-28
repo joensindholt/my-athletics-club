@@ -25,7 +25,7 @@ namespace MyAthleticsClub.Core.Email
 
         private string WrapContent(string content)
         {
-            return $"<html><style>div, strong, pre {{ color: black; }}<style><body>{content}</body></html>";
+            return $"<html><style>div, strong, pre {{ color: black; }}</style><body>{content}</body></html>";
         }
 
         private EmbeddedEmailTemplate GetTemplate(string id)

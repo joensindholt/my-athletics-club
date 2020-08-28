@@ -18,9 +18,14 @@ namespace MyAthleticsClub.Core.Email
             using (var reader = new StreamReader(resourceStream, Encoding.UTF8))
             {
                 string content = await reader.ReadToEndAsync();
-                template.Content = content;
+                template.Content = WrapContent(content);
                 return template;
             }
+        }
+
+        private string WrapContent(string content)
+        {
+            return $"<html><style>div, strong, pre {{ color: black; }}<style><body>{content}</body></html>";
         }
 
         private EmbeddedEmailTemplate GetTemplate(string id)

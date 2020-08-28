@@ -1,0 +1,22 @@
+<div><strong>Hej {{registration.name}}</strong></div>
+<div>&nbsp;</div>
+<div>Din tilmelding til {{event.title}} er modtaget.</div>
+<div>&nbsp;</div>
+<div>Du er tilmeldt nedenstående discipliner:</div>
+<div>{{#each registration.disciplines}}</div>
+<div>{{this.name}} ({{../registration.ageClass}})</div>
+<div>{{/each}}</div>
+
+<div>
+  <div>{{#each registration.extraDisciplines}}</div>
+  <div>{{this.name}} ({{this.ageClass}})</div>
+  <div>{{/each}}</div>
+  <div>&nbsp;</div>
+  <div>God fornøjelse</div>
+  <div>&nbsp;</div>
+  <div>Mvh. GIK</div>
+  <div>&nbsp;</div>
+  <div><span style="font-size:9px;"><span style="color: rgb(211, 211, 211);">--------------------</span></span></div>
+  <div><span style="font-size:9px;"><span style="color: rgb(211, 211, 211);">{{date}}</span></span></div>
+  <div><span style="font-size:9px;"><span style="color: rgb(211, 211, 211);">{{registration.id}}</span></span></div>
+</div>

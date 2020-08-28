@@ -213,7 +213,7 @@ namespace MyAthleticsClub.Api
 
             // Services
             services.AddScoped<IEmailService, EmailService>();
-            services.AddScoped<IEmailTemplateProvider, SendGridService>();
+            services.AddScoped<IEmailTemplateProvider, EmbeddedEmailTemplateProvider>();
             services.AddScoped<IEnrollmentService, EnrollmentService>();
             services.AddScoped<IEventRegistrationsExcelService, EventRegistrationsExcelService>();
             services.AddScoped<IEventService, EventService>();
@@ -223,7 +223,7 @@ namespace MyAthleticsClub.Api
             services.AddScoped<ISlackService, SlackService>();
             services.AddScoped<ISubscriptionService, SubscriptionService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ITemplateMerger, SendGridService>();
+            services.AddScoped<ITemplateMerger, HandlebarsTemplateMerger>();
             services.AddScoped<IMarsEventService, MarsEventService>();
             services.AddScoped<IMarsParserFactory, MarsParserFactory>();
 

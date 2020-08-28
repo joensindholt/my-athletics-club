@@ -8,6 +8,7 @@ using SendGrid;
 
 namespace MyAthleticsClub.Core.Email
 {
+    [Obsolete]
     public class SendGridService : IEmailTemplateProvider, ITemplateMerger
     {
         private readonly string _templateProviderApiKey;

@@ -1,0 +1,17 @@
+<div>Et nyt medlem er meldt ind via hjemmesiden</div>
+<div>&nbsp;</div>
+<div><strong>Medlemskabstype:</strong></div>
+<div>{{membershipType}}</div>
+<div>&nbsp;</div>
+<div><strong>Email:</strong></div>
+<div>{{email}}</div>
+<div>&nbsp;</div>
+<div><strong>Personer der indmeldes:</strong></div>
+<div>{{#each members}}</div>
+<div>{{this.name}}, {{this.birthDate}}</div>
+<div>{{/each}}</div>
+<div>
+  &nbsp;
+  <div><strong>Kommentarer:</strong></div>
+  <pre>{{comments}}</pre>
+</div>

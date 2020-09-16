@@ -68,12 +68,12 @@ module members {
         welcomeMessage: {
           send: this.sendWelcomeMessageOnCreation,
           subject: this.welcomeMessageSubject,
-          template: this.welcomeMessageTemplate
-        }
+          template: this.welcomeMessageTemplate,
+        },
       };
 
       this.MembersService.add(request)
-        .then(response => {
+        .then((response) => {
           if (request.welcomeMessage.send) {
             if (!response.welcomeMessageSent) {
               toastr.warning('Der blev ikke sendt en velkomstmail til medlemmet pga. en fejl');
@@ -90,7 +90,7 @@ module members {
 
           setTimeout(() => this.$state.go('members'), 1000);
         })
-        .catch(err => {
+        .catch((err) => {
           toastr.error(err);
         });
     }
@@ -105,15 +105,15 @@ module members {
             resolve: {
               context: () => {
                 return {};
-              }
-            }
+              },
+            },
           })
           .result.then((changeTemplate: boolean) => {
             if (changeTemplate) {
               this.welcomeMessageTemplate = this.getWelcomeMessageTemplate(team);
             }
           })
-          .catch(err => {
+          .catch((err) => {
             toastr.error(err.statusText, err.status);
           });
         return;
@@ -140,7 +140,7 @@ kontonr.: 0004062434
 Angiv venligst medlemsnummer {{member_number}} på indbetalingen, så indbetalingen bliver 
 registreret korrekt.
 
-Hvis I har nogle spørgsmål, er I velkommen til at kontakte GIK på denne mail, så vil vi hjælpe efter 
+Hvis I har nogle spørgsmål, er I velkommen til at kontakte GIK på gik.atletik@gmail.com, så vil vi hjælpe efter 
 bedste evne :)
 
 Mvh<br/>
@@ -159,7 +159,7 @@ kontonr.: 0004062434
 
 Angiv venligst medlemsnummer {{member_number}} på indbetalingen, så indbetalingen bliver registreret korrekt.
 
-Hvis I har nogle spørgsmål, er I velkommen til at kontakte GIK på denne mail, så vil vi hjælpe efter bedste evne :)
+Hvis I har nogle spørgsmål, er I velkommen til at kontakte GIK på gik.atletik@gmail.com, så vil vi hjælpe efter bedste evne :)
 
 Mvh<br/>
 GIK Atletik`;
@@ -176,7 +176,7 @@ kontonr.: 0004062434
 
 Angiv venligst medlemsnummer {{member_number}} på indbetalingen, så indbetalingen bliver registreret korrekt.
 
-Hvis du har nogle spørgsmål, er du velkommen til at kontakte GIK på denne mail, så vil vi hjælpe efter bedste evne :)
+Hvis du har nogle spørgsmål, er du velkommen til at kontakte GIK på gik.atletik@gmail.com, så vil vi hjælpe efter bedste evne :)
 
 Mvh<br/>
 GIK Atletik`;
@@ -192,7 +192,7 @@ kontonr.: 0004062434
 
 Angiv venligst medlemsnummer {{member_number}} på indbetalingen, så indbetalingen bliver registreret korrekt.
 
-Hvis du har nogle spørgsmål, er du velkommen til at kontakte GIK på denne mail, så vil vi hjælpe efter bedste evne :)
+Hvis du har nogle spørgsmål, er du velkommen til at kontakte GIK på gik.atletik@gmail.com, så vil vi hjælpe efter bedste evne :)
 
 Mvh<br/>
 GIK Atletik`;

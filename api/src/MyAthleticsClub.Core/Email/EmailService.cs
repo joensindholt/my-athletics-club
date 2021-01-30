@@ -49,11 +49,11 @@ namespace MyAthleticsClub.Core.Email
             return await SendEmailAsync(to, subject, htmlContent, cancellationToken);
         }
 
-        public async Task<SentEmail> SendMarkdownEmail(string to, string subject, string template, object data, CancellationToken cancellation)
+        public async Task<SentEmail> SendMarkdownEmail(IEnumerable<string> to, string subject, string template, object data, CancellationToken cancellation)
         {
             var mergedContent = _templateMerger.Merge(template, data);
             var htmlContent = _markdown.Transform(mergedContent);
-            return await SendEmailAsync(new List<string> { to }, subject, htmlContent, cancellation);
+            return await SendEmailAsync(to, subject, htmlContent, cancellation);
         }
 
         private async Task<SentEmail> SendEmailAsync(IEnumerable<string> to, string subject, string body, CancellationToken cancellationToken)

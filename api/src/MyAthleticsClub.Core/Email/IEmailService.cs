@@ -21,7 +21,7 @@ namespace MyAthleticsClub.Core.Email
             CancellationToken cancellationToken);
 
         Task<SentEmail> SendMarkdownEmail(
-            string to,
+            IEnumerable<string> to,
             string subject,
             string template,
             object data,

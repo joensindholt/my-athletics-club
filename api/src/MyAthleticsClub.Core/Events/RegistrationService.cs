@@ -183,7 +183,7 @@ namespace MyAthleticsClub.Core.Events
             };
 
             await _emailService.SendMarkdownEmail(
-                to: "joensindholt@gmail.com", //"gik.atletik+regnskab@gmail.com ",
+                to: new List<string> { "joensindholt@gmail.com" },
                 subject: "Mulig mistænkelig tilmelding",
                 template:
 @"En person ved navn '{{member_name}}' har tilmeldt sig til stævnet '{{event_title}}' via hjemmesiden.

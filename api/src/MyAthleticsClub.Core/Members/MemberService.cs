@@ -85,7 +85,7 @@ namespace MyAthleticsClub.Core.Members
 
                     // Send the welcome message
                     var message = await _emailService.SendMarkdownEmail(
-                        to: request.Member.Email,
+                        to: request.Member.GetAllEmailAddresses(),
                         subject: request.WelcomeMessage.Subject,
                         template: request.WelcomeMessage.Template,
                         data: welcomeMessageMergeData,

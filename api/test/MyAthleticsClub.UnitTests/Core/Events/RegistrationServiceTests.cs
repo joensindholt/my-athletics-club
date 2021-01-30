@@ -91,7 +91,7 @@ namespace MyAthleticsClub.UnitTests.Core.Events
             if (shouldSend)
             {
                 await _emailService.Received().SendMarkdownEmail(
-                    Arg.Any<string>(),
+                    Arg.Any<IEnumerable<string>>(),
                     "Mulig mistænkelig tilmelding",
                     Arg.Any<string>(),
                     Arg.Any<object>(),

@@ -26,7 +26,6 @@ namespace MyAthleticsClub.Api.Shared
             {
                 emailOptions.Value.Host,
                 emailOptions.Value.Port,
-                emailOptions.Value.UseSsl,
                 emailOptions.Value.FromName,
                 emailOptions.Value.FromEmail,
                 emailOptions.Value.Username,

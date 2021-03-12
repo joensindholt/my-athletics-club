@@ -123,15 +123,16 @@ namespace MyAthleticsClub.UnitTests.Core.Services.Email
             emailOptions.Value.Returns(new EmailOptions
             {
                 FromName = "GIK (test)",
-                FromEmail = "gik.atletik@gmail.com",
+                FromEmail = "no-reply@gentofte-ik.dk",
                 Username = username,
                 Password = password,
-                Host = "smtp.sendgrid.net"
+                Host = "gentofte-ik.dk",
+                Port = 465
             });
 
             var logger = Substitute.For<ILogger<EmailService>>();
 
-            var emailService = new EmailService(emailOptions, new SendGridService(emailOptions), new SendGridService(emailOptions), logger);
+            var emailService = new EmailService(emailOptions, new EmbeddedEmailTemplateProvider(), new HandlebarsTemplateMerger(), logger);
 
             await emailService.SendTemplateEmailAsync(
                 to: receiverEmail,

@@ -22,7 +22,7 @@
     <PackageReference Include="EPPlus.Core" Version="1.5.2" />
     <PackageReference Include="Handlebars.Net" Version="1.9.0" />
     <PackageReference Include="Hangfire.Core" Version="1.6.17" />
-    <PackageReference Include="MailKit" Version="1.20.0" />
+    <PackageReference Include="MailKit" Version="2.10.1" />
     <PackageReference Include="MarkdownSharp" Version="2.0.5" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.1.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.0.0" />

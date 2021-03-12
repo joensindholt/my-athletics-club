@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using MailKit;
+using MailKit.Security;
 using MarkdownSharp;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -83,10 +85,10 @@ namespace MyAthleticsClub.Core.Email
                 Text = body
             };
 
-            using (var client = new MailKit.Net.Smtp.SmtpClient())
+            using (var client = new MailKit.Net.Smtp.SmtpClient(new ProtocolLogger("c:\\tmp\\log.out")))
             {
                 client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                client.Connect(_options.Host, _options.Port, _options.UseSsl);
+                client.Connect(_options.Host, _options.Port, SecureSocketOptions.SslOnConnect);
                 await client.AuthenticateAsync(_options.Username, _options.Password, cancellationToken);
                 await client.SendAsync(message, cancellationToken);
                 await client.DisconnectAsync(true, cancellationToken);
@@ -101,8 +103,6 @@ namespace MyAthleticsClub.Core.Email
         public string Host { get; set; } = "smtp.gmail.com";
 
         public int Port { get; set; } = 465;
-
-        public bool UseSsl { get; set; } = true;
 
         public string FromName { get; set; }
 

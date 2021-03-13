@@ -85,7 +85,7 @@ namespace MyAthleticsClub.Core.Email
                 Text = body
             };
 
-            using (var client = new MailKit.Net.Smtp.SmtpClient(new ProtocolLogger("c:\\tmp\\log.out")))
+            using (var client = new MailKit.Net.Smtp.SmtpClient())
             {
                 client.ServerCertificateValidationCallback = (s, c, h, e) => true;
                 client.Connect(_options.Host, _options.Port, SecureSocketOptions.SslOnConnect);

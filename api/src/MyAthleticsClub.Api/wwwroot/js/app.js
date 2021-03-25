@@ -1496,6 +1496,7 @@ var members;
             this.member = new members.Member({});
             this.sendWelcomeMessageOnCreation = true;
             this.welcomeMessageSubject = 'Velkommen til GIK Atletik';
+            this.disableSubmitButton = false;
             this.birthYears = this.MembersService.getAllowedBirthYears();
             this.selectableTeams = this.MembersService.getTeamInfos();
             this.selectableGenders = this.MembersService.getGenderInfos();
@@ -1519,6 +1520,7 @@ var members;
                 this.errorMessage = 'Fødselsdatoen skal være i formatet: åååå-mm-dd';
                 return;
             }
+            this.disableSubmitButton = true;
             member.team = this.selectedTeam ? parseInt(this.selectedTeam) : null;
             member.gender = this.selectedGender ? parseInt(this.selectedGender) : null;
             var request = {
@@ -1546,6 +1548,9 @@ var members;
             })
                 .catch(function (err) {
                 toastr.error(err);
+            })
+                .finally(function () {
+                _this.disableSubmitButton = false;
             });
         };
         MemberAddController.prototype.handleSelectedTeamChanged = function (team) {

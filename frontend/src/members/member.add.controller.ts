@@ -19,6 +19,8 @@ module members {
     welcomeMessageTemplate: string;
     welcomeMessageChangedByUser: boolean;
 
+    disableSubmitButton: boolean = false;
+
     static $inject = ['$scope', '$state', '$window', '$q', 'moment', '$uibModal', 'MembersService', 'AuthService'];
 
     constructor(
@@ -60,6 +62,8 @@ module members {
         return;
       }
 
+      this.disableSubmitButton = true;
+
       member.team = this.selectedTeam ? parseInt(this.selectedTeam) : null;
       member.gender = this.selectedGender ? parseInt(this.selectedGender) : null;
 
@@ -92,6 +96,9 @@ module members {
         })
         .catch((err) => {
           toastr.error(err);
+        })
+        .finally(() => {
+          this.disableSubmitButton = false;
         });
     }
 

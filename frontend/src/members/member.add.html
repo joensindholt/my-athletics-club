@@ -168,10 +168,8 @@
       <hr />
       <div class="form-group">
         <div class="col-sm-offset-3 col-sm-9">
-          <p ng-show="vm.errorMessage" class="bg-danger spacy">
-            {{vm.errorMessage}}
-          </p>
-          <button type="submit" class="btn btn-primary">Opret medlem</button>
+          <p ng-show="vm.errorMessage" class="bg-danger spacy">{{vm.errorMessage}}</p>
+          <button type="submit" class="btn btn-primary" ng-disabled="vm.disableSubmitButton">Opret medlem</button>
         </div>
       </div>
     </form>

@@ -2060,7 +2060,8 @@ var members;
                 { id: 1, label: 'Miniholdet' },
                 { id: 2, label: 'Mellemholdet' },
                 { id: 3, label: 'Storeholdet' },
-                { id: 4, label: 'Voksenatletik' }
+                { id: 4, label: 'Voksenatletik' },
+                { id: 5, label: 'Track-Fit' }
             ];
         };
         MembersService.prototype.getTeamLabel = function (id) {

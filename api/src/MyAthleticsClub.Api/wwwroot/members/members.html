@@ -6,20 +6,32 @@
   <div class="center">
     <div class="btn-group dropdown" uib-dropdown="" style="">
       <button id="split-button" type="button" class="btn btn-primary" ui-sref="members_add">Tilføj medlem</button>
-      <button type="button" class="btn btn-primary dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="false">
+      <button
+        type="button"
+        class="btn btn-primary dropdown-toggle"
+        uib-dropdown-toggle=""
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
         <span class="caret"></span>
         <span class="sr-only">Split button!</span>
       </button>
       <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="split-button">
         <li role="menuitem">
-          <a ng-csv="vm.getCsvMembers()" csv-header="vm.getCsvHeaders()" field-separator=";" lazy-load="true" filename="medlemmer.csv">
+          <a
+            ng-csv="vm.getCsvMembers()"
+            csv-header="vm.getCsvHeaders()"
+            field-separator=";"
+            lazy-load="true"
+            filename="medlemmer.csv"
+          >
             <i class="fa fa-download" aria-hidden="true"></i> Hent viste medlemmer som csv
           </a>
         </li>
         <li role="menuitem">
           <a ng-click="vm.copyMemberEmailList()">
             <i class="fa fa-clipboard" aria-hidden="true"></i> Kopier viste medlemmers emails til udklipsholderen
-            <input type="text" id="copyContent" style="position: absolute; left: -10000px;" />
+            <input type="text" id="copyContent" style="position: absolute; left: -10000px" />
           </a>
         </li>
         <li role="menuitem">
@@ -74,6 +86,7 @@
             <option value="2">Mellemholdet</option>
             <option value="3">Storeholdet</option>
             <option value="4">Voksenatletik</option>
+            <option value="5">Track-Fit</option>
             <option value="null">Ikke angivet</option>
           </select>
         </div>
@@ -83,15 +96,18 @@
           <label class="control-label">Fødselsdato</label>
           <div class="row">
             <div class="col-xs-6">
-              <input type="text" ng-model="vm.filters.birthDate" ng-disabled="vm.filters.birthDateNull" ng-change="vm.filterMembers()"
-                class="form-control" />
+              <input
+                type="text"
+                ng-model="vm.filters.birthDate"
+                ng-disabled="vm.filters.birthDateNull"
+                ng-change="vm.filterMembers()"
+                class="form-control"
+              />
             </div>
             <div class="col-xs-1">
               <input type="checkbox" ng-model="vm.filters.birthDateNull" ng-change="vm.filterMembers()" />
             </div>
-            <div class="col-x-5 left">
-              Ikke angivet
-            </div>
+            <div class="col-x-5 left">Ikke angivet</div>
           </div>
         </div>
       </div>
@@ -110,15 +126,18 @@
           <label class="control-label left">Indmeldelsesdato</label>
           <div class="row">
             <div class="col-xs-6">
-              <input type="text" ng-model="vm.filters.startDate" ng-disabled="vm.filters.startDateNull" ng-change="vm.filterMembers()"
-                class="form-control" />
+              <input
+                type="text"
+                ng-model="vm.filters.startDate"
+                ng-disabled="vm.filters.startDateNull"
+                ng-change="vm.filterMembers()"
+                class="form-control"
+              />
             </div>
             <div class="col-xs-1">
               <input type="checkbox" ng-model="vm.filters.startDateNull" ng-change="vm.filterMembers()" />
             </div>
-            <div class="col-x-5 left">
-              Ikke angivet
-            </div>
+            <div class="col-x-5 left">Ikke angivet</div>
           </div>
         </div>
       </div>

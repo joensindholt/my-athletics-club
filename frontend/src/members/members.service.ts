@@ -8,7 +8,7 @@ module members {
 
     static $inject = ['$http', '$q'];
 
-    constructor(private $http: ng.IHttpService, private $q: ng.IQService) {}
+    constructor (private $http: ng.IHttpService, private $q: ng.IQService) { }
 
     getAll(): ng.IPromise<Array<Member>> {
       var deferred = this.$q.defer<Array<Member>>();
@@ -149,7 +149,8 @@ module members {
         { id: 1, label: 'Miniholdet' },
         { id: 2, label: 'Mellemholdet' },
         { id: 3, label: 'Storeholdet' },
-        { id: 4, label: 'Voksenatletik' }
+        { id: 4, label: 'Voksenatletik' },
+        { id: 5, label: 'Track-Fit' }
       ];
     }
 

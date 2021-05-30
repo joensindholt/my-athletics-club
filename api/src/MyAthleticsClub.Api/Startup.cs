@@ -20,6 +20,7 @@ using Microsoft.WindowsAzure.Storage;
 using MyAthleticsClub.Api.Core.Authentication;
 using MyAthleticsClub.Api.Infrastructure;
 using MyAthleticsClub.Api.Infrastructure.Authentication;
+using MyAthleticsClub.Api.Infrastructure.S3;
 using MyAthleticsClub.Api.Shared;
 using MyAthleticsClub.Core.BackgroundJobs;
 using MyAthleticsClub.Core.Email;
@@ -27,6 +28,7 @@ using MyAthleticsClub.Core.Enrollments;
 using MyAthleticsClub.Core.Events;
 using MyAthleticsClub.Core.MarsEvents;
 using MyAthleticsClub.Core.Members;
+using MyAthleticsClub.Core.Members.GetWelcomeMessageTemplates;
 using MyAthleticsClub.Core.Mocks;
 using MyAthleticsClub.Core.Options;
 using MyAthleticsClub.Core.Shared;
@@ -226,6 +228,7 @@ namespace MyAthleticsClub.Api
             services.AddScoped<ITemplateMerger, HandlebarsTemplateMerger>();
             services.AddScoped<IMarsEventService, MarsEventService>();
             services.AddScoped<IMarsParserFactory, MarsParserFactory>();
+            services.AddScoped<GetWelcomeMessageTemplatesService>();
 
             if (HostingEnvironment.IsDevelopment())
             {
@@ -263,6 +266,8 @@ namespace MyAthleticsClub.Api
                 services.AddSingleton<IHttpClientAdapter, HttpClientAdapter>(provider => new HttpClientAdapter(new HttpClient()));
             }
 
+            services.AddAwsServices(Configuration);
+
             // Options configuration
             services.AddScoped<AdminConfigResponse, AdminConfigResponse>();
             services.Configure<AdminOptions>(Configuration.GetSection(nameof(AdminOptions)));
@@ -271,6 +276,7 @@ namespace MyAthleticsClub.Api
             services.Configure<EnrollmentOptions>(Configuration.GetSection(nameof(EnrollmentOptions)));
             services.Configure<JwtOptions>(Configuration.GetSection(nameof(JwtOptions)));
             services.Configure<SlackOptions>(Configuration.GetSection(nameof(SlackOptions)));
+            services.Configure<GetWelcomeMessageTemplatesOptions>(Configuration.GetSection(nameof(GetWelcomeMessageTemplatesOptions)));
         }
 
         private void LogStartupInformation(IServiceProvider serviceProvider, IHostingEnvironment env)

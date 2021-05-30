@@ -18,6 +18,7 @@ module members {
     welcomeMessageSubject: string = 'Velkommen til GIK Atletik';
     welcomeMessageTemplate: string;
     welcomeMessageChangedByUser: boolean;
+    templates: any;
 
     disableSubmitButton: boolean = false;
 
@@ -43,6 +44,11 @@ module members {
 
       this.$scope.$on('family-membership-number-found', ($event, number) => {
         this.member.familyMembershipNumber = number;
+      });
+
+      this.MembersService.getWelcomeMessageTemplates().then((response) => {
+        this.templates = response.templates;
+        console.log('templates', this.templates);
       });
     }
 
@@ -131,78 +137,18 @@ module members {
 
     getWelcomeMessageTemplate(team: string) {
       switch (team) {
-        case '2': // Mellemholdet
-          return `**Velkommen til GIK Atletik :)**
-            
-{{member_name}} er nu indmeldt i klubben på Mellemholdet, der træner onsdag fra 17-18:30. For atleter i 
-alderen 9+ år, trænes der endvidere mandag fra 18-19:30. Træningen foregår begge dage på atletikbanen 
-ved Stadion.
-
-Kontingentet for medlemsskabet lyder på 1300 kr for en sæson, og det bedes indbetalt senest 
-{{latest_payment_date}} på vores konto:
-
-regnr.: 1551<br/>
-kontonr.: 0004062434
-
-Angiv venligst medlemsnummer {{member_number}} på indbetalingen, så indbetalingen bliver 
-registreret korrekt.
-
-Hvis I har nogle spørgsmål, er I velkommen til at kontakte GIK på gik.atletik@gmail.com, så vil vi hjælpe efter 
-bedste evne :)
-
-Mvh<br/>
-GIK Atletik`;
-        case '3': // Storeholdet
-          return `**Velkommen til GIK Atletik :)**
-
-{{member_name}} er nu indmeldt i klubben på Storeholdet, der træner mandag, onsdag og torsdag fra 18-19:30. 
-Træningen foregår alle dage på atletikbanen ved Stadion.
-
-Kontingentet for medlemsskabet lyder på 1500 kr for en sæson, og det bedes indbetalt senest 
-{{latest_payment_date}} på vores konto:
-
-regnr.: 1551<br/>
-kontonr.: 0004062434
-
-Angiv venligst medlemsnummer {{member_number}} på indbetalingen, så indbetalingen bliver registreret korrekt.
-
-Hvis I har nogle spørgsmål, er I velkommen til at kontakte GIK på gik.atletik@gmail.com, så vil vi hjælpe efter bedste evne :)
-
-Mvh<br/>
-GIK Atletik`;
-        case '4': // Voksenatletik
-          return `**Velkommen til GIK Atletik :)**
-
-Du er nu indmeldt i klubben og kan deltage i Voksenatletik.
-
-Kontingentet for medlemsskabet lyder på 600 kr for en sæson, og det bedes indbetalt senest {{latest_payment_date}} 
-på vores konto:
-
-regnr.: 1551<br/>
-kontonr.: 0004062434
-
-Angiv venligst medlemsnummer {{member_number}} på indbetalingen, så indbetalingen bliver registreret korrekt.
-
-Hvis du har nogle spørgsmål, er du velkommen til at kontakte GIK på gik.atletik@gmail.com, så vil vi hjælpe efter bedste evne :)
-
-Mvh<br/>
-GIK Atletik`;
+        case '1':
+          return this.templates.Miniholdet;
+        case '2':
+          return this.templates.Mellemholdet;
+        case '3':
+          return this.templates.Storeholdet;
+        case '4':
+          return this.templates.Voksenholdet;
+        case '5':
+          return this.templates.TrackFit;
         default:
-          return `**Velkommen til GIK Atletik :)**
-
-Du er nu indmeldt i klubben.
-
-Kontingentet for medlemsskabet bedes indbetalt senest {{latest_payment_date}} på vores konto:
-
-regnr.: 1551<br/>
-kontonr.: 0004062434
-
-Angiv venligst medlemsnummer {{member_number}} på indbetalingen, så indbetalingen bliver registreret korrekt.
-
-Hvis du har nogle spørgsmål, er du velkommen til at kontakte GIK på gik.atletik@gmail.com, så vil vi hjælpe efter bedste evne :)
-
-Mvh<br/>
-GIK Atletik`;
+          return '';
       }
     }
   }

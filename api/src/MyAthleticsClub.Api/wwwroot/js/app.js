@@ -1505,6 +1505,10 @@ var members;
             this.$scope.$on('family-membership-number-found', function ($event, number) {
                 _this.member.familyMembershipNumber = number;
             });
+            this.MembersService.getWelcomeMessageTemplates().then(function (response) {
+                _this.templates = response.templates;
+                console.log('templates', _this.templates);
+            });
         }
         MemberAddController.prototype.addMember = function (member) {
             var _this = this;
@@ -1583,14 +1587,18 @@ var members;
         };
         MemberAddController.prototype.getWelcomeMessageTemplate = function (team) {
             switch (team) {
+                case '1':
+                    return this.templates.Miniholdet;
                 case '2':
-                    return "**Velkommen til GIK Atletik :)**\n            \n{{member_name}} er nu indmeldt i klubben p\u00E5 Mellemholdet, der tr\u00E6ner onsdag fra 17-18:30. For atleter i \nalderen 9+ \u00E5r, tr\u00E6nes der endvidere mandag fra 18-19:30. Tr\u00E6ningen foreg\u00E5r begge dage p\u00E5 atletikbanen \nved Stadion.\n\nKontingentet for medlemsskabet lyder p\u00E5 1300 kr for en s\u00E6son, og det bedes indbetalt senest \n{{latest_payment_date}} p\u00E5 vores konto:\n\nregnr.: 1551<br/>\nkontonr.: 0004062434\n\nAngiv venligst medlemsnummer {{member_number}} p\u00E5 indbetalingen, s\u00E5 indbetalingen bliver \nregistreret korrekt.\n\nHvis I har nogle sp\u00F8rgsm\u00E5l, er I velkommen til at kontakte GIK p\u00E5 gik.atletik@gmail.com, s\u00E5 vil vi hj\u00E6lpe efter \nbedste evne :)\n\nMvh<br/>\nGIK Atletik";
+                    return this.templates.Mellemholdet;
                 case '3':
-                    return "**Velkommen til GIK Atletik :)**\n\n{{member_name}} er nu indmeldt i klubben p\u00E5 Storeholdet, der tr\u00E6ner mandag, onsdag og torsdag fra 18-19:30. \nTr\u00E6ningen foreg\u00E5r alle dage p\u00E5 atletikbanen ved Stadion.\n\nKontingentet for medlemsskabet lyder p\u00E5 1500 kr for en s\u00E6son, og det bedes indbetalt senest \n{{latest_payment_date}} p\u00E5 vores konto:\n\nregnr.: 1551<br/>\nkontonr.: 0004062434\n\nAngiv venligst medlemsnummer {{member_number}} p\u00E5 indbetalingen, s\u00E5 indbetalingen bliver registreret korrekt.\n\nHvis I har nogle sp\u00F8rgsm\u00E5l, er I velkommen til at kontakte GIK p\u00E5 gik.atletik@gmail.com, s\u00E5 vil vi hj\u00E6lpe efter bedste evne :)\n\nMvh<br/>\nGIK Atletik";
+                    return this.templates.Storeholdet;
                 case '4':
-                    return "**Velkommen til GIK Atletik :)**\n\nDu er nu indmeldt i klubben og kan deltage i Voksenatletik.\n\nKontingentet for medlemsskabet lyder p\u00E5 600 kr for en s\u00E6son, og det bedes indbetalt senest {{latest_payment_date}} \np\u00E5 vores konto:\n\nregnr.: 1551<br/>\nkontonr.: 0004062434\n\nAngiv venligst medlemsnummer {{member_number}} p\u00E5 indbetalingen, s\u00E5 indbetalingen bliver registreret korrekt.\n\nHvis du har nogle sp\u00F8rgsm\u00E5l, er du velkommen til at kontakte GIK p\u00E5 gik.atletik@gmail.com, s\u00E5 vil vi hj\u00E6lpe efter bedste evne :)\n\nMvh<br/>\nGIK Atletik";
+                    return this.templates.Voksenholdet;
+                case '5':
+                    return this.templates.TrackFit;
                 default:
-                    return "**Velkommen til GIK Atletik :)**\n\nDu er nu indmeldt i klubben.\n\nKontingentet for medlemsskabet bedes indbetalt senest {{latest_payment_date}} p\u00E5 vores konto:\n\nregnr.: 1551<br/>\nkontonr.: 0004062434\n\nAngiv venligst medlemsnummer {{member_number}} p\u00E5 indbetalingen, s\u00E5 indbetalingen bliver registreret korrekt.\n\nHvis du har nogle sp\u00F8rgsm\u00E5l, er du velkommen til at kontakte GIK p\u00E5 gik.atletik@gmail.com, s\u00E5 vil vi hj\u00E6lpe efter bedste evne :)\n\nMvh<br/>\nGIK Atletik";
+                    return '';
             }
         };
         MemberAddController.$inject = ['$scope', '$state', '$window', '$q', 'moment', '$uibModal', 'MembersService', 'AuthService'];
@@ -2045,7 +2053,7 @@ var members;
             this.$http
                 .post(this.API_PATH + '/members/terminate', {
                 memberId: id,
-                terminationDate: terminationDate
+                terminationDate: terminationDate,
             })
                 .then(function (response) {
                 deferred.resolve();
@@ -2061,7 +2069,7 @@ var members;
                 { id: 2, label: 'Mellemholdet' },
                 { id: 3, label: 'Storeholdet' },
                 { id: 4, label: 'Voksenatletik' },
-                { id: 5, label: 'Track-Fit' }
+                { id: 5, label: 'Track-Fit' },
             ];
         };
         MembersService.prototype.getTeamLabel = function (id) {
@@ -2075,7 +2083,7 @@ var members;
         MembersService.prototype.getGenderInfos = function () {
             return [
                 { id: 1, label: 'Pige' },
-                { id: 2, label: 'Dreng' }
+                { id: 2, label: 'Dreng' },
             ];
         };
         MembersService.prototype.getGenderLabel = function (id) {
@@ -2116,6 +2124,18 @@ var members;
                 .get(this.API_PATH + '/members/available-family-membership-number')
                 .then(function (response) {
                 deferred.resolve(response.data.number);
+            })
+                .catch(function (err) {
+                deferred.reject(err);
+            });
+            return deferred.promise;
+        };
+        MembersService.prototype.getWelcomeMessageTemplates = function () {
+            var deferred = this.$q.defer();
+            this.$http
+                .get(this.API_PATH + '/members/welcome-message-templates')
+                .then(function (response) {
+                deferred.resolve(response.data);
             })
                 .catch(function (err) {
                 deferred.reject(err);

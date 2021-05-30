@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Amazon.S3;
 using Microsoft.Extensions.Logging;
 using MyAthleticsClub.Core.Email;
 using MyAthleticsClub.Core.Members.AddMember;
@@ -21,6 +22,7 @@ namespace MyAthleticsClub.Core.Members
         private readonly ISlackService _slackService;
         private readonly ISlugGenerator _slugGenerator;
         private readonly IEmailService _emailService;
+        private readonly IAmazonS3 _s3Client;
         private readonly ILogger<MemberService> _logger;
 
         public MemberService(
@@ -29,6 +31,7 @@ namespace MyAthleticsClub.Core.Members
             ISlackService slackService,
             ISlugGenerator slugGenerator,
             IEmailService emailService,
+            IAmazonS3 s3Client,
             ILogger<MemberService> logger)
         {
             _memberRepository = memberRepository;
@@ -36,6 +39,7 @@ namespace MyAthleticsClub.Core.Members
             _slackService = slackService;
             _slugGenerator = slugGenerator;
             _emailService = emailService;
+            _s3Client = s3Client;
             _logger = logger;
         }
 

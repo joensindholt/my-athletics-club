@@ -8,7 +8,7 @@ module members {
 
     static $inject = ['$http', '$q'];
 
-    constructor (private $http: ng.IHttpService, private $q: ng.IQService) { }
+    constructor(private $http: ng.IHttpService, private $q: ng.IQService) {}
 
     getAll(): ng.IPromise<Array<Member>> {
       var deferred = this.$q.defer<Array<Member>>();
@@ -16,12 +16,12 @@ module members {
       this.$http
         .get(this.API_PATH + '/members')
         .then((response: any) => {
-          var members = _.map(response.data.items, memberData => {
+          var members = _.map(response.data.items, (memberData) => {
             return new Member(memberData);
           });
           deferred.resolve(members);
         })
-        .catch(err => {
+        .catch((err) => {
           deferred.reject(err);
         });
 
@@ -34,12 +34,12 @@ module members {
       this.$http
         .get(this.API_PATH + '/members/terminated')
         .then((response: any) => {
-          var members = _.map(response.data.items, memberData => {
+          var members = _.map(response.data.items, (memberData) => {
             return new Member(memberData);
           });
           deferred.resolve(members);
         })
-        .catch(err => {
+        .catch((err) => {
           deferred.reject(err);
         });
 
@@ -55,11 +55,11 @@ module members {
       // ... and post to server
       this.$http
         .post(this.API_PATH + '/members', request)
-        .then(response => {
+        .then((response) => {
           var responseData = response.data as AddMemberResponse;
           deferred.resolve(responseData);
         })
-        .catch(err => {
+        .catch((err) => {
           deferred.reject(err);
         });
 
@@ -75,7 +75,7 @@ module members {
           var responseData = new GetMemberResponse(response.data);
           deferred.resolve(responseData);
         })
-        .catch(err => {
+        .catch((err) => {
           deferred.reject(err);
         });
 
@@ -87,10 +87,10 @@ module members {
 
       this.$http
         .put(this.API_PATH + '/members/' + member.id, member)
-        .then(response => {
+        .then((response) => {
           deferred.resolve();
         })
-        .catch(err => {
+        .catch((err) => {
           deferred.reject(err);
         });
 
@@ -116,10 +116,10 @@ module members {
 
       this.$http
         .post(this.API_PATH + '/members/charge-all', {})
-        .then(response => {
+        .then((response) => {
           deferred.resolve();
         })
-        .catch(err => {
+        .catch((err) => {
           deferred.reject(err);
         });
 
@@ -132,12 +132,12 @@ module members {
       this.$http
         .post(this.API_PATH + '/members/terminate', {
           memberId: id,
-          terminationDate: terminationDate
+          terminationDate: terminationDate,
         })
-        .then(response => {
+        .then((response) => {
           deferred.resolve();
         })
-        .catch(err => {
+        .catch((err) => {
           deferred.reject(err);
         });
 
@@ -150,7 +150,7 @@ module members {
         { id: 2, label: 'Mellemholdet' },
         { id: 3, label: 'Storeholdet' },
         { id: 4, label: 'Voksenatletik' },
-        { id: 5, label: 'Track-Fit' }
+        { id: 5, label: 'Track-Fit' },
       ];
     }
 
@@ -158,14 +158,14 @@ module members {
       if (id === null) {
         return null;
       } else {
-        return _.find(this.getTeamInfos(), i => i.id === id).label;
+        return _.find(this.getTeamInfos(), (i) => i.id === id).label;
       }
     }
 
     getGenderInfos() {
       return [
         { id: 1, label: 'Pige' },
-        { id: 2, label: 'Dreng' }
+        { id: 2, label: 'Dreng' },
       ];
     }
 
@@ -173,7 +173,7 @@ module members {
       if (id === null) {
         return null;
       } else {
-        return _.find(this.getGenderInfos(), i => i.id === id).label;
+        return _.find(this.getGenderInfos(), (i) => i.id === id).label;
       }
     }
 
@@ -185,7 +185,7 @@ module members {
         .then((response: any) => {
           deferred.resolve(response.data);
         })
-        .catch(err => {
+        .catch((err) => {
           deferred.reject(err);
         });
 
@@ -200,7 +200,7 @@ module members {
         .then((response: any) => {
           deferred.resolve(response.data);
         })
-        .catch(err => {
+        .catch((err) => {
           deferred.reject(err);
         });
 
@@ -215,7 +215,22 @@ module members {
         .then((response: any) => {
           deferred.resolve(response.data.number);
         })
-        .catch(err => {
+        .catch((err) => {
+          deferred.reject(err);
+        });
+
+      return deferred.promise;
+    }
+
+    getWelcomeMessageTemplates(): ng.IPromise<any> {
+      var deferred = this.$q.defer<any>();
+
+      this.$http
+        .get(this.API_PATH + '/members/welcome-message-templates')
+        .then((response) => {
+          deferred.resolve(response.data);
+        })
+        .catch((err) => {
           deferred.reject(err);
         });
 

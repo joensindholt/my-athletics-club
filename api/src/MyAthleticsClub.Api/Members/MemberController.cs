@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyAthleticsClub.Core.Members;
 using MyAthleticsClub.Core.Members.AddMember;
 using MyAthleticsClub.Core.Members.GetMember;
+using MyAthleticsClub.Core.Members.GetWelcomeMessageTemplates;
 using MyAthleticsClub.Core.Subscriptions;
 
 namespace MyAthleticsClub.Api.Members
@@ -14,14 +15,16 @@ namespace MyAthleticsClub.Api.Members
     {
         private readonly IMemberService _memberService;
         private readonly ISubscriptionService _subscriptionService;
+        private readonly GetWelcomeMessageTemplatesService _getWelcomeMessageTemplatesService;
 
         public MemberController(
             IMemberService memberService,
-            ISubscriptionService subscriptionService
-        )
+            ISubscriptionService subscriptionService,
+            GetWelcomeMessageTemplatesService getWelcomeMessageTemplatesService)
         {
             _memberService = memberService;
             _subscriptionService = subscriptionService;
+            _getWelcomeMessageTemplatesService = getWelcomeMessageTemplatesService;
         }
 
         [HttpGet("api/members")]
@@ -42,7 +45,7 @@ namespace MyAthleticsClub.Api.Members
 
         [HttpGet("api/members/{id}")]
         [ProducesResponseType(typeof(GetMemberResponse), 200)]
-        public async Task<IActionResult> GetMember([FromRoute]string id)
+        public async Task<IActionResult> GetMember([FromRoute] string id)
         {
             var response = await _memberService.GetAsync("gik", id);
             return Ok(response);
@@ -51,7 +54,7 @@ namespace MyAthleticsClub.Api.Members
         [HttpPost("api/members")]
         [ProducesResponseType(typeof(AddMemberResponse), 200)]
         public async Task<IActionResult> CreateMember(
-            [FromBody]AddMemberRequest request,
+            [FromBody] AddMemberRequest request,
             CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
@@ -68,7 +71,7 @@ namespace MyAthleticsClub.Api.Members
 
         [HttpPut("api/members/{id}")]
         [ProducesResponseType(200)]
-        public async Task<IActionResult> UpdateMember([FromRoute]Guid id, [FromBody]Member member)
+        public async Task<IActionResult> UpdateMember([FromRoute] Guid id, [FromBody] Member member)
         {
             if (!ModelState.IsValid)
             {
@@ -94,7 +97,7 @@ namespace MyAthleticsClub.Api.Members
 
         [HttpPost("api/members/terminate")]
         [ProducesResponseType(200)]
-        public async Task<IActionResult> TerminateMembership([FromBody]TerminateMembershipRequest request)
+        public async Task<IActionResult> TerminateMembership([FromBody] TerminateMembershipRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -107,7 +110,7 @@ namespace MyAthleticsClub.Api.Members
 
         [HttpGet("api/members/statistics")]
         [ProducesResponseType(typeof(MemberStatistics), 200)]
-        public async Task<IActionResult> Statistics([FromQuery]DateTime date)
+        public async Task<IActionResult> Statistics([FromQuery] DateTime date)
         {
             var statistics = await _memberService.GetStatistics("gik", date);
             return Ok(statistics);
@@ -116,7 +119,7 @@ namespace MyAthleticsClub.Api.Members
         /// Get member statistics for CFR (Centrale Forenings Register) either as json or csv
         [HttpGet("api/members/statistics/cfr.{format}"), FormatFilter]
         [ProducesResponseType(typeof(MemberStatistics), 200)]
-        public async Task<IActionResult> StatisticsCfr([FromQuery]int year, string format)
+        public async Task<IActionResult> StatisticsCfr([FromQuery] int year, string format)
         {
             var statistics = await _memberService.GetStatisticsCfr("gik", year);
             return Ok(statistics.Statistics);
@@ -129,6 +132,13 @@ namespace MyAthleticsClub.Api.Members
             var number = await _memberService.GetAvailableFamilyMembershipNumberAsync("gik");
             return Ok(new AvailableFamilyMembershipNumberResponse(number));
         }
-    }
 
+        [HttpGet("api/members/welcome-message-templates")]
+        [ProducesResponseType(typeof(GetWelcomeMessageTemplatesResponse), 200)]
+        public async Task<IActionResult> GetWelcomeMessageTemplates()
+        {
+            var templates = await _getWelcomeMessageTemplatesService.GetWelcomeMessageTemplates();
+            return Ok(templates);
+        }
+    }
 }

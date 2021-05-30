@@ -1507,7 +1507,6 @@ var members;
             });
             this.MembersService.getWelcomeMessageTemplates().then(function (response) {
                 _this.templates = response.templates;
-                console.log('templates', _this.templates);
             });
         }
         MemberAddController.prototype.addMember = function (member) {

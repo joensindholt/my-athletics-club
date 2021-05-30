@@ -48,7 +48,6 @@ module members {
 
       this.MembersService.getWelcomeMessageTemplates().then((response) => {
         this.templates = response.templates;
-        console.log('templates', this.templates);
       });
     }
 

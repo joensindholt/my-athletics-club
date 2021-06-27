@@ -123,11 +123,12 @@ namespace MyAthleticsClub.UnitTests.Core.Services.Email
             emailOptions.Value.Returns(new EmailOptions
             {
                 FromName = "GIK (test)",
-                FromEmail = "no-reply@gentofte-ik.dk",
+                FromEmail = "gik.atletik@gmail.com",
                 Username = username,
                 Password = password,
-                Host = "gentofte-ik.dk",
-                Port = 465
+                Host = "smtp.gmail.com",
+                Port = 587,
+                SecureSocketOption = "StartTls"
             });
 
             var logger = Substitute.For<ILogger<EmailService>>();

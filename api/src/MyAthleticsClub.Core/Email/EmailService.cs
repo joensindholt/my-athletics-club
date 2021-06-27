@@ -88,7 +88,7 @@ namespace MyAthleticsClub.Core.Email
             using (var client = new MailKit.Net.Smtp.SmtpClient())
             {
                 client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                client.Connect(_options.Host, _options.Port, SecureSocketOptions.SslOnConnect);
+                client.Connect(_options.Host, _options.Port, (SecureSocketOptions)Enum.Parse(typeof(SecureSocketOptions), _options.SecureSocketOption));
                 await client.AuthenticateAsync(_options.Username, _options.Password, cancellationToken);
                 await client.SendAsync(message, cancellationToken);
                 await client.DisconnectAsync(true, cancellationToken);
@@ -118,6 +118,8 @@ namespace MyAthleticsClub.Core.Email
 
         public string TemplateProviderApiKey { get; set; }
 
+        public string SecureSocketOption { get; set; }
+
         public EmailOptions()
         {
             Templates = new EmailTemplates();
@@ -137,6 +139,7 @@ namespace MyAthleticsClub.Core.Email
             if (Password == null) throw new ArgumentException("Invalid EmailOptions", nameof(Password));
             if (Templates == null) throw new ArgumentException("Invalid EmailOptions", nameof(Templates));
             if (TemplateProviderApiKey == null) throw new ArgumentException("Invalid EmailOptions", nameof(TemplateProviderApiKey));
+            if (SecureSocketOption == null) throw new ArgumentException("Invalid SecureSocketOption", nameof(SecureSocketOption));
 
             Templates.Verify();
         }

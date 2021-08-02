@@ -5,6 +5,7 @@ module members {
     name: string;
     email: string;
     email2: string;
+    phone: string;
     familyMembershipNumber: string;
     birthDate: string;
     hasOutstandingMembershipPayment: boolean;
@@ -19,6 +20,7 @@ module members {
       this.name = memberData.name;
       this.email = memberData.email;
       this.email2 = memberData.email2;
+      this.phone = memberData.phone;
       this.familyMembershipNumber = memberData.familyMembershipNumber;
 
       this.birthDate = memberData.birthDate;

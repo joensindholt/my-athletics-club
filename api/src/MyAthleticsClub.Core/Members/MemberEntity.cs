@@ -13,6 +13,8 @@ namespace MyAthleticsClub.Core.Members
 
         public string Email2 { get; set; }
 
+        public string Phone { get; set; }
+
         public string FamilyMembershipNumber { get; set; }
 
         public string BirthDate { get; set; }
@@ -39,6 +41,7 @@ namespace MyAthleticsClub.Core.Members
             string name,
             string email,
             string email2,
+            string phone,
             string familyMembershipNumber,
             DateTime? birthDate,
             bool hasOutstandingMembershipPayment,
@@ -52,6 +55,7 @@ namespace MyAthleticsClub.Core.Members
             Name = name;
             Email = email;
             Email2 = email2;
+            Phone = phone;
             FamilyMembershipNumber = familyMembershipNumber;
             BirthDate = birthDate.HasValue ? birthDate.Value.ToString("yyyy-MM-dd") : null;
             HasOutstandingMembershipPayment = hasOutstandingMembershipPayment;

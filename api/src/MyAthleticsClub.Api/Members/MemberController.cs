@@ -62,6 +62,15 @@ namespace MyAthleticsClub.Api.Members
                 return BadRequest(ModelState);
             }
 
+            // This check should be in the request but since it uses the member model directly it can't.
+            // Reason is that Phone is only required in the "create" scenario but not in the "update" scenario and
+            // the Member model is unfortunately reused in both places.
+            // You shall not use models in request objects!!!
+            if (string.IsNullOrWhiteSpace(request.Member.Phone))
+            {
+                return BadRequest("Phone must be specified");
+            }
+
             request.Member.OrganizationId = "gik";
 
             var response = await _memberService.CreateAsync(request, cancellationToken);

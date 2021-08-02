@@ -59,12 +59,12 @@ module members {
 
     updateMember(member: Member) {
       if (!member.name) {
-        this.errorMessage = 'Du kan ikke oprette et medlem uden navn';
+        this.errorMessage = 'Du kan ikke have et medlem uden navn';
         return;
       }
 
       if (!member.email) {
-        this.errorMessage = 'Du kan ikke oprette et medlem uden email-adresse';
+        this.errorMessage = 'Du kan ikke have et medlem uden email-adresse';
         return;
       }
 

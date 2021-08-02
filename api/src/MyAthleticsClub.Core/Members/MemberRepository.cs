@@ -185,6 +185,7 @@ namespace MyAthleticsClub.Core.Members
                 entity.Name,
                 entity.Email,
                 entity.Email2,
+                entity.Phone,
                 entity.FamilyMembershipNumber,
                 entity.BirthDate != null ? (DateTime?)DateTime.Parse(entity.BirthDate, CultureInfo.InvariantCulture)
                                          : null,
@@ -206,6 +207,7 @@ namespace MyAthleticsClub.Core.Members
                 member.Name,
                 member.Email,
                 member.Email2,
+                member.Phone,
                 member.FamilyMembershipNumber,
                 member.BirthDate,
                 member.HasOutstandingMembershipPayment,

@@ -1519,6 +1519,10 @@ var members;
                 this.errorMessage = 'Du kan ikke oprette et medlem uden email-adresse';
                 return;
             }
+            if (!member.phone) {
+                this.errorMessage = 'Du kan ikke oprette et medlem uden kontakt telefonnummer';
+                return;
+            }
             if (!this.form.inputBirthDate.$valid) {
                 this.errorMessage = 'Fødselsdatoen skal være i formatet: åååå-mm-dd';
                 return;
@@ -1615,6 +1619,7 @@ var members;
             this.name = memberData.name;
             this.email = memberData.email;
             this.email2 = memberData.email2;
+            this.phone = memberData.phone;
             this.familyMembershipNumber = memberData.familyMembershipNumber;
             this.birthDate = memberData.birthDate;
             // Get date part only from birth date
@@ -1678,11 +1683,11 @@ var members;
         MemberEditController.prototype.updateMember = function (member) {
             var _this = this;
             if (!member.name) {
-                this.errorMessage = 'Du kan ikke oprette et medlem uden navn';
+                this.errorMessage = 'Du kan ikke have et medlem uden navn';
                 return;
             }
             if (!member.email) {
-                this.errorMessage = 'Du kan ikke oprette et medlem uden email-adresse';
+                this.errorMessage = 'Du kan ikke have et medlem uden email-adresse';
                 return;
             }
             if (!this.form.inputBirthDate.$valid) {

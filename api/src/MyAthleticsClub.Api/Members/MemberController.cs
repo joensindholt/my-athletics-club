@@ -66,10 +66,10 @@ namespace MyAthleticsClub.Api.Members
             // Reason is that Phone is only required in the "create" scenario but not in the "update" scenario and
             // the Member model is unfortunately reused in both places.
             // You shall not use models in request objects!!!
-            if (string.IsNullOrWhiteSpace(request.Member.Phone))
-            {
-                return BadRequest("Phone must be specified");
-            }
+            //if (string.IsNullOrWhiteSpace(request.Member.Phone))
+            //{
+            //    return BadRequest("Phone must be specified");
+            //}
 
             request.Member.OrganizationId = "gik";
 

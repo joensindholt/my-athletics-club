@@ -62,10 +62,11 @@ module members {
         return;
       }
 
-      if (!member.phone) {
-        this.errorMessage = 'Du kan ikke oprette et medlem uden kontakt telefonnummer';
-        return;
-      }
+      // Phone number should be required at some point
+      // if (!member.phone) {
+      //   this.errorMessage = 'Du kan ikke oprette et medlem uden kontakt telefonnummer';
+      //   return;
+      // }
 
       if (!this.form.inputBirthDate.$valid) {
         this.errorMessage = 'Fødselsdatoen skal være i formatet: åååå-mm-dd';

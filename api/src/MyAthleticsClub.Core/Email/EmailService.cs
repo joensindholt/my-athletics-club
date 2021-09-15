@@ -86,13 +86,6 @@ namespace MyAthleticsClub.Core.Email
                 Text = body
             };
 
-            _logger.LogInformation("Sending mail: " + JsonConvert.SerializeObject(new
-            {
-                From = message.From,
-                To = message.To,
-                Subject = message.Subject
-            }));
-
             using (var client = new MailKit.Net.Smtp.SmtpClient())
             {
                 client.ServerCertificateValidationCallback = (s, c, h, e) => true;

@@ -54,6 +54,6 @@ namespace MyAthleticsClub.Core.Enrollments
     {
         public bool Enabled { get; set; } = true;
 
-        public string AdminEmail { get; set; } = "gik.atletik@gmail.com";
+        public string AdminEmail { get; set; } = "indmeld@gentofte-atletik.dk";
     }
 }

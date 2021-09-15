@@ -154,11 +154,9 @@ namespace MyAthleticsClub.UnitTests.Core.Services.Email
             return new EnrollmentRequest
             {
                 Email = "some@email.com",
-                Members = new List<EnrollmentRequestMember>
-                {
-                    new EnrollmentRequestMember { Name = "John Doe", BirthDate = "20-06-1079"},
-                    new EnrollmentRequestMember { Name = "Jane Doe", BirthDate = "12-07-1980"}
-                },
+                Name = "John Doe",
+                BirthDate = "20-06-1079",
+                Phone = "12345678",
                 Comments = "I have comments"
             };
         }

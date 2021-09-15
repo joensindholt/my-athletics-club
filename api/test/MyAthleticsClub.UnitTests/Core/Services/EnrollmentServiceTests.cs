@@ -18,11 +18,9 @@ namespace MyAthleticsClub.UnitTests.Core.Services
             var enrollment = new EnrollmentRequest
             {
                 Email = "test@test.dk",
-                Members = new List<EnrollmentRequestMember>
-                {
-                    new EnrollmentRequestMember { Name = "John", BirthDate = "13-02-2005" },
-                    new EnrollmentRequestMember { Name = "Jane", BirthDate = "12-07-2012" }
-                },
+                Name = "John",
+                BirthDate = "13-02-2005",
+                Phone = "123323322",
                 Comments = "These are my comments\nwith a newline and all"
             };
 
@@ -39,7 +37,7 @@ namespace MyAthleticsClub.UnitTests.Core.Services
 
             // Assert
             await emailServiceMock.Received(1).SendTemplateEmailAsync(
-                to: "gik.atletik@gmail.com",
+                to: "indmeld@gentofte-atletik.dk",
                 templateId: "123",
                 data: enrollment,
                 cancellationToken: CancellationToken.None);
@@ -52,11 +50,9 @@ namespace MyAthleticsClub.UnitTests.Core.Services
             var enrollment = new EnrollmentRequest
             {
                 Email = "test@test.dk",
-                Members = new List<EnrollmentRequestMember>
-                {
-                    new EnrollmentRequestMember { Name = "John", BirthDate = "13-02-2005" },
-                    new EnrollmentRequestMember { Name = "Jane", BirthDate = "12-07-2012" }
-                },
+                Name = "John",
+                BirthDate = "13-02-2005",
+                Phone = "123342232",
                 Comments = "These are my comments\nwith a newline and all"
             };
 

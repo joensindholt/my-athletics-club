@@ -25,7 +25,7 @@
     "angular2-notifications": "^0.9.6",
     "bootstrap": "^4.0.0",
     "core-js": "^2.4.1",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "moment": "^2.21.0",
     "ngx-filter-pipe": "^2.1.0",
     "ngx-pipes": "^2.1.2",
